@@ -7,11 +7,10 @@
  */
 return array(
     'modules' => array(
-        'Application',
+    	'Usuarios',
         'Empresas',
         'Contactos',
         'Cartas',
-        'Usuarios'
     ),
     'module_listener_options' => array(
         'module_paths' => array(
