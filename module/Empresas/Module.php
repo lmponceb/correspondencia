@@ -1,5 +1,11 @@
 <?php
 namespace Empresas;
+use Zend\Db\ResultSet\ResultSet;
+use Empresas\Model\Empresas;
+use Empresas\Model\EmpresasTable;
+use Zend\Db\TableGateway\TableGateway;
+
+
 
 class Module
 {
@@ -18,4 +24,23 @@ class Module
             ),
         );
     }
+    
+    public function getServiceConfig()
+     {
+         return array(
+             'factories' => array(
+                 'Empresas\Model\EmpresasTable' =>  function($sm) {
+                     $tableGateway = $sm->get('EmpresasTableGateway');
+                     $table = new EmpresasTable($tableGateway);
+                     return $table;
+                 },
+                 'EmpresasTableGateway' => function ($sm) {
+                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                     $resultSetPrototype = new ResultSet();
+                     $resultSetPrototype->setArrayObjectPrototype(new Empresas());
+                     return new TableGateway('empresa', $dbAdapter, null, $resultSetPrototype);
+                 },
+             ),
+         );
+     }
 }
