@@ -1,10 +1,11 @@
 <?php
 namespace Empresas\Controller;
-use Empresas\Model\Empresas;
-use Empresas\Model\EmpresasTable;
-
- use Zend\Mvc\Controller\AbstractActionController;
- use Zend\View\Model\ViewModel;
+use Empresas\Model\Empresas\Entity;
+use Empresas\Model\Empresas\Dao;
+use Empresas\Form\EmpresasValidator;
+use Empresas\Form\EmpresasForm;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
  class EmpresasController extends AbstractActionController
  {
@@ -12,13 +13,17 @@ use Empresas\Model\EmpresasTable;
      public function indexAction()
      {
         return new ViewModel(array(
-            'empresas' => $this->getEmpresasTable()->fetchAll(),
+            'empresas' => $this->getEmpresasTable()->traerTodos(),
         ));
      }
 
-     public function addAction()
-     {
-     }
+    public function addAction()
+    {
+        return new ViewModel ( array (
+                'title' => 'Crear Partner',
+                'form' => $this->getForm ()
+        ) );
+    }
 
      public function editAction()
      {
@@ -32,8 +37,13 @@ use Empresas\Model\EmpresasTable;
      {
          if (!$this->empresasTable) {
              $sm = $this->getServiceLocator();
-             $this->empresasTable = $sm->get('Empresas\Model\EmpresasTable');
+             $this->empresasTable = $sm->get('Empresas\Model\Dao\Empresas');
          }
          return $this->empresasTable;
      }
+
+    public function getForm() {
+        $form = new EmpresasForm ( 'empresasForm' );
+        return $form;
+    }
  }
