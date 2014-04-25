@@ -14,7 +14,7 @@
  return array(
      'db' => array(
          'driver'         => 'OCI8',
-         'connection_string' => '192.168.1.127/orcl',
+         'connection_string' => '127.0.0.1/xe',
          'character_set' => 'AL32UTF8', 
          /*'driver'         => 'Pdo',
          'dsn'            => 'mysql:dbname=test;host=localhost',
