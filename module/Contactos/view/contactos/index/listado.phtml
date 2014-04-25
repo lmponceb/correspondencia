@@ -1,0 +1,61 @@
+ <?php
+ $title = 'Contactos';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <p>
+     <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action'=>'ingresar'));?>">Ingresar un nuevo registro</a>
+ </p>
+
+ <table class="table">
+ <tr>
+ 	 <th>&nbsp;</th>
+     <th>CODIGO</th>
+     <th>CARGO</th>
+     <th>SUCURSAL</th>
+     <th>TIPO DE PERSONA</th>
+     <th>CIUDAD</th>
+     <th>NOMBRE</th>
+     <th>APELLIDO</th>
+     <th>EMAIL</th>
+     <th>OBSERVACIONES</th>
+     <th>IDIOMA</th>
+     <th>USUARIO</th>
+     <th>FECHA DE ACTUALIZACI&Oacute;N</th>
+     <th>&iquest;ES PRIVADO?</th>
+     <!-- DATOS PRIVADOS -->
+     <th>FECHA DE NACIMIENTO</th>
+     <th>DIRECCIO&Oacute;N DE DOMICILIO</th>
+     <th>EMAIL PERSONAL</th>
+     <th>C&Oacute;DIGO DE PA&Iacute;S</th>
+     <th>C&Oacute;DIGO DE CIUDAD</th>
+     <th>TEL&Eacute;FONO DE DOMICILIO</th>
+     <th>CELULAR PERSONAL</th>
+     <th>&nbsp;</th>
+ </tr>
+ <?php foreach ($this->contactos as $contactos) : ?>
+ <tr>
+ 	 <td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'editar', 'id' => $contactos->getCon_id()))?>" title="Actualizar" alt="Actualizar">ACT.</a></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_id());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCar_id());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getSuc_id());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getTip_per_id());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCiu_id());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_nombre());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_apellido());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_email());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_observaciones());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_idioma());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_usuario());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_fecha_actualizacion());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_privado());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_fecha_nacimiento_personal());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_direccion_domicilio_per());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_email_personal());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_codigo_pais());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_codigo_ciudad());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_telefono_domicilio_per());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_celular_personal());?></td>
+ </tr>
+ <?php endforeach; ?>
+ </table>

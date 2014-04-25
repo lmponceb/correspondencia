@@ -14,8 +14,21 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+	
+	private $paisDao;
+	
     public function indexAction()
     {
-        return new ViewModel();
+        return new ViewModel(array(
+        		'paises' => $this->getPaisDao()->traerTodos(),
+        ));
+    }
+    
+    private function getPaisDao(){
+    	if(!$this->paisDao){
+    		$sm = $this->getServiceLocator();
+    		$this->paisDao = $sm->get('Usuarios\Model\Dao\PaisDao');
+    	}
+    	return $this->paisDao;
     }
 }

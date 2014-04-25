@@ -1,0 +1,113 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        				->prependStylesheet($this->basePath() . '/css/ui-lightness/jquery-ui-1.10.4.custom.css')
+                        ->prependStylesheet($this->basePath() . '/css/style.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery-ui-min.js')
+            ->prependFile($this->basePath() . '/js/jquery-min.js')
+            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+
+    <script>
+
+		$(document).ready(function(){
+			$("#EMP_ID").change(function() {
+				if($('#EMP_ID').val() != '' && $('#EMP_ID').val() != null){
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sucursales')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "empresa=" + $(this).val(),
+		                beforeSend: function() {
+		                   // $("#SUC_ID").prop("disabled", true);
+		                }
+		            }).done(function(sucursales) {
+		                $("#SUC_ID").html("");
+		                $("#SUC_ID").append('<option>-- Seleccione una sucursal --</option>');
+		                for (sucursal in sucursales) {
+		                    $("#SUC_ID").append('<option value="' + sucursal + '">' + sucursales[sucursal] + '</option>');
+		                }
+		                $("#SUC_ID").prop("disabled", false);
+		            });
+				}else{
+					$("#SUC_ID").prop("disabled", true);
+				}
+	        });
+
+			$("#PAI_ID").change(function() {
+				if($('#PAI_ID').val() != '' && $('#PAI_ID').val() != null){
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ciudades')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "pais=" + $(this).val(),
+		                beforeSend: function() {
+		                    $("#CIU_ID").prop("disabled", true);
+		                }
+		            }).done(function(ciudades) {
+		                $("#CIU_ID").html("");
+		                $("#CIU_ID").append('<option>-- Seleccione una ciudad --</option>');
+		                for (ciudad in ciudades) {
+		                    $("#CIU_ID").append('<option value="' + ciudad + '">' + ciudades[ciudad] + '</option>');
+		                }
+		                $("#CIU_ID").prop("disabled", false);
+		            });
+				}else{
+					$("#CIU_ID").prop("disabled", true);
+				}
+	        });
+		});
+
+		 
+
+    </script>    
+        
+        
+    </head>
+    <body>
+    	<table width="100%"  border="1">
+    		<tr>
+    			<td colspan="2">Logo Azul</td>
+    		</tr>
+    		<tr>
+    			<td>
+    			
+    				<table>
+    					<tr>
+    						<td><a href="<?php echo $this->url('usuarios', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></td>
+    					</tr>
+    					<tr>
+    						<td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>">Contactos</a></td>
+    					</tr>
+    				</table>
+    			
+    			</td>
+    			<td><?php echo $this->content; ?></td>
+    		</tr>
+    		<tr>
+    			<td colspan="2">
+    				 <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
+    			</td>
+    		</tr>
+    	</table>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>
