@@ -35,7 +35,7 @@
  </tr>
  <?php foreach ($this->contactos as $contactos) : ?>
  <tr>
- 	 <td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'editar', 'id' => $contactos->getCon_id()))?>" title="Actualizar" alt="Actualizar">ACT.</a></td>
+ 	 <td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ingresar', 'id' => $contactos->getCon_id()))?>" title="Actualizar" alt="Actualizar">ACT.</a></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_id());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCar_id());?></td>
      <td><?php echo $this->escapeHtml($contactos->getSuc_id());?></td>

@@ -26,6 +26,10 @@ use Contactos\Model\Dao\PaisDao;
 use Contactos\Model\Entity\Pais;
 use Contactos\Model\Entity\Sucursal;
 use Contactos\Model\Dao\SucursalDao;
+use Contactos\Model\Dao\CiudadDao;
+use Contactos\Model\Entity\Ciudad;
+use Contactos\Model\Entity\Estado;
+use Contactos\Model\Dao\EstadoDao;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -114,13 +118,23 @@ class Module implements AutoloaderProviderInterface
     					},
     					'Contactos\Model\Dao\CiudadDao' => function($sm){
     						$tableGateway = $sm->get('CiudadTableGateway');
-    						return new SucursalDao($tableGateway);
+    						return new CiudadDao($tableGateway);
     					},
     					'CiudadTableGateway' => function ($sm){
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     						$resultSetPrototype = new ResultSet();
-    						$resultSetPrototype->setArrayObjectPrototype(new Sucursal());
+    						$resultSetPrototype->setArrayObjectPrototype(new Ciudad());
     						return new TableGateway('CIUDAD', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Contactos\Model\Dao\EstadoDao' => function($sm){
+    						$tableGateway = $sm->get('EstadoTableGateway');
+    						return new EstadoDao($tableGateway);
+    					},
+    					'EstadoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new Estado());
+    						return new TableGateway('ESTADO', $dbAdapter, null, $resultSetPrototype);
     					},
     
     			),

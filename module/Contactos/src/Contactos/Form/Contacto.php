@@ -19,9 +19,23 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_ID',
 				'attributes' => array (
-						'type' => 'text',
+						'type' => 'hidden',
 						'maxlenght' => '11',
 						'id' => 'CON_ID',
+						'class' => 'form-control'
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO EMPRESA OCULTO
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'sucursal_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'sucursal_oculto',
 						'class' => 'form-control'
 				)
 		) );
@@ -96,6 +110,19 @@ class Contacto extends Form {
 		$this->add($pais);
 		
 		/* ********************************************
+		 * CAMPO ESTADO
+		 * ********************************************/
+		$estado = new Select('EST_ID');
+		$estado->setLabel('Estado/Provincia*: ');
+		$estado->setAttributes(array('class' => 'form-control'));
+		$estado->setAttributes(array('id' => 'EST_ID'));
+		$estado->setEmptyOption('-- Seleccione --');
+		$estado->setOptions(array(
+				'disable_inarray_validator' => false, // <-- disable
+		));
+		$this->add($estado);
+		
+		/* ********************************************
 		 * CAMPO CIUDAD
 		 * ********************************************/
 		$ciudad = new Select('CIU_ID');
@@ -150,7 +177,7 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_EMAIL',
 				'options' => array (
-						'label' => 'Email*:'
+						'label' => 'Email Empresarial*:'
 				),
 				'attributes' => array (
 						'type' => 'text',

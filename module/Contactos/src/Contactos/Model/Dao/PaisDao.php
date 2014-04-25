@@ -43,4 +43,10 @@ class PaisDao {
     
     	return $result;
     }
+    
+    public function getCodigoTelefonoPais($pais){
+    	$resultSet = $this->tableGateway->select(array('PAI_ID' => $pais));
+    	$row = $resultSet->current();
+    	return $row;
+    }
 }

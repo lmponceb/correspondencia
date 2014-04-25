@@ -12,7 +12,9 @@ $formLabel = $this->plugin ( 'formLabel' );
 $con_id = $form->get ( 'CON_ID' );
 $car_id = $form->get ( 'CAR_ID' );
 $emp_id = $form->get ( 'EMP_ID' );
+$est_id = $form->get ( 'EST_ID' );
 $suc_id = $form->get ( 'SUC_ID' );
+$sucursal_oculto = $form->get ( 'sucursal_oculto' );
 $tip_per_id = $form->get ( 'TIP_PER_ID' );
 $pai_id = $form->get ( 'PAI_ID' );
 $ciu_id = $form->get ( 'CIU_ID' );
@@ -38,6 +40,9 @@ echo $this->form ()->openTag ( $form );
 //CAMPOs OCULTOS
 echo $this->formhidden ( $con_id );
 echo $this->formelementerrors ( $con_id );
+
+echo $this->formhidden ( $sucursal_oculto );
+echo $this->formelementerrors ( $sucursal_oculto );
 ?>
 
 <table width="100%">
@@ -50,19 +55,8 @@ echo $this->formelementerrors ( $con_id );
 					      echo html_entity_decode( $this->formselect ( $con_idioma ) );
 						  echo html_entity_decode( $this->formelementerrors ( $con_idioma ) );
 					?>
-					</td>		
-					<td>
-					<?php echo $formLabel->openTag() . $con_usuario->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $con_usuario ) );
-						  echo html_entity_decode( $this->formelementerrors ( $con_usuario ) );
-					?>
 					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $con_fecha_actualizacion->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $con_fecha_actualizacion ) );
-						  echo html_entity_decode( $this->formelementerrors ( $con_fecha_actualizacion ) );
-					?>
-					</td>
+					<td colspan="2">&nbsp;</td>		
 				</tr>
 				<tr>
 					<td>
@@ -112,20 +106,40 @@ echo $this->formelementerrors ( $con_id );
 					?>
 					</td>	
 					<td>
+					<?php echo $formLabel->openTag() . $con_usuario->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_usuario ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_usuario ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_fecha_actualizacion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_fecha_actualizacion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_fecha_actualizacion ) );
+					?>
+					</td>
+						
+				</tr>
+				<tr>
+					<td>
 					<?php echo $formLabel->openTag() . $pai_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $pai_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $pai_id ) );
 					?>
 					</td>	
 					<td>
+					<?php echo $formLabel->openTag() . $est_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $est_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $est_id ) );
+					?>
+					</td>
+					<td>
 					<?php echo $formLabel->openTag() . $ciu_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $ciu_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ciu_id ) );
 					?>
-					</td>	
-						
+					</td>
 				</tr>
-				<?php if(strtoupper( $this->tipo_usuario ) == 'A'): ?>
+				<?php //if(strtoupper( $this->tipo_usuario ) == 'S'): ?>
 				
 				
 				<tr>
@@ -178,7 +192,7 @@ echo $this->formelementerrors ( $con_id );
 					</td>		
 				</tr>
 				
-				<?php endif; ?>
+				<?php //endif; ?>
 				<tr>
 					<td  colspan="3">
 					<?php echo $formLabel->openTag() . $con_observaciones->getLabel() . $formLabel->closeTag();

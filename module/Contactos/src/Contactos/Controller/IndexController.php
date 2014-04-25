@@ -23,9 +23,15 @@ class IndexController extends AbstractActionController {
 	protected $paisDao;
 	protected $sucursalDao;
 	protected $ciudadDao;
+	protected $estadoDao;
+	private $privado = 'S';
+	private $tipo_usuario = 'O';
 	
 	public function indexAction() {
-		return array ();
+		return $this->redirect ()->toRoute ( 'contactos', array (
+					'controller' => 'index',
+					'action' => 'ingresar' 
+			) );
 		
 	}
 	public function listadoAction() {
@@ -35,38 +41,67 @@ class IndexController extends AbstractActionController {
 		) );
 	}
 	public function ingresarAction() {
-		return new ViewModel ( array (
-				'formulario' => $this->getForm () ,
-				'tipo_usuario' => 'A'
-		) );
-	}
-	public function editarAction() {
-		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
 		
-		if (! isset ( $id ) || is_null ( $id )) {
-			
-			return $this->redirect ()->toRoute ( 'contactos', array (
-					'controller' => 'index',
-					'action' => 'index' 
-			) );
+		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+		$lang = $this->params ()->fromRoute ( 'lang', 'E' );
+		
+		if(strtoupper($lang) === 'E'){
+			$form = $this->getForm ();
+		}else{
+			$form = $this->getFormIngles ();
 		}
 		
-		$form = $this->getForm ();
-		$medicamento = $this->getContactoDao ()->traer ( $id );
-		$form->bind ( $medicamento );
+		//FORMULARIO DE INGRESO DE INFORMACION
+		if (! isset ( $id ) || is_null ( $id ) || $id == 0) {
+			return new ViewModel ( array (
+				'formulario' => $form ,
+				'tipo_usuario' => $this->tipo_usuario,
+				'privado' => $this->privado
+			) );
+			
+		}else{
+			
+			//FORMULARIO DE ACTUALIZACION DE INFORMACION
+			$contacto = $this->getContactoDao ()->traer ( $id );
+			$form->bind ( $contacto );
+			
+			$form->get ( 'ingresar' )->setAttribute ( 'value', 'Actualizar' );
+			$form->get ( 'CON_ID' )->setAttribute ( 'value', $contacto->getCon_id() );
+			
+			$sucursal = $this->getSucursalDao()->traer($contacto->getSuc_id());
+			
+			$form->get ( 'EMP_ID' )->setAttribute ( 'value', $sucursal->getEmp_id() );
+			$form->get ( 'sucursal_oculto' )->setAttribute ( 'value', $contacto->getSuc_id() );
+			
+			if(strtoupper($this->tipo_usuario) != 'A'){
+				
+				if(strtoupper($contacto->getCon_privado()) == 'N'){
+					$form->get ( 'CON_EMAIL_PERSONAL' )->setAttribute ( 'readonly', 'readonly' );
+					$form->get ( 'CON_FECHA_NACIMIENTO_PERSONAL' )->setAttribute ( 'readonly', 'readonly' );
+					$form->get ( 'CON_TELEFONO_DOMICILIO_PER' )->setAttribute ( 'readonly', 'readonly' );
+					$form->get ( 'CON_CELULAR_PERSONAL' )->setAttribute ( 'readonly', 'readonly' );
+					$this->privado = $contacto->getCon_privado();
+				}
+				
+				if(strtoupper($contacto->getCon_privado()) == 'S'){
+					$form->get ( 'CON_EMAIL_PERSONAL' )->setAttribute ( 'type', 'hidden' );
+					$form->get ( 'CON_FECHA_NACIMIENTO_PERSONAL' )->setAttribute ( 'type', 'hidden' );
+					$form->get ( 'CON_TELEFONO_DOMICILIO_PER' )->setAttribute ( 'type', 'hidden' );
+					$form->get ( 'CON_CELULAR_PERSONAL' )->setAttribute ( 'type', 'hidden' );
+					$this->privado = $contacto->getCon_privado();
+				}
+			}
+			
+		}
 		
-		$form->get ( 'ingresar' )->setAttribute ( 'value', 'Actualizar' );
-		$form->get ( 'CON_ID' )->setAttribute ( 'value', $medicamento->getCon_id() );
-		
-		$modelView = new ViewModel ( array (
-				'formulario' => $form,
-				'tipo_usuario' => 'A'
+		return new ViewModel ( array (
+				'formulario' => $form ,
+				'tipo_usuario' => $this->tipo_usuario,
+				'privado' => $this->privado
 		) );
-		
-		$modelView->setTemplate ( 'contactos/index/ingresar' );
-		return $modelView;
 	}
-	public function guardar() {
+
+	public function validar() {
 		if (! $this->request->isPost ()) {
 			return $this->redirect ()->toRoute ( 'contactos', array (
 					'controller' => 'index',
@@ -115,11 +150,27 @@ class IndexController extends AbstractActionController {
 			$empresa = $this->request->getPost('empresa');
 			$data = $this->getSucursalDao()->getSucursalesPorEmpresa($empresa);
 			
-			$jsonCities = json_encode($data);
+			$jsonData = json_encode($data);
 			$response = $this->getResponse();
 			$response->setStatusCode(200);
-			$response->setContent($jsonCities);
+			$response->setContent($jsonData);
 			
+			return $response;
+		}else{
+			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
+		}
+	}
+	
+	public function estadosAction(){
+		if($this->getRequest()->isXmlHttpRequest()){
+			$pais = $this->request->getPost('pais');
+			$data = $this->getEstadoDao()->getEstadosPorPais($pais);
+	
+			$jsonData = json_encode($data);
+			$response = $this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($jsonData);
+	
 			return $response;
 		}else{
 			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
@@ -128,14 +179,50 @@ class IndexController extends AbstractActionController {
 	
 	public function ciudadesAction(){
 		if($this->getRequest()->isXmlHttpRequest()){
-			$pais = $this->request->getPost('pais');
-			$data = $this->getCiudadDao()->getCiudadesPorPais($pais);
+			$estado = $this->request->getPost('estado');
+			$data = $this->getCiudadDao()->getCiudadesPorEstado($estado);
 				
-			$jsonCities = json_encode($data);
+			$jsonData = json_encode($data);
 			$response = $this->getResponse();
 			$response->setStatusCode(200);
-			$response->setContent($jsonCities);
+			$response->setContent($jsonData);
 				
+			return $response;
+		}else{
+			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
+		}
+	}
+	
+	public function codigoPaisAction(){
+		if($this->getRequest()->isXmlHttpRequest()){
+			$pais = $this->request->getPost('pais');
+			$data = $this->getPaisDao()->getCodigoTelefonoPais($pais);
+			$valores = array();
+			$valores['pai_codigo_telefono'] = $data->getPai_codigo_telefono();
+
+			$jsonData = json_encode($valores);
+			$response = $this->getResponse();
+			$response->setStatusCode(200); 
+			$response->setContent($jsonData);
+		
+			return $response;
+		}else{
+			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
+		}
+	}
+	
+	public function codigoCiudadAction(){
+		if($this->getRequest()->isXmlHttpRequest()){
+			$ciudad = $this->request->getPost('ciudad');
+			$data = $this->getCiudadDao()->getCodigoTelefonoCiudad($ciudad);
+			$valores = array();
+			$valores['ciu_codigo_telefono'] = $data->getCiu_codigo_telefono();
+	
+			$jsonData = json_encode($valores);
+			$response = $this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($jsonData);
+	
 			return $response;
 		}else{
 			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
@@ -197,5 +284,13 @@ class IndexController extends AbstractActionController {
 			$this->ciudadDao = $sm->get ( 'Contactos\Model\Dao\CiudadDao' );
 		}
 		return $this->ciudadDao;
+	}
+	
+	public function getEstadoDao() {
+		if (! $this->estadoDao) {
+			$sm = $this->getServiceLocator ();
+			$this->estadoDao = $sm->get ( 'Contactos\Model\Dao\EstadoDao' );
+		}
+		return $this->estadoDao;
 	}
 }
