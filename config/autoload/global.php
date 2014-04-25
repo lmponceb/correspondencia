@@ -13,14 +13,9 @@
 
  return array(
      'db' => array(
-         'driver'         => 'OCI8',
-         'connection_string' => '192.168.1.127/orcl',
-         'character_set' => 'AL32UTF8', 
-         /*'driver'         => 'Pdo',
-         'dsn'            => 'mysql:dbname=test;host=localhost',
-         'driver_options' => array(
-             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
-         ),         */
+         'driver'            => 'OCI8',
+         'connection_string' => 'localhost/xe',
+         'character_set'     => 'AL32UTF8', 
      ),
      'service_manager' => array(
          'factories' => array(
@@ -28,4 +23,11 @@
                      => 'Zend\Db\Adapter\AdapterServiceFactory',
          ),
      ),
+ 		
+ 	'module_layouts' => array(
+ 		'Usuarios'  => 'layout/layout.phtml',
+ 		'Empresas'  => 'layout/layoutCorrespondencia.phtml',
+ 		'Contactos' => 'layout/layoutCorrespondencia.phtml',
+ 		'Cartas'    => 'layout/layoutCorrespondencia.phtml',
+ 	),
  );

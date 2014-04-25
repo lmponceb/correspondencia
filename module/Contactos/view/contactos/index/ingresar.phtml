@@ -1,0 +1,230 @@
+<?php
+//use Recetas\Model\Funciones\Fecha;
+
+$form = $this->formulario;
+$form->prepare ();
+$form->setAttribute ( 'action', $this->url ( 'contactos', array (
+		'controller' => 'index',
+		'action' => 'validar' 
+) ) )->setAttribute ( 'method', 'post' );
+$formLabel = $this->plugin ( 'formLabel' );
+
+$con_id = $form->get ( 'CON_ID' );
+$car_id = $form->get ( 'CAR_ID' );
+$emp_id = $form->get ( 'EMP_ID' );
+$suc_id = $form->get ( 'SUC_ID' );
+$tip_per_id = $form->get ( 'TIP_PER_ID' );
+$pai_id = $form->get ( 'PAI_ID' );
+$ciu_id = $form->get ( 'CIU_ID' );
+$con_nombre = $form->get ( 'CON_NOMBRE' );
+$con_apellido = $form->get ( 'CON_APELLIDO' );
+$con_email = $form->get ( 'CON_EMAIL' );
+$con_idioma = $form->get ( 'CON_IDIOMA' );
+$con_usuario = $form->get ( 'CON_USUARIO' );
+$con_fecha_actualizacion = $form->get ( 'CON_FECHA_ACTUALIZACION' );
+$con_privado = $form->get ( 'CON_PRIVADO' );
+$con_fecha_personal = $form->get ( 'CON_FECHA_NACIMIENTO_PERSONAL' );
+$con_email_personal = $form->get ( 'CON_EMAIL_PERSONAL' );
+$con_codigo_pais = $form->get ( 'CON_CODIGO_PAIS' );
+$con_codigo_ciudad = $form->get ( 'CON_CODIGO_CIUDAD' );
+$con_telefono_domicilio_per = $form->get ( 'CON_TELEFONO_DOMICILIO_PER' );
+$con_celular_personal = $form->get ( 'CON_CELULAR_PERSONAL' );
+$con_observaciones = $form->get ( 'CON_OBSERVACIONES' );
+
+//$date = new Fecha();
+
+echo $this->form ()->openTag ( $form );
+
+//CAMPOs OCULTOS
+echo $this->formhidden ( $con_id );
+echo $this->formelementerrors ( $con_id );
+?>
+
+<table width="100%">
+	<tr>
+		<td align="center" style="padding: 20px;">
+			<table width="100%" cellpadding="5">
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $con_idioma->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $con_idioma ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_idioma ) );
+					?>
+					</td>		
+					<td>
+					<?php echo $formLabel->openTag() . $con_usuario->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_usuario ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_usuario ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_fecha_actualizacion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_fecha_actualizacion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_fecha_actualizacion ) );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $tip_per_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $tip_per_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $tip_per_id ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $con_nombre->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_nombre ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_nombre ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_apellido->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_apellido ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_apellido ) );
+					?>
+					</td>		
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $emp_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $emp_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $emp_id ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $suc_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $suc_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $suc_id ) );
+					?>
+					</td>		
+					<td>
+					<?php echo $formLabel->openTag() . $car_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $car_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $car_id ) );
+					?>
+					</td>			
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $con_email->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_email ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_email ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $pai_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $pai_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $pai_id ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $ciu_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $ciu_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ciu_id ) );
+					?>
+					</td>	
+						
+				</tr>
+				<?php if(strtoupper( $this->tipo_usuario ) == 'A'): ?>
+				
+				
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $con_privado->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $con_privado ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_privado ) );
+					?>
+					</td>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+					
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $con_email_personal->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_email_personal ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_email_personal ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $con_fecha_personal->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_fecha_personal ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_fecha_personal ) );
+					?>
+					</td>
+					<td>&nbsp;</td>	
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $con_codigo_pais->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_codigo_pais ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_codigo_pais ) );
+					?>
+					<?php echo $formLabel->openTag() . $con_codigo_ciudad->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_codigo_ciudad ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_codigo_ciudad ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_telefono_domicilio_per->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_telefono_domicilio_per ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_telefono_domicilio_per ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_celular_personal->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_celular_personal ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_celular_personal ) );
+					?>
+					</td>		
+				</tr>
+				
+				<?php endif; ?>
+				<tr>
+					<td  colspan="3">
+					<?php echo $formLabel->openTag() . $con_observaciones->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea( $con_observaciones ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_observaciones ) );
+					?>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="3" align="center">
+					<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+					<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<!--  
+<div class="contanier" style="margin: 15px; clear: left;">
+	<div class="panel panel-default">
+		<div class="panel-heading">&nbsp;</div>
+		<table class="table tabla-indicaciones" border="0">
+			<tr>
+				<td class="datos-title" style="border-bottom: 0px solid;">Indicaciones
+					M&eacute;dicas:</td>
+			</tr>
+			<tr>
+				<td style="padding-top: 10px; padding-bottom: 20px;">
+				<?php //echo $this->formtextarea($indicaciones);?>
+				<?php //echo html_entity_decode($this->formelementerrors($indicaciones)); ?>
+			</td>
+			</tr>
+			<tr>
+				<td class="datos-title" style="border-top: 0px solid;">Observaciones:</td>
+			</tr>
+			<tr>
+				<td style="padding-top: 10px;">
+				<?php //echo $this->formtextarea($diagnostico);?>
+				<?php //echo html_entity_decode($this->formelementerrors($diagnostico)); ?>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+-->
+<?php echo $this->form()->closeTag(); ?>
