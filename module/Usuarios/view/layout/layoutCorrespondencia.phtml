@@ -35,13 +35,15 @@
 		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sucursales')) ?>",
 		                type: "POST",
 		                dataType: "json",
-		                data: "empresa=" + $(this).val(),
+		                data: "empresa=" + $('#EMP_ID').val(),
 		                beforeSend: function() {
-		                   // $("#SUC_ID").prop("disabled", true);
+		                	 $("#SUC_ID").html("");
+		                	 $("#SUC_ID").append('<option>Procesando, espere por favor...</option>');
 		                }
 		            }).done(function(sucursales) {
 		                $("#SUC_ID").html("");
 		                $("#SUC_ID").append('<option>-- Seleccione una sucursal --</option>');
+		                var selected = '';
 		                for (sucursal in sucursales) {
 		                    $("#SUC_ID").append('<option value="' + sucursal + '">' + sucursales[sucursal] + '</option>');
 		                }
@@ -52,15 +54,84 @@
 				}
 	        });
 
+			$("#EMP_ID").ready(function() {
+			if($('#EMP_ID').val() != '' && $('#EMP_ID').val() != null){
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sucursales')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "empresa=" + $('#EMP_ID').val(),
+		                beforeSend: function() {
+		                	 $("#SUC_ID").html("");
+		                	 $("#SUC_ID").append('<option>Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(sucursales) {
+		                $("#SUC_ID").html("");
+		                $("#SUC_ID").append('<option>-- Seleccione una sucursal --</option>');
+		                for (sucursal in sucursales) {
+							if(sucursal == $('#sucursal_oculto').val()){
+								 var selected = 'selected="selected"';
+							}
+		                    $("#SUC_ID").append('<option value="' + sucursal + '" '+selected+'>' + sucursales[sucursal] + '</option>');
+		                }
+		                $("#SUC_ID").prop("disabled", false);
+		            });
+				}else{
+					$("#SUC_ID").prop("disabled", true);
+				}
+	        });
+
 			$("#PAI_ID").change(function() {
 				if($('#PAI_ID').val() != '' && $('#PAI_ID').val() != null){
+					/*FUNCION PARA CARGAR EL COMBO BOX DE ESTADOS EN BASE A UN PAIS SELECCIONADO*/
 		            $.ajax({
-		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ciudades')) ?>",
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'estados')) ?>",
 		                type: "POST",
 		                dataType: "json",
 		                data: "pais=" + $(this).val(),
 		                beforeSend: function() {
-		                    $("#CIU_ID").prop("disabled", true);
+		                	$("#EST_ID").html("");
+		                	$("#EST_ID").append('<option>Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(estados) {
+		                $("#EST_ID").html("");
+		                $("#EST_ID").append('<option>-- Seleccione un estado --</option>');
+		                for (estado in estados) {
+		                    $("#EST_ID").append('<option value="' + estado + '">' + estados[estado] + '</option>');
+		                }
+		                $("#EST_ID").prop("disabled", false);
+		            });
+
+		            /*FUNCION PARA TRAER EL CODIGO DE PAIS A UN PAIS SELECCIONADO*/
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'codigoPais')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "pais=" + $(this).val(),
+		                beforeSend: function() {
+		                	$("#CON_CODIGO_PAIS").val("Procesando, espere por favor...");
+		                	
+		                }
+		            }).done(function(codigo) {
+		            		$("#CON_CODIGO_PAIS").val(''+codigo['pai_codigo_telefono']);
+		            });
+
+		            
+				}else{
+					$("#EST_ID").prop("disabled", true);
+				}
+	        });
+
+			$("#EST_ID").change(function() {
+				if($('#EST_ID').val() != '' && $('#EST_ID').val() != null){
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ciudades')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "estado=" + $(this).val(),
+		                beforeSend: function() {
+		                	$("#CIU_ID").html("");
+		                	$("#CIU_ID").append('<option>Procesando, espere por favor...</option>');
 		                }
 		            }).done(function(ciudades) {
 		                $("#CIU_ID").html("");
@@ -74,10 +145,36 @@
 					$("#CIU_ID").prop("disabled", true);
 				}
 	        });
+
+			$("#CIU_ID").change(function() {
+				if($('#CIU_ID').val() != '' && $('#CIU_ID').val() != null){
+					
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'codigoCiudad')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "ciudad=" + $(this).val(),
+		                beforeSend: function() {
+		                	$("#CON_CODIGO_CIUDAD").val("Procesando, espere por favor...");
+		                }
+		            }).done(function(codigo) {
+		            		$("#CON_CODIGO_CIUDAD").val(''+codigo['ciu_codigo_telefono']);
+		            });
+				};
+
+			});
+
+			$( "#CON_FECHA_NACIMIENTO_PERSONAL" ).datepicker({
+				dateFormat:'dd/mm/yy',
+				changeMonth: true,
+				 changeYear: true,
+				 yearRange: '-100:+0',
+				 showOn: "button",
+		                buttonImage: "<?php echo $this->basePath('img/calendar.gif')?>",
+		                buttonImageOnly: true
+			});
+			
 		});
-
-		 
-
     </script>    
         
         

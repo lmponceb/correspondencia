@@ -19,6 +19,12 @@ class SucursalDao {
          return $resultSet;
     }
     
+    public function traer($suc_id){
+    	$resultSet = $this->tableGateway->select(array('SUC_ID' => $suc_id));
+    	$row =  $resultSet->current();
+    	return $row;
+    }
+    
     public function traerTodosArreglo(){
     	
     	$sql = new Sql($this->tableGateway->getAdapter());

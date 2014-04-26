@@ -4,9 +4,9 @@ namespace Contactos\Model\Dao;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Expression;
-use Contactos\Model\Entity\Ciudad;
+use Contactos\Model\Entity\Estado;
 
-class CiudadDao {
+class EstadoDao {
 	
     protected $tableGateway;
     
@@ -28,54 +28,48 @@ class CiudadDao {
     	$statement = $sql->prepareStatementForSqlObject($select);
     	$results = $statement->execute();
     	
-    	$ciudades = new \ArrayObject();
+    	$estados = new \ArrayObject();
     	$result = array();
     	
     	foreach ($results as $row){
-    		$ciudad = new Ciudad();
-    		$ciudad->exchangeArray($row);
-    		$ciudades->append($ciudad);
+    		$estado = new Estado();
+    		$estado->exchangeArray($row);
+    		$estados->append($estado);
     	}
     	
-    	foreach ($ciudades as $ciu){
-    		$result[$ciu->getCiu_id()] = $ciu->getCiu_nombre();
+    	foreach ($estados as $est){
+    		$result[$est->getEst_id()] = $est->getEst_nombre();
     	}
     	 
     	return $result;
     }
     
-    public function getCiudadesPorEstado($estado){
+    public function getEstadosPorPais($pais){
     	
-    	$estado = (int) $estado;
+    	$pais = (int) $pais;
     	 
     	$sql = new Sql($this->tableGateway->getAdapter());
     	$select = $sql->select();
     	$select->from($this->tableGateway->table);
-    	$select->where(array('EST_ID' => $estado));
+    	$select->where(array('PAI_ID' => $pais));
     	
     	$statement = $sql->prepareStatementForSqlObject($select);
     	$results = $statement->execute();
     	 
-    	$ciudades = new \ArrayObject();
+    	$estados = new \ArrayObject();
     	$result = array();
     	 
     	foreach ($results as $row){
-    		$ciudad = new Ciudad();
-    		$ciudad->exchangeArray($row);
-    		$ciudades->append($ciudad);
+    		$estado = new Estado();
+    		$estado->exchangeArray($row);
+    		$estados->append($estado);
     	}
     	 
-    	foreach ($ciudades as $ciu){
-    		$result[$ciu->getCiu_id()] = $ciu->getCiu_nombre();
+    	foreach ($estados as $est){
+    		$result[$est->getEst_id()] = $est->getEst_nombre();
     	}
     
     	return $result;
-    }
-    
-    public function getCodigoTelefonoCiudad($ciudad){
-    	$resultSet = $this->tableGateway->select(array('CIU_ID' => $ciudad));
-    	$row = $resultSet->current();
-    	return $row;
     }
     
 }

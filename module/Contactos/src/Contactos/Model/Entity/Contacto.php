@@ -8,7 +8,7 @@ class Contacto {
 	private $suc_id;
 	private $tip_per_id;
 	private $ciu_id;
-	private $CON_NOMBRE;
+	private $con_nombre;
 	private $con_apellido;
 	private $con_email;
 	private $con_observaciones;
@@ -25,7 +25,6 @@ class Contacto {
 	private $con_celular_personal;
 	
 	function __construct() {}
-	
 
 	/**
 	 * @return the $con_id
@@ -63,10 +62,10 @@ class Contacto {
 	}
 
 	/**
-	 * @return the $CON_NOMBRE
+	 * @return the $con_nombre
 	 */
-	public function getCON_NOMBRE() {
-		return $this->CON_NOMBRE;
+	public function getCon_nombre() {
+		return $this->con_nombre;
 	}
 
 	/**
@@ -203,10 +202,10 @@ class Contacto {
 	}
 
 	/**
-	 * @param field_type $CON_NOMBRE
+	 * @param field_type $con_nombre
 	 */
-	public function setCON_NOMBRE($CON_NOMBRE) {
-		$this->CON_NOMBRE = $CON_NOMBRE;
+	public function setCon_nombre($con_nombre) {
+		$this->con_nombre = $con_nombre;
 	}
 
 	/**
@@ -314,7 +313,7 @@ class Contacto {
 		$this->suc_id = (isset($data['SUC_ID'])) ? $data['SUC_ID'] : null;
 		$this->tip_per_id = (isset($data['TIP_PER_ID'])) ? $data['TIP_PER_ID'] : null;
 		$this->ciu_id = (isset($data['CIU_ID'])) ? $data['CIU_ID'] : null;
-		$this->CON_NOMBRE = (isset($data['CON_NOMBRE'])) ? $data['CON_NOMBRE'] : null;
+		$this->con_nombre = (isset($data['CON_NOMBRE'])) ? $data['CON_NOMBRE'] : null;
 		$this->con_apellido = (isset($data['CON_APELLIDO'])) ? $data['CON_APELLIDO'] : null;
 		$this->con_email = (isset($data['CON_EMAIL'])) ? $data['CON_EMAIL'] : null;
 		$this->con_observaciones = (isset($data['CON_OBSERVACIONES'])) ? $data['CON_OBSERVACIONES'] : null;
