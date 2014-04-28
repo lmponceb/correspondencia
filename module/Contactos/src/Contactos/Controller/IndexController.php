@@ -25,7 +25,7 @@ class IndexController extends AbstractActionController {
 	protected $ciudadDao;
 	protected $estadoDao;
 	private $privado = 'S';
-	private $tipo_usuario = 'O';
+	private $tipo_usuario = 'A';
 	
 	public function indexAction() {
 		return $this->redirect ()->toRoute ( 'contactos', array (
@@ -69,9 +69,15 @@ class IndexController extends AbstractActionController {
 			$form->get ( 'CON_ID' )->setAttribute ( 'value', $contacto->getCon_id() );
 			
 			$sucursal = $this->getSucursalDao()->traer($contacto->getSuc_id());
+			$ciudad = $this->getCiudadDao()->traer($contacto->getCiu_id());
+			$estado = $this->getEstadoDao()->traer($ciudad->getEst_id());
 			
 			$form->get ( 'EMP_ID' )->setAttribute ( 'value', $sucursal->getEmp_id() );
 			$form->get ( 'sucursal_oculto' )->setAttribute ( 'value', $contacto->getSuc_id() );
+			
+			$form->get ( 'estado_oculto' )->setAttribute ( 'value', $ciudad->getEst_id() );
+			$form->get ( 'PAI_ID' )->setAttribute ( 'value', $estado->getPai_id() );
+			$form->get ( 'ciudad_oculto' )->setAttribute ( 'value', $contacto->getCiu_id() );
 			
 			if(strtoupper($this->tipo_usuario) != 'A'){
 				
@@ -101,36 +107,39 @@ class IndexController extends AbstractActionController {
 		) );
 	}
 
-	public function validar() {
+	public function validarAction() {
 		if (! $this->request->isPost ()) {
 			return $this->redirect ()->toRoute ( 'contactos', array (
 					'controller' => 'index',
-					'action' => 'index' 
+					'action' => 'listado' 
 			) );
 		}
 		
 		$data = $this->request->getPost ();
-		$form = $this->getFormContacto ();
-		$form->setInputFilter ( new ContactoValidator () );
+		$form = $this->getForm();
+		//$form->setInputFilter ( new ContactoValidator () );
 		$form->setData ( $data );
 		
 		if (! $form->isValid ()) {
 			
 			$modelView = new ViewModel ( array (
-					'formulario' => $form 
+					'formulario' => $form ,
+					'tipo_usuario' => $this->tipo_usuario,
+					'privado' => $this->privado
 			) );
 			
-			// $modelView->setTemplate ( 'recetas/medicamento/nuevo' );
+			$modelView->setTemplate ( 'contactos/index/ingresar' );
 			return $modelView;
 		}
 		
-		// $contacto = new MedicamentoEntity ();
-		// $medicamento->exchangeArray ( $form->getData () );
+		$contacto = new ContactoEntity();
+		$contacto->exchangeArray ( $form->getData () );
 		
-		// $this->getMedicamento ()->guardar ( $medicamento );
+		 $this->getContactoDao() ->guardar ( $contacto );
 		
-		return $this->redirect ()->toRoute ( 'recetas', array (
-				'controller' => 'medicamento' 
+		return $this->redirect ()->toRoute ( 'contactos', array (
+				'controller' => 'index',
+				'action' => 'listado' 
 		) );
 	}
 	
@@ -228,7 +237,6 @@ class IndexController extends AbstractActionController {
 			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
 		}
 	}
-	
 	
 	public function getContactoDao() {
 		if (! $this->contactoDao) {

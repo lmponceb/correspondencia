@@ -19,6 +19,20 @@ class CiudadDao {
          return $resultSet;
     }
     
+    public function traer($ciu_id){
+    	 
+    	$ciu_id = (int) $ciu_id;
+    	 
+    	$resultSet = $this->tableGateway->select(array('CIU_ID' => $ciu_id));
+    	$row =  $resultSet->current();
+    	
+    	if(!$row){
+    		throw new \Exception('No se encontro el ID de la ciudad');
+    	}
+    	
+    	return $row;
+    }
+    
     public function traerTodosArreglo(){
     	
     	$sql = new Sql($this->tableGateway->getAdapter());

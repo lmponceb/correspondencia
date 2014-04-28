@@ -13,11 +13,13 @@ $con_id = $form->get ( 'CON_ID' );
 $car_id = $form->get ( 'CAR_ID' );
 $emp_id = $form->get ( 'EMP_ID' );
 $est_id = $form->get ( 'EST_ID' );
+$estado_oculto = $form->get ( 'estado_oculto' );
 $suc_id = $form->get ( 'SUC_ID' );
 $sucursal_oculto = $form->get ( 'sucursal_oculto' );
 $tip_per_id = $form->get ( 'TIP_PER_ID' );
 $pai_id = $form->get ( 'PAI_ID' );
 $ciu_id = $form->get ( 'CIU_ID' );
+$ciudad_oculto = $form->get ( 'ciudad_oculto' );
 $con_nombre = $form->get ( 'CON_NOMBRE' );
 $con_apellido = $form->get ( 'CON_APELLIDO' );
 $con_email = $form->get ( 'CON_EMAIL' );
@@ -43,6 +45,12 @@ echo $this->formelementerrors ( $con_id );
 
 echo $this->formhidden ( $sucursal_oculto );
 echo $this->formelementerrors ( $sucursal_oculto );
+
+echo $this->formhidden ( $estado_oculto );
+echo $this->formelementerrors ( $sucursal_oculto );
+
+echo $this->formhidden ( $ciudad_oculto );
+echo $this->formelementerrors ( $ciudad_oculto );
 ?>
 
 <table width="100%">

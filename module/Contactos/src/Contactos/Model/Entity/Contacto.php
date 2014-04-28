@@ -308,11 +308,11 @@ class Contacto {
 
 	public function exchangeArray($data)
 	{
-		$this->con_id = (isset($data['CON_ID'])) ? $data['CON_ID'] : null;
-		$this->car_id = (isset($data['CAR_ID'])) ? $data['CAR_ID'] : null;
-		$this->suc_id = (isset($data['SUC_ID'])) ? $data['SUC_ID'] : null;
-		$this->tip_per_id = (isset($data['TIP_PER_ID'])) ? $data['TIP_PER_ID'] : null;
-		$this->ciu_id = (isset($data['CIU_ID'])) ? $data['CIU_ID'] : null;
+		$this->con_id = (isset($data['CON_ID'])) ? $data['CON_ID'] : 0;
+		$this->car_id = (isset($data['CAR_ID'])) ? $data['CAR_ID'] : 0;
+		$this->suc_id = (isset($data['SUC_ID'])) ? $data['SUC_ID'] : 0;
+		$this->tip_per_id = (isset($data['TIP_PER_ID'])) ? $data['TIP_PER_ID'] : 0;
+		$this->ciu_id = (isset($data['CIU_ID'])) ? $data['CIU_ID'] : 0;
 		$this->con_nombre = (isset($data['CON_NOMBRE'])) ? $data['CON_NOMBRE'] : null;
 		$this->con_apellido = (isset($data['CON_APELLIDO'])) ? $data['CON_APELLIDO'] : null;
 		$this->con_email = (isset($data['CON_EMAIL'])) ? $data['CON_EMAIL'] : null;

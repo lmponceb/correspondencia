@@ -28,7 +28,7 @@ class Contacto extends Form {
 		
 		/* ********************************************
 		 * CAMPO EMPRESA OCULTO
-		* ********************************************/
+		 * ********************************************/
 		
 		$this->add ( array (
 				'name' => 'sucursal_oculto',
@@ -36,6 +36,34 @@ class Contacto extends Form {
 						'type' => 'hidden',
 						'maxlenght' => '11',
 						'id' => 'sucursal_oculto',
+						'class' => 'form-control'
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO ESTADO OCULTO
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'estado_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'estado_oculto',
+						'class' => 'form-control'
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO CIUDAD OCULTO
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'ciudad_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'ciudad_oculto',
 						'class' => 'form-control'
 				)
 		) );
@@ -78,7 +106,7 @@ class Contacto extends Form {
 		$sucursal->setEmptyOption('-- Seleccione --');
 		//$pais->setValue('1');
 		$sucursal->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
+				'disable_inarray_validator' => true, // <-- disable
 		));
 		$this->add($sucursal);
 		
@@ -118,7 +146,7 @@ class Contacto extends Form {
 		$estado->setAttributes(array('id' => 'EST_ID'));
 		$estado->setEmptyOption('-- Seleccione --');
 		$estado->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
+				'disable_inarray_validator' => true, // <-- disable
 		));
 		$this->add($estado);
 		
@@ -132,7 +160,7 @@ class Contacto extends Form {
 		$ciudad->setEmptyOption('-- Seleccione --');
 		//$pais->setValue('63');
 		$ciudad->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
+				'disable_inarray_validator' => true, // <-- disable
 		));
 		$this->add($ciudad);
 		
