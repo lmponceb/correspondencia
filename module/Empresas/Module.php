@@ -1,8 +1,13 @@
 <?php
 namespace Empresas;
 use Zend\Db\ResultSet\ResultSet;
+
 use Empresas\Model\Dao\EmpresasDao;
 use Empresas\Model\Entity\Empresas;
+
+use Empresas\Model\Dao\CategoriasDao;
+use Empresas\Model\Entity\Categorias;
+
 use Zend\Db\TableGateway\TableGateway;
 
 
@@ -29,7 +34,7 @@ class Module
      {
          return array(
              'factories' => array(
-                 'Empresas\Model\Dao\Empresas' =>  function($sm) {
+                 'Empresas\Model\Dao\EmpresasDao' =>  function($sm) {
                      $tableGateway = $sm->get('EmpresasTableGateway');
                      $table = new EmpresasDao($tableGateway);
                      return $table;
@@ -39,6 +44,18 @@ class Module
                      $resultSetPrototype = new ResultSet();
                      $resultSetPrototype->setArrayObjectPrototype(new Empresas());
                      return new TableGateway('EMPRESA', $dbAdapter, null, $resultSetPrototype);
+                 },
+
+                'Empresas\Model\Dao\CategoriasDao' =>  function($sm) {
+                     $tableGateway = $sm->get('CategoriasTableGateway');
+                     $table = new CategoriasDao($tableGateway);
+                     return $table;
+                 },
+                 'CategoriasTableGateway' => function ($sm) {
+                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                     $resultSetPrototype = new ResultSet();
+                     $resultSetPrototype->setArrayObjectPrototype(new Categorias());
+                     return new TableGateway('CATEGORIA_EMPRESA', $dbAdapter, null, $resultSetPrototype);
                  },
              ),
          );

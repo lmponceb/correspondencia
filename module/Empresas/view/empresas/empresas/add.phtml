@@ -5,7 +5,7 @@ $form = $this->form;
 $form->prepare ();
 $form->setAttribute ( 'action', $this->url ( 'empresas', array (
 		'controller' => 'index',
-		'action' => 'save' 
+		'action' => 'guardar' 
 ) ) );
 
 $form->setAttribute ( 'method', 'post' );
@@ -34,5 +34,11 @@ echo $this->formHidden ( $form->get ( 'emp_id' ) );
 	</div>	
 </div>
 
-<?php //echo $this->formElement($form->get('send'));?>
-<?php //echo $this->form()->closeTag();?>	
+
+<?php echo $this->formRow($form->get('cat_emp_id')); ?>
+<?php echo $this->formRow($form->get('emp_direccion')); ?>
+<?php echo $this->formRow($form->get('emp_referencia')); ?>
+<?php echo $this->formRow($form->get('emp_sector')); ?>
+<?php echo $this->formRow($form->get('emp_email')); ?>
+<?php echo $this->formRow($form->get('emp_pagina_web')); ?>
+<?php echo $this->formRow($form->get('submit')); ?>

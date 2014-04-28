@@ -24,5 +24,10 @@ class EmpresasValidator extends InputFilter {
 				'name' => 'emp_nombre',
 				'required' => true 
 		) );
+
+		$this->add ( array (
+			'name' => 'cat_emp_id',
+			'required' => true 
+		) );
 	}
 }

@@ -14,6 +14,6 @@
  return array(
      'db' => array(
          'username' => 'system',
-         'password' => 'oracle',
+         'password' => 'admin',
      ),
  );
