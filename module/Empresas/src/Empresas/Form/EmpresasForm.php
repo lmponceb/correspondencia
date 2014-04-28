@@ -10,90 +10,165 @@ namespace Empresas\Form;
         parent::__construct('empresas');
         $this->setAttribute ( 'method', 'post' );
         $this->add(array(
-             'name' => 'emp_id',
+             'name' => 'EMP_ID',
              'type' => 'Hidden',
         ));
+        
+        $this->add ( array(
+                'name' => 'ESTADO_OCULTO',
+                'attributes' => array (
+                        'type' => 'hidden',
+                        'maxlenght' => '11',
+                        'id' => 'estado_oculto',
+                )
+        ) );
+        
+        $this->add ( array(
+                'name' => 'CIUDAD_OCULTO',
+                'attributes' => array (
+                        'type' => 'hidden',
+                        'maxlenght' => '11',
+                        'id' => 'ciudad_oculto',
+                )
+        ) );
+
+
         $this->add(array(
-             'name' => 'emp_nombre',
+             'name' => 'EMP_NOMBRE',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Nombre',
              ),
             'attributes' => array(
-                 'id' => 'emp_nombre'
+                 'id' => 'emp_nombre',
+                 'class' => 'form-control'
              )
         ));
         $this->add(array(
-             'name' => 'cat_emp_id',
+             'name' => 'CAT_EMP_ID',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
                  'label' => 'Categoría',
+                 'empty_option' => '-- Seleccione --'                 
              ),
              'attributes' => array(
-                 'id' => 'cat_emp_id'
+                 'id' => 'cat_emp_id',
+                 'class' => 'form-control'
              )
         ));
 
+
         $this->add(array(
-             'name' => 'emp_direccion',
+             'name' => 'PAI_ID',
+             'type' => 'Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'País',
+                 'disable_inarray_validator' => true,
+                 'empty_option' => '-- Seleccione --'
+             ),
+             'attributes' => array(
+                 'id' => 'PAI_ID',
+                 'class' => 'form-control'
+             )
+        ));
+        
+        $this->add(array(
+             'name' => 'EST_ID',
+             'type' => 'Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'Estado/Provincia',
+                 'disable_inarray_validator' => true,
+                 'empty_option' => '-- Seleccione --'
+             ),
+             'attributes' => array(
+                 'id' => 'EST_ID',
+                 'class' => 'form-control'
+             )
+        ));
+
+
+        $this->add(array(
+             'name' => 'CIU_ID',
+             'type' => 'Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'Ciudad',
+                 'disable_inarray_validator' => true,
+                 'empty_option' => '-- Seleccione --'
+             ),
+             'attributes' => array(
+                 'id' => 'CIU_ID',
+                 'class' => 'form-control'
+             )
+        ));
+      
+
+        $this->add(array(
+             'name' => 'EMP_DIRECCION',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Dirección',
              ),
              'attributes' => array(
-                 'id' => 'emp_direccion'
+                 'id' => 'emp_direccion',
+                 'class' => 'form-control'
              )
         ));
 
         $this->add(array(
-             'name' => 'emp_referencia',
+             'name' => 'EMP_REFERENCIA',
              'type' => 'Zend\Form\Element\Textarea',
              'options' => array(
                  'label' => 'Referencia',
              ),
              'attributes' => array(
-                 'id' => 'emp_referencia'
+                 'id' => 'emp_referencia',
+                 'class' => 'form-control'
              )
         ));
 
         $this->add(array(
-             'name' => 'emp_sector',
+             'name' => 'EMP_SECTOR',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Sector',
              ),
              'attributes' => array(
-                 'id' => 'emp_sector'
+                 'id' => 'emp_sector',
+                 'class' => 'form-control'
              )
         ));
 
         $this->add(array(
-             'name' => 'emp_email',
+             'name' => 'EMP_EMAIL',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Email',
              ),
              'attributes' => array(
-                 'id' => 'emp_email'
+                 'id' => 'emp_email',
+                 'class' => 'form-control'
              )
         ));
 
         $this->add(array(
-             'name' => 'emp_pagina_web',
+             'name' => 'EMP_PAGINA_WEB',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Página Web',
              ),
              'attributes' => array(
-                 'id' => 'emp_pagina_web'
+                 'id' => 'emp_pagina_web',
+                 'class' => 'form-control'
              )
         ));
 
         $this->add(array(
-             'name' => 'submit',
+             'name' => 'SUBMIT',
              'type' => 'submit',
              'attributes' => array(
-                 'id' => 'submit'
+                 'id' => 'submit',
+                 'value' => 'Ingresar',
+                 'class' => 'btn btn-primary'
              )
         ));
 

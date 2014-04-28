@@ -15,30 +15,24 @@ $formLabel = $this->plugin ( 'formLabel' );
 $comment=$this->comment;
 
 echo $this->form ()->openTag ( $form );
-echo $this->formHidden ( $form->get ( 'emp_id' ) );
 ?>
+<?php echo $this->formRow($form->get('EMP_ID')); ?>
 
-<div class="form_element">
-	<div class="span-3 last">
-	    <?php
-			$emp_nombre = $form->get ( 'emp_nombre' );
-			echo $formLabel->openTag () . $emp_nombre->getOption ( 'label' );
-			echo $formLabel->closeTag ();
-		?>
-	</div>
-	<div class="span-6 last">
-		<?php 
-			echo $this->formInput ( $emp_nombre );
-			echo $this->formElementErrors ( $emp_nombre );
-		?>
-	</div>	
-</div>
+<?php echo $this->formRow($form->get('ESTADO_OCULTO')); ?>
+<?php echo $this->formRow($form->get('CIUDAD_OCULTO')); ?>
 
+<?php echo $this->formRow($form->get('EMP_NOMBRE')); ?>
+<?php echo $this->formRow($form->get('CAT_EMP_ID')); ?>
 
-<?php echo $this->formRow($form->get('cat_emp_id')); ?>
-<?php echo $this->formRow($form->get('emp_direccion')); ?>
-<?php echo $this->formRow($form->get('emp_referencia')); ?>
-<?php echo $this->formRow($form->get('emp_sector')); ?>
-<?php echo $this->formRow($form->get('emp_email')); ?>
-<?php echo $this->formRow($form->get('emp_pagina_web')); ?>
-<?php echo $this->formRow($form->get('submit')); ?>
+<?php echo $this->formRow($form->get('PAI_ID')); ?>
+<?php echo $this->formRow($form->get('EST_ID')); ?>
+<?php echo $this->formRow($form->get('CIU_ID')); ?>
+
+<?php echo $this->formRow($form->get('EMP_DIRECCION')); ?>
+<?php echo $this->formRow($form->get('EMP_REFERENCIA')); ?>
+<?php echo $this->formRow($form->get('EMP_SECTOR')); ?>
+<?php echo $this->formRow($form->get('EMP_EMAIL')); ?>
+<?php echo $this->formRow($form->get('EMP_PAGINA_WEB')); ?>
+<?php echo $this->formRow($form->get('SUBMIT')); ?>
+
+<?php echo $this->form()->closeTag(); ?>

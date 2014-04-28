@@ -8,6 +8,17 @@ use Empresas\Model\Entity\Empresas;
 use Empresas\Model\Dao\CategoriasDao;
 use Empresas\Model\Entity\Categorias;
 
+use Empresas\Model\Dao\PaisDao;
+use Empresas\Model\Entity\Pais;
+
+use Empresas\Model\Dao\EstadoDao;
+use Empresas\Model\Entity\Estado;
+
+use Empresas\Model\Dao\CiudadDao;
+use Empresas\Model\Entity\Ciudad;
+
+
+
 use Zend\Db\TableGateway\TableGateway;
 
 
@@ -57,6 +68,40 @@ class Module
                      $resultSetPrototype->setArrayObjectPrototype(new Categorias());
                      return new TableGateway('CATEGORIA_EMPRESA', $dbAdapter, null, $resultSetPrototype);
                  },
+
+                'Empresas\Model\Dao\PaisDao' => function($sm){
+                    $tableGateway = $sm->get('PaisTableGateway');
+                    return new PaisDao($tableGateway);
+                },
+                'PaisTableGateway' => function ($sm){
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Pais());
+                    return new TableGateway('PAIS', $dbAdapter, null, $resultSetPrototype);
+                },
+
+                'Empresas\Model\Dao\EstadoDao' => function($sm){
+                    $tableGateway = $sm->get('EstadoTableGateway');
+                    return new EstadoDao($tableGateway);
+                },
+                'EstadoTableGateway' => function ($sm){
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Estado());
+                    return new TableGateway('ESTADO', $dbAdapter, null, $resultSetPrototype);
+                },
+
+                'Empresas\Model\Dao\CiudadDao' => function($sm){
+                    $tableGateway = $sm->get('CiudadTableGateway');
+                    return new CiudadDao($tableGateway);
+                },
+                'CiudadTableGateway' => function ($sm){
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Ciudad());
+                    return new TableGateway('CIUDAD', $dbAdapter, null, $resultSetPrototype);
+                },
+
              ),
          );
      }

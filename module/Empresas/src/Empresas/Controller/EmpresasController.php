@@ -9,22 +9,25 @@ use Zend\View\Model\ViewModel;
 
  class EmpresasController extends AbstractActionController
  {
-     protected $empresasTable;
-     protected $categoriasTable;
+     protected $empresasDao;
+     protected $categoriasDao;
+     protected $paisDao; 
+     protected $estadoDao;
+     protected $ciudadDao;     
+
 
      public function indexAction()
      {
         return new ViewModel(array(
-            'empresas' => $this->getEmpresasTable()->traerTodos(),
+            'empresas' => $this->getEmpresasDao()->traerTodos(),
         ));
      }
 
     public function addAction()
     {
         $form = new EmpresasForm();
-        //print_r($this->getCategoriasTable()->getCategoriasSelect());
-        $form->get('cat_emp_id')->setValueOptions($this->getCategoriasTable()->getCategoriasSelect());
-        
+        $form->get('CAT_EMP_ID')->setValueOptions($this->getCategoriasDao()->getCategoriasSelect());
+        $form->get('PAI_ID')->setValueOptions($this->getPaisDao()->getPaisesSelect());
         return new ViewModel ( array (
                 'title' => 'Crear Partner',
                 'form' => $form
@@ -41,7 +44,7 @@ use Zend\View\Model\ViewModel;
 
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
-        $this->getEmpresasTable()->guardar($empresa);
+        $this->getEmpresasDao()->guardar($empresa);
 
         return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
      }
@@ -55,27 +58,53 @@ use Zend\View\Model\ViewModel;
      {
      }
      
-     public function getEmpresasTable()
+     public function getEmpresasDao()
      {
-         if (!$this->empresasTable) {
+         if (!$this->empresasDao) {
              $sm = $this->getServiceLocator();
-             $this->empresasTable = $sm->get('Empresas\Model\Dao\EmpresasDao');
+             $this->empresasDao = $sm->get('Empresas\Model\Dao\EmpresasDao');
          }
-         return $this->empresasTable;
+         return $this->empresasDao;
      }
 
-     public function getCategoriasTable()
+     public function getCategoriasDao()
      {
-         if (!$this->categoriasTable) {
+         if (!$this->categoriasDao) {
              $sm = $this->getServiceLocator();
-             $this->categoriasTable = $sm->get('Empresas\Model\Dao\CategoriasDao');
+             $this->categoriasDao = $sm->get('Empresas\Model\Dao\CategoriasDao');
          }
-         return $this->categoriasTable;
+         return $this->categoriasDao;
      }
 
+     public function getPaisDao()
+     {
+         if (!$this->paisDao) {
+             $sm = $this->getServiceLocator();
+             $this->paisDao = $sm->get('Empresas\Model\Dao\PaisDao');
+         }
+         return $this->paisDao;
+     }
 
-    public function getForm() {
+     public function getEstadoDao()
+     {
+         if (!$this->estadoDao) {
+             $sm = $this->getServiceLocator();
+             $this->estadoDao = $sm->get('Empresas\Model\Dao\EstadoDao');
+         }
+         return $this->estadoDao;
+     }
+
+     public function getCiudadDao()
+     {
+         if (!$this->ciudadDao) {
+             $sm = $this->getServiceLocator();
+             $this->ciudadDao = $sm->get('Empresas\Model\Dao\CiudadDao');
+         }
+         return $this->ciudadDao;
+     }
+
+     public function getForm() {
         $form = new EmpresasForm ( 'empresasForm' );
         return $form;
-    }
+     }
  }
