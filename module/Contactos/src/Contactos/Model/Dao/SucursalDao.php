@@ -20,8 +20,16 @@ class SucursalDao {
     }
     
     public function traer($suc_id){
+    	
+    	$suc_id = (int) $suc_id;
+    	
     	$resultSet = $this->tableGateway->select(array('SUC_ID' => $suc_id));
     	$row =  $resultSet->current();
+    	
+    	if(!$row){
+    		throw new \Exception('No se encontro el ID de la sucursal');
+    	}
+    	
     	return $row;
     }
     

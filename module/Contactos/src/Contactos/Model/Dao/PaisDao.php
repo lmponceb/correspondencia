@@ -19,6 +19,20 @@ class PaisDao {
          return $resultSet;
     }
     
+    public function traer($pai_id){
+    
+    	$pai_id = (int) $pai_id;
+    
+    	$resultSet = $this->tableGateway->select(array('PAI_ID' => $pai_id));
+    	$row =  $resultSet->current();
+    	 
+    	if(!$row){
+    		throw new \Exception('No se encontro el ID de la pais');
+    	}
+    	 
+    	return $row;
+    }
+    
     public function traerTodosArreglo(){
     	 
     	$sql = new Sql($this->tableGateway->getAdapter());

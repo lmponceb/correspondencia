@@ -19,6 +19,20 @@ class EstadoDao {
          return $resultSet;
     }
     
+    public function traer($est_id){
+    
+    	$est_id = (int) $est_id;
+    
+    	$resultSet = $this->tableGateway->select(array('EST_ID' => $est_id));
+    	$row =  $resultSet->current();
+    
+    	if(!$row){
+    		throw new \Exception('No se encontro el ID de la estado');
+    	}
+    
+    	return $row;
+    }
+    
     public function traerTodosArreglo(){
     	
     	$sql = new Sql($this->tableGateway->getAdapter());
