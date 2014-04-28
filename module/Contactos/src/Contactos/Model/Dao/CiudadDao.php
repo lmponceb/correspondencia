@@ -90,6 +90,5 @@ class CiudadDao {
     	$resultSet = $this->tableGateway->select(array('CIU_ID' => $ciudad));
     	$row = $resultSet->current();
     	return $row;
-    }
-    
+    }    
 }

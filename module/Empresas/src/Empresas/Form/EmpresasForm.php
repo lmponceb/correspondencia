@@ -172,5 +172,89 @@ namespace Empresas\Form;
              )
         ));
 
+        /************ Contacto Telefónico **************/
+
+        $this->add(array(
+             'name' => 'TIP_TEL_ID[]',
+             'type' => 'Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'Tipo de Teléfono',
+                 'disable_inarray_validator' => true,
+                 'empty_option' => '-- Seleccione --'
+             ),
+             'attributes' => array(
+                 'id' => 'tip_tel_id',
+                 'class' => 'form-control',
+                 'group_id' => '1'
+             )
+        ));
+
+        $this->add(array(
+             'name' => 'DET_CON_CODIGO_PAIS[]',
+             'type' => 'Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'Código de País',
+                 'disable_inarray_validator' => true,
+                 'empty_option' => '-- Seleccione --'
+             ),
+             'attributes' => array(
+                 'id' => 'det_con_codigo_pais',
+                 'class' => 'form-control',
+                 'group_id' => '1'
+             )
+        ));
+
+        $this->add(array(
+             'name' => 'DET_CON_CODIGO_CIUDAD[]',
+             'type' => 'Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'Código de Ciudad',
+                 'disable_inarray_validator' => true,
+                 'empty_option' => '-- Seleccione --'
+             ),
+             'attributes' => array(
+                 'id' => 'det_con_codigo_ciudad',
+                 'class' => 'form-control',
+                 'group_id' => '1'
+             )
+        ));
+
+        $this->add(array(
+             'name' => 'DET_CON_VALOR[]',
+             'type' => 'Zend\Form\Element\Text',
+             'options' => array(
+                 'label' => 'Número',
+             ),
+             'attributes' => array(
+                 'id' => 'det_con_valor',
+                 'class' => 'form-control',
+                 'group_id' => '1'
+             )
+        ));        
+
+        $this->add(array(
+             'name' => 'DET_CON_EXTENSION[]',
+             'type' => 'Zend\Form\Element\Text',
+             'options' => array(
+                 'label' => 'Extensión',
+             ),
+             'attributes' => array(
+                 'id' => 'det_con_extension',
+                 'class' => 'form-control',
+                 'group_id' => '1'
+             )
+        )); 
+
+        $this->add(array(
+             'name' => 'ADD[]',
+             'type' => 'Zend\Form\Element\Button',
+             'attributes' => array(
+                 'id' => 'add',
+                 'value' => 'Agregar',
+                 'class' => 'btn btn-secondary',
+                 'group_id' => '1'
+             )
+        ));
+
      }
  } 

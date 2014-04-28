@@ -14,7 +14,7 @@ use Zend\View\Model\ViewModel;
      protected $paisDao; 
      protected $estadoDao;
      protected $ciudadDao;     
-
+     protected $tipoTelefonoDao;
 
      public function indexAction()
      {
@@ -28,6 +28,8 @@ use Zend\View\Model\ViewModel;
         $form = new EmpresasForm();
         $form->get('CAT_EMP_ID')->setValueOptions($this->getCategoriasDao()->getCategoriasSelect());
         $form->get('PAI_ID')->setValueOptions($this->getPaisDao()->getPaisesSelect());
+        $form->get('TIP_TEL_ID[]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
+        $form->get('DET_CON_CODIGO_PAIS[]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
         return new ViewModel ( array (
                 'title' => 'Crear Partner',
                 'form' => $form
@@ -102,6 +104,31 @@ use Zend\View\Model\ViewModel;
          }
          return $this->ciudadDao;
      }
+
+     public function getTipoTelefonoDao()
+     {
+         if (!$this->tipoTelefonoDao) {
+             $sm = $this->getServiceLocator();
+             $this->tipoTelefonoDao = $sm->get('Empresas\Model\Dao\TipoTelefonoDao');
+         }
+         return $this->tipoTelefonoDao;
+     }
+
+    public function codigoCiudadAction(){
+        if($this->getRequest()->isXmlHttpRequest()){
+            $det_con_codigo_pais = $this->request->getPost('det_con_codigo_pais');
+            $data = $this->getCiudadDao()->getCodigoCiudadPorCodigoPais($det_con_codigo_pais);
+    
+            $jsonData = json_encode($data);
+            $response = $this->getResponse();
+            $response->setStatusCode(200);
+            $response->setContent($jsonData);
+    
+            return $response;
+        }else{
+            return $this->redirect()->toRoute('empresas', array('empresas' => 'ingresar'));
+        }
+    }
 
      public function getForm() {
         $form = new EmpresasForm ( 'empresasForm' );

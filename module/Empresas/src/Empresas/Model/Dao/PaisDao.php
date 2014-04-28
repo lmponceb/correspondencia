@@ -73,4 +73,14 @@ class PaisDao {
          }
          return $result;
      }
+
+     public function getCodigoPaisesSelect()
+     {
+         $resultSet= $this->tableGateway->select();
+         $result=array();
+         foreach($resultSet as $pais){
+            $result[$pais->getPai_codigo_telefono()]=$pais->getPai_codigo_telefono().'-'.$pais->getPai_nombre();
+         }
+         return $result;
+     }     
 }
