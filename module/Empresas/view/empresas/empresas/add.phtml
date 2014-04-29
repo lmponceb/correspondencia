@@ -55,33 +55,36 @@ echo $this->form ()->openTag ( $form );
 
 	$(document).ready(function(){
 		//Carga del combo box de Códigos de teléfono de Ciudades
-		$("#det_con_codigo_ciudad").prop("disabled", true);
-		$("#det_con_codigo_pais").change(function() {
-			if($('#det_con_codigo_pais').val() != '' && $('#det_con_codigo_pais').val() != null){
-	            $.ajax({
-	                url: "<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'codigoCiudad')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "det_con_codigo_pais=" + $(this).val(),
-	                beforeSend: function() {
-	                	$("#det_con_codigo_ciudad").html("");
-	                	$("#det_con_codigo_ciudad").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(ciudades) {
-	                $("#det_con_codigo_ciudad").html("");
-	                $("#det_con_codigo_ciudad").append('<option>-- Seleccione --</option>');
-	                for (ciudad in ciudades) {
-	                    $("#det_con_codigo_ciudad").append('<option value="' + ciudad + '">' + ciudades[ciudad] + '</option>');
-	                }
-	                $("#det_con_codigo_ciudad").prop("disabled", false);
-	            });
-			}else{
-				$("#det_con_codigo_ciudad").prop("disabled", true);
-				$("#det_con_codigo_ciudad").html("");
-				$("#det_con_codigo_ciudad").append('<option>-- Seleccione --</option>');
-			}
-        });
+		$(".det_con_codigo_ciudad").prop("disabled", true);
+		function codigoCiudadSelect(data_group_id){
+			$(".det_con_codigo_pais[data-group-id="+data_group_id+"]").on('change',function() {
+				if($(this).val() != '' && $(this).val() != null){
+		            $.ajax({
+		                url: "<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'codigoCiudad')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "det_con_codigo_pais=" + $(this).val(),
+		                beforeSend: function() {
+		                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+		                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(ciudades) {
+		                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+		                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+		                for (ciudad in ciudades) {
+		                    $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option value="' + ciudad + '">' + ciudades[ciudad] + '</option>');
+		                }
+		                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", false);
+		            });
+				}else{
+					$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", true);
+					$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+					$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+				}
+	        });
+		}
 
+		codigoCiudadSelect(0);
 		//Agregar Nuevo Registro de Detalle Contacto
 		var indice_detalle_contacto=1;
 		$("#add").on('click',function(e){
@@ -95,6 +98,8 @@ echo $this->form ()->openTag ( $form );
 				$(this).attr('name',$(this).attr('name').replace(''+(indice_detalle_contacto-1),''+indice_detalle_contacto));
 				$(this).attr('data-group-id',indice_detalle_contacto);
 			});
+			
+			codigoCiudadSelect(indice_detalle_contacto); 
 			
 			indice_detalle_contacto++;
 		});

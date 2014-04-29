@@ -241,22 +241,16 @@
         
     </head>
     <body>
-    	<table width="100%"  border="1">
+    	<table width="100%"  id="contenedor_principal">
     		<tr>
-    			<td colspan="2">Logo Azul</td>
+    			<td colspan="2"><img id='logo' width=88 height=31 src='<?php echo $this->basePath();?>/img/logo.gif'></img></td>
     		</tr>
     		<tr>
-    			<td>
-    			
-    				<table>
-    					<tr>
-    						<td><a href="<?php echo $this->url('usuarios', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></td>
-    					</tr>
-    					<tr>
-    						<td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>">Contactos</a></td>
-    					</tr>
-    				</table>
-    			
+    			<td class="menu">
+					<ul id="menu">
+						<li><a href="<?php echo $this->url('usuarios', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></li>
+						<li><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>">Contactos</a></li>
+					</ul>
     			</td>
     			<td><?php echo $this->content; ?></td>
     		</tr>

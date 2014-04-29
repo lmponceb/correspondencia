@@ -185,7 +185,7 @@ namespace Empresas\Form;
              ),
              'attributes' => array(
                  'id' => 'tip_tel_id',
-                 'class' => 'form-control',
+                 'class' => 'form-control tip_tel_id',
                  'data-group-id' => $indice_detalle_contacto
              )
         ));
@@ -200,7 +200,7 @@ namespace Empresas\Form;
              ),
              'attributes' => array(
                  'id' => 'det_con_codigo_pais',
-                 'class' => 'form-control',
+                 'class' => 'form-control det_con_codigo_pais',
                  'data-group-id' => $indice_detalle_contacto
              )
         ));
@@ -215,7 +215,7 @@ namespace Empresas\Form;
              ),
              'attributes' => array(
                  'id' => 'det_con_codigo_ciudad',
-                 'class' => 'form-control',
+                 'class' => 'form-control det_con_codigo_ciudad',
                  'data-group-id' => $indice_detalle_contacto
              )
         ));
@@ -228,7 +228,7 @@ namespace Empresas\Form;
              ),
              'attributes' => array(
                  'id' => 'det_con_valor',
-                 'class' => 'form-control',
+                 'class' => 'form-control det_con_valor',
                  'data-group-id' => $indice_detalle_contacto
              )
         ));        
@@ -241,7 +241,7 @@ namespace Empresas\Form;
              ),
              'attributes' => array(
                  'id' => 'det_con_extension',
-                 'class' => 'form-control',
+                 'class' => 'form-control det_con_extension',
                  'data-group-id' => $indice_detalle_contacto
              )
         )); 

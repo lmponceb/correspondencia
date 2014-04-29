@@ -1,6 +1,5 @@
 body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+    padding: 10px;
 }
 
 .zf-green {
@@ -35,3 +34,10 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+#contenedor_principal { border:none; }
+#contenedor_principal tr td { padding:10px; }
+#contenedor_principal tr td.menu { vertical-align: top; background:#5c9ccc; }
+#contenedor_principal ul#menu { padding:0px; margin:0px; }
+#contenedor_principal ul#menu li { list-style:none; } 
+#contenedor_principal ul#menu li a { color:#fff; }
