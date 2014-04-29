@@ -173,9 +173,10 @@ namespace Empresas\Form;
         ));
 
         /************ Contacto Telefónico **************/
+        $indice_detalle_contacto=0;
 
         $this->add(array(
-             'name' => 'TIP_TEL_ID[]',
+             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
                  'label' => 'Tipo de Teléfono',
@@ -185,12 +186,12 @@ namespace Empresas\Form;
              'attributes' => array(
                  'id' => 'tip_tel_id',
                  'class' => 'form-control',
-                 'group_id' => '1'
+                 'data-group-id' => $indice_detalle_contacto
              )
         ));
 
         $this->add(array(
-             'name' => 'DET_CON_CODIGO_PAIS[]',
+             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
                  'label' => 'Código de País',
@@ -200,12 +201,12 @@ namespace Empresas\Form;
              'attributes' => array(
                  'id' => 'det_con_codigo_pais',
                  'class' => 'form-control',
-                 'group_id' => '1'
+                 'data-group-id' => $indice_detalle_contacto
              )
         ));
 
         $this->add(array(
-             'name' => 'DET_CON_CODIGO_CIUDAD[]',
+             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
                  'label' => 'Código de Ciudad',
@@ -215,12 +216,12 @@ namespace Empresas\Form;
              'attributes' => array(
                  'id' => 'det_con_codigo_ciudad',
                  'class' => 'form-control',
-                 'group_id' => '1'
+                 'data-group-id' => $indice_detalle_contacto
              )
         ));
 
         $this->add(array(
-             'name' => 'DET_CON_VALOR[]',
+             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Número',
@@ -228,12 +229,12 @@ namespace Empresas\Form;
              'attributes' => array(
                  'id' => 'det_con_valor',
                  'class' => 'form-control',
-                 'group_id' => '1'
+                 'data-group-id' => $indice_detalle_contacto
              )
         ));        
 
         $this->add(array(
-             'name' => 'DET_CON_EXTENSION[]',
+             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Extensión',
@@ -241,20 +242,22 @@ namespace Empresas\Form;
              'attributes' => array(
                  'id' => 'det_con_extension',
                  'class' => 'form-control',
-                 'group_id' => '1'
+                 'data-group-id' => $indice_detalle_contacto
              )
         )); 
 
         $this->add(array(
-             'name' => 'ADD[]',
+             'name' => 'ADD',
              'type' => 'Zend\Form\Element\Button',
+             'options' => array(
+                 'label' => 'Agregar Otro Número',
+             ),
              'attributes' => array(
                  'id' => 'add',
                  'value' => 'Agregar',
-                 'class' => 'btn btn-secondary',
-                 'group_id' => '1'
+                 'class' => 'btn btn-success',
+                 'data-group-id' => $indice_detalle_contacto
              )
         ));
-
      }
  } 

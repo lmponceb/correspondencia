@@ -1,6 +1,7 @@
 <?php
 namespace Empresas\Controller;
 use Empresas\Model\Entity\Empresas;
+use Empresas\Model\Entity\DetalleContacto;
 use Empresas\Model\Dao\EmpresasDao;
 use Empresas\Form\EmpresasForm;
 use Empresas\Form\EmpresasValidator;
@@ -15,6 +16,7 @@ use Zend\View\Model\ViewModel;
      protected $estadoDao;
      protected $ciudadDao;     
      protected $tipoTelefonoDao;
+     protected $detalleContactoDao;
 
      public function indexAction()
      {
@@ -25,11 +27,14 @@ use Zend\View\Model\ViewModel;
 
     public function addAction()
     {
+
+        $indice_detalle_contacto=0;
+
         $form = new EmpresasForm();
         $form->get('CAT_EMP_ID')->setValueOptions($this->getCategoriasDao()->getCategoriasSelect());
         $form->get('PAI_ID')->setValueOptions($this->getPaisDao()->getPaisesSelect());
-        $form->get('TIP_TEL_ID[]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
-        $form->get('DET_CON_CODIGO_PAIS[]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
+        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
+        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
         return new ViewModel ( array (
                 'title' => 'Crear Partner',
                 'form' => $form
@@ -43,10 +48,20 @@ use Zend\View\Model\ViewModel;
         }
 
         $params=$this->request->getPost();
-
+echo '<pre>';
+print_r($params);
+echo '</pre>';
+die();
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);
+
+        $detalleContactoParamsArray=$params['DETALLE_CONTACTO'];
+        foreach($detalleContactoParamsArray as $detalleContactoParams){
+            $detalleContacto=new DetalleContacto();
+            $detalleContacto->exchangeArray($detalleContactoParams);
+            $this->getDetalleContactoDao()->guardar($detalleContacto);
+        }
 
         return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
      }
@@ -103,7 +118,7 @@ use Zend\View\Model\ViewModel;
              $this->ciudadDao = $sm->get('Empresas\Model\Dao\CiudadDao');
          }
          return $this->ciudadDao;
-     }
+     }    
 
      public function getTipoTelefonoDao()
      {
@@ -112,6 +127,15 @@ use Zend\View\Model\ViewModel;
              $this->tipoTelefonoDao = $sm->get('Empresas\Model\Dao\TipoTelefonoDao');
          }
          return $this->tipoTelefonoDao;
+     }
+
+     public function getDetalleContactoDao()
+     {
+         if (!$this->detalleContactoDao) {
+             $sm = $this->getServiceLocator();
+             $this->detalleContactoDao = $sm->get('Empresas\Model\Dao\DetalleContactoDao');
+         }
+         return $this->detalleContactoDao;
      }
 
     public function codigoCiudadAction(){

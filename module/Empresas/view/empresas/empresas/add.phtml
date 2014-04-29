@@ -34,16 +34,19 @@ echo $this->form ()->openTag ( $form );
 <?php echo $this->formRow($form->get('EMP_EMAIL')); ?>
 <?php echo $this->formRow($form->get('EMP_PAGINA_WEB')); ?>
 <hr>
-<table>
+<?php $indice_detalle_contacto=0; ?>
+<table id='detalle_contacto'>
 	<tr>
-		<td><?php echo $this->formRow($form->get('TIP_TEL_ID[]')); ?></td>
-		<td><?php echo $this->formRow($form->get('DET_CON_CODIGO_PAIS[]')); ?></td>
-		<td><?php echo $this->formRow($form->get('DET_CON_CODIGO_CIUDAD[]')); ?></td>
-		<td><?php echo $this->formRow($form->get('DET_CON_VALOR[]')); ?></td>
-		<td><?php echo $this->formRow($form->get('DET_CON_EXTENSION[]')); ?></td>
-		<td><?php echo $this->formRow($form->get('ADD[]')); ?></td>
+		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')); ?></td>
+		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')); ?></td>
+		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]')); ?></td>
+		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]')); ?></td>
+		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]')); ?></td>
 	</tr>
 </table>
+
+<?php echo $this->formRow($form->get('ADD')); ?>
+
 <?php echo $this->formRow($form->get('SUBMIT')); ?>
 
 <?php echo $this->form()->closeTag(); ?>
@@ -78,5 +81,23 @@ echo $this->form ()->openTag ( $form );
 				$("#det_con_codigo_ciudad").append('<option>-- Seleccione --</option>');
 			}
         });
+
+		//Agregar Nuevo Registro de Detalle Contacto
+		var indice_detalle_contacto=1;
+		$("#add").on('click',function(e){
+			$("table#detalle_contacto tr:last").clone().appendTo('table#detalle_contacto');
+
+			$("table#detalle_contacto tr:last input").each(function(i){
+				$(this).attr('name',$(this).attr('name').replace(''+(indice_detalle_contacto-1),''+indice_detalle_contacto));
+				$(this).attr('data-group-id',indice_detalle_contacto);
+			});
+			$("table#detalle_contacto tr:last select").each(function(i){
+				$(this).attr('name',$(this).attr('name').replace(''+(indice_detalle_contacto-1),''+indice_detalle_contacto));
+				$(this).attr('data-group-id',indice_detalle_contacto);
+			});
+			
+			indice_detalle_contacto++;
+		});
+		
 	});
 </script>

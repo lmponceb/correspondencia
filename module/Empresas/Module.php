@@ -20,6 +20,9 @@ use Empresas\Model\Entity\Ciudad;
 use Empresas\Model\Dao\TipoTelefonoDao;
 use Empresas\Model\Entity\TipoTelefono;
 
+use Empresas\Model\Dao\DetalleContactoDao;
+use Empresas\Model\Entity\DetalleContacto;
+
 use Zend\Db\TableGateway\TableGateway;
 
 
@@ -112,6 +115,17 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new TipoTelefono());
                     return new TableGateway('TIPO_TELEFONO', $dbAdapter, null, $resultSetPrototype);
+                },
+
+                'Empresas\Model\Dao\DetalleContactoDao' => function($sm){
+                    $tableGateway = $sm->get('DetalleContactoTableGateway');
+                    return new DetalleContactoDao($tableGateway);
+                },
+                'DetalleContactoTableGateway' => function ($sm){
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new DetalleContacto());
+                    return new TableGateway('DETALLE_CONTACTO', $dbAdapter, null, $resultSetPrototype);
                 },
              ),
          );
