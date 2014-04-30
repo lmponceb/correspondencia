@@ -46,4 +46,9 @@ namespace Empresas\Model\Entity;
         $this->emp_email = (!empty($data['EMP_EMAIL'])) ? $data['EMP_EMAIL'] : null;
         $this->emp_pagina_web = (!empty($data['EMP_PAGINA_WEB'])) ? $data['EMP_PAGINA_WEB'] : null;     
     }
+
+    public function getArrayCopy(){
+        return array_change_key_case(get_object_vars($this), CASE_UPPER);
+    }
+    
  }

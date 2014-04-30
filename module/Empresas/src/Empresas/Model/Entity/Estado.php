@@ -1,5 +1,5 @@
 <?php
-namespace Contactos\Model\Entity;
+namespace Empresas\Model\Entity;
 
 class Estado {
 	

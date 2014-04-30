@@ -12,6 +12,9 @@ namespace Empresas\Form;
         $this->add(array(
              'name' => 'EMP_ID',
              'type' => 'Hidden',
+             'attributes' => array (
+                'id' => 'emp_id',
+            )
         ));
         
         $this->add ( array(

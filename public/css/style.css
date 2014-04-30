@@ -37,7 +37,17 @@ div.container a.brand {
 
 #contenedor_principal { border:none; }
 #contenedor_principal tr td { padding:10px; }
-#contenedor_principal tr td.menu { vertical-align: top; background:#5c9ccc; }
+#contenedor_principal tr td.menu { vertical-align: top; background:#5c9ccc; width:200px !important;}
 #contenedor_principal ul#menu { padding:0px; margin:0px; }
 #contenedor_principal ul#menu li { list-style:none; } 
 #contenedor_principal ul#menu li a { color:#fff; }
+
+ul.error_container {padding-top:0; padding-bottom:0;}
+ul.error_container li {list-style: none;}
+ul.error_container li:first-child {padding-top: 20px;}
+ul.error_container li:last-child {padding-bottom: 20px;}
+ul.error_container li label {font-weight: normal; color:#843433;}
+
+input.error, select.error, textarea.error{
+  border:1px solid #ff0000 !important;
+}

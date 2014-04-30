@@ -2,6 +2,7 @@
 
 <?php
 $form = $this->form;
+$detalles = $this->detalles;
 $form->prepare ();
 $form->setAttribute ( 'action', $this->url ( 'empresas', array (
 		'controller' => 'index',
@@ -16,26 +17,47 @@ $comment=$this->comment;
 
 echo $this->form ()->openTag ( $form );
 ?>
-<?php echo $this->formRow($form->get('EMP_ID')); ?>
 
+<ul class="error_container bs-callout bs-callout-danger">
+
+</ul>
+
+<?php echo $this->formRow($form->get('EMP_ID')); ?>
 <?php echo $this->formRow($form->get('ESTADO_OCULTO')); ?>
 <?php echo $this->formRow($form->get('CIUDAD_OCULTO')); ?>
 
-<?php echo $this->formRow($form->get('EMP_NOMBRE')); ?>
-<?php echo $this->formRow($form->get('CAT_EMP_ID')); ?>
+<div class="row">
+  	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_NOMBRE')); ?></div>
+	<div class="col-md-6"><?php echo $this->formRow($form->get('CAT_EMP_ID')); ?></div>
+</div>
 
-<?php echo $this->formRow($form->get('PAI_ID')); ?>
-<?php echo $this->formRow($form->get('EST_ID')); ?>
-<?php echo $this->formRow($form->get('CIU_ID')); ?>
+<div class="row">
+  	<div class="col-md-6"><?php echo $this->formRow($form->get('PAI_ID')); ?></div>
+	<div class="col-md-6"><?php echo $this->formRow($form->get('EST_ID')); ?></div>
+</div>
 
-<?php echo $this->formRow($form->get('EMP_DIRECCION')); ?>
-<?php echo $this->formRow($form->get('EMP_REFERENCIA')); ?>
-<?php echo $this->formRow($form->get('EMP_SECTOR')); ?>
-<?php echo $this->formRow($form->get('EMP_EMAIL')); ?>
-<?php echo $this->formRow($form->get('EMP_PAGINA_WEB')); ?>
+<div class="row">
+	<div class="col-md-6"><?php echo $this->formRow($form->get('CIU_ID')); ?></div>	
+  	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_DIRECCION')); ?></div>
+</div>
+
+<div class="row">
+	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_SECTOR')); ?></div>
+	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_REFERENCIA')); ?></div>
+</div>
+
+<div class="row">
+  	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_EMAIL')); ?></div>
+	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_PAGINA_WEB')); ?></div>
+</div>
+
+
+
+
 <hr>
 <?php $indice_detalle_contacto=0; ?>
 <table id='detalle_contacto'>
+	<?php if(sizeof($detalles)<=0): ?>
 	<tr>
 		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')); ?></td>
 		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')); ?></td>
@@ -43,6 +65,42 @@ echo $this->form ()->openTag ( $form );
 		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]')); ?></td>
 		<td><?php echo $this->formRow($form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]')); ?></td>
 	</tr>
+	<?php else: ?>
+		<?php foreach($detalles as $key=>$detalle): ?>
+			<tr>
+				<?php 	
+					$tip_tel_id=$form->get('DETALLE_CONTACTO[0][TIP_TEL_ID]'); 
+					$det_con_codigo_pais=$form->get('DETALLE_CONTACTO[0][DET_CON_CODIGO_PAIS]');
+					$det_con_codigo_ciudad=$form->get('DETALLE_CONTACTO[0][DET_CON_CODIGO_CIUDAD]');
+					$det_con_valor=$form->get('DETALLE_CONTACTO[0][DET_CON_VALOR]');
+					$det_con_extension=$form->get('DETALLE_CONTACTO[0][DET_CON_EXTENSION]');
+
+					$tip_tel_id->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]'); 
+					$det_con_codigo_pais->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]');
+					$det_con_codigo_ciudad->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]');
+					$det_con_valor->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]');
+					$det_con_extension->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]');
+
+					$tip_tel_id->setAttribute('data-group-id',$indice_detalle_contacto); 
+					$det_con_codigo_pais->setAttribute('data-group-id',$indice_detalle_contacto);
+					$det_con_codigo_ciudad->setAttribute('data-group-id',$indice_detalle_contacto);
+					$det_con_valor->setAttribute('data-group-id',$indice_detalle_contacto);
+					$det_con_extension->setAttribute('data-group-id',$indice_detalle_contacto);
+
+					$tip_tel_id->setValue($detalle->getTip_tel_id());
+					$det_con_codigo_pais->setValue($detalle->getDet_con_codigo_pais());
+					$det_con_valor->setValue($detalle->getDet_con_valor());
+					$det_con_extension->setValue($detalle->getDet_con_extension());
+				?>
+				<td><?php echo $this->formRow($tip_tel_id); ?></td>
+				<td><?php echo $this->formRow($det_con_codigo_pais); ?></td>
+				<td><?php echo $this->formRow($det_con_codigo_ciudad); ?></td>
+				<td><?php echo $this->formRow($det_con_valor); ?></td>
+				<td><?php echo $this->formRow($det_con_extension); ?></td>
+			</tr>	
+			<?php $indice_detalle_contacto++;?>
+		<?php endforeach; ?>
+	<?php endif; ?>
 </table>
 
 <?php echo $this->formRow($form->get('ADD')); ?>
@@ -50,41 +108,94 @@ echo $this->form ()->openTag ( $form );
 <?php echo $this->formRow($form->get('SUBMIT')); ?>
 
 <?php echo $this->form()->closeTag(); ?>
-
+	
 <script>
 
 	$(document).ready(function(){
 		//Carga del combo box de Códigos de teléfono de Ciudades
 		$(".det_con_codigo_ciudad").prop("disabled", true);
-		function codigoCiudadSelect(data_group_id){
+
+		function codigoCiudadSelect(data_group_id,ciu_id){
 			$(".det_con_codigo_pais[data-group-id="+data_group_id+"]").on('change',function() {
-				if($(this).val() != '' && $(this).val() != null){
-		            $.ajax({
-		                url: "<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'codigoCiudad')) ?>",
-		                type: "POST",
-		                dataType: "json",
-		                data: "det_con_codigo_pais=" + $(this).val(),
-		                beforeSend: function() {
-		                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
-		                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>Procesando, espere por favor...</option>');
-		                }
-		            }).done(function(ciudades) {
-		                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
-		                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
-		                for (ciudad in ciudades) {
-		                    $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option value="' + ciudad + '">' + ciudades[ciudad] + '</option>');
-		                }
-		                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", false);
-		            });
-				}else{
-					$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", true);
-					$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
-					$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
-				}
+				ajaxCiudadSelect(this,data_group_id);
 	        });
+			if($(".det_con_codigo_pais[data-group-id="+data_group_id+"]").val()!=''){
+				ajaxCiudadSelect(".det_con_codigo_pais[data-group-id="+data_group_id+"]",data_group_id,ciu_id);	
+			}
 		}
 
-		codigoCiudadSelect(0);
+		function ajaxCiudadSelect(element,data_group_id,ciu_id){
+			if($(element).val() != '' && $(element).val() != null){
+	            $.ajax({
+	                url: "<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'codigoCiudad')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "det_con_codigo_pais=" + $(element).val(),
+	                beforeSend: function() {
+	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(ciudades) {
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+	                for (ciudad in ciudades) {
+	                    $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option value="' + ciudad + '">' + ciudades[ciudad] + '</option>');
+	                }
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", false);
+					$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").val(''+ciu_id);
+	                
+	            });
+			}else{
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", true);
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+			}
+		}
+		<?php if(sizeof($detalles)<=0): ?>
+			codigoCiudadSelect(0);
+		<?php else: ?>
+
+		<?php foreach($detalles as $key=>$detalle): ?>
+			codigoCiudadSelect(<?php echo $key . ($detalle->getDet_con_codigo_ciudad()!=''?(",'".$detalle->getDet_con_codigo_ciudad()."'"):'') ?>);
+		<?php endforeach; ?>
+		<?php endif; ?>
+
+		//Inicio Bloque Validador JS
+		$("#empresas").validate({
+			errorLabelContainer: $("ul.error_container"),
+			wrapper: 'li',
+			rules: {
+
+				EMP_NOMBRE: {required:true},
+				CAT_EMP_ID: {required:true},
+				PAI_ID: {required: true},
+				EST_ID: {required: true},
+				CIU_ID: {required: true},
+				EMP_DIRECCION: {required: true},
+				EMP_REFERENCIA: {},
+				EMP_SECTOR: {required: true},
+				EMP_EMAIL: {required: true, email:true},
+				EMP_PAGINA_WEB: {url:true},
+				/*** Seccion Detalle Contacto ***/
+				'DETALLE_CONTACTO[0][DET_CON_VALOR]': {required:true, digits:true}
+	 		},
+	 		messages:{
+				EMP_NOMBRE: {required:'Nombre es un campo requerido'},
+				CAT_EMP_ID: {required:'Categoría es un campo requerido'},
+				PAI_ID: {required: 'País es un campo requerido'},
+				EST_ID: {required: 'Estado/provincia es un campo requerido'},
+				CIU_ID: {required: 'Ciudad es un campo requerido'},
+				EMP_DIRECCION: {required: 'Dirección es un campo requerido'},
+				EMP_REFERENCIA: {},
+				EMP_SECTOR: {required: 'Sector es un campo requerido'},
+				EMP_EMAIL: {required: 'Email es un campo requerido',email: 'Ingrese un Email válido'},
+				EMP_PAGINA_WEB: {url: 'Ingrese una Pagina Web válida'},
+				/*** Seccion Detalle Contacto ***/
+				'DETALLE_CONTACTO[0][DET_CON_VALOR]': {required: 'El campo número es requerido', digits:'Ingrese un Número de Teléfono válido'}
+				
+	 	 	}
+		});
+
 		//Agregar Nuevo Registro de Detalle Contacto
 		var indice_detalle_contacto=1;
 		$("#add").on('click',function(e){
@@ -99,10 +210,19 @@ echo $this->form ()->openTag ( $form );
 				$(this).attr('data-group-id',indice_detalle_contacto);
 			});
 			
+			$(".det_con_valor[data-group-id="+indice_detalle_contacto+"]").rules('add',{
+				required:true,
+				digits:true,
+				messages:{
+					required: 'El campo número es requerido ('+indice_detalle_contacto+')', 
+					digits:'Ingrese un Número de Teléfono válido ('+indice_detalle_contacto+')'
+				}
+			});
+
 			codigoCiudadSelect(indice_detalle_contacto); 
 			
 			indice_detalle_contacto++;
 		});
-		
+
 	});
 </script>

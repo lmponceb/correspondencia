@@ -104,5 +104,32 @@ class CiudadDao {
         return $ciudades;
 
     }
+
+    public function getCiudadesPorEstadoSelect($est_id){        
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from($this->tableGateway->table);
+        $select->join(array('E' => 'ESTADO'),'E.EST_ID = CIUDAD.EST_ID');
+        $select->where(array('CIUDAD.EST_ID' => $est_id));
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        
+        $ciudades = new \ArrayObject();
+        $result = array();
+        
+        foreach ($results as $row){
+            $ciudad = new Ciudad();
+            $ciudad->exchangeArray($row);
+            $ciudades->append($ciudad);
+        }
+         
+        foreach ($ciudades as $ciudad){
+            $result[$ciudad->getCiu_id()] = $ciudad->getCiu_nombre();
+        }
+    
+        return $result;
+    }
+    
     
 }

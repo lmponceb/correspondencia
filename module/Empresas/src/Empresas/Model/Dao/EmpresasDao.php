@@ -3,8 +3,10 @@
  namespace Empresas\Model\Dao;
  use Zend\Db\TableGateway\AbstractTableGateway;
  use Zend\Db\TableGateway\TableGateway;
- use Zend\Db\Sql;
+ use Zend\Db\Sql\Sql;
+ use Zend\Db\Sql\Expression;
  use Empresas\Model\Entity\Empresas;
+ use Empresas\Model\Entity\DetalleContacto;
 
  class EmpresasDao
  {
@@ -21,16 +23,52 @@
          return $resultSet;
      }
 
-     public function getEmpresas($emp_id)
+     public function traerPorId($emp_id)
      {
          $emp_id  = (int) $emp_id;
-         $rowset = $this->tableGateway->select(array('emp_id' => $emp_id));
-         $row = $rowset->current();
-         if (!$row) {
-             throw new \Exception("Could not find row $emp_id");
-         }
-         return $row;
+
+         $sql = new Sql($this->tableGateway->getAdapter());
+         $select = $sql->select();
+         $select->from('EMPRESA');
+         $select->join(array('C' => 'CIUDAD'),'C.CIU_ID = EMPRESA.CIU_ID');
+         $select->join(array('E' => 'ESTADO'),'E.EST_ID = C.EST_ID');
+         $select->join(array('P' => 'PAIS'),'E.PAI_ID = P.PAI_ID');
+         $select->where(array('EMP_ID' => $emp_id));
+
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $row=$results->current();
+
+        $empresa=new Empresas();
+        $empresa->exchangeArray($row);
+        $empresa->pai_id=$row['PAI_ID'];
+        $empresa->est_id=$row['EST_ID'];
+        
+        return $empresa;
      }
+
+    public function getCodigoCiudadPorCodigoPais($det_con_codigo_pais){
+        $sql=new Sql($this->tableGateway->getAdapter());
+        $select=$sql->select();
+        $select->from('PAIS');
+        $select->join(array('E' => 'ESTADO'),'E.PAI_ID = PAIS.PAI_ID');
+        $select->join(array('C' => 'CIUDAD'),'C.EST_ID = E.EST_ID');
+        $select->where(array('PAIS.PAI_CODIGO_TELEFONO'=>$det_con_codigo_pais));
+        $select->order('C.CIU_NOMBRE DESC');
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $ciudades=array();
+        foreach($results as $row){
+            $ciudades[$row['CIU_CODIGO_TELEFONO']]=$row['CIU_CODIGO_TELEFONO'].'-'.$row['CIU_NOMBRE'];
+        }
+        return $ciudades;
+
+    }
+    
+
+
+
      public function guardar(Empresas $empresa){
 
         $data=array(
@@ -52,8 +90,11 @@
         if(empty($data['emp_id']) || is_null($data['emp_id'])){
             $data['emp_id'] = new Sql\Expression('s_empresa.nextVal');
             $data=array_change_key_case($data,CASE_UPPER);
-
             $this->tableGateway->insert($data);
+            
+        }else{
+            $data=array_change_key_case($data,CASE_UPPER);
+            $this->tableGateway->update($data,array('EMP_ID' => $data['EMP_ID']));
         }
      }
  }

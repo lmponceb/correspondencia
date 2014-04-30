@@ -1,8 +1,8 @@
 <?php
 namespace Empresas\Model\Dao;
-
+use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\Sql;
+use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Expression;
 use Empresas\Model\Entity\DetalleContacto;
 
@@ -22,17 +22,38 @@ class DetalleContactoDao {
     public function traer($det_con_id){
     
     	$det_con_id = (int) $det_con_id;
-    
     	$resultSet = $this->tableGateway->select(array('DET_CON_ID' => $det_con_id));
     	$row =  $resultSet->current();
     	 
     	if(!$row){
     		throw new \Exception('No se encontro el ID del Detalle de Contacto');
     	}
-    	 
     	return $row;
+
     }
     
+    public function getDetallePorEmpresa($emp_id){
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from($this->tableGateway->table);
+        $select->join(array('E' => 'EMPRESA'),'DETALLE_CONTACTO.EMP_ID = E.EMP_ID');
+        $select->where(array('DETALLE_CONTACTO.EMP_ID' => $emp_id));
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        
+        $detalles = new \ArrayObject();
+        $result = array();
+        
+        foreach ($results as $row){
+            $detalle = new DetalleContacto();
+            $detalle->exchangeArray($row);
+            $detalles->append($detalle);
+        }
+    
+        return $detalles;
+    }
+
     public function guardar(DetalleContacto $detalleContacto){
 
         $data=array(
@@ -47,14 +68,22 @@ class DetalleContactoDao {
             'det_con_extension'=>$detalleContacto->getDet_con_extension()
         );
 
-        
-
         if(empty($data['det_con_id']) || is_null($data['det_con_id'])){
-            $data['det_con_id'] = new Sql\Expression('s_detalle_contacto.nextVal');
+            $data['det_con_id'] = new \Zend\Db\Sql\Expression('s_detalle_contacto.nextVal');
+            if(empty($data['emp_id']) || is_null($data['emp_id'])){
+                $data['emp_id'] = new \Zend\Db\Sql\Expression('s_empresa.currVal');
+            }
             $data=array_change_key_case($data,CASE_UPPER);
 
             $this->tableGateway->insert($data);
         }
+     }
+
+     public function eliminarPorEmpresa($emp_id){
+        $adapter=$this->tableGateway->getAdapter();
+        $query="DELETE FROM DETALLE_CONTACTO WHERE EMP_ID=$emp_id";
+        $state=$adapter->query($query);
+        $state->execute();
      }
     
 }

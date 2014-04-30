@@ -12,6 +12,8 @@
 
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/js/datatables/media/css/demo_table.css')        
+                        ->prependStylesheet($this->basePath() . '/css/docs.min.css')
         				->prependStylesheet($this->basePath() . '/css/ui-lightness/jquery-ui-1.10.4.custom.css')
                         ->prependStylesheet($this->basePath() . '/css/style.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
@@ -19,6 +21,8 @@
 
         <!-- Scripts -->
         <?php echo $this->headScript()
+        	->prependFile($this->basePath() . '/js/datatables/media/js/jquery.dataTables.min.js')
+            ->prependFile($this->basePath() . '/js/jquery-validation/dist/jquery.validate.js')
             ->prependFile($this->basePath() . '/js/bootstrap.min.js')
             ->prependFile($this->basePath() . '/js/jquery-ui-min.js')
             ->prependFile($this->basePath() . '/js/jquery-min.js')
@@ -125,7 +129,7 @@
 	        });
 
 			//FUNCION PARA CARGAR LOS ESTADOS CUANDO EL FORMULARIO SEA DE ACTUALIZACION
-			$("#PAI_ID").ready(function() {
+			/*$("#PAI_ID").ready(function() {
 				if($('#PAI_ID').val() != '' && $('#PAI_ID').val() != null){
 			            $.ajax({
 			                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'estados')) ?>",
@@ -150,7 +154,7 @@
 				}else{
 					$("#EST_ID").prop("disabled", true);
 				}
-		    });
+		    });*/
 
 			//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
 			$("#EST_ID").change(function() {
@@ -178,7 +182,7 @@
 	        });
 
 			//FUNCION PARA CARGAR LAS CIUDADES CUANDO EL FORMULARIO SEA DE ACTUALIZACION
-			$("#EST_ID").ready(function() {
+			/*$("#EST_ID").ready(function() {
 				if($('#EST_ID').val() != '' && $('#EST_ID').val() != null){
 			            $.ajax({
 			                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ciudades')) ?>",
@@ -203,7 +207,7 @@
 				}else{
 					$("#CIU_ID").prop("disabled", true);
 				}
-		    });
+		    });*/
 
 			//FUNCION PARA TRAER EL CODIGO DE CIUDAD (TELEFONO)
 			$("#CIU_ID").change(function() {
@@ -250,6 +254,7 @@
 					<ul id="menu">
 						<li><a href="<?php echo $this->url('usuarios', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></li>
 						<li><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>">Contactos</a></li>
+						<li><a href="<?php echo $this->url('empresas', array('controller' => 'index', 'action' => 'index'))?>">Empresas</a></li>
 					</ul>
     			</td>
     			<td><?php echo $this->content; ?></td>

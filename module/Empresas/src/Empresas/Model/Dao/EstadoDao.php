@@ -85,5 +85,31 @@ class EstadoDao {
     
     	return $result;
     }
+
+    public function getEstadosPorPaisSelect($pai_id){        
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from($this->tableGateway->table);
+        $select->join(array('P' => 'PAIS'),'ESTADO.PAI_ID = P.PAI_ID');
+        $select->where(array('ESTADO.PAI_ID' => $pai_id));
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        
+        $estados = new \ArrayObject();
+        $result = array();
+        
+        foreach ($results as $row){
+            $estado = new Estado();
+            $estado->exchangeArray($row);
+            $estados->append($estado);
+        }
+         
+        foreach ($estados as $estado){
+            $result[$estado->getEst_id()] = $estado->getEst_nombre();
+        }
+    
+        return $result;
+    }
     
 }

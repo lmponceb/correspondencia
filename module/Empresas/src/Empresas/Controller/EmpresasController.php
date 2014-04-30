@@ -36,10 +36,47 @@ use Zend\View\Model\ViewModel;
         $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
         $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
         return new ViewModel ( array (
-                'title' => 'Crear Partner',
+                'title' => 'Crear Empresa',
                 'form' => $form
-        ) );
+        ));
     }
+
+     public function editAction()
+     {
+        
+        $emp_id = $this->params ()->fromRoute ( 'id', 0 );
+        if (! $emp_id) {
+            return $this->redirect()->toRoute ( 'empresas' );
+        }
+        $indice_detalle_contacto=0;
+
+        $form = new EmpresasForm();
+
+        $empresa = $this->getEmpresasDao ()->traerPorId ( $emp_id );
+        $form->get('CAT_EMP_ID')->setValueOptions($this->getCategoriasDao()->getCategoriasSelect());
+        $form->get('PAI_ID')->setValueOptions($this->getPaisDao()->getPaisesSelect());
+
+        $form->get('EST_ID')->setValueOptions($this->getEstadoDao()->getEstadosPorPaisSelect($empresa->pai_id));
+        $form->get('CIU_ID')->setValueOptions($this->getCiudadDao()->getCiudadesPorEstadoSelect($empresa->est_id));
+
+        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
+        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
+
+        $form->bind ( $empresa );
+
+        /* FUNCIÓN PARA RECUPERAR LOS DETALLES DE CONTACTO POR ID DE LA EMPRESA */
+        $detallesContactos=$this->getDetalleContactoDao()->getDetallePorEmpresa($empresa->emp_id);        
+
+        $viewModel = new ViewModel (array(
+                'title' => 'Editar Empresa',
+                'form' => $form,
+                'detalles' => $detallesContactos
+        ));
+        
+        $viewModel->setTemplate ( 'empresas/empresas/add.phtml' );
+        return $viewModel;
+
+     }
 
      public function guardarAction()
      {
@@ -48,27 +85,22 @@ use Zend\View\Model\ViewModel;
         }
 
         $params=$this->request->getPost();
-echo '<pre>';
-print_r($params);
-echo '</pre>';
-die();
+
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);
-
         $detalleContactoParamsArray=$params['DETALLE_CONTACTO'];
+        
+        $this->getDetalleContactoDao()->eliminarPorEmpresa($params['EMP_ID']);
+
         foreach($detalleContactoParamsArray as $detalleContactoParams){
             $detalleContacto=new DetalleContacto();
+            $detalleContactoParams['EMP_ID']=$params['EMP_ID'];
             $detalleContacto->exchangeArray($detalleContactoParams);
             $this->getDetalleContactoDao()->guardar($detalleContacto);
         }
 
         return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
-     }
-
-
-     public function editAction()
-     {
      }
 
      public function deleteAction()
