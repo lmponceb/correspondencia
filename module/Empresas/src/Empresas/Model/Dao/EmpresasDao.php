@@ -65,9 +65,6 @@
         return $ciudades;
 
     }
-    
-
-
 
      public function guardar(Empresas $empresa){
 
@@ -88,7 +85,7 @@
         
 
         if(empty($data['emp_id']) || is_null($data['emp_id'])){
-            $data['emp_id'] = new Sql\Expression('s_empresa.nextVal');
+            $data['emp_id'] = new \Zend\Db\Sql\Expression('s_empresa.nextVal');
             $data=array_change_key_case($data,CASE_UPPER);
             $this->tableGateway->insert($data);
             

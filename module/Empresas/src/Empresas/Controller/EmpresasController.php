@@ -90,8 +90,8 @@ use Zend\View\Model\ViewModel;
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);
         $detalleContactoParamsArray=$params['DETALLE_CONTACTO'];
-        
-        $this->getDetalleContactoDao()->eliminarPorEmpresa($params['EMP_ID']);
+        if($params['EMP_ID']!='')
+            $this->getDetalleContactoDao()->eliminarPorEmpresa($params['EMP_ID']);
 
         foreach($detalleContactoParamsArray as $detalleContactoParams){
             $detalleContacto=new DetalleContacto();
