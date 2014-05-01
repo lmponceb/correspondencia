@@ -81,13 +81,10 @@
          
         foreach ($results as $row){
             $result[$row['EMP_ID']]['value']=$row['EMP_NOMBRE'];
-            $result[$row['EMP_ID']]['value']=$row['EMP_NOMBRE'];
-            /*$empresa = new Empresas();
-            $empresa -> exchangeArray($row);
-            $empresas -> append($empresa);*/
+            $result[$row['EMP_ID']]['emp_id']=$row['EMP_ID'];
         }
 
-        print_r($result);
+        print_r(json_encode($result));
 
     }
 
