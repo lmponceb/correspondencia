@@ -60,7 +60,6 @@ class DetalleContactoDao {
             'det_con_id'=>$detalleContacto->getDet_con_id(),
             'emp_id'=>$detalleContacto->getEmp_id(),
             'con_id'=>$detalleContacto->getCon_id(),
-            'suc_id'=>$detalleContacto->getSuc_id(),
             'tip_tel_id'=>$detalleContacto->getTip_tel_id(),
             'det_con_codigo_pais'=>$detalleContacto->getDet_con_codigo_pais(),
             'det_con_codigo_ciudad'=>$detalleContacto->getDet_con_codigo_ciudad(),

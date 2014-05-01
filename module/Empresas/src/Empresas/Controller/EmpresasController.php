@@ -103,6 +103,28 @@ use Zend\View\Model\ViewModel;
         return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
      }
 
+     /* Consulta XML Http 
+        Devuelve en formato json una lista de las empresas padres* existentes en el sistema junto con su id
+        *empresas padre: empresas que no pertenecen a ninguna otra, cuyo emp_emp_id=NULL
+     */
+
+     public function consultaXmlHttpAction()
+     {
+        /*if($this->getRequest()->isXmlHttpRequest()){
+            $term =  $this->getQuery('emp_nombre');
+        */    
+
+            $term = 'az';
+            $listado = $this->getEmpresasDao()->traerListadoJsonPorNombre($term);   
+
+            $response=$this->getResponse();
+            $response->setStatusCode(200);
+            $response->setContent($listado);
+            return $response;
+        /*}else{
+            return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
+        }*/
+     }
      public function deleteAction()
      {
      }

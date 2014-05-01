@@ -47,6 +47,20 @@ namespace Empresas\Form;
                  'class' => 'form-control'
              )
         ));
+
+        $this->add(array(
+             'name' => 'EMP_EMP_ID',
+             'type' => 'Zend\Form\Element\Text',
+             'options' => array(
+                 'label' => 'Sucursal de',
+             ),
+            'attributes' => array(
+                 'id' => 'emp_emp_id',
+                 'class' => 'form-control',
+                 'placeholder' => 'Ingrese el nombre de la empresa a la que pertenece'
+             )
+        ));
+
         $this->add(array(
              'name' => 'CAT_EMP_ID',
              'type' => 'Zend\Form\Element\Select',

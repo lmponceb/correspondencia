@@ -66,6 +66,31 @@
 
     }
 
+    public function traerListadoJsonPorNombre($term){
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from($this->tableGateway->table);
+        $select->where->expression('UPPER(EMP_NOMBRE) LIKE UPPER(?)','%'.$term.'%');
+        $select->where(array('EMP_EMP_ID'=>NULL));
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+    
+        //$estados = new \ArrayObject();
+        $result = array();
+         
+        foreach ($results as $row){
+            $result[$row['EMP_ID']]['value']=$row['EMP_NOMBRE'];
+            $result[$row['EMP_ID']]['value']=$row['EMP_NOMBRE'];
+            /*$empresa = new Empresas();
+            $empresa -> exchangeArray($row);
+            $empresas -> append($empresa);*/
+        }
+
+        print_r($result);
+
+    }
+
      public function guardar(Empresas $empresa){
 
         $data=array(
