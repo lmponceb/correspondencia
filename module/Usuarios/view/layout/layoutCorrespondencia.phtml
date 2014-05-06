@@ -12,6 +12,7 @@
 
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/js/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css')
                         ->prependStylesheet($this->basePath() . '/js/datatables/media/css/demo_table.css')        
                         ->prependStylesheet($this->basePath() . '/css/docs.min.css')
         				->prependStylesheet($this->basePath() . '/css/ui-lightness/jquery-ui-1.10.4.custom.css')
@@ -21,6 +22,7 @@
 
         <!-- Scripts -->
         <?php echo $this->headScript()
+        	->prependFile($this->basePath() . '/js/jquery-ui/js/jquery-ui-1.10.4.custom.min.js')
         	->prependFile($this->basePath() . '/js/typeahead.bundle.js')
         	->prependFile($this->basePath() . '/js/datatables/media/js/jquery.dataTables.min.js')
             ->prependFile($this->basePath() . '/js/jquery-validation/dist/jquery.validate.js')

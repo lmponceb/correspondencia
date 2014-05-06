@@ -44,7 +44,7 @@ use Zend\View\Model\ViewModel;
      public function editAction()
      {
         
-        $emp_id = $this->params ()->fromRoute ( 'id', 0 );
+        $emp_id = $this->params()->fromRoute ( 'id', 0 );
         if (! $emp_id) {
             return $this->redirect()->toRoute ( 'empresas' );
         }
@@ -85,7 +85,10 @@ use Zend\View\Model\ViewModel;
         }
 
         $params=$this->request->getPost();
-
+        echo '<pre>';
+        print_r($params);
+        echo '</pre>';
+        die();
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);
@@ -109,21 +112,20 @@ use Zend\View\Model\ViewModel;
      */
 
      public function consultaXmlHttpAction()
-     {
-        /*if($this->getRequest()->isXmlHttpRequest()){
-            $term =  $this->getQuery('emp_nombre');
-        */    
+     {  
+        if($this->getRequest()->isXmlHttpRequest()){
+            $term =  $this->getRequest()->getQuery('term');
+          
 
-            $term = 'az';
             $listado = $this->getEmpresasDao()->traerListadoJsonPorNombre($term);   
 
             $response=$this->getResponse();
             $response->setStatusCode(200);
             $response->setContent($listado);
             return $response;
-        /*}else{
+        }else{
             return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
-        }*/
+        }
      }
      public function deleteAction()
      {

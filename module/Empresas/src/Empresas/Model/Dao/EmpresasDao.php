@@ -80,8 +80,9 @@
         $result = array();
          
         foreach ($results as $row){
+            $result[$row['EMP_ID']]['label']=$row['EMP_NOMBRE'];
             $result[$row['EMP_ID']]['value']=$row['EMP_NOMBRE'];
-            $result[$row['EMP_ID']]['emp_id']=$row['EMP_ID'];
+            $result[$row['EMP_ID']]['id']=$row['EMP_ID'];
         }
 
         print_r(json_encode($result));

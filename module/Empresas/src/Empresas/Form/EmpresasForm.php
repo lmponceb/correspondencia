@@ -16,6 +16,14 @@ namespace Empresas\Form;
                 'id' => 'emp_id',
             )
         ));
+
+        $this->add(array(
+             'name' => 'EMP_EMP_ID',
+             'type' => 'Hidden',
+             'attributes' => array (
+                'id' => 'emp_emp_id',
+            )
+        ));        
         
         $this->add ( array(
                 'name' => 'ESTADO_OCULTO',
@@ -49,13 +57,13 @@ namespace Empresas\Form;
         ));
 
         $this->add(array(
-             'name' => 'EMP_EMP_ID',
+             'name' => 'EMP_EMP_ID_AUTOCOMPLETAR',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
                  'label' => 'Sucursal de',
              ),
             'attributes' => array(
-                 'id' => 'emp_emp_id',
+                 'id' => 'emp_emp_id_autocompletar',
                  'class' => 'form-control',
                  'placeholder' => 'Ingrese el nombre de la empresa a la que pertenece'
              )
