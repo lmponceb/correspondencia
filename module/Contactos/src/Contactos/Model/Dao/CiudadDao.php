@@ -91,4 +91,23 @@ class CiudadDao {
     	$row = $resultSet->current();
     	return $row;
     }    
+    
+    public function getCodigoCiudadPorCodigoPais($det_con_codigo_pais){
+    	$sql=new Sql($this->tableGateway->getAdapter());
+    	$select=$sql->select();
+    	$select->from('PAIS');
+    	$select->join(array('E' => 'ESTADO'),'E.PAI_ID = PAIS.PAI_ID');
+    	$select->join(array('C' => 'CIUDAD'),'C.EST_ID = E.EST_ID');
+    	$select->where(array('PAIS.PAI_CODIGO_TELEFONO'=>$det_con_codigo_pais));
+    	$select->order('C.CIU_NOMBRE DESC');
+    
+    	$statement = $sql->prepareStatementForSqlObject($select);
+    	$results = $statement->execute();
+    	$ciudades=array();
+    	foreach($results as $row){
+    		$ciudades[$row['CIU_CODIGO_TELEFONO']]=$row['CIU_CODIGO_TELEFONO'].'-'.$row['CIU_NOMBRE'];
+    	}
+    	return $ciudades;
+    
+    }
 }

@@ -7,6 +7,8 @@ use Zend\Db\TableGateway\TableGateway;
 use Contactos\Model\Entity\Contacto;
 use Zend\Db\Sql;
 
+
+
 class ContactoDao {
 	
     protected $tableGateway;
@@ -16,9 +18,37 @@ class ContactoDao {
     }
     
     public function traerTodos(){
-    	$resultSet = $this->tableGateway->select();
-         return $resultSet;
+    	
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->join ( 'CARGO', 'CARGO.CAR_ID  = CONTACTO.CAR_ID' );
+    	$select->join ( 'CIUDAD', 'CIUDAD.CIU_ID  = CONTACTO.CIU_ID' );
+    	$select->join ( 'ESTADO', 'ESTADO.EST_ID  = CIUDAD.EST_ID' );
+    	$select->join ( 'PAIS', 'PAIS.PAI_ID  = ESTADO.PAI_ID' );
+    	$select->join ( 'TIPO_PERSONA', 'TIPO_PERSONA.TIP_PER_ID  = CONTACTO.TIP_PER_ID' );
+    	$select->join ( 'EMPRESA', 'EMPRESA.EMP_ID  = CONTACTO.EMP_ID' );
+    	$select->join (array('SUC' => 'EMPRESA'), 'SUC.EMP_ID  = EMPRESA.EMP_EMP_ID', array('SUC_NOMBRE' => 'EMP_NOMBRE'), 'left' );
+    	
+    	//echo $select->getSqlString();
+    	//die();
+    	
+    	$resultSet = $this->tableGateway->selectWith ( $select );
+        return $resultSet;
     }
+    
+    /*  public function traer($id) {
+     $id = ( int ) $id;
+    
+    $select = $this->tableGateway->getSql ()->select ();
+    $select->join ( 'paciente', 'paciente.pac_id  = receta.pac_id' );
+    $select->where ( array (
+    		'rec_id' => "$id"
+    ) );
+    
+    $resultSet = $this->tableGateway->selectWith ( $select );
+    
+    $row = $resultSet->current ();
+    return $row;
+    } */
     
     public function traer($id){
     	
@@ -36,7 +66,6 @@ class ContactoDao {
     	
     	$data = array(
     			'CAR_ID' => (int)  $contacto->getCar_id(),
-    			'SUC_ID' => (int)  $contacto->getSuc_id(),
     			'TIP_PER_ID' => (int)  $contacto->getTip_per_id(),
     			'CIU_ID' => (int) $contacto->getCiu_id(),
     			'CON_NOMBRE' => $contacto->getCon_nombre(),
@@ -55,8 +84,14 @@ class ContactoDao {
     			'CON_TELEFONO_DOMICILIO_PER' => $contacto->getCon_telefono_domicilio_per(),
     			'CON_CELULAR_PERSONAL' => $contacto->getCon_celular_personal(),
     			'CON_OBSERVACIONES' => $contacto->getCon_observaciones(),
+    			'EMP_ID' => $contacto->getEmp_id()
     	);
-    	 	
+    	
+    	/* echo '<pre>';
+    	print_r($data);
+    	echo '<pre>';
+    	
+    	die(); */
     	
     	/*
     	if($inscrito->getCat_codigo() !== null){
@@ -78,11 +113,22 @@ class ContactoDao {
     	 if($inscrito->getCat_eve_codigo() !== null){
     	 $data['cat_eve_codigo'] = $inscrito->getCat_eve_codigo()->getCat_eve_codigo();
     	} */
-    	
+ 
     	
     	if(empty($id) || is_null($id)){
     		$data['CON_ID'] = new Sql\Expression('s_contacto.nextVal');
     		$this->tableGateway->insert($data);
+			
+			$adapter=$this->tableGateway->getAdapter();
+			$query ="SELECT s_contacto.currVal FROM CONTACTO";
+			$statement = $adapter->query ( $query );
+			$results =  $statement->execute ();
+			
+			return $results;
+    		
+    		//$data['emp_id'] = new \Zend\Db\Sql\Expression('s_contacto.currVal');
+    		//$this->tableGateway->insert($data);
+    		
     	}else{
     		if($this->traer($id)){
     			$this->tableGateway->update($data, array('CON_ID' => $id ));
@@ -91,19 +137,4 @@ class ContactoDao {
     		}
     	}
     }
-    
-   /*  public function traer($id) {
-    	$id = ( int ) $id;
-    
-    	$select = $this->tableGateway->getSql ()->select ();
-    	$select->join ( 'paciente', 'paciente.pac_id  = receta.pac_id' );
-    	$select->where ( array (
-    			'rec_id' => "$id"
-    	) );
-    
-    	$resultSet = $this->tableGateway->selectWith ( $select );
-    
-    	$row = $resultSet->current ();
-    	return $row;
-    } */
 }

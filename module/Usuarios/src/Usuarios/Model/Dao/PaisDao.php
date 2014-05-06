@@ -1,5 +1,5 @@
 <?php
-namespace Contactos\Model\Dao;
+namespace Usuarios\Model\Dao;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Sql;
@@ -62,15 +62,5 @@ class PaisDao {
     	$resultSet = $this->tableGateway->select(array('PAI_ID' => $pais));
     	$row = $resultSet->current();
     	return $row;
-    }
-    
-    public function getCodigoPaisesSelect()
-    {
-    	$resultSet= $this->tableGateway->select();
-    	$result=array();
-    	foreach($resultSet as $pais){
-    		$result[$pais->getPai_codigo_telefono()]=$pais->getPai_codigo_telefono().'-'.$pais->getPai_nombre();
-    	}
-    	return $result;
     }
 }

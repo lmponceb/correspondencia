@@ -52,10 +52,13 @@ echo $this->formelementerrors ( $sucursal_oculto );
 echo $this->formhidden ( $ciudad_oculto );
 echo $this->formelementerrors ( $ciudad_oculto );
 ?>
+<ul class="error_container bs-callout bs-callout-danger">
 
+</ul>
 <table width="100%">
 	<tr>
-		<td align="center" style="padding: 20px;">
+		<td align="center" style="padding: 20px; padding-top: 0px;">
+		<h1 align="left">Ingresar Contacto</h1><hr />
 			<table width="100%" cellpadding="5">
 				<tr>
 					<td>
@@ -147,10 +150,13 @@ echo $this->formelementerrors ( $ciudad_oculto );
 					?>
 					</td>
 				</tr>
-				<?php //if(strtoupper( $this->tipo_usuario ) == 'S'): ?>
-				
-				
+			</table>
+			
+			<table width="100%" cellpadding="5" <?php if($this->privado == 'S' && $this->tipo_usuario != 'A'){ echo 'style="display:none"'; }?>>				
 				<tr>
+					<td colspan="3"><hr /><h1 align="left">Informaci&oacute;n Privada</h1><hr /></td>
+				</tr>
+				<tr <?php if($this->tipo_usuario != 'A' && $this->privado == 'N'): echo 'style="display:none"'; endif;?>>
 					<td>
 					<?php echo $formLabel->openTag() . $con_privado->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $con_privado ) );
@@ -199,8 +205,6 @@ echo $this->formelementerrors ( $ciudad_oculto );
 					?>
 					</td>		
 				</tr>
-				
-				<?php //endif; ?>
 				<tr>
 					<td  colspan="3">
 					<?php echo $formLabel->openTag() . $con_observaciones->getLabel() . $formLabel->closeTag();
@@ -209,18 +213,84 @@ echo $this->formelementerrors ( $ciudad_oculto );
 					?>
 					</td>
 				</tr>
-				
-				<tr>
-					<td colspan="3" align="center">
-					<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
-					<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
-					</td>
-				</tr>
 			</table>
 		</td>
 	</tr>
 </table>
 
+<table width="100%">
+		<tr>
+			<td colspan="5"><hr /><h1 align="left">N&uacute;meros de Contacto</h1><hr /></td>
+		</tr>
+		<?php for ( $indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++ ): ?>
+			<tr>
+				<?php 	
+				    $det_con_oculto=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][oculto]');
+					$tip_tel_id=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]'); 
+					$det_con_codigo_pais=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]');
+					$det_con_codigo_ciudad=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]');
+					$det_con_valor=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]');
+					$det_con_extension=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]');
+
+					/* $tip_tel_id->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]'); 
+					$det_con_codigo_pais->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]');
+					$det_con_codigo_ciudad->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]');
+					$det_con_valor->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]');
+					$det_con_extension->setName('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]'); */
+
+					$det_con_oculto->setAttribute('data-group-id',$indice_detalle_contacto); 
+					$tip_tel_id->setAttribute('data-group-id',$indice_detalle_contacto); 
+					$det_con_codigo_pais->setAttribute('data-group-id',$indice_detalle_contacto);
+					$det_con_codigo_ciudad->setAttribute('data-group-id',$indice_detalle_contacto);
+					$det_con_valor->setAttribute('data-group-id',$indice_detalle_contacto);
+					$det_con_extension->setAttribute('data-group-id',$indice_detalle_contacto);
+
+					/* $tip_tel_id->setValue($detalle->getTip_tel_id());
+					$det_con_codigo_pais->setValue($detalle->getDet_con_codigo_pais());
+					$det_con_valor->setValue($detalle->getDet_con_valor());
+					$det_con_extension->setValue($detalle->getDet_con_extension()); */
+				?>
+				<?php echo html_entity_decode($this->formhidden($det_con_oculto)); ?>
+				<td><?php echo html_entity_decode($this->formRow($tip_tel_id)); ?></td>
+				<td><?php echo html_entity_decode($this->formRow($det_con_codigo_pais)); ?></td>
+				<td><?php echo html_entity_decode($this->formRow($det_con_codigo_ciudad)); ?></td>
+				<td><?php echo html_entity_decode($this->formRow($det_con_valor)); ?></td>
+				<td><?php echo html_entity_decode($this->formRow($det_con_extension)); ?></td>
+			</tr>	
+		<?php endfor; ?>
+</table>
+<hr />
+			<div>
+			<h1>Tipos de Contacto</h1>
+			</div>	
+			<hr />
+<table>
+		<?php for ( $indice_contacto_relacionado=0; $indice_contacto_relacionado<5; $indice_contacto_relacionado++ ): ?>
+			<tr>
+				<?php 	
+					$tip_con_id = $form->get('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][TIP_CON_ID]'); 
+					$con_rel_valor = $form->get('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][CON_REL_VALOR]');
+
+					/* $tip_tel_id->setName('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][TIP_CON_ID]'); 
+					$det_con_codigo_pais->setName('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][CON_REL_VALOR]');
+					 */
+
+					$tip_con_id->setAttribute('data-group-id',$indice_contacto_relacionado); 
+					$con_rel_valor->setAttribute('data-group-id',$indice_contacto_relacionado);
+
+					/* $tip_tel_id->setValue($detalle->getTip_tel_id());
+					$det_con_codigo_pais->setValue($detalle->getDet_con_codigo_pais());
+					$det_con_valor->setValue($detalle->getDet_con_valor());
+					$det_con_extension->setValue($detalle->getDet_con_extension()); */
+				?>
+				<td><?php echo html_entity_decode($this->formRow($tip_con_id)); ?></td>
+				<td><?php echo html_entity_decode($this->formRow($con_rel_valor)); ?></td>
+			</tr>	
+		<?php endfor; ?>
+</table>
+
+<?php //echo html_entity_decode($this->formRow($form->get('ADD'))); ?>
+ 
 <!--  
 <div class="contanier" style="margin: 15px; clear: left;">
 	<div class="panel panel-default">
@@ -249,4 +319,85 @@ echo $this->formelementerrors ( $ciudad_oculto );
 	</div>
 </div>
 -->
+
+	<hr />
+			<div align="center">
+				<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+				<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
+			</div>			
 <?php echo $this->form()->closeTag(); ?>
+
+
+<script>
+
+	$(document).ready(function(){
+
+		$("#CON_IDIOMA").change(function(){
+			if($("#CON_IDIOMA").val() == 'I'){
+				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => 'ingresar', 'id' => $this->id, 'lang' => 'I'))?>';
+			}else{
+				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => 'ingresar', 'id' => $this->id, 'lang' => 'E'))?>';
+			}
+		});
+
+
+		
+		//Carga del combo box de Códigos de teléfono de Ciudades
+		$(".det_con_codigo_ciudad").prop("disabled", true);
+
+		 function codigoCiudadSelect(data_group_id,ciu_id){
+			 
+			$(".det_con_codigo_pais[data-group-id="+data_group_id+"]").on('change',function() {
+				ajaxCiudadSelect(this,data_group_id);
+	        });
+
+			if($(".det_con_codigo_pais[data-group-id="+data_group_id+"]").val() != ''){
+				ajaxCiudadSelect(".det_con_codigo_pais[data-group-id="+data_group_id+"]",data_group_id,ciu_id);	
+			}
+		} 
+
+		function ajaxCiudadSelect(element,data_group_id,ciu_id){
+			if($(element).val() != '' && $(element).val() != null){
+	            $.ajax({
+	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'codigoCiudadTipo')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "det_con_codigo_pais=" + $(element).val(),
+	                beforeSend: function() {
+	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(ciudades) {
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+	                var selected = '';
+	                for (ciudad in ciudades) {
+						if($('#DETALLE_CONTACTO_oculto_'+data_group_id).val() == ciudad){
+							selected = 'selected="selected"';
+						}
+		                
+	                    $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option value="' + ciudad + '" '+selected+'>' + ciudades[ciudad] + '</option>');
+	                }
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", false);
+					//$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").val(''+ciu_id);
+	                
+	            });
+			}else{
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", true);
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+			}
+		}
+
+		<?php if(sizeof($detalles)<=0): for ($i=0; $i<10; $i++):?>
+			codigoCiudadSelect(<?php echo $i ?>);
+			
+		<?php endfor; else: ?>
+
+		<?php foreach($detalles as $key=>$detalle): ?>
+			codigoCiudadSelect(<?php echo $key . ($detalle->getDet_con_codigo_ciudad()!=''?(",'".$detalle->getDet_con_codigo_ciudad()."'"):'') ?>);
+		<?php endforeach; ?>
+		<?php endif; ?>
+
+	});
+</script>

@@ -6,6 +6,7 @@ class Empresa {
 	private $emp_id;
 	private $cat_emp_id;
 	private $ciu_id;
+	private $emp_emp_id;
 	private $emp_nombre;
 	private $emp_direccion;
 	private $emp_referencia;
@@ -36,6 +37,13 @@ class Empresa {
 	 */
 	public function getCiu_id() {
 		return $this->ciu_id;
+	}
+
+	/**
+	 * @return the $emp_emp_id
+	 */
+	public function getEmp_emp_id() {
+		return $this->emp_emp_id;
 	}
 
 	/**
@@ -116,6 +124,13 @@ class Empresa {
 	}
 
 	/**
+	 * @param Ambigous <NULL, unknown> $emp_emp_id
+	 */
+	public function setEmp_emp_id($emp_emp_id) {
+		$this->emp_emp_id = $emp_emp_id;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $emp_nombre
 	 */
 	public function setEmp_nombre($emp_nombre) {
@@ -176,6 +191,7 @@ class Empresa {
 		$this->emp_id = (isset($data['EMP_ID'])) ? $data['EMP_ID'] : null;
 		$this->cat_emp_id = (isset($data['CAT_EMP_ID'])) ? $data['CAT_EMP_ID'] : null;
 		$this->ciu_id = (isset($data['CIU_ID'])) ? $data['CIU_ID'] : null;
+		$this->emp_emp_id = (isset($data['EMP_EMP_ID'])) ? $data['EMP_EMP_ID'] : null;
 		$this->emp_nombre = (isset($data['EMP_NOMBRE'])) ? $data['EMP_NOMBRE'] : null;
 		$this->emp_direccion = (isset($data['EMP_DIRECCION'])) ? $data['EMP_DIRECCION'] : null;
 		$this->emp_referencia = (isset($data['EMP_REFERENCIA'])) ? $data['EMP_REFERENCIA'] : null;
