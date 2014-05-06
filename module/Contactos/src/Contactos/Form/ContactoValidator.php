@@ -157,7 +157,7 @@ class ContactoValidator extends InputFilter {
 		$fecha_actualizacion = new Input ( 'CON_FECHA_ACTUALIZACION' );
 		$fecha_actualizacion->setRequired ( true );
 		$fecha_actualizacion->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 10,
+				'max' => 30,
 				'min' => 9
 		) ) )->attach(new NotEmpty());
 		
@@ -197,7 +197,7 @@ class ContactoValidator extends InputFilter {
 		$fecha_nacimiento = new Input ( 'CON_FECHA_NACIMIENTO_PERSONAL' );
 		$fecha_nacimiento->setRequired ( false );
 		$fecha_nacimiento->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 10,
+				'max' => 30,
 				'min' => 9
 		) ) );
 		

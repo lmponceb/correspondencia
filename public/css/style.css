@@ -1,5 +1,6 @@
 body {
-    padding: 10px;
+    padding: 0px;
+	font-family: sans-serif;
 }
 
 .zf-green {
@@ -35,12 +36,20 @@ div.container a.brand {
     padding: 8px 20px 12px 40px;
 }
 
+/************ ESTILOS SISTEMA ***************/
+
+.top-line{
+	height: 12px;
+	background-color: #5C9CCC;
+}
+
 #contenedor_principal { border:none; }
 #contenedor_principal tr td { padding:10px; }
-#contenedor_principal tr td.menu { vertical-align: top; background:#5c9ccc; width:200px !important;}
+#contenedor_principal tr td.menu { vertical-align: top; background:#FFF; width:280px; border-right: 3px solid #5C9CCC; !important;}
+
 #contenedor_principal ul#menu { padding:0px; margin:0px; }
-#contenedor_principal ul#menu li { list-style:none; } 
-#contenedor_principal ul#menu li a { color:#fff; }
+#contenedor_principal ul#menu li { list-style:none; border-bottom: 1px dashed #5C9CCC; padding: 10px;   } 
+#contenedor_principal ul#menu li a { color:#5C9CCC; text-transform: uppercase; font-weight: 700;  font-size: 13px;   }
 
 ul.error_container {padding-top:0; padding-bottom:0;}
 ul.error_container li {list-style: none;}
@@ -50,4 +59,28 @@ ul.error_container li label {font-weight: normal; color:#843433;}
 
 input.error, select.error, textarea.error{
   border:1px solid #ff0000 !important;
+}
+
+/******* VALIDACIONES FORMULARIO ************/
+.fecha_nacimiento{
+	width: 90%;
+	float: left;
+	margin-right: 10px;	
+}
+
+.ui-datepicker-trigger{
+	float: left;
+}
+
+.codigo_telefono{
+	width: 100%;
+}
+
+h3{
+	color: #5C9CCC;
+	font-weight: 700;
+}
+
+input:hover, select:hover, textarea:hover{
+	background-color: #FFFFE8;
 }
