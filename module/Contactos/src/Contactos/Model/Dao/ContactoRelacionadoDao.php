@@ -20,7 +20,7 @@ class ContactoRelacionadoDao {
          return $resultSet;
     }
     
-    public function traer($pai_id){
+    /* public function traer($pai_id){
     
     	$pai_id = (int) $pai_id;
     
@@ -32,6 +32,11 @@ class ContactoRelacionadoDao {
     	}
     	 
     	return $row;
+    } */
+    
+    public function traerPorContacto($con_id){
+    	$resultSet = $this->tableGateway->select(array('CON_ID' => $con_id));
+    	return $resultSet;
     }
     
     public function guardar(ContactoRelacionado $contactoRelacionado){
@@ -47,6 +52,10 @@ class ContactoRelacionadoDao {
     		//$data=array_change_key_case($data,CASE_UPPER);
     		$this->tableGateway->insert($data);
     	}
+    }
+    
+    public function eliminarPorContacto($id){
+    	$this->tableGateway->delete(array('CON_ID'=>$id));
     }
        
 }

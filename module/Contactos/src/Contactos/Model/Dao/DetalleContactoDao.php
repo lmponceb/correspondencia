@@ -78,12 +78,21 @@ class DetalleContactoDao {
             $this->tableGateway->insert($data);
         }
      }
+     
+     public function eliminarPorContacto($id){
+     	$this->tableGateway->delete(array('CON_ID'=>$id));
+     }
 
      public function eliminarPorEmpresa($emp_id){
         $adapter=$this->tableGateway->getAdapter();
         $query="DELETE FROM DETALLE_CONTACTO WHERE EMP_ID=$emp_id";
         $state=$adapter->query($query);
         $state->execute();
+     }
+     
+     public function traerPorContacto($con_id){
+     	$resultSet = $this->tableGateway->select(array('CON_ID' => $con_id));
+     	return $resultSet;
      }
     
 }

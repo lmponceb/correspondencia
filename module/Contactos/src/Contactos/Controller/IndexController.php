@@ -68,6 +68,7 @@ class IndexController extends AbstractActionController {
 			'privado' => $this->privado,
 			'lang' => $lang,
 			'id' => $id,
+			'action' => $this->params()->fromRoute('action')	
 		) );
 		
 	}
@@ -77,18 +78,42 @@ class IndexController extends AbstractActionController {
 		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
 		$lang = $this->params ()->fromRoute ( 'lang', 'E' );
 		
-		
 		if(strtoupper($lang) === 'E'){
 			$form = $this->getForm ();
 		}else{
 			$form = $this->getFormIngles ();
 		}
 		
-		$form->get ( 'CON_IDIOMA' )->setValue($lang);
+		
 		
 			//FORMULARIO DE ACTUALIZACION DE INFORMACION
 			$contacto = $this->getContactoDao ()->traer ( $id );
 			$form->bind ( $contacto );
+			
+			//TRAER LOS CONTACTOS RELACIONADOS
+			$contacto_relacionado = $this->getContactoRelacionadoDao()->traerPorContacto($id);
+			
+			$i=0;
+			foreach ($contacto_relacionado as $con_rel_info){
+				$form->get('CONTACTO_RELACIONADO['.$i.'][TIP_CON_ID]')->setValue($con_rel_info->getTip_con_id());
+				$form->get('CONTACTO_RELACIONADO['.$i.'][CON_REL_VALOR]')->setValue($con_rel_info->getCon_rel_valor());
+				$i++;
+			}
+			
+			//die();
+			//TRAER LOS DETALLES DE CONTACTO 
+			$detalle_contacto = $this->getDetalleContactoDao()->traerPorContacto($id);
+			
+			$j = 0;
+			foreach ($detalle_contacto as $det_con_info){
+				$form->get('DETALLE_CONTACTO['.$j.'][oculto]')->setValue($det_con_info->getDet_con_codigo_ciudad());
+				$form->get('DETALLE_CONTACTO['.$j.'][TIP_TEL_ID]')->setValue($det_con_info->getTip_tel_id());
+				$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_PAIS]')->setValue($det_con_info->getDet_con_codigo_pais());
+				$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_CIUDAD]')->setValue($det_con_info->getDet_con_codigo_ciudad());
+				$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_VALOR]')->setValue($det_con_info->getDet_con_valor());
+				$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_EXTENSION]')->setValue($det_con_info->getDet_con_extension());
+				$j++;
+			}
 			
 			$form->get ( 'ingresar' )->setAttribute ( 'value', 'Actualizar' );
 			$form->get ( 'CON_ID' )->setAttribute ( 'value', $contacto->getCon_id() );
@@ -138,11 +163,15 @@ class IndexController extends AbstractActionController {
 				}
 			}
 			
-				
+			$form->get ( 'CON_IDIOMA' )->setValue($lang);
+			
 		$view = new ViewModel ( array (
 				'formulario' => $form ,
 				'tipo_usuario' => $this->tipo_usuario,
-				'privado' => $this->privado
+				'privado' => $this->privado,
+				'lang' => $lang,
+				'id' => $id,
+				'action' => $this->params()->fromRoute('action')
 		) );
 		
 		$view->setTemplate('contactos/index/ingresar');
@@ -210,14 +239,22 @@ class IndexController extends AbstractActionController {
 		$contacto->exchangeArray ( $data );
 		
 		$codigo_contacto = $this->getContactoDao() ->guardar ( $contacto );
-		 
-		$arreglo = array();
-		foreach($codigo_contacto as $cita){
-			$arreglo[] = $cita;
+		
+		if(!empty($data['CON_ID']) && !is_null($data['CON_ID'])){
+			
+			$this->getDetalleContactoDao()->eliminarPorContacto($data['CON_ID']);
+			$this->getContactoRelacionadoDao()->eliminarPorContacto($data['CON_ID']);
+			
+			$codigo_contacto = $data['CON_ID'];
+		}else{
+			$arreglo = array();
+			foreach($codigo_contacto as $codigo){
+				$arreglo[] = $codigo;
+			}
+			
+			$codigo_contacto = $arreglo[0]['CURRVAL'];
 		}
 		
-		$codigo_contacto = $arreglo[0]['CURRVAL'];
-	
 		$detalleContactoParamsArray = $data['DETALLE_CONTACTO'];
         foreach($detalleContactoParamsArray as $detalleContactoParams){
         	if(

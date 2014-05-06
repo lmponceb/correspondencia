@@ -199,7 +199,7 @@ class ContactoValidator extends InputFilter {
 		$fecha_nacimiento->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 10,
 				'min' => 9
-		) ) )->attach(new Date());
+		) ) );
 		
 		$this->add ( $fecha_nacimiento );
 		

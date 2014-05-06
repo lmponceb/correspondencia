@@ -334,9 +334,9 @@ echo $this->formelementerrors ( $ciudad_oculto );
 
 		$("#CON_IDIOMA").change(function(){
 			if($("#CON_IDIOMA").val() == 'I'){
-				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => 'ingresar', 'id' => $this->id, 'lang' => 'I'))?>';
+				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'I'))?>';
 			}else{
-				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => 'ingresar', 'id' => $this->id, 'lang' => 'E'))?>';
+				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'E'))?>';
 			}
 		});
 
