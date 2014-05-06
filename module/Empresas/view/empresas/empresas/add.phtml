@@ -231,15 +231,14 @@ echo $this->form ()->openTag ( $form );
 			
 			indice_detalle_contacto++;
 		});
-
+		/* Autocompletar de Sucursales */
 		$( "#emp_emp_id_autocompletar" ).autocomplete({
 			source: "<?php echo $this->basePath() ?>/empresas/consultaXmlHttp",
 			type: "POST",
 			dataType: "json",
 			select: function(event,ui){
-				alert(ui.item.id);
-				$("#emp_emp_id_autocompletar").val();
-			}
+				$("#emp_emp_id").val(ui.item.id);
+			}	
 		});
 	});
 </script>

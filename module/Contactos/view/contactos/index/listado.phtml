@@ -4,26 +4,31 @@
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
  <p>
-     <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action'=>'ingresar'));?>">Ingresar un nuevo registro</a>
+     <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action'=>'ingresar'));?>" class="btn btn-primary">Ingresar un nuevo registro</a>
  </p>
-
- <table class="table">
+<div style=" width:1300px; overflow: auto; padding-bottom: 100px;  ">
+ <table class="table" style="width: 3000px; font-size: 12px;" >
+ <thead style="">
  <tr>
  	 <th>&nbsp;</th>
-     <th>CODIGO</th>
-     <th>CARGO</th>
+     <th>EMPRESA</th>
      <th>SUCURSAL</th>
+     <th>CARGO</th>
      <th>TIPO DE PERSONA</th>
-     <th>CIUDAD</th>
      <th>NOMBRE</th>
      <th>APELLIDO</th>
      <th>EMAIL</th>
-     <th>OBSERVACIONES</th>
+	 <th>PAIS</th>
+	 <th>ESTADO</th>
+     <th>CIUDAD</th>
      <th>IDIOMA</th>
-     <th>USUARIO</th>
+     <th>USUARIO DE REGISTRO</th>
      <th>FECHA DE ACTUALIZACI&Oacute;N</th>
-     <th>&iquest;ES PRIVADO?</th>
+    
+    <?php if(strtoupper($this->tipo_usuario) != 'O'): ?>
+    
      <!-- DATOS PRIVADOS -->
+     <th>&iquest;ES PRIVADO?</th>
      <th>FECHA DE NACIMIENTO</th>
      <th>DIRECCIO&Oacute;N DE DOMICILIO</th>
      <th>EMAIL PERSONAL</th>
@@ -31,24 +36,74 @@
      <th>C&Oacute;DIGO DE CIUDAD</th>
      <th>TEL&Eacute;FONO DE DOMICILIO</th>
      <th>CELULAR PERSONAL</th>
-     <th>&nbsp;</th>
+     <th>OBSERVACIONES</th>
+     
+     <?php endif; ?>
+     
  </tr>
+ </thead>
+ <tbody>
  <?php foreach ($this->contactos as $contactos) : ?>
  <tr>
- 	 <td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ingresar', 'id' => $contactos->getCon_id()))?>" title="Actualizar" alt="Actualizar">ACT.</a></td>
-     <td><?php echo $this->escapeHtml($contactos->getCon_id());?></td>
-     <td><?php echo $this->escapeHtml($contactos->getCar_id());?></td>
-     <td><?php echo $this->escapeHtml($contactos->getSuc_id());?></td>
-     <td><?php echo $this->escapeHtml($contactos->getTip_per_id());?></td>
-     <td><?php echo $this->escapeHtml($contactos->getCiu_id());?></td>
+ 	 <td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'editar', 'id' => $contactos->getCon_id(), 'lang' => $contactos->getCon_idioma()))?>" title="Actualizar" alt="Actualizar">ACT.</a></td>
+     <td>
+     <?php 
+     
+     	$empresa = $contactos->getSucursal_nombre();
+     
+     	if(!isset($empresa) || is_null($empresa)){
+     		echo $this->escapeHtml($contactos->getEmpresa_nombre());
+     	}else{
+     		echo $this->escapeHtml($contactos->getSucursal_nombre());
+     	}
+     	?>
+     
+     	
+     </td>
+     <td><?php echo $this->escapeHtml($contactos->getEmpresa_nombre());?></td>
+     <td>
+     	<?php 
+      		if(strtoupper($contactos->getCon_idioma()) == 'E'):
+      			echo $this->escapeHtml($contactos->getCargo_descripcion_es());
+      		else: 
+   	  			echo $this->escapeHtml($contactos->getCargo_descripcion_en());
+  			endif;
+  		?>
+     </td>
+     <td>
+    	 <?php 
+      		if(strtoupper($contactos->getCon_idioma()) == 'E'):
+      			echo $this->escapeHtml($contactos->getTipo_persona_descripcion_es());
+      		else: 
+   	  			echo $this->escapeHtml($contactos->getTipo_persona_descripcion_en());
+  			endif;
+  		?>
+     
+     </td>
      <td><?php echo $this->escapeHtml($contactos->getCon_nombre());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_apellido());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_email());?></td>
-     <td><?php echo $this->escapeHtml($contactos->getCon_observaciones());?></td>
-     <td><?php echo $this->escapeHtml($contactos->getCon_idioma());?></td>
+	 <td><?php echo $this->escapeHtml($contactos->getPais_nombre());?></td>
+	 <td><?php echo $this->escapeHtml($contactos->getEstado_nombre());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCiudad_nombre());?></td>
+     
+     <td>
+     	<?php
+     		if(strtoupper($contactos->getCon_idioma()) == 'E'){
+     			echo 'Espa&ntilde;ol';
+     		}else{
+     			echo 'Ingl&eacute;s';
+     		}
+     	?>
+     </td>
      <td><?php echo $this->escapeHtml($contactos->getCon_usuario());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_fecha_actualizacion());?></td>
-     <td><?php echo $this->escapeHtml($contactos->getCon_privado());?></td>
+     
+     <?php if(strtoupper($this->tipo_usuario) != 'O'): ?>
+       
+     <td>
+     <?php if(strtoupper($contactos->getCon_privado()) == 'S'): echo 'SI'; else: echo 'NO'; endif;?>
+     </td>
      <td><?php echo $this->escapeHtml($contactos->getCon_fecha_nacimiento_personal());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_direccion_domicilio_per());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_email_personal());?></td>
@@ -56,6 +111,30 @@
      <td><?php echo $this->escapeHtml($contactos->getCon_codigo_ciudad());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_telefono_domicilio_per());?></td>
      <td><?php echo $this->escapeHtml($contactos->getCon_celular_personal());?></td>
+     <td><?php echo $this->escapeHtml($contactos->getCon_observaciones());?></td>
+     
+     <?php endif; ?>
  </tr>
  <?php endforeach; ?>
+ </tbody>
  </table>
+</div>
+
+<script>
+		$(document).ready(function(){
+			$('.table').dataTable({
+				"oLanguage": {
+					"sLengthMenu":     "Mostrar _MENU_  registros",
+					"sInfo":           "Un total de  _TOTAL_ para mostrar (_START_ a _END_)",
+					"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+					"sSearch":         "Buscar:",
+					"oPaginate": {
+						"sFirst":    "Primero",
+						"sLast":     "Ultimo",
+						"sNext":     "Siguiente",
+						"sPrevious": "Anterior"
+					}
+				}
+			});
+		});
+</script>

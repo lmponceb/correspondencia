@@ -50,7 +50,7 @@
 		                }
 		            }).done(function(sucursales) {
 		                $("#SUC_ID").html("");
-		                $("#SUC_ID").append('<option>-- Seleccione una sucursal --</option>');
+		                $("#SUC_ID").append('<option value = "">-- Seleccione una sucursal --</option>');
 		                var selected = '';
 		                for (sucursal in sucursales) {
 		                    $("#SUC_ID").append('<option value="' + sucursal + '">' + sucursales[sucursal] + '</option>');
@@ -76,7 +76,7 @@
 		                }
 		            }).done(function(sucursales) {
 		                $("#SUC_ID").html("");
-		                $("#SUC_ID").append('<option>-- Seleccione una sucursal --</option>');
+		                $("#SUC_ID").append('<option value = "">-- Seleccione una sucursal --</option>');
 		                for (sucursal in sucursales) {
 							if(sucursal == $('#sucursal_oculto').val()){
 								 var selected = 'selected="selected"';
@@ -104,7 +104,7 @@
 		                }
 		            }).done(function(estados) {
 		                $("#EST_ID").html("");
-		                $("#EST_ID").append('<option>-- Seleccione un estado --</option>');
+		                $("#EST_ID").append('<option value = "">-- Seleccione un estado --</option>');
 		                for (estado in estados) {
 		                    $("#EST_ID").append('<option value="' + estado + '">' + estados[estado] + '</option>');
 		                }
@@ -116,7 +116,7 @@
 		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'codigoPais')) ?>",
 		                type: "POST",
 		                dataType: "json",
-		                data: "pais=" + $(this).val(),
+		                data: "pais=" + $('#PAI_ID').val(),
 		                beforeSend: function() {
 		                	$("#CON_CODIGO_PAIS").val("Procesando, espere por favor...");
 		                	
@@ -132,32 +132,37 @@
 	        });
 
 			//FUNCION PARA CARGAR LOS ESTADOS CUANDO EL FORMULARIO SEA DE ACTUALIZACION
-			/*$("#PAI_ID").ready(function() {
+			$("#PAI_ID").ready(function() {
 				if($('#PAI_ID').val() != '' && $('#PAI_ID').val() != null){
-			            $.ajax({
-			                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'estados')) ?>",
-			                type: "POST",
-			                dataType: "json",
-			                data: "pais=" + $('#PAI_ID').val(),
-			                beforeSend: function() {
-			                	 $("#EST_ID").html("");
-			                	 $("#EST_ID").append('<option>Procesando, espere por favor...</option>');
-			                }
-			            }).done(function(estados) {
-			                $("#EST_ID").html("");
-			                $("#EST_ID").append('<option>-- Seleccione un estado --</option>');
-			                for (estado in estados) {
-								if(estado == $('#estado_oculto').val()){
-									 var selected = 'selected="selected"';
-								}
-			                    $("#EST_ID").append('<option value="' + estado + '" '+selected+'>' + estados[estado] + '</option>');
-			                }
-			                $("#EST_ID").prop("disabled", false);
-			            });
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'estados')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "pais=" + $('#PAI_ID').val(),
+		                beforeSend: function() {
+		                	$("#EST_ID").html("");
+		                	$("#EST_ID").append('<option>Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(estados) {
+		                $("#EST_ID").html("");
+		                $("#EST_ID").append('<option value = "">-- Seleccione un estado --</option>');
+		                var selected = '';
+		                for (estado in estados) {
+
+							if($("#estado_oculto").val() == estado){
+								selected = 'selected="selected"';
+							}else{
+								selected = '';
+							}
+			                
+		                    $("#EST_ID").append('<option value="' + estado + '" ' + selected + '>' + estados[estado] + '</option>');
+		                }
+		                $("#EST_ID").prop("disabled", false);
+		            });
 				}else{
 					$("#EST_ID").prop("disabled", true);
 				}
-		    });*/
+	        });
 
 			//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
 			$("#EST_ID").change(function() {
@@ -173,7 +178,7 @@
 		                }
 		            }).done(function(ciudades) {
 		                $("#CIU_ID").html("");
-		                $("#CIU_ID").append('<option>-- Seleccione una ciudad --</option>');
+		                $("#CIU_ID").append('<option value = "">-- Seleccione una ciudad --</option>');
 		                for (ciudad in ciudades) {
 		                    $("#CIU_ID").append('<option value="' + ciudad + '">' + ciudades[ciudad] + '</option>');
 		                }
@@ -184,33 +189,37 @@
 				}
 	        });
 
-			//FUNCION PARA CARGAR LAS CIUDADES CUANDO EL FORMULARIO SEA DE ACTUALIZACION
-			/*$("#EST_ID").ready(function() {
+			$("#EST_ID").ready(function() {
 				if($('#EST_ID').val() != '' && $('#EST_ID').val() != null){
-			            $.ajax({
-			                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ciudades')) ?>",
-			                type: "POST",
-			                dataType: "json",
-			                data: "estado=" + $('#estado_oculto').val(),
-			                beforeSend: function() {
-			                	 $("#CIU_ID").html("");
-			                	 $("#CIU_ID").append('<option>Procesando, espere por favor...</option>');
-			                }
-			            }).done(function(ciudades) {
-			                $("#CIU_ID").html("");
-			                $("#CIU_ID").append('<option>-- Seleccione una ciudad --</option>');
-			                for (ciudad in ciudades) {
-								if(ciudad == $('#ciudad_oculto').val()){
-									 var selected = 'selected="selected"';
-								}
-			                    $("#CIU_ID").append('<option value="' + ciudad + '" '+selected+'>' + ciudades[ciudad] + '</option>');
-			                }
-			                $("#CIU_ID").prop("disabled", false);
-			            });
+		            $.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'ciudades')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "estado=" + $('#estado_oculto').val(),
+		                beforeSend: function() {
+		                	$("#CIU_ID").html("");
+		                	$("#CIU_ID").append('<option>Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(ciudades) {
+		                $("#CIU_ID").html("");
+		                $("#CIU_ID").append('<option value = "">-- Seleccione una ciudad --</option>');
+		                var selected = '';
+		                for (ciudad in ciudades) {
+
+		                	if($("#ciudad_oculto").val() == ciudad){
+								selected = 'selected="selected"';
+							}else{
+								selected = '';
+							}
+							
+		                    $("#CIU_ID").append('<option value="' + ciudad + '" '+selected+'>' + ciudades[ciudad] + '</option>');
+		                }
+		                $("#CIU_ID").prop("disabled", false);
+		            });
 				}else{
 					$("#CIU_ID").prop("disabled", true);
 				}
-		    });*/
+	        });
 
 			//FUNCION PARA TRAER EL CODIGO DE CIUDAD (TELEFONO)
 			$("#CIU_ID").change(function() {

@@ -5,6 +5,7 @@ namespace Empresas\Model\Entity;
  class Empresas
  {
     public $emp_id;
+    public $emp_emp_id;
     public $cat_emp_id;
     public $ciu_id;
     public $emp_nombre;
@@ -15,6 +16,7 @@ namespace Empresas\Model\Entity;
     public $emp_pagina_web;
 
     public function getEmp_id(){ return $this->emp_id; }
+    public function getEmp_emp_id(){ return $this->emp_emp_id; }
     public function getCat_emp_id(){ return $this->cat_emp_id; }
     public function getCiu_id(){ return $this->ciu_id; }
     public function getEmp_nombre(){ return $this->emp_nombre; }
@@ -25,6 +27,7 @@ namespace Empresas\Model\Entity;
     public function getEmp_pagina_web(){ return $this->emp_pagina_web; }
 
     public function setEmp_id ($emp_id) { $this->emp_id=emp_id; }
+    public function setEmp_emp_id ($emp_emp_id) { $this->emp_emp_id=emp_emp_id; }
     public function setCat_emp_id ($cat_emp_id) { $this->cat_emp_id=cat_emp_id; }
     public function setCiu_id ($ciu_id) { $this->ciu_id=ciu_id; }
     public function setEmp_nombre ($emp_nombre) { $this->emp_nombre=emp_nombre; }
@@ -37,6 +40,7 @@ namespace Empresas\Model\Entity;
     public function exchangeArray($data)
     {
         $this->emp_id       = (!empty($data['EMP_ID'])) ? $data['EMP_ID'] : null;
+        $this->emp_emp_id       = (!empty($data['EMP_EMP_ID'])) ? $data['EMP_EMP_ID'] : null;        
         $this->cat_emp_id   = (!empty($data['CAT_EMP_ID'])) ? $data['CAT_EMP_ID'] : null;
         $this->ciu_id       = (!empty($data['CIU_ID'])) ? $data['CIU_ID'] : null;
         $this->emp_nombre   = (!empty($data['EMP_NOMBRE'])) ? $data['EMP_NOMBRE'] : null;

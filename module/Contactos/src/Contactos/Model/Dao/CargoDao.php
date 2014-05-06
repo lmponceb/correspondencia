@@ -44,4 +44,29 @@ class CargoDao {
     	return $result;
     }
     
+    public function traerTodosArregloIngles(){
+    	 
+    	$sql = new Sql($this->tableGateway->getAdapter());
+    	$select = $sql->select();
+    	$select->from($this->tableGateway->table);
+    	 
+    	$statement = $sql->prepareStatementForSqlObject($select);
+    	$results = $statement->execute();
+    	 
+    	$cargos = new \ArrayObject();
+    	$result = array();
+    	 
+    	foreach ($results as $row){
+    		$cargo = new Cargo();
+    		$cargo->exchangeArray($row);
+    		$cargos->append($cargo);
+    	}
+    	 
+    	foreach ($cargos as $emp){
+    		$result[$emp->getCar_id()] = $emp->getCar_descripcion_en();
+    	}
+    
+    	return $result;
+    }
+    
 }

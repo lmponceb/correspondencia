@@ -99,7 +99,7 @@ class Contacto extends Form {
 		 * CAMPO SUCURSAL
 		 * ********************************************/
 		$sucursal = new Select('SUC_ID');
-		$sucursal->setLabel('Sucursal*: ');
+		$sucursal->setLabel('Sucursal: ');
 		$sucursal->setAttributes(array('id' => 'SUC_ID'));
 		$sucursal->setAttributes(array('disabled' => 'disabled'));
 		$sucursal->setAttributes(array('class' => 'form-control'));
@@ -223,6 +223,7 @@ class Contacto extends Form {
 		$idioma = new Select('CON_IDIOMA');
 		$idioma->setLabel('Idioma*: ');
 		$idioma->setAttributes(array('class' => 'form-control'));
+		$idioma->setAttributes(array('id' => 'CON_IDIOMA'));
 		$idioma->setEmptyOption('-- Seleccione --');
 		$idioma->setValue('E');
 		$idioma->setValueOptions(array(
@@ -409,7 +410,163 @@ class Contacto extends Form {
 						'class' => 'form-control',
 				)
 		) );
-	
+		
+		/************ INFORMACION DE CONTACTO RELACIONADO ****************/
+		 
+		$indice_contacto_relacionado = 0;
+		for ( $indice_contacto_relacionado=0; $indice_contacto_relacionado<5; $indice_contacto_relacionado++ ){
+		$this->add(array(
+				'name' => 'CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][TIP_CON_ID]',
+				'type' => 'Zend\Form\Element\Select',
+				'options' => array(
+						'label' => 'Tipo de contacto',
+						'disable_inarray_validator' => true,
+						'empty_option' => '-- Seleccione --'
+				),
+				'attributes' => array(
+						'id' => 'CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][TIP_CON_ID]',
+						'class' => 'form-control tip_con_id',
+						'data-group-id' => $indice_contacto_relacionado
+				)
+		));
+		
+		$this->add(array(
+				'name' => 'CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][CON_REL_VALOR]',
+				'options' => array(
+						'label' => 'Valor',
+				),
+				'attributes' => array(
+						'type' => 'text',
+						'id' => 'CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][CON_REL_VALOR]',
+						'class' => 'form-control con_rel_valor',
+						'data-group-id' => $indice_contacto_relacionado
+				)
+		));
+		
+		/* $this->add(array(
+				'name' => 'ADDREL',
+				'type' => 'Zend\Form\Element\Button',
+				'options' => array(
+						'label' => 'Agregar Otro Contacto',
+				),
+				'attributes' => array(
+						'id' => 'addrel',
+						'value' => 'Agregar',
+						'class' => 'btn btn-success',
+						'data-group-id' => $indice_contacto_relacionado
+				)
+		)); */ 
+		
+		}
+		 
+
+		/************ INFORMACION DE DETALLE DE CONTACTO **************/
+		
+		//$indice_detalle_contacto=0;
+		
+		for ( $indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++ ){
+			
+			$this->add(array(
+					'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][oculto]',
+					'attributes' => array(
+							'type' => 'text',
+							'id' => 'DETALLE_CONTACTO_oculto_'.$indice_detalle_contacto,
+							'class' => 'form-control oculto',
+							'data-group-id' => $indice_detalle_contacto
+					)
+			));
+			
+			
+			$this->add(array(
+					'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]',
+					'type' => 'Zend\Form\Element\Select',
+					'options' => array(
+							'label' => 'Tipo de Tel&eacute;fono',
+							'disable_inarray_validator' => true,
+							'empty_option' => '-- Seleccione --'
+					),
+					'attributes' => array(
+							'id' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]',
+							'class' => 'form-control tip_tel_id',
+							'data-group-id' => $indice_detalle_contacto
+					)
+			));
+			
+			$this->add(array(
+					'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]',
+					'type' => 'Zend\Form\Element\Select',
+					'options' => array(
+							'label' => 'C&oacute;digo de Pa&iacute;s',
+							'disable_inarray_validator' => true,
+							'empty_option' => '-- Seleccione --'
+					),
+					'attributes' => array(
+							'id' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]',
+							'class' => 'form-control det_con_codigo_pais',
+							'data-group-id' => $indice_detalle_contacto
+					)
+			));
+			
+			$this->add(array(
+					'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]',
+					'type' => 'Zend\Form\Element\Select',
+					'options' => array(
+							'label' => 'C&oacute;digo de Ciudad',
+							'disable_inarray_validator' => true,
+							'empty_option' => '-- Seleccione --'
+					),
+					'attributes' => array(
+							'id' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]',
+							'class' => 'form-control det_con_codigo_ciudad',
+							'data-group-id' => $indice_detalle_contacto
+					)
+			));
+			
+			$this->add(array(
+					'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]',
+					'type' => 'Zend\Form\Element\Text',
+					'options' => array(
+							'label' => 'N&uacute;mero',
+					),
+					'attributes' => array(
+							'id' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]',
+							'class' => 'form-control det_con_valor',
+							'data-group-id' => $indice_detalle_contacto
+					)
+			));
+			
+			$this->add(array(
+					'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]',
+					'type' => 'Zend\Form\Element\Text',
+					'options' => array(
+							'label' => 'Extensi&oacute;n',
+					),
+					'attributes' => array(
+							'id' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]',
+							'class' => 'form-control det_con_extension',
+							'data-group-id' => $indice_detalle_contacto
+					)
+			));
+			
+			
+		}
+		
+		/* $this->add(array(
+				'name' => 'ADD',
+				'type' => 'Zend\Form\Element\Button',
+				'options' => array(
+						'label' => 'Agregar Otro N&uacute;mero',
+				),
+				'attributes' => array(
+						'id' => 'add',
+						'value' => 'Agregar',
+						'class' => 'btn btn-success',
+						'data-group-id' => $indice_detalle_contacto
+				)
+		)); */
+		
+		 
+		//BOTON DE SUBMIT
 		$this->add ( array (
 				'name' => 'ingresar',
 				'attributes' => array (

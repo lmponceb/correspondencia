@@ -85,10 +85,10 @@ use Zend\View\Model\ViewModel;
         }
 
         $params=$this->request->getPost();
-        echo '<pre>';
+        /*echo '<pre>';
         print_r($params);
         echo '</pre>';
-        die();
+        die();*/
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);

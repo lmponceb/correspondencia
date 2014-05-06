@@ -30,6 +30,12 @@ use Contactos\Model\Dao\CiudadDao;
 use Contactos\Model\Entity\Ciudad;
 use Contactos\Model\Entity\Estado;
 use Contactos\Model\Dao\EstadoDao;
+use Contactos\Model\Dao\TipoContactoDao;
+use Contactos\Model\Entity\TipoContacto;
+use Contactos\Model\Entity\DetalleContacto;
+use Contactos\Model\Dao\DetalleContactoDao;
+use Contactos\Model\Dao\ContactoRelacionadoDao;
+use Contactos\Model\Entity\ContactoRelacionado;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -135,6 +141,36 @@ class Module implements AutoloaderProviderInterface
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new Estado());
     						return new TableGateway('ESTADO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Contactos\Model\Dao\TipoContactoDao' => function($sm){
+    						$tableGateway = $sm->get('TipoContactoTableGateway');
+    						return new TipoContactoDao($tableGateway);
+    					},
+    					'TipoContactoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new TipoContacto());
+    						return new TableGateway('TIPO_CONTACTO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Contactos\Model\Dao\DetalleContactoDao' => function($sm){
+    						$tableGateway = $sm->get('DetalleContactoTableGateway');
+    						return new DetalleContactoDao($tableGateway);
+    					},
+    					'DetalleContactoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new DetalleContacto());
+    						return new TableGateway('DETALLE_CONTACTO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Contactos\Model\Dao\ContactoRelacionadoDao' => function($sm){
+    						$tableGateway = $sm->get('ContactoRelacionadoTableGateway');
+    						return new ContactoRelacionadoDao($tableGateway);
+    					},
+    					'ContactoRelacionadoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new ContactoRelacionado());
+    						return new TableGateway('CONTACTO_RELACIONADO', $dbAdapter, null, $resultSetPrototype);
     					},
     
     			),

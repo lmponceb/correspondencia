@@ -44,4 +44,29 @@ class TipoPersonaDao {
     	return $result;
     }
     
+    public function traerTodosArregloIngles(){
+    	 
+    	$sql = new Sql($this->tableGateway->getAdapter());
+    	$select = $sql->select();
+    	$select->from($this->tableGateway->table);
+    	 
+    	$statement = $sql->prepareStatementForSqlObject($select);
+    	$results = $statement->execute();
+    	 
+    	$tipoPersonas = new \ArrayObject();
+    	$result = array();
+    	 
+    	foreach ($results as $row){
+    		$tipoPersona = new TipoPersona();
+    		$tipoPersona->exchangeArray($row);
+    		$tipoPersonas->append($tipoPersona);
+    	}
+    	 
+    	foreach ($tipoPersonas as $tip_per){
+    		$result[$tip_per->getTip_per_id()] = $tip_per->getTip_per_descripcion_en();
+    	}
+    
+    	return $result;
+    }
+    
 }

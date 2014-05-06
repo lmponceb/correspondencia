@@ -33,11 +33,18 @@
          $select->join(array('C' => 'CIUDAD'),'C.CIU_ID = EMPRESA.CIU_ID');
          $select->join(array('E' => 'ESTADO'),'E.EST_ID = C.EST_ID');
          $select->join(array('P' => 'PAIS'),'E.PAI_ID = P.PAI_ID');
-         $select->where(array('EMP_ID' => $emp_id));
+         $select->join(array('EMP' => 'EMPRESA'),'EMP.EMP_ID = EMPRESA.EMP_EMP_ID',array('EMP_NOMBRE'),'left');                  
+         $select->where(array('EMPRESA.EMP_ID' => $emp_id));
 
         $statement = $sql->prepareStatementForSqlObject($select);
+
+        echo $sql->getSqlStringForSqlObject($select);
         $results = $statement->execute();
         $row=$results->current();
+        
+        echo '<pre>';
+        print_r($row);
+        echo '</pre>';
 
         $empresa=new Empresas();
         $empresa->exchangeArray($row);
@@ -93,6 +100,7 @@
 
         $data=array(
             'emp_id'=>(int)$empresa->getEmp_id(),
+            'emp_emp_id'=>(int)$empresa->getEmp_emp_id(),
             'cat_emp_id'=>(int)$empresa->getCat_emp_id(),
             'ciu_id'=>$empresa->getCiu_id(),
             'emp_nombre'=>$empresa->getEmp_nombre(),
