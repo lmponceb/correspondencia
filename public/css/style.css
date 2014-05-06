@@ -60,20 +60,6 @@ ul.error_container li label {font-weight: normal; color:#843433;}
 input.error, select.error, textarea.error{
   border:1px solid #ff0000 !important;
 }
-<<<<<<< HEAD
-/* Autocompleter Functionality */
-.twitter-typeahead { display:inline !important; }
-.tt-dropdown-menu { 
-  background-color: #fff; 
-  border: 1px solid #ccc;
-  border-radius: 4px; 
-  padding:5px 10px !important; 
-  min-width:200px; 
-}
-.tt-dropdown-menu p { margin:0px; }
-.tt-suggestion.tt-cursor { background-color:#5c9ccc; color: #fff; }
-.tt-suggestion p { padding:3px 10px }
-=======
 
 /******* VALIDACIONES FORMULARIO ************/
 .fecha_nacimiento{
@@ -98,4 +84,3 @@ h3{
 input:hover, select:hover, textarea:hover{
 	background-color: #FFFFE8;
 }
->>>>>>> 877dea3c0e5b8982b7e24bec5f30418aabd97627
