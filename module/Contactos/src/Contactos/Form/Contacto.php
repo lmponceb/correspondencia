@@ -303,7 +303,7 @@ class Contacto extends Form {
 						'type' => 'text',
 						'maxlenght' => '150',
 						'id' => 'CON_FECHA_NACIMIENTO_PERSONAL',
-						'class' => 'form-control',
+						'class' => 'form-control fecha_nacimiento',
 				)
 		) );
 		
@@ -338,7 +338,7 @@ class Contacto extends Form {
 						'maxlenght' => '5',
 						'id' => 'CON_CODIGO_PAIS',
 						'readonly' => 'readonly', 
-						'class' => 'form-control',
+						'class' => 'form-control codigo_telefono',
 				)
 		) );
 		
@@ -356,7 +356,7 @@ class Contacto extends Form {
 						'maxlenght' => '5',
 						'id' => 'CON_CODIGO_CIUDAD',
 						'readonly' => 'readonly',
-						'class' => 'form-control',
+						'class' => 'form-control codigo_telefono',
 				)
 		) );
 		
@@ -572,7 +572,8 @@ class Contacto extends Form {
 				'attributes' => array (
 						'type' => 'submit',
 						'value' => 'Ingresar',
-						'class' => 'btn btn-primary'
+						'class' => 'btn btn-primary',
+						'data-loading-text' => 'Loading...'
 				)
 		) );
 		

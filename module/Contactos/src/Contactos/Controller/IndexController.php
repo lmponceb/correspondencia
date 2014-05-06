@@ -30,7 +30,7 @@ class IndexController extends AbstractActionController {
 	protected $detalleContactoDao;
 	protected $contactoRelacionado;
 	private $privado = 'S';
-	private $tipo_usuario = 'A';
+	private $tipo_usuario = 'O';
 	private $tipoContactoDao;
 	
 	public function indexAction() {
@@ -150,6 +150,13 @@ class IndexController extends AbstractActionController {
 					$form->get ( 'CON_FECHA_NACIMIENTO_PERSONAL' )->setAttribute ( 'readonly', 'readonly' );
 					$form->get ( 'CON_TELEFONO_DOMICILIO_PER' )->setAttribute ( 'readonly', 'readonly' );
 					$form->get ( 'CON_CELULAR_PERSONAL' )->setAttribute ( 'readonly', 'readonly' );
+					
+					for ($i=0; $i<5; $i++){
+						$form->get ( 'CONTACTO_RELACIONADO['.$i.'][TIP_CON_ID]' )->setAttribute ( 'disabled', 'disabled' );
+						$form->get ( 'CONTACTO_RELACIONADO['.$i.'][CON_REL_VALOR]' )->setAttribute ( 'readonly', 'readonly' );
+					}
+					
+					
 					$this->privado = 'N';
 				}
 		
@@ -181,6 +188,7 @@ class IndexController extends AbstractActionController {
 	
 	public function validarAction() {
 		
+		//VERIFICA QUE SE HAYA REALIZADO UN POST DE INFORMACION
 		if (! $this->request->isPost ()) {
 			return $this->redirect ()->toRoute ( 'contactos', array (
 					'controller' => 'index',
@@ -188,19 +196,25 @@ class IndexController extends AbstractActionController {
 			) );
 		}
 		
+		//CAPTURA LA INFORMACION ENVIADA EN EL POST
 		$data = $this->request->getPost ();
 		
+		//LLENA LOS CAMPOS OCULTOS PARA GENERAR LA FUNCION READY DE JQUERY
 		$data['estado_oculto'] = $data['EST_ID'];
 		$data['sucursal_oculto'] = $data['SUC_ID'];
 		$data['ciudad_oculto'] = $data['CIU_ID'];
 		
+		//VERIFICA EL IDIOMA INGRESADO PARA TRAER EL FORMULARIO SEGUN EL IDIOMA 
 		if(strtoupper($data['CON_IDIOMA']) == 'E'){
 			$form = $this->getForm();
 		}else{
 			$form = $this->getFormIngles();
 		}
 		
+		//SE VALIDA EL FORMULARIO
 		$form->setInputFilter ( new ContactoValidator () );
+		
+		//SE LLENAN LOS DATOS DEL FORMULARIO
 		$form->setData ( $data );
 		
 		for ($i=0; $i<count($data['CONTACTO_RELACIONADO']); $i++){
@@ -217,9 +231,9 @@ class IndexController extends AbstractActionController {
 			$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_EXTENSION]')->setValue($data['DETALLE_CONTACTO'][$j]['DET_CON_EXTENSION']);
 		}
 		
-		
+		//SE VALIDA EL FORMULARIO ES CORRECTO
 		if (! $form->isValid ()) {
-			
+			// SI EL FORMULARIO NO ES CORRECTO
 			$modelView = new ViewModel ( array (
 					'formulario' => $form ,
 					'tipo_usuario' => $this->tipo_usuario,
@@ -229,21 +243,31 @@ class IndexController extends AbstractActionController {
 			$modelView->setTemplate ( 'contactos/index/ingresar' );
 			return $modelView;
 		}
+		//->AQUI EL FORMULARIO ES CORRECTO, SE VALIDO CORRECTAMENTE
 		
+		//SI SE SELECCIONO UNA SUCURSAL, ESTA SERA LA EMPRESA DEL CONTACTO
 		if(!empty($data['SUC_ID']) && !is_null($data['SUC_ID'])){
 			//SI EL CONTACTO ESTA EN UNA SUCURSAL SE AGREGA AL CAMPO DE EMPRESA
 			$data['EMP_ID'] = $data['SUC_ID'];
 		}
 		
+		//SE GENERA EL OBJETO DE CONTACTO
 		$contacto = new ContactoEntity();
+		//SE CARGA LA ENTIDAD CON LA INFORMACION DEL POST
 		$contacto->exchangeArray ( $data );
 		
+		//SE GRABA LA INFORMACION EN LA BDD
 		$codigo_contacto = $this->getContactoDao() ->guardar ( $contacto );
 		
+		//SI SE ACTUALIZA EL CONTACTO, SE BORRAN LOS DATOS ASOCIADOS
 		if(!empty($data['CON_ID']) && !is_null($data['CON_ID'])){
 			
 			$this->getDetalleContactoDao()->eliminarPorContacto($data['CON_ID']);
-			$this->getContactoRelacionadoDao()->eliminarPorContacto($data['CON_ID']);
+			
+			//SI EL USURIO ES DIFERENTE DE OPERADOR, PUEDE ELIMINAR LA INFORMACION
+			if(strtoupper($this->tipo_usuario) != 'O'){
+				$this->getContactoRelacionadoDao()->eliminarPorContacto($data['CON_ID']);
+			}
 			
 			$codigo_contacto = $data['CON_ID'];
 		}else{
@@ -256,6 +280,29 @@ class IndexController extends AbstractActionController {
 		}
 		
 		$detalleContactoParamsArray = $data['DETALLE_CONTACTO'];
+		$contactoRelacionadoParamsArray = $data['CONTACTO_RELACIONADO'];
+		
+		//SE GRABAN LOS DATOS ASOCIADOS
+		// SOLO SI ES ADMINISTRADOR O USUARIO GERENCIAL PUEDE INGRESAR LA INFORMACION DE CONTACTO RELACIONADO
+		if(strtoupper($this->tipo_usuario) != 'O'){
+			
+			foreach($contactoRelacionadoParamsArray as $contactoRelacionadoParams){
+	        	if(
+	        	!empty($contactoRelacionadoParams['TIP_CON_ID']) && !is_null($contactoRelacionadoParams['TIP_CON_ID']) &&
+	        	!empty($contactoRelacionadoParams['CON_REL_VALOR']) && !is_null($contactoRelacionadoParams['CON_REL_VALOR']) 
+	        	)
+	        		 
+	        	{
+	        		//SE GRABAN LOS CONTACTOS RELACIONADOS EN LA BDD
+	        		$contactoRelaciondo = new ContactoRelacionado();
+	        		$contactoRelacionadoParams['CON_ID'] = $codigo_contacto;
+	        		$contactoRelaciondo->exchangeArray($contactoRelacionadoParams);
+	        		$this->getContactoRelacionadoDao()->guardar($contactoRelaciondo);
+	        	}
+	        }
+		}
+		
+		//SE GRABAN LOS DETALLES DE CONTACTO ADICIONALES
         foreach($detalleContactoParamsArray as $detalleContactoParams){
         	if(
         		!empty($detalleContactoParams['TIP_TEL_ID']) && !is_null($detalleContactoParams['TIP_TEL_ID']) &&
@@ -265,6 +312,7 @@ class IndexController extends AbstractActionController {
 			)
         	
         	{
+				//SE GUARDA EN LA BASE DE DATOS
         		$detalleContacto = new DetalleContacto();
         		$detalleContactoParams['CON_ID'] = $codigo_contacto;
         		$detalleContacto->exchangeArray($detalleContactoParams);
@@ -272,23 +320,7 @@ class IndexController extends AbstractActionController {
         	}
         } 
         
-        $contactoRelacionadoParamsArray = $data['CONTACTO_RELACIONADO'];
-        
-        foreach($contactoRelacionadoParamsArray as $contactoRelacionadoParams){
-        	if(
-        	!empty($contactoRelacionadoParams['TIP_CON_ID']) && !is_null($contactoRelacionadoParams['TIP_CON_ID']) &&
-        	!empty($contactoRelacionadoParams['CON_REL_VALOR']) && !is_null($contactoRelacionadoParams['CON_REL_VALOR']) 
-        	)
-        		 
-        	{
-        		
-        		$contactoRelaciondo = new ContactoRelacionado();
-        		$contactoRelacionadoParams['CON_ID'] = $codigo_contacto;
-        		$contactoRelaciondo->exchangeArray($contactoRelacionadoParams);
-        		$this->getContactoRelacionadoDao()->guardar($contactoRelaciondo);
-        	}
-        }
-        
+        //SI SE EJECUTO EXITOSAMENTE SE REGRESA AL LISTADO DE CONTACTOS
 		return $this->redirect ()->toRoute ( 'contactos', array (
 				'controller' => 'index',
 				'action' => 'listado' 
