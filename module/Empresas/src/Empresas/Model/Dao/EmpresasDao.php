@@ -109,7 +109,8 @@
             'emp_email'=>$empresa->getEmp_email(),
             'emp_pagina_web'=>$empresa->getEmp_pagina_web(),
             'emp_fecha_actualizacion' => date('d/m/y'),
-            'emp_usuario'=>1
+            'emp_usuario'=>1,
+            'emp_documento' => $empresa->getEmp_documento()
         );
 
         

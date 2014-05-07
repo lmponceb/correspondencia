@@ -55,26 +55,27 @@ echo $this->form ()->openTag ( $form );
 	</div>
 
 	<div class="row azul-form-row">
+		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_DOCUMENTO')); ?></div>
 		<div class="col-md-6"><?php echo $this->formRow($form->get('CAT_EMP_ID')); ?></div>
-	  	<div class="col-md-6"><?php echo $this->formRow($form->get('PAI_ID')); ?></div>
 	</div>
 
 	<div class="row azul-form-row">
+		<div class="col-md-6"><?php echo $this->formRow($form->get('PAI_ID')); ?></div>
 		<div class="col-md-6"><?php echo $this->formRow($form->get('EST_ID')); ?></div>
-		<div class="col-md-6"><?php echo $this->formRow($form->get('CIU_ID')); ?></div>	
 	</div>
 
 	<div class="row azul-form-row">
+		<div class="col-md-6"><?php echo $this->formRow($form->get('CIU_ID')); ?></div>			
 	  	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_DIRECCION')); ?></div>
-		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_SECTOR')); ?></div>
 	</div>
 
 	<div class="row azul-form-row">
+		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_SECTOR')); ?></div>		
 		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_REFERENCIA')); ?></div>
-	  	<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_EMAIL')); ?></div>
 	</div>
 
 	<div class="row azul-form-row">
+		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_EMAIL')); ?></div>
 		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_PAGINA_WEB')); ?></div>
 	</div>
 </div>

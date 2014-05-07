@@ -188,6 +188,20 @@ namespace Empresas\Form;
         ));
 
         $this->add(array(
+             'name' => 'EMP_DOCUMENTO',
+             'type' => 'Zend\Form\Element\Text',
+             'options' => array(
+                 'label' => 'Documento/RUC:',
+             ),
+             'attributes' => array(
+                 'id' => 'emp_documento',
+                 'class' => 'form-control'
+             )
+        ));
+
+        
+
+        $this->add(array(
              'name' => 'SUBMIT',
              'type' => 'submit',
              'attributes' => array(
