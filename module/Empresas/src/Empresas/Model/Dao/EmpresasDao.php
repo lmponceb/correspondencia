@@ -23,6 +23,32 @@
          return $resultSet;
      }
 
+     public function traerTodosPorJerarquia()
+     {
+        $adapter = $this->tableGateway->getAdapter();
+        $sql =" SELECT EMP_ID, EMP_ID as PADRE, EMP_NOMBRE,EMP_EMAIL,EMP_PAGINA_WEB, 0 AS NIVEL FROM EMPRESA WHERE EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0 ";
+        $sql.=" UNION ";
+        $sql.=" SELECT EMP_ID, EMP_EMP_ID as PADRE, EMP_NOMBRE as EMP_NOMBRE ,EMP_EMAIL,EMP_PAGINA_WEB,1  AS NIVEL FROM EMPRESA WHERE EMP_EMP_ID IS NOT NULL AND EMP_EMP_ID != 0 ";
+        $sql.=" ORDER BY 2,3 ";
+        
+        $statement = $adapter->query($sql);
+        $results = $statement->execute();
+
+        $empresas = new \ArrayObject();
+        $result = array();
+        
+        foreach ($results as $row){
+            $empresa = new Empresas();
+            $empresa->exchangeArray($row);
+            $empresa->nivel=$row['NIVEL'];
+            $empresas->append($empresa);
+        }
+
+        return $empresas;
+
+     
+     }
+
      public function traerPorId($emp_id)
      {
          $emp_id  = (int) $emp_id;

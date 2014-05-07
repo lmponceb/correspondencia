@@ -22,8 +22,9 @@ use Zend\View\Model\ViewModel;
 
      public function indexAction()
      {
+        //$this->getEmpresasDao()->traerTodosPorJerarquia();
         return new ViewModel(array(
-            'empresas' => $this->getEmpresasDao()->traerTodos(),
+            'empresas' => $this->getEmpresasDao()->traerTodosPorJerarquia(),
         ));
      }
 
