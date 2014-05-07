@@ -32,6 +32,7 @@ class IndexController extends AbstractActionController {
 	private $privado = 'S';
 	private $tipo_usuario = 'O';
 	private $tipoContactoDao;
+	protected $tipoTelefonoDao;
 	
 	public function indexAction() {
 		return $this->redirect ()->toRoute ( 'contactos', array (
@@ -218,7 +219,8 @@ class IndexController extends AbstractActionController {
 		$form->setData ( $data );
 		
 		for ($i=0; $i<count($data['CONTACTO_RELACIONADO']); $i++){
-			$form->get('CONTACTO_RELACIONADO['.$i.'][TIP_CON_ID]')->setValue($data['CONTACTO_RELACIONADO'][$i]['TIP_CON_ID']);
+			if(isset($data['CONTACTO_RELACIONADO'][$i]['TIP_CON_ID']))
+				$form->get('CONTACTO_RELACIONADO['.$i.'][TIP_CON_ID]')->setValue($data['CONTACTO_RELACIONADO'][$i]['TIP_CON_ID']);
 			$form->get('CONTACTO_RELACIONADO['.$i.'][CON_REL_VALOR]')->setValue($data['CONTACTO_RELACIONADO'][$i]['CON_REL_VALOR']);
 		}
 		
@@ -290,9 +292,7 @@ class IndexController extends AbstractActionController {
 	        	if(
 	        	!empty($contactoRelacionadoParams['TIP_CON_ID']) && !is_null($contactoRelacionadoParams['TIP_CON_ID']) &&
 	        	!empty($contactoRelacionadoParams['CON_REL_VALOR']) && !is_null($contactoRelacionadoParams['CON_REL_VALOR']) 
-	        	)
-	        		 
-	        	{
+	        	){
 	        		//SE GRABAN LOS CONTACTOS RELACIONADOS EN LA BDD
 	        		$contactoRelaciondo = new ContactoRelacionado();
 	        		$contactoRelacionadoParams['CON_ID'] = $codigo_contacto;
