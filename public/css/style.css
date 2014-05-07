@@ -74,6 +74,8 @@ hr{
 	margin: 0 0;
 }
 
+.azul-form-row{ margin:10px 1px !important;}
+.azul-panel-heading{/*text-shadow:#ddd 0px 1px 0, #000 0 -1px 0; font-weight: bold; font-size: 14px;*/  }
 
 /******* VALIDACIONES FORMULARIO ************/
 .fecha_nacimiento{

@@ -33,24 +33,19 @@
          $select->join(array('C' => 'CIUDAD'),'C.CIU_ID = EMPRESA.CIU_ID');
          $select->join(array('E' => 'ESTADO'),'E.EST_ID = C.EST_ID');
          $select->join(array('P' => 'PAIS'),'E.PAI_ID = P.PAI_ID');
-         $select->join(array('EMP' => 'EMPRESA'),'EMP.EMP_ID = EMPRESA.EMP_EMP_ID',array('EMP_NOMBRE'),'left');                  
+         $select->join(array('EMP' => 'EMPRESA'),'EMP.EMP_ID = EMPRESA.EMP_EMP_ID',array('EMP_EMP_ID_AUTOCOMPLETAR'=>'EMP_NOMBRE'),'left');                  
          $select->where(array('EMPRESA.EMP_ID' => $emp_id));
 
         $statement = $sql->prepareStatementForSqlObject($select);
 
-        echo $sql->getSqlStringForSqlObject($select);
         $results = $statement->execute();
         $row=$results->current();
-        
-        echo '<pre>';
-        print_r($row);
-        echo '</pre>';
 
         $empresa=new Empresas();
         $empresa->exchangeArray($row);
         $empresa->pai_id=$row['PAI_ID'];
         $empresa->est_id=$row['EST_ID'];
-        
+        $empresa->emp_emp_id_autocompletar=$row['EMP_EMP_ID_AUTOCOMPLETAR'];    
         return $empresa;
      }
 
@@ -73,17 +68,21 @@
 
     }
 
-    public function traerListadoJsonPorNombre($term){
+    public function traerListadoJsonPorNombre($term,$emp_id=null){
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();
         $select->from($this->tableGateway->table);
-        $select->where->expression('UPPER(EMP_NOMBRE) LIKE UPPER(?)','%'.$term.'%');
-        $select->where(array('EMP_EMP_ID'=>NULL));
+        $select->where->expression('UPPER(EMP_NOMBRE) LIKE UPPER(?)','%'.$term.'%'); //espera 2 parametros
+        $select->where->literal('(EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0)');
+        if($emp_id != '' && !is_null($emp_id)){
+            $select->where->notEqualTo('EMP_ID',$emp_id);
+        }
         
+        //echo $sql->getSqlStringForSqlObject($select);
+
         $statement = $sql->prepareStatementForSqlObject($select);
         $results = $statement->execute();
     
-        //$estados = new \ArrayObject();
         $result = array();
          
         foreach ($results as $row){
@@ -92,7 +91,7 @@
             $result[$row['EMP_ID']]['id']=$row['EMP_ID'];
         }
 
-        print_r(json_encode($result));
+        return json_encode($result);
 
     }
 

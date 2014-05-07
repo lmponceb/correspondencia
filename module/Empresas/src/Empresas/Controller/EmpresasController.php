@@ -18,6 +18,8 @@ use Zend\View\Model\ViewModel;
      protected $tipoTelefonoDao;
      protected $detalleContactoDao;
 
+     protected $max_detalle_contacto=5;
+
      public function indexAction()
      {
         return new ViewModel(array(
@@ -27,40 +29,46 @@ use Zend\View\Model\ViewModel;
 
     public function addAction()
     {
-
-        $indice_detalle_contacto=0;
-
-        $form = new EmpresasForm();
+         
+        $form = new EmpresasForm(null,$this->max_detalle_contacto);
         $form->get('CAT_EMP_ID')->setValueOptions($this->getCategoriasDao()->getCategoriasSelect());
         $form->get('PAI_ID')->setValueOptions($this->getPaisDao()->getPaisesSelect());
-        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
-        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
+        for($i=0;$i<$this->max_detalle_contacto;$i++){
+            $form->get('DETALLE_CONTACTO['.$i.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
+            $form->get('DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
+        }
         return new ViewModel ( array (
                 'title' => 'Crear Empresa',
-                'form' => $form
+                'form' => $form,
+                'max_contactos' => $this->max_detalle_contacto
         ));
     }
 
      public function editAction()
      {
-        
         $emp_id = $this->params()->fromRoute ( 'id', 0 );
         if (! $emp_id) {
             return $this->redirect()->toRoute ( 'empresas' );
         }
         $indice_detalle_contacto=0;
 
-        $form = new EmpresasForm();
+        $form = new EmpresasForm(null,$this->max_detalle_contacto);
 
         $empresa = $this->getEmpresasDao ()->traerPorId ( $emp_id );
+
         $form->get('CAT_EMP_ID')->setValueOptions($this->getCategoriasDao()->getCategoriasSelect());
         $form->get('PAI_ID')->setValueOptions($this->getPaisDao()->getPaisesSelect());
 
         $form->get('EST_ID')->setValueOptions($this->getEstadoDao()->getEstadosPorPaisSelect($empresa->pai_id));
         $form->get('CIU_ID')->setValueOptions($this->getCiudadDao()->getCiudadesPorEstadoSelect($empresa->est_id));
+        /*Carga de estados y ciudades en actualización*/
+        $form->get( 'ESTADO_OCULTO' )->setValue( $empresa->est_id );
+        $form->get( 'CIUDAD_OCULTO' )->setValue( $empresa->ciu_id );
 
-        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
-        $form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
+        for($i=0;$i<$this->max_detalle_contacto;$i++){
+            $form->get('DETALLE_CONTACTO['.$i.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
+            $form->get('DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
+        }
 
         $form->bind ( $empresa );
 
@@ -70,7 +78,8 @@ use Zend\View\Model\ViewModel;
         $viewModel = new ViewModel (array(
                 'title' => 'Editar Empresa',
                 'form' => $form,
-                'detalles' => $detallesContactos
+                'detalles' => $detallesContactos,
+                'max_contactos' => $this->max_detalle_contacto
         ));
         
         $viewModel->setTemplate ( 'empresas/empresas/add.phtml' );
@@ -85,10 +94,6 @@ use Zend\View\Model\ViewModel;
         }
 
         $params=$this->request->getPost();
-        /*echo '<pre>';
-        print_r($params);
-        echo '</pre>';
-        die();*/
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);
@@ -97,10 +102,12 @@ use Zend\View\Model\ViewModel;
             $this->getDetalleContactoDao()->eliminarPorEmpresa($params['EMP_ID']);
 
         foreach($detalleContactoParamsArray as $detalleContactoParams){
-            $detalleContacto=new DetalleContacto();
-            $detalleContactoParams['EMP_ID']=$params['EMP_ID'];
-            $detalleContacto->exchangeArray($detalleContactoParams);
-            $this->getDetalleContactoDao()->guardar($detalleContacto);
+            if($detalleContactoParams['DET_CON_VALOR']!='' && $detalleContactoParams['DET_CON_VALOR']!=NULL){
+                $detalleContacto=new DetalleContacto();
+                $detalleContactoParams['EMP_ID']=$params['EMP_ID'];
+                $detalleContacto->exchangeArray($detalleContactoParams);
+                $this->getDetalleContactoDao()->guardar($detalleContacto);
+            }
         }
 
         return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
@@ -114,10 +121,10 @@ use Zend\View\Model\ViewModel;
      public function consultaXmlHttpAction()
      {  
         if($this->getRequest()->isXmlHttpRequest()){
-            $term =  $this->getRequest()->getQuery('term');
+            $term =  $this->getRequest()->getPost('term');
+            $emp_id =  $this->getRequest()->getPost('emp_id');
           
-
-            $listado = $this->getEmpresasDao()->traerListadoJsonPorNombre($term);   
+            $listado = $this->getEmpresasDao()->traerListadoJsonPorNombre($term,$emp_id);   
 
             $response=$this->getResponse();
             $response->setStatusCode(200);
@@ -126,9 +133,6 @@ use Zend\View\Model\ViewModel;
         }else{
             return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
         }
-     }
-     public function deleteAction()
-     {
      }
      
      public function getEmpresasDao()

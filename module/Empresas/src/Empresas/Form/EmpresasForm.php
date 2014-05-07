@@ -5,7 +5,7 @@ namespace Empresas\Form;
 
  class EmpresasForm extends Form
  {
-     public function __construct($name = null)
+     public function __construct($name = null, $max_detalle_contacto=5)
      {
         parent::__construct('empresas');
         $this->setAttribute ( 'method', 'post' );
@@ -48,7 +48,7 @@ namespace Empresas\Form;
              'name' => 'EMP_NOMBRE',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Nombre',
+                 'label' => 'Nombre*:',
              ),
             'attributes' => array(
                  'id' => 'emp_nombre',
@@ -60,7 +60,7 @@ namespace Empresas\Form;
              'name' => 'EMP_EMP_ID_AUTOCOMPLETAR',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Sucursal de',
+                 'label' => 'Sucursal de:',
              ),
             'attributes' => array(
                  'id' => 'emp_emp_id_autocompletar',
@@ -73,7 +73,7 @@ namespace Empresas\Form;
              'name' => 'CAT_EMP_ID',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
-                 'label' => 'Categoría',
+                 'label' => 'Categoría*:',
                  'empty_option' => '-- Seleccione --'                 
              ),
              'attributes' => array(
@@ -87,7 +87,7 @@ namespace Empresas\Form;
              'name' => 'PAI_ID',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
-                 'label' => 'País',
+                 'label' => 'País*:',
                  'disable_inarray_validator' => true,
                  'empty_option' => '-- Seleccione --'
              ),
@@ -101,7 +101,7 @@ namespace Empresas\Form;
              'name' => 'EST_ID',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
-                 'label' => 'Estado/Provincia',
+                 'label' => 'Estado/Provincia*:',
                  'disable_inarray_validator' => true,
                  'empty_option' => '-- Seleccione --'
              ),
@@ -116,7 +116,7 @@ namespace Empresas\Form;
              'name' => 'CIU_ID',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
-                 'label' => 'Ciudad',
+                 'label' => 'Ciudad*:',
                  'disable_inarray_validator' => true,
                  'empty_option' => '-- Seleccione --'
              ),
@@ -131,7 +131,7 @@ namespace Empresas\Form;
              'name' => 'EMP_DIRECCION',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Dirección',
+                 'label' => 'Dirección*:',
              ),
              'attributes' => array(
                  'id' => 'emp_direccion',
@@ -143,7 +143,7 @@ namespace Empresas\Form;
              'name' => 'EMP_REFERENCIA',
              'type' => 'Zend\Form\Element\Textarea',
              'options' => array(
-                 'label' => 'Referencia',
+                 'label' => 'Referencia:',
              ),
              'attributes' => array(
                  'id' => 'emp_referencia',
@@ -155,7 +155,7 @@ namespace Empresas\Form;
              'name' => 'EMP_SECTOR',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Sector',
+                 'label' => 'Sector*:',
              ),
              'attributes' => array(
                  'id' => 'emp_sector',
@@ -167,7 +167,7 @@ namespace Empresas\Form;
              'name' => 'EMP_EMAIL',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Email',
+                 'label' => 'Email*:',
              ),
              'attributes' => array(
                  'id' => 'emp_email',
@@ -179,7 +179,7 @@ namespace Empresas\Form;
              'name' => 'EMP_PAGINA_WEB',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Página Web',
+                 'label' => 'Página Web:',
              ),
              'attributes' => array(
                  'id' => 'emp_pagina_web',
@@ -198,78 +198,78 @@ namespace Empresas\Form;
         ));
 
         /************ Contacto Telefónico **************/
-        $indice_detalle_contacto=0;
+        for ($i=0;$i<$max_detalle_contacto;$i++){
+            $this->add(array(
+                 'name' => 'DETALLE_CONTACTO['.$i.'][TIP_TEL_ID]',
+                 'type' => 'Zend\Form\Element\Select',
+                 'options' => array(
+                     'label' => 'Tipo de Teléfono',
+                     'disable_inarray_validator' => true,
+                     'empty_option' => '-- Seleccione --'
+                 ),
+                 'attributes' => array(
+                     'id' => 'tip_tel_id',
+                     'class' => 'form-control tip_tel_id',
+                     'data-group-id' => $i
+                 )
+            ));
 
-        $this->add(array(
-             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]',
-             'type' => 'Zend\Form\Element\Select',
-             'options' => array(
-                 'label' => 'Tipo de Teléfono',
-                 'disable_inarray_validator' => true,
-                 'empty_option' => '-- Seleccione --'
-             ),
-             'attributes' => array(
-                 'id' => 'tip_tel_id',
-                 'class' => 'form-control tip_tel_id',
-                 'data-group-id' => $indice_detalle_contacto
-             )
-        ));
+            $this->add(array(
+                 'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]',
+                 'type' => 'Zend\Form\Element\Select',
+                 'options' => array(
+                     'label' => 'Código de País',
+                     'disable_inarray_validator' => true,
+                     'empty_option' => '-- Seleccione --'
+                 ),
+                 'attributes' => array(
+                     'id' => 'det_con_codigo_pais',
+                     'class' => 'form-control det_con_codigo_pais',
+                     'data-group-id' => $i
+                 )
+            ));
 
-        $this->add(array(
-             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]',
-             'type' => 'Zend\Form\Element\Select',
-             'options' => array(
-                 'label' => 'Código de País',
-                 'disable_inarray_validator' => true,
-                 'empty_option' => '-- Seleccione --'
-             ),
-             'attributes' => array(
-                 'id' => 'det_con_codigo_pais',
-                 'class' => 'form-control det_con_codigo_pais',
-                 'data-group-id' => $indice_detalle_contacto
-             )
-        ));
+            $this->add(array(
+                 'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_CIUDAD]',
+                 'type' => 'Zend\Form\Element\Select',
+                 'options' => array(
+                     'label' => 'Código de Ciudad',
+                     'disable_inarray_validator' => true,
+                     'empty_option' => '-- Seleccione --'
+                 ),
+                 'attributes' => array(
+                     'id' => 'det_con_codigo_ciudad',
+                     'class' => 'form-control det_con_codigo_ciudad',
+                     'data-group-id' => $i
+                 )
+            ));
 
-        $this->add(array(
-             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]',
-             'type' => 'Zend\Form\Element\Select',
-             'options' => array(
-                 'label' => 'Código de Ciudad',
-                 'disable_inarray_validator' => true,
-                 'empty_option' => '-- Seleccione --'
-             ),
-             'attributes' => array(
-                 'id' => 'det_con_codigo_ciudad',
-                 'class' => 'form-control det_con_codigo_ciudad',
-                 'data-group-id' => $indice_detalle_contacto
-             )
-        ));
+            $this->add(array(
+                 'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_VALOR]',
+                 'type' => 'Zend\Form\Element\Text',
+                 'options' => array(
+                     'label' => 'Número',
+                 ),
+                 'attributes' => array(
+                     'id' => 'det_con_valor',
+                     'class' => 'form-control det_con_valor',
+                     'data-group-id' => $i
+                 )
+            ));        
 
-        $this->add(array(
-             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]',
-             'type' => 'Zend\Form\Element\Text',
-             'options' => array(
-                 'label' => 'Número',
-             ),
-             'attributes' => array(
-                 'id' => 'det_con_valor',
-                 'class' => 'form-control det_con_valor',
-                 'data-group-id' => $indice_detalle_contacto
-             )
-        ));        
-
-        $this->add(array(
-             'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]',
-             'type' => 'Zend\Form\Element\Text',
-             'options' => array(
-                 'label' => 'Extensión',
-             ),
-             'attributes' => array(
-                 'id' => 'det_con_extension',
-                 'class' => 'form-control det_con_extension',
-                 'data-group-id' => $indice_detalle_contacto
-             )
-        )); 
+            $this->add(array(
+                 'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_EXTENSION]',
+                 'type' => 'Zend\Form\Element\Text',
+                 'options' => array(
+                     'label' => 'Extensión',
+                 ),
+                 'attributes' => array(
+                     'id' => 'det_con_extension',
+                     'class' => 'form-control det_con_extension',
+                     'data-group-id' => $i
+                 )
+            )); 
+        }
 
         $this->add(array(
              'name' => 'ADD',
@@ -280,9 +280,11 @@ namespace Empresas\Form;
              'attributes' => array(
                  'id' => 'add',
                  'value' => 'Agregar',
-                 'class' => 'btn btn-success',
-                 'data-group-id' => $indice_detalle_contacto
-             )
+                 'class' => 'btn btn-success')
         ));
+
+        //echo '<pre>';
+        //print_r($this);
+        //echo '</pre>';
      }
  } 
