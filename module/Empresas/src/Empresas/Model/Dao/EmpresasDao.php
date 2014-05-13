@@ -125,7 +125,7 @@
 
         $data=array(
             'emp_id'=>(int)$empresa->getEmp_id(),
-            'emp_emp_id'=>(int)$empresa->getEmp_emp_id(),
+            'emp_emp_id'=> $empresa->getEmp_emp_id(),
             'cat_emp_id'=>(int)$empresa->getCat_emp_id(),
             'ciu_id'=>$empresa->getCiu_id(),
             'emp_nombre'=>$empresa->getEmp_nombre(),
@@ -134,7 +134,8 @@
             'emp_sector'=>$empresa->getEmp_sector(),
             'emp_email'=>$empresa->getEmp_email(),
             'emp_pagina_web'=>$empresa->getEmp_pagina_web(),
-            'emp_fecha_actualizacion' => date('d/m/y'),
+           // 'emp_fecha_actualizacion' => date('d/m/y'),
+        	'emp_fecha_actualizacion' => date('d-M-Y'),
             'emp_usuario'=>1,
             'emp_documento' => $empresa->getEmp_documento()
         );

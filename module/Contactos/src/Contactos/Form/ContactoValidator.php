@@ -18,7 +18,7 @@ use Zend\I18n\Filter\Alpha;
 class ContactoValidator extends InputFilter {
 	function __construct() {
 		
-		$idioma = new Input ( 'CON_IDIOMA' );
+		/* $idioma = new Input ( 'CON_IDIOMA' );
 		$idioma->setRequired ( false );
 		$idioma->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 1,
@@ -30,10 +30,10 @@ class ContactoValidator extends InputFilter {
            		'haystack' => array('I','E'),
         )));
 		
-		$this->add ( $idioma );
+		$this->add ( $idioma ); */
 		
 		
-		$cargo = new Input ( 'CAR_ID' );
+		/* $cargo = new Input ( 'CAR_ID' );
 		$cargo->setRequired ( true );
 		$cargo->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 6,
@@ -41,7 +41,7 @@ class ContactoValidator extends InputFilter {
 		) ) )->attach ( new Digits () )
 		->attach(new NotEmpty());
 		
-		$this->add ( $cargo );
+		$this->add ( $cargo ); */
 		
 		
 		$empresa = new Input ( 'EMP_ID' );
@@ -61,7 +61,7 @@ class ContactoValidator extends InputFilter {
 		$this->add ( $sucursal );
 		
 		
-		$tipo_persona = new Input ( 'TIP_PER_ID' );
+		/* $tipo_persona = new Input ( 'TIP_PER_ID' );
 		$tipo_persona->setRequired ( true );
 		$tipo_persona->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 3,
@@ -69,7 +69,7 @@ class ContactoValidator extends InputFilter {
 		) ) )->attach ( new Digits () )
 		->attach(new NotEmpty());
 		
-		$this->add ( $tipo_persona );
+		$this->add ( $tipo_persona ); */
 		
 		
 		$pais = new Input ( 'PAI_ID' );
@@ -163,6 +163,77 @@ class ContactoValidator extends InputFilter {
 		
 		
 		$this->add ( $fecha_actualizacion );
+		
+		
+		$con_tip_per_es = new Input ( 'CON_TIP_PER_ES' );
+		$con_tip_per_es->setRequired ( true );
+		$con_tip_per_es->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 30,
+				'min' => 2
+		) ) )->attach(new NotEmpty());
+		
+		
+		$this->add ( $con_tip_per_es );
+		
+		
+		$con_tip_per_en = new Input ( 'CON_TIP_PER_EN' );
+		$con_tip_per_en->setRequired ( true );
+		$con_tip_per_en->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 30,
+				'min' => 2
+		) ) )->attach(new NotEmpty());
+		
+		
+		$this->add ( $con_tip_per_en );
+		
+		
+		$con_descripcion_es = new Input ( 'CON_DESCRIPCION_ES' );
+		$con_descripcion_es->setRequired ( true );
+		$con_descripcion_es->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 30
+		) ) )->attach(new NotEmpty())->attach ( new Alnum ( array (
+				'allowWhiteSpace' => true
+		) ) );
+		
+		
+		$this->add ( $con_descripcion_es );
+		
+		
+		$con_descripcion_en = new Input ( 'CON_DESCRIPCION_EN' );
+		$con_descripcion_en->setRequired ( true );
+		$con_descripcion_en->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 30
+		) ) )->attach(new NotEmpty())->attach ( new Alnum ( array (
+				'allowWhiteSpace' => true
+		) ) );
+		
+		
+		$this->add ( $con_descripcion_en );
+		
+		
+		$con_direccion = new Input ( 'CON_DIRECCION' );
+		$con_direccion->setRequired ( true );
+		$con_direccion->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 150
+		) ) )->attach(new NotEmpty());
+		
+		
+		$this->add ( $con_direccion );
+		
+		
+		$con_estado = new Input ( 'CON_ESTADO' );
+		$con_estado->setRequired ( true );
+		$con_estado->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 1,
+				'min' => 1
+		) ) )->attach(new Alnum(array(
+				'allowWhiteSpace' => false,
+		)))->attach(new NotEmpty())
+		->attach(new InArray(array(
+				'haystack' => array('A','I'),
+		)));
+		
+		$this->add ( $con_estado );
 		
 		
 		

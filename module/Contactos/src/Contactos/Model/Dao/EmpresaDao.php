@@ -64,7 +64,7 @@ class EmpresaDao {
     	$select->from($this->tableGateway->table);
     	$where = new Where ();
     	$action = '';
-		$where->expression ( "EMP_EMP_ID IS NULL", null );
+		$where->expression ( "EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0", null );
 		$select->where ( $where );
     	 
     	$statement = $sql->prepareStatementForSqlObject($select);

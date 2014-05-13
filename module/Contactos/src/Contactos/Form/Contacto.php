@@ -68,18 +68,6 @@ class Contacto extends Form {
 				)
 		) );
 		
-		/* ********************************************
-		 * CAMPO CARGO
-		 * ********************************************/
-		$cargo = new Select ('CAR_ID');
-		$cargo->setLabel('Cargo*: ');
-		$cargo->setAttributes(array('class' => 'form-control'));
-		$cargo->setEmptyOption('-- Seleccione --');
-		//$pais->setValue('1');
-		$cargo->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
-		));
-		$this->add($cargo);
 		
 		/* ********************************************
 		 * CAMPO EMPRESA
@@ -110,18 +98,6 @@ class Contacto extends Form {
 		));
 		$this->add($sucursal);
 		
-		/* ********************************************
-		 * CAMPO TIPO PERSONA
-		 * ********************************************/
-		$tipoPersona = new Select('TIP_PER_ID');
-		$tipoPersona->setLabel('Tipo de Persona*: ');
-		$tipoPersona->setAttributes(array('class' => 'form-control'));
-		$tipoPersona->setEmptyOption('-- Seleccione --');
-		//$pais->setValue('1');
-		$tipoPersona->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
-		));
-		$this->add($tipoPersona);
 		
 		/* ********************************************
 		 * CAMPO PAIS
@@ -217,24 +193,6 @@ class Contacto extends Form {
 		
 	
 		/* ********************************************
-		 * CAMPO IDIOMA
-		 * ********************************************/
-		
-		$idioma = new Select('CON_IDIOMA');
-		$idioma->setLabel('Idioma*: ');
-		$idioma->setAttributes(array('class' => 'form-control'));
-		$idioma->setAttributes(array('id' => 'CON_IDIOMA'));
-		$idioma->setEmptyOption('-- Seleccione --');
-		$idioma->setValue('E');
-		$idioma->setValueOptions(array(
-				'E' => 'Espa&ntilde;ol',
-				'I' => 'Ingl&eacute;s',
-		)
-		);
-		
-		$this->add($idioma);
-		
-		/* ********************************************
 		 * CAMPO USUARIO
 		 * ********************************************/
 		
@@ -261,7 +219,7 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_FECHA_ACTUALIZACION',
 				'options' => array (
-						'label' => 'Fecha de Actualizaci&oacute;n:'
+						'label' => 'Fecha de Actualizaci&oacute;n*:'
 				),
 				'attributes' => array (
 						'type' => 'text',
@@ -411,6 +369,164 @@ class Contacto extends Form {
 				)
 		) );
 		
+		
+		/* ********************************************
+		 * CAMPO CARGO ESPAÑOL
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_DESCRIPCION_ES',
+				'options' => array (
+						'label' => 'Cargo Espa&ntilde;ol*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '30',
+						'id' => 'CON_DESCRIPCION_ES',
+						'class' => 'form-control',
+				)
+		) );
+		
+		
+		/* ********************************************
+		 * CAMPO CARGO INGLES
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_DESCRIPCION_EN',
+				'options' => array (
+						'label' => 'Cargo Ingl&eacute;s*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '30',
+						'id' => 'CON_DESCRIPCION_EN',
+						'class' => 'form-control',
+				)
+		) );
+		
+		
+		/* ********************************************
+		 * CAMPO TIPO PERSONA ESPAÑOL
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_TIP_PER_ES',
+				'options' => array (
+						'label' => 'Tipo Persona Espa&ntilde;ol*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '30',
+						'id' => 'CON_TIP_PER_ES',
+						'class' => 'form-control',
+				)
+		) );
+		
+		
+		/* ********************************************
+		 * CAMPO TIPO PERSONA INGLES
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_TIP_PER_EN',
+				'options' => array (
+						'label' => 'Tipo Persona Ingl&eacute;s*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '30',
+						'id' => 'CON_TIP_PER_EN',
+						'class' => 'form-control',
+				)
+		) );
+		
+		
+		/* ********************************************
+		 * CAMPO DIRECCION PUBLICA
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_DIRECCION',
+				'options' => array (
+						'label' => 'Direcci&oacute;n*:'
+				),
+				'attributes' => array (
+						'type' => 'textarea',
+						'maxlenght' => '150',
+						'id' => 'CON_DIRECCION',
+						'class' => 'form-control',
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO DIRECCION PRIVADA
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_DIRECCION_DOMICILIO_PER',
+				'options' => array (
+						'label' => 'Direcci&oacute;n de domicilio:'
+				),
+				'attributes' => array (
+						'type' => 'textarea',
+						'maxlenght' => '150',
+						'id' => 'CON_DIRECCION_DOMICILIO_PER',
+						'class' => 'form-control',
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO SECRETARIA
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_SECRETARIA',
+				'options' => array (
+						'label' => 'Nombre de la secretaria:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '70',
+						'id' => 'CON_SECRETARIA',
+						'class' => 'form-control',
+				)
+		) );
+		
+		
+		/* ********************************************
+		 * CAMPO TELEFONO DE LA SECRETARIA
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_SECRETARIA_TELEFONO',
+				'options' => array (
+						'label' => 'Tel&eacute;fono de la secretaria:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '15',
+						'id' => 'CON_SECRETARIA_TELEFONO',
+						'class' => 'form-control',
+				)
+		) );
+		
+		
+		/* ********************************************
+		 * CAMPO ESTADO
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_ESTADO',
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '1',
+						'value' => 'A',
+						'id' => 'CON_ESTADO',
+						'class' => 'form-control',
+				)
+		) );
+		
 		/************ INFORMACION DE CONTACTO RELACIONADO ****************/
 		 
 		$indice_contacto_relacionado = 0;
@@ -443,19 +559,6 @@ class Contacto extends Form {
 				)
 		));
 		
-		/* $this->add(array(
-				'name' => 'ADDREL',
-				'type' => 'Zend\Form\Element\Button',
-				'options' => array(
-						'label' => 'Agregar Otro Contacto',
-				),
-				'attributes' => array(
-						'id' => 'addrel',
-						'value' => 'Agregar',
-						'class' => 'btn btn-success',
-						'data-group-id' => $indice_contacto_relacionado
-				)
-		)); */ 
 		
 		}
 		 
@@ -551,21 +654,6 @@ class Contacto extends Form {
 			
 		}
 		
-		/* $this->add(array(
-				'name' => 'ADD',
-				'type' => 'Zend\Form\Element\Button',
-				'options' => array(
-						'label' => 'Agregar Otro N&uacute;mero',
-				),
-				'attributes' => array(
-						'id' => 'add',
-						'value' => 'Agregar',
-						'class' => 'btn btn-success',
-						'data-group-id' => $indice_detalle_contacto
-				)
-		)); */
-		
-		 
 		//BOTON DE SUBMIT
 		$this->add ( array (
 				'name' => 'ingresar',

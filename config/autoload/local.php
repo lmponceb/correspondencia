@@ -10,10 +10,18 @@
  * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
  * credentials from accidentally being committed into version control.
  */
-
+/* 
  return array(
      'db' => array(
          'username' => 'system',
-         'password' => 'admin',
+         'password' => 'oracle',
      ),
- );
+ ); */
+ 
+
+return array(
+		'db' => array(
+				'username' => 'correspondencia',
+				'password' => '123',
+		),
+);

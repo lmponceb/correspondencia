@@ -1,0 +1,281 @@
+<?php
+//use Recetas\Model\Funciones\Fecha;
+
+$form = $this->formulario;
+$form->prepare ();
+$form->setAttribute ( 'action', $this->url ( 'cartas', array (
+		'controller' => 'cartas',
+		'action' => 'validar' 
+) ) )->setAttribute ( 'method', 'post' );
+$formLabel = $this->plugin ( 'formLabel' );
+
+$ctr_id = $form->get ( 'CTR_ID' );
+$obr_id = $form->get ( 'OBR_ID' );
+$obra_oculto = $form->get ( 'obra_oculto' );
+$emp_int_id = $form->get ( 'EMP_INT_ID' );
+$pro_id = $form->get ( 'PRO_ID' );
+$us_codigo = $form->get ( 'US_CODIGO' );
+$tip_car_id = $form->get ( 'TIP_CAR_ID' );
+$ctr_idioma = $form->get ( 'CTR_IDIOMA' );
+$ctr_fecha_creacion = $form->get ( 'CTR_FECHA_CREACION' );
+$ctr_cuerpo = $form->get ( 'CTR_CUERPO' );
+$ctr_codigo_final = $form->get ( 'CTR_CODIGO_FINAL' );
+$ctr_fecha_actualizacion = $form->get ( 'CTR_FECHA_ACTUALIZACION' );
+$ctr_referencia = $form->get ( 'CTR_REFERENCIA' );
+$ctr_saludo = $form->get ( 'CTR_SALUDO' );
+$ctr_despedida = $form->get ( 'CTR_DESPEDIDA' );
+$ctr_tipo = $form->get ( 'CTR_TIPO' );
+$ctr_estado = $form->get ( 'CTR_ESTADO' );
+
+$epl_id_uno = $form->get ( 'EPL_ID_UNO' );
+$cargo_uno = $form->get ( 'CARGO_UNO' );
+$epl_id_dos = $form->get ( 'EPL_ID_DOS' );
+$cargo_dos = $form->get ( 'CARGO_DOS' );
+$emp_id = $form->get ( 'EMP_ID' );
+$con_id = $form->get ( 'CON_ID' );
+
+echo $this->form ()->openTag ( $form );
+
+//CAMPOS OCULTOS
+echo $this->formhidden ( $ctr_id );
+echo $this->formelementerrors ( $ctr_id );
+
+echo $this->formhidden ( $obra_oculto );
+echo $this->formelementerrors ( $obra_oculto );
+
+echo $this->formhidden ( $us_codigo );
+echo $this->formelementerrors ( $us_codigo );
+
+echo $this->formhidden ( $ctr_fecha_creacion );
+echo $this->formelementerrors ( $ctr_fecha_creacion );
+
+echo $this->formhidden ( $ctr_fecha_actualizacion );
+echo $this->formelementerrors ( $ctr_fecha_actualizacion );
+
+echo $this->formhidden ( $ctr_tipo );
+echo $this->formelementerrors ( $ctr_tipo );
+
+echo $this->formhidden ( $ctr_estado );
+echo $this->formelementerrors ( $ctr_estado );
+?>
+<ul class="error_container bs-callout bs-callout-danger">
+
+</ul>
+ <table cellspacing="0" cellpadding="0" border="0" align="left" width="100%">
+	<tr>
+		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/contacto_grande.png'?>" border="0" /></td>
+		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages">Ingresar una nueva carta</span><br />Registre toda la informaci&oacute;n solicitada para ingresar una nueva carta.</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="padding-bottom: 20px;"><hr /></td>
+	</tr>
+</table>
+<br />
+<table width="100%" style="font-size: 13px; font-weight: 700;">
+	<tr>
+		<td align="center" style="padding: 20px; padding-top: 0px;">
+		<div class="panel panel-default">
+		<div class="panel-heading panel-heading-txt">&nbsp;</div>
+			<table width="100%" cellpadding="5">
+				<tr>
+					<td colspan="3"><h3 align="left">Creaci&oacute;n de carta</h3><hr /></td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $ctr_idioma->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect( $ctr_idioma ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_idioma ) ); 
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $tip_car_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $tip_car_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $tip_car_id ) ); 
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $emp_int_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $emp_int_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $emp_int_id ) );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $emp_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $emp_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $emp_id ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $con_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_id ) );
+					?>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+					<?php echo $formLabel->openTag() . $ctr_referencia->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $ctr_referencia ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_referencia ) );
+					?>
+					</td>	
+				</tr>
+				<tr>
+					<td colspan="3">
+					<?php echo $formLabel->openTag() . $ctr_saludo->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $ctr_saludo ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_saludo ) );
+					?>
+					</td>	
+				</tr>
+				<tr>
+					<td colspan="3">
+					<?php echo $formLabel->openTag() . $ctr_cuerpo->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $ctr_cuerpo ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_cuerpo ) );
+					?>
+					</td>	
+				</tr>
+				<tr>
+					<td colspan="3">
+					<?php echo $formLabel->openTag() . $ctr_despedida->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $ctr_despedida ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_despedida ) );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $epl_id_uno->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $epl_id_uno ) );
+						  echo html_entity_decode( $this->formelementerrors ( $epl_id_uno ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $cargo_uno->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $cargo_uno ) );
+						  echo html_entity_decode( $this->formelementerrors ( $cargo_uno ) );
+					?>
+					</td>
+					<td>&nbsp;</td>				
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $epl_id_dos->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $epl_id_dos ) );
+						  echo html_entity_decode( $this->formelementerrors ( $epl_id_dos ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $cargo_dos->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $cargo_dos ) );
+						  echo html_entity_decode( $this->formelementerrors ( $cargo_dos ) );
+					?>
+					</td>
+					<td>&nbsp;</td>				
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $pro_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $pro_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $pro_id ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $obr_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $obr_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $obr_id ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $ctr_codigo_final->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $ctr_codigo_final ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_codigo_final ) );
+					?>
+					</td>
+					<td>
+					</td>
+				</tr>
+			</table>
+			</div>
+		</td>
+	</tr>
+</table>
+	<hr />
+			<div align="center">
+				<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+				<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
+			</div>	
+					
+<?php echo $this->form()->closeTag(); ?>
+
+<script>
+
+	$(document).ready(function(){
+
+		/*
+		$("#CON_IDIOMA").change(function(){
+			if($("#CON_IDIOMA").val() == 'I'){
+				location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'I'))?>';
+			}else{
+				//location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'E'))?>';
+			}
+		});
+        */
+		
+		//Carga del combo box de Códigos de teléfono de Ciudades
+		$(".det_con_codigo_ciudad").prop("disabled", true);
+
+		 function codigoCiudadSelect(data_group_id,ciu_id){
+			 
+			$(".det_con_codigo_pais[data-group-id="+data_group_id+"]").on('change',function() {
+				ajaxCiudadSelect(this,data_group_id);
+	        });
+
+			if($(".det_con_codigo_pais[data-group-id="+data_group_id+"]").val() != ''){
+				ajaxCiudadSelect(".det_con_codigo_pais[data-group-id="+data_group_id+"]",data_group_id,ciu_id);	
+			}
+		} 
+
+		function ajaxCiudadSelect(element,data_group_id,ciu_id){
+			if($(element).val() != '' && $(element).val() != null){
+	            $.ajax({
+	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'codigoCiudadTipo')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "det_con_codigo_pais=" + $(element).val(),
+	                beforeSend: function() {
+	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(ciudades) {
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+	                var selected = '';
+	                for (ciudad in ciudades) {
+						if($('#DETALLE_CONTACTO_oculto_'+data_group_id).val() == ciudad){
+							selected = 'selected="selected"';
+						}
+		                
+	                    $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option value="' + ciudad + '" '+selected+'>' + ciudades[ciudad] + '</option>');
+	                }
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", false);
+	                
+	            });
+			}else{
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", true);
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+			}
+		}
+
+		<?php if(sizeof($detalles)<=0): for ($i=0; $i<10; $i++):?>
+			codigoCiudadSelect(<?php echo $i ?>);
+			
+		<?php endfor; endif; ?>
+
+	});
+</script>

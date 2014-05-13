@@ -10,20 +10,20 @@ $form->setAttribute ( 'action', $this->url ( 'contactos', array (
 $formLabel = $this->plugin ( 'formLabel' );
 
 $con_id = $form->get ( 'CON_ID' );
-$car_id = $form->get ( 'CAR_ID' );
+//$car_id = $form->get ( 'CAR_ID' );
 $emp_id = $form->get ( 'EMP_ID' );
 $est_id = $form->get ( 'EST_ID' );
 $estado_oculto = $form->get ( 'estado_oculto' );
 $suc_id = $form->get ( 'SUC_ID' );
 $sucursal_oculto = $form->get ( 'sucursal_oculto' );
-$tip_per_id = $form->get ( 'TIP_PER_ID' );
+//$tip_per_id = $form->get ( 'TIP_PER_ID' );
 $pai_id = $form->get ( 'PAI_ID' );
 $ciu_id = $form->get ( 'CIU_ID' );
 $ciudad_oculto = $form->get ( 'ciudad_oculto' );
 $con_nombre = $form->get ( 'CON_NOMBRE' );
 $con_apellido = $form->get ( 'CON_APELLIDO' );
 $con_email = $form->get ( 'CON_EMAIL' );
-$con_idioma = $form->get ( 'CON_IDIOMA' );
+//$con_idioma = $form->get ( 'CON_IDIOMA' );
 $con_usuario = $form->get ( 'CON_USUARIO' );
 $con_fecha_actualizacion = $form->get ( 'CON_FECHA_ACTUALIZACION' );
 $con_privado = $form->get ( 'CON_PRIVADO' );
@@ -34,12 +34,22 @@ $con_codigo_ciudad = $form->get ( 'CON_CODIGO_CIUDAD' );
 $con_telefono_domicilio_per = $form->get ( 'CON_TELEFONO_DOMICILIO_PER' );
 $con_celular_personal = $form->get ( 'CON_CELULAR_PERSONAL' );
 $con_observaciones = $form->get ( 'CON_OBSERVACIONES' );
+$con_descripcion_es = $form->get ( 'CON_DESCRIPCION_ES' );
+$con_descripcion_en = $form->get ( 'CON_DESCRIPCION_EN' );
+$con_tip_per_es = $form->get ( 'CON_TIP_PER_ES' );
+$con_tip_per_en = $form->get ( 'CON_TIP_PER_EN' );
+
+$con_direccion = $form->get ( 'CON_DIRECCION' );
+$con_secretaria = $form->get ( 'CON_SECRETARIA' );
+$con_secretaria_telefono = $form->get ( 'CON_SECRETARIA_TELEFONO' );
+$con_direccion_domicilio_per = $form->get ( 'CON_DIRECCION_DOMICILIO_PER' );
+$con_estado = $form->get ( 'CON_ESTADO' );
 
 //$date = new Fecha();
 
 echo $this->form ()->openTag ( $form );
 
-//CAMPOs OCULTOS
+//CAMPOS OCULTOS
 echo $this->formhidden ( $con_id );
 echo $this->formelementerrors ( $con_id );
 
@@ -51,6 +61,12 @@ echo $this->formelementerrors ( $sucursal_oculto );
 
 echo $this->formhidden ( $ciudad_oculto );
 echo $this->formelementerrors ( $ciudad_oculto );
+
+echo $this->formhidden ( $con_usuario );
+echo $this->formelementerrors ( $con_usuario );
+
+echo $this->formhidden ( $con_estado );
+echo $this->formelementerrors ( $con_estado );
 ?>
 <ul class="error_container bs-callout bs-callout-danger">
 
@@ -76,34 +92,32 @@ echo $this->formelementerrors ( $ciudad_oculto );
 				</tr>
 				<tr>
 					<td>
-					<?php echo $formLabel->openTag() . $con_idioma->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $con_idioma ) );
-						  echo html_entity_decode( $this->formelementerrors ( $con_idioma ) );
+					<?php echo $formLabel->openTag() . $con_tip_per_es->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_tip_per_es ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_tip_per_es ) ); 
 					?>
 					</td>
-					<td colspan="2">&nbsp;</td>		
-				</tr>
-				<tr>
 					<td>
-					<?php echo $formLabel->openTag() . $tip_per_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $tip_per_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $tip_per_id ) );
+					<?php echo $formLabel->openTag() . $con_tip_per_en->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_tip_per_en ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_tip_per_en ) ); 
 					?>
-					</td>	
+					</td>
 					<td>
 					<?php echo $formLabel->openTag() . $con_nombre->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $con_nombre ) );
 						  echo html_entity_decode( $this->formelementerrors ( $con_nombre ) );
 					?>
 					</td>
+				</tr>
+				<tr>
+					
 					<td>
 					<?php echo $formLabel->openTag() . $con_apellido->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $con_apellido ) );
 						  echo html_entity_decode( $this->formelementerrors ( $con_apellido ) );
 					?>
-					</td>		
-				</tr>
-				<tr>
+					</td>	
 					<td>
 					<?php echo $formLabel->openTag() . $emp_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $emp_id ) );
@@ -115,34 +129,27 @@ echo $this->formelementerrors ( $ciudad_oculto );
 					      echo html_entity_decode( $this->formselect ( $suc_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $suc_id ) );
 					?>
-					</td>		
-					<td>
-					<?php echo $formLabel->openTag() . $car_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $car_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $car_id ) );
-					?>
-					</td>			
+					</td>	
 				</tr>
 				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $con_descripcion_es->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_descripcion_es ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_descripcion_es ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_descripcion_en->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_descripcion_en ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_descripcion_en ) );
+					?>
+					</td>
 					<td>
 					<?php echo $formLabel->openTag() . $con_email->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $con_email ) );
 						  echo html_entity_decode( $this->formelementerrors ( $con_email ) );
 					?>
 					</td>	
-					<td>
-					<?php echo $formLabel->openTag() . $con_usuario->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $con_usuario ) );
-						  echo html_entity_decode( $this->formelementerrors ( $con_usuario ) );
-					?>
-					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $con_fecha_actualizacion->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $con_fecha_actualizacion ) );
-						  echo html_entity_decode( $this->formelementerrors ( $con_fecha_actualizacion ) );
-					?>
-					</td>
-						
 				</tr>
 				<tr>
 					<td>
@@ -161,6 +168,34 @@ echo $this->formelementerrors ( $ciudad_oculto );
 					<?php echo $formLabel->openTag() . $ciu_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $ciu_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ciu_id ) );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $con_secretaria->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_secretaria ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_secretaria ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_secretaria_telefono->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_secretaria_telefono ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_secretaria_telefono ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $con_fecha_actualizacion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $con_fecha_actualizacion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_fecha_actualizacion ) );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td  colspan="3">
+					<?php echo $formLabel->openTag() . $con_direccion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea( $con_direccion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_direccion ) );
 					?>
 					</td>
 				</tr>
@@ -188,10 +223,6 @@ echo $this->formelementerrors ( $ciudad_oculto );
 						  echo html_entity_decode( $this->formelementerrors ( $con_privado ) );
 					?>
 					</td>
-					<td colspan="2">&nbsp;</td>
-				</tr>
-					
-				<tr>
 					<td>
 					<?php echo $formLabel->openTag() . $con_email_personal->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $con_email_personal ) );
@@ -204,7 +235,6 @@ echo $this->formelementerrors ( $ciudad_oculto );
 						  echo html_entity_decode( $this->formelementerrors ( $con_fecha_personal ) );
 					?>
 					</td>
-					<td>&nbsp;</td>	
 				</tr>
 				<tr>
 					<td>
@@ -240,6 +270,14 @@ echo $this->formelementerrors ( $ciudad_oculto );
 					?>
 					</td>		
 				</tr>
+				<tr>
+					<td  colspan="3">
+					<?php echo $formLabel->openTag() . $con_direccion_domicilio_per->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea( $con_direccion_domicilio_per ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_direccion_domicilio_per ) );
+					?>
+					</td>
+				</tr>
 			</table>
 			<table width="100%" cellpadding="5">
 			<tr>
@@ -257,17 +295,10 @@ echo $this->formelementerrors ( $ciudad_oculto );
 					$tip_con_id = $form->get('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][TIP_CON_ID]'); 
 					$con_rel_valor = $form->get('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][CON_REL_VALOR]');
 
-					/* $tip_tel_id->setName('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][TIP_CON_ID]'); 
-					$det_con_codigo_pais->setName('CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][CON_REL_VALOR]');
-					 */
 
 					$tip_con_id->setAttribute('data-group-id',$indice_contacto_relacionado); 
 					$con_rel_valor->setAttribute('data-group-id',$indice_contacto_relacionado);
 
-					/* $tip_tel_id->setValue($detalle->getTip_tel_id());
-					$det_con_codigo_pais->setValue($detalle->getDet_con_codigo_pais());
-					$det_con_valor->setValue($detalle->getDet_con_valor());
-					$det_con_extension->setValue($detalle->getDet_con_extension()); */
 				?>
 				<td><?php echo html_entity_decode($this->formRow($tip_con_id)); ?></td>
 				<td><?php echo html_entity_decode($this->formRow($con_rel_valor)); ?></td>
@@ -320,7 +351,6 @@ echo $this->formelementerrors ( $ciudad_oculto );
 		</td>
 	</tr>
 </table>
-
 	<hr />
 			<div align="center">
 				<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
@@ -333,15 +363,15 @@ echo $this->formelementerrors ( $ciudad_oculto );
 
 	$(document).ready(function(){
 
+		/*
 		$("#CON_IDIOMA").change(function(){
 			if($("#CON_IDIOMA").val() == 'I'){
-				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'I'))?>';
+				location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'I'))?>';
 			}else{
-				location.href = '<?php echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'E'))?>';
+				//location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'E'))?>';
 			}
 		});
-
-
+        */
 		
 		//Carga del combo box de Códigos de teléfono de Ciudades
 		$(".det_con_codigo_ciudad").prop("disabled", true);

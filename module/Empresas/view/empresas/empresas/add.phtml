@@ -132,9 +132,11 @@ echo $this->form ()->openTag ( $form );
 	</div>
 </div>
 
-
+<div align="center">
 <?php echo $this->formRow($form->get('SUBMIT')); ?>
-
+&nbsp;
+<a href="<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'index'))?>" class ="btn btn-primary">Cancelar</a>
+</div>
 <?php echo $this->form()->closeTag(); ?>
 
 <script>
