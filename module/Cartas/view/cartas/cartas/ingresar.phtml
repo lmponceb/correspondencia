@@ -26,13 +26,15 @@ $ctr_saludo = $form->get ( 'CTR_SALUDO' );
 $ctr_despedida = $form->get ( 'CTR_DESPEDIDA' );
 $ctr_tipo = $form->get ( 'CTR_TIPO' );
 $ctr_estado = $form->get ( 'CTR_ESTADO' );
-
 $epl_id_uno = $form->get ( 'EPL_ID_UNO' );
 $cargo_uno = $form->get ( 'CARGO_UNO' );
 $epl_id_dos = $form->get ( 'EPL_ID_DOS' );
 $cargo_dos = $form->get ( 'CARGO_DOS' );
 $emp_id = $form->get ( 'EMP_ID' );
+$suc_id = $form->get ( 'SUC_ID' );
+$sucursal_oculto = $form->get ( 'sucursal_oculto' );
 $con_id = $form->get ( 'CON_ID' );
+$contacto_oculto = $form->get ( 'contacto_oculto' );
 
 echo $this->form ()->openTag ( $form );
 
@@ -57,6 +59,12 @@ echo $this->formelementerrors ( $ctr_tipo );
 
 echo $this->formhidden ( $ctr_estado );
 echo $this->formelementerrors ( $ctr_estado );
+
+echo $this->formhidden ( $contacto_oculto );
+echo $this->formelementerrors ( $contacto_oculto );
+
+echo $this->formhidden ( $sucursal_oculto );
+echo $this->formelementerrors ( $sucursal_oculto );
 ?>
 <ul class="error_container bs-callout bs-callout-danger">
 
@@ -108,12 +116,17 @@ echo $this->formelementerrors ( $ctr_estado );
 					?>
 					</td>
 					<td>
+					<?php echo $formLabel->openTag() . $suc_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $suc_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $suc_id ) );
+					?>
+					</td>
+					<td>
 					<?php echo $formLabel->openTag() . $con_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $con_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $con_id ) );
 					?>
 					</td>
-					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -212,70 +225,116 @@ echo $this->formelementerrors ( $ctr_estado );
 					
 <?php echo $this->form()->closeTag(); ?>
 
+
 <script>
 
 	$(document).ready(function(){
 
-		/*
-		$("#CON_IDIOMA").change(function(){
-			if($("#CON_IDIOMA").val() == 'I'){
-				location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'I'))?>';
-			}else{
-				//location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'E'))?>';
-			}
-		});
-        */
-		
-		//Carga del combo box de Códigos de teléfono de Ciudades
-		$(".det_con_codigo_ciudad").prop("disabled", true);
 
-		 function codigoCiudadSelect(data_group_id,ciu_id){
-			 
-			$(".det_con_codigo_pais[data-group-id="+data_group_id+"]").on('change',function() {
-				ajaxCiudadSelect(this,data_group_id);
-	        });
-
-			if($(".det_con_codigo_pais[data-group-id="+data_group_id+"]").val() != ''){
-				ajaxCiudadSelect(".det_con_codigo_pais[data-group-id="+data_group_id+"]",data_group_id,ciu_id);	
-			}
-		} 
-
-		function ajaxCiudadSelect(element,data_group_id,ciu_id){
-			if($(element).val() != '' && $(element).val() != null){
+		//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
+		$("#SUC_ID").change(function() {
+			if($('#SUC_ID').val() != '' && $('#SUC_ID').val() != null){
 	            $.ajax({
-	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'codigoCiudadTipo')) ?>",
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'contactos')) ?>",
 	                type: "POST",
 	                dataType: "json",
-	                data: "det_con_codigo_pais=" + $(element).val(),
+	                data: "sucursal=" + $('#SUC_ID').val(),
 	                beforeSend: function() {
-	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
-	                	$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>Procesando, espere por favor...</option>');
+	                	$("#CON_ID").html("");
+	                	$("#CON_ID").append('<option>Procesando, espere por favor...</option>');
 	                }
-	            }).done(function(ciudades) {
-	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
-	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
-	                var selected = '';
-	                for (ciudad in ciudades) {
-						if($('#DETALLE_CONTACTO_oculto_'+data_group_id).val() == ciudad){
-							selected = 'selected="selected"';
-						}
-		                
-	                    $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option value="' + ciudad + '" '+selected+'>' + ciudades[ciudad] + '</option>');
+	            }).done(function(sucursales) {
+	                $("#CON_ID").html("");
+	                $("#CON_ID").append('<option value = "">-- Seleccione un destinatario --</option>');
+	                for (sucursal in sucursales) {
+	                    $("#CON_ID").append('<option value="' + sucursal + '">' + sucursales[sucursal] + '</option>');
 	                }
-	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", false);
-	                
+	                $("#CON_ID").prop("disabled", false);
 	            });
 			}else{
-				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").prop("disabled", true);
-				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
-				$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+				//$("#CON_ID").prop("disabled", true);
 			}
-		}
+        });
 
-		<?php if(sizeof($detalles)<=0): for ($i=0; $i<10; $i++):?>
-			codigoCiudadSelect(<?php echo $i ?>);
-			
-		<?php endfor; endif; ?>
+		$("#EMP_ID").change(function() {
+			if($('#EMP_ID').val() != '' && $('#EMP_ID').val() != null){
+	            $.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'contactosempresa')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#EMP_ID').val(),
+	                beforeSend: function() {
+	                	 $("#CON_ID").html("");
+	                	 $("#CON_ID").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(contactos) {
+	                $("#CON_ID").html("");
+	                $("#CON_ID").append('<option value = "">-- Seleccione un destinatario --</option>');
+	                var selected = '';
+	                for (contacto in contactos) {
+	                    $("#CON_ID").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
+	                }
+	                $("#CON_ID").prop("disabled", false);
+	            });
+			}else{
+				$("#CON_ID").prop("disabled", true);
+			}
+        });
+
+		$("#EPL_ID_UNO").change(function() {
+			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
+		});
+
+		$("#EPL_ID_DOS").change(function() {
+			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
+		});
+		
+        function traerCargo(id, val, cargo){
+        	//FUNCION PARA TRAER EL CARGO DE UN EMPLEADO
+    		
+    			if(val != '' && val != null){
+    				
+    	            $.ajax({
+    	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cargo')) ?>",
+    	                type: "POST",
+    	                dataType: "json",
+    	                data: "empleado=" + val,
+    	                beforeSend: function() {
+    	                	$("#"+cargo).val("Procesando, espere por favor...");
+    	                }
+    	            }).done(function(cargobdd) {
+    	            		$("#"+cargo).val(" " + cargobdd["epl_cargo"]);
+    	            });
+    			}else{
+    				$("#"+cargo).prop("disabled", true);
+        		};
+    		
+        }
+
+        $("#PRO_ID").change(function() {
+			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
+	            $.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "proyecto=" + $('#PRO_ID').val(),
+	                beforeSend: function() {
+	                	 $("#OBR_ID").html("");
+	                	 $("#OBR_ID").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(obras) {
+	                $("#OBR_ID").html("");
+	                $("#OBR_ID").append('<option value = "">-- Seleccione una obra --</option>');
+	                var selected = '';
+	                for (obra in obras) {
+	                    $("#OBR_ID").append('<option value="' + obra + '">' + obras[obra] + '</option>');
+	                }
+	                $("#OBR_ID").prop("disabled", false);
+	            });
+			}else{
+				$("#OBR_ID").prop("disabled", true);
+			}
+        });
 
 	});
 </script>

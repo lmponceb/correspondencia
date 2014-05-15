@@ -26,6 +26,10 @@ use Cartas\Model\Entity\Empleado;
 use Cartas\Model\Dao\EmpleadoDao;
 use Cartas\Model\Entity\Proyecto;
 use Cartas\Model\Dao\ProyectoDao;
+use Cartas\Model\Entity\Contacto;
+use Cartas\Model\Dao\ContactoDao;
+use Cartas\Model\Entity\Obra;
+use Cartas\Model\Dao\ObraDao;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -120,6 +124,26 @@ class Module implements AutoloaderProviderInterface
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new Proyecto());
     						return new TableGateway('PROYECTO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Cartas\Model\Dao\ContactoDao' => function($sm){
+    						$tableGateway = $sm->get('ContactoTableGateway');
+    						return new ContactoDao($tableGateway);
+    					},
+    					'ContactoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new Contacto());
+    						return new TableGateway('CONTACTO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Cartas\Model\Dao\ObraDao' => function($sm){
+    						$tableGateway = $sm->get('ObraTableGateway');
+    						return new ObraDao($tableGateway);
+    					},
+    					'ObraTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new Obra());
+    						return new TableGateway('OBRA', $dbAdapter, null, $resultSetPrototype);
     					},
     			),
     	);

@@ -21,7 +21,7 @@ class Carta extends Form {
 				'attributes' => array (
 						'type' => 'hidden',
 						'maxlenght' => '11',
-						'id' => 'CON_ID',
+						'id' => 'CTR_ID',
 						'class' => 'form-control'
 				)
 		) );
@@ -145,7 +145,7 @@ class Carta extends Form {
 						'maxlenght' => '10',
 						'id' => 'CTR_FECHA_CREACION',
 						'class' => 'form-control',
-						'value' => date('d/m/Y')
+						'value' => date('d-M-Y')
 				)
 		) );
 		
@@ -347,7 +347,7 @@ class Carta extends Form {
 				'attributes' => array (
 						'type' => 'text',
 						'readonly' => 'readonly',
-						'id' => 'CTR_ESTADO',
+						'id' => 'CARGO_DOS',
 						'class' => 'form-control'
 				)
 		) );
@@ -356,15 +356,45 @@ class Carta extends Form {
 		/* ********************************************
 		 * CAMPO EMPRESA
 		 * ********************************************/
-		$emp_id = new Select('EMP_ID');
-		$emp_id->setLabel('Compan&iacute;a*: ');
-		$emp_id->setAttributes(array('class' => 'form-control'));
-		$emp_id->setAttributes(array('id' => 'EMP_ID'));
-		$emp_id->setEmptyOption('-- Seleccione --');
-		$emp_id->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
+		$empresa = new Select('EMP_ID');
+		$empresa->setLabel('Empresa*: ');
+		$empresa->setAttributes(array('id' => 'EMP_ID'));
+		$empresa->setAttributes(array('class' => 'form-control'));
+		$empresa->setEmptyOption('-- Seleccione --');
+		//$pais->setValue('1');
+		$empresa->setOptions(array(
+				'disable_inarray_validator' => true, // <-- disable
 		));
-		$this->add($emp_id);
+		$this->add($empresa);
+		
+		/* ********************************************
+		 * CAMPO SUCURSAL
+		 * ********************************************/
+		$sucursal = new Select('SUC_ID');
+		$sucursal->setLabel('Sucursal: ');
+		$sucursal->setAttributes(array('id' => 'SUC_ID'));
+		$sucursal->setAttributes(array('disabled' => 'disabled'));
+		$sucursal->setAttributes(array('class' => 'form-control'));
+		$sucursal->setEmptyOption('-- Seleccione --');
+		//$pais->setValue('1');
+		$sucursal->setOptions(array(
+				'disable_inarray_validator' => true, // <-- disable
+		));
+		$this->add($sucursal);
+		
+		/* ********************************************
+		 * CAMPO SUCURSAL OCULTO
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'sucursal_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'sucursal_oculto',
+						'class' => 'form-control'
+				)
+		) );
 		
 		
 		/* ********************************************
@@ -374,11 +404,26 @@ class Carta extends Form {
 		$con_id->setLabel('Destinatario*: ');
 		$con_id->setAttributes(array('class' => 'form-control'));
 		$con_id->setAttributes(array('id' => 'CON_ID'));
+		$con_id->setAttributes(array('disabled' => 'disabled'));
 		$con_id->setEmptyOption('-- Seleccione --');
 		$con_id->setOptions(array(
 				'disable_inarray_validator' => false, // <-- disable
 		));
 		$this->add($con_id);
+		
+		/* ********************************************
+		 * CAMPO CONTACTO OCULTO
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'contacto_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'contacto_oculto',
+						'class' => 'form-control'
+				)
+		) );
 		
 		
 		//BOTON DE SUBMIT

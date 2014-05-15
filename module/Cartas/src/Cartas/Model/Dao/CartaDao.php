@@ -33,62 +33,49 @@ class CartaDao {
     	return $row;
     }
     
-    /*public function guardar(Contacto $contacto){ 
+    public function guardar(Carta $carta){
     	date_default_timezone_set('America/Guayaquil');
-    	
-    	$id = (int) $contacto->getCon_id();
-    	
+    	 
+    	$id = (int) $carta->getCtr_id();
+    	 
     	$data = array(
-    			'CIU_ID' => (int) $contacto->getCiu_id(),
-    			'CON_NOMBRE' => $contacto->getCon_nombre(),
-    			'CON_APELLIDO' => $contacto->getCon_apellido(),
-    			'CON_EMAIL' => $contacto->getCon_email(),
-    			'CON_USUARIO' => $contacto->getCon_usuario(),
-    			//'CON_FECHA_ACTUALIZACION' => new Sql\Expression('to_date(\'27-APR-2001\', \'DD-MM-YYYY\')'),
-    			'CON_FECHA_ACTUALIZACION' => date('d-M-Y'),
-    			'CON_PRIVADO' => $contacto->getCon_privado(),
-    			'CON_FECHA_NACIMIENTO_PERSONAL' => $contacto->getCon_fecha_nacimiento_personal(),
-    			'CON_DIRECCION_DOMICILIO_PER' => $contacto->getCon_direccion_domicilio_per(),
-    			'CON_EMAIL_PERSONAL' => $contacto->getCon_email_personal(),
-    			'CON_CODIGO_PAIS' => $contacto->getCon_codigo_pais(),
-    			'CON_CODIGO_CIUDAD' => $contacto->getCon_codigo_ciudad(),
-    			'CON_TELEFONO_DOMICILIO_PER' => $contacto->getCon_telefono_domicilio_per(),
-    			'CON_CELULAR_PERSONAL' => $contacto->getCon_celular_personal(),
-    			'CON_OBSERVACIONES' => $contacto->getCon_observaciones(),
-    			'EMP_ID' => $contacto->getEmp_id(),
-    			
-    			'CON_DESCRIPCION_ES' => $contacto->getCon_descripcion_es(),
-    			'CON_DESCRIPCION_EN' => $contacto->getCon_descripcion_en(),
-    			'CON_TIP_PER_ES' => $contacto->getCon_tip_per_es(),
-    			'CON_TIP_PER_EN' => $contacto->getCon_tip_per_en(),
-    			'CON_DIRECCION' => $contacto->getCon_direccion(),
-    			'CON_SECRETARIA' => $contacto->getCon_secretaria(),
-    			'CON_SECRETARIA_TELEFONO' => $contacto->getCon_secretaria_telfono(),
-    			'CON_ESTADO' => $contacto->getCon_estado()
+    			//'CTR_ID' => (int) $carta->getCtr_id(),
+    			'OBR_ID' => $carta->getObr_id(),
+    			'EMP_INT_ID' => $carta->getEmp_int_id(),
+    			'US_CODIGO' => $carta->getUs_codigo(),
+    			'TIP_CAR_ID' => $carta->getTip_car_id(),
+    			'CTR_IDIOMA' => $carta->getCtr_idioma(),
+    			'CTR_FECHA_CREACION' => $carta->getCtr_fecha_creacion(),
+    			'CTR_CUERPO' => $carta->getCtr_cuerpo(),
+    			'CTR_CODIGO_FINAL' => $carta->getCtr_codigo_final(),
+    			'CTR_FECHA_ACTUALIZACION' => date('d-M-Y'),
+    			'CTR_REFERENCIA' => $carta->getCtr_referencia(),
+    			'CTR_SALUDO' => $carta->getCtr_saludo(),
+    			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
+    			'CTR_TIPO' => $carta->getCtr_tipo(),
+    			'CTR_ESTADO' => $carta->getCtr_estado()
     	);
-    	
+    	 
     	if(empty($id) || is_null($id)){
-    		$data['CON_ID'] = new Sql\Expression('s_contacto.nextVal');
+    		$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');
     		$this->tableGateway->insert($data);
-			
-			$adapter=$this->tableGateway->getAdapter();
-			$query ="SELECT s_contacto.currVal FROM CONTACTO";
-			$statement = $adapter->query ( $query );
-			$results =  $statement->execute ();
-			
-			return $results;
-    		
-    		//$data['emp_id'] = new \Zend\Db\Sql\Expression('s_contacto.currVal');
-    		//$this->tableGateway->insert($data);
-    		
+    			
+    		$adapter=$this->tableGateway->getAdapter();
+    		$query ="SELECT s_carta.currVal FROM CARTA";
+    		$statement = $adapter->query ( $query );
+    		$results =  $statement->execute ();
+    			
+    		return $results;
+    
     	}else{
     		if($this->traer($id)){
-    			$this->tableGateway->update($data, array('CON_ID' => $id ));
+    			$this->tableGateway->update($data, array('CTR_ID' => $id ));
     		}else{
     			throw new \Exception( 'No se encontro el id para actualizar' );
     		}
     	}
     }
+    /*
 
 	public function cambiarEstado($id, $estado){
 		

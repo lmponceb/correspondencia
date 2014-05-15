@@ -42,4 +42,10 @@ class EmpleadoDao {
     
     	return $result;
     }
+    
+    public function traer($emp_id){
+    	$resultSet = $this->tableGateway->select(array('EPL_ID' => $emp_id));
+    	$row = $resultSet->current();
+    	return $row;
+    }
 }
