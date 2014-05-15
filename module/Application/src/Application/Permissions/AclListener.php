@@ -28,24 +28,32 @@ class AclListener implements ListenerAggregateInterface{
         
         $acl = new Acl();
         
-        $acl->addRole(new Role('operativo'))
-            ->addRole(new Role('gerencial'))
-            ->addRole(new Role('admin'));
+        $acl->addRole(new Role('O'))
+            ->addRole(new Role('G'))
+            ->addRole(new Role('A'));
         
-        $acl->addResource(new Resource('empresas:index'))
-        ->addResource(new Resource('empresas:add'))
-        ->addResource(new Resource('empresas:empresas'))
+        $acl->addResource(new Resource('empresas:empresas'))
         ->addResource(new Resource('application:login'))
-        ->addResource(new Resource('application:index'))
-        ->addResource(new Resource('usuarios'))        
-        ->allow('admin', 'application:login')
-        ->allow('admin', 'application:index')
-        ->allow('admin', 'empresas:index')
-        ->allow('admin', 'empresas:empresas') 
-        ->allow('admin', 'empresas:add')    
-        ->allow('admin', 'usuarios')            
-        ->allow('admin');
+        ->addResource(new Resource('application:error'))
+        ->addResource(new Resource('contactos:index'))
+        ->addResource(new Resource('cartas:cartas'))
+        ->allow('A', 'application:login')
+        ->allow('A', 'application:error')
+        ->allow('A', 'empresas:empresas')
+        ->allow('A', 'contactos:index')
+        ->allow('A', 'cartas:cartas')
         
+        ->allow('G', 'application:login')
+        ->allow('G', 'application:error')
+        ->allow('G', 'empresas:empresas')
+        ->allow('G', 'contactos:index')
+        ->allow('G', 'cartas:cartas')
+        
+        ->allow('O', 'application:login')
+        ->allow('O', 'application:error')
+        ->allow('O', 'empresas:empresas')
+        ->allow('O', 'contactos:index')
+        ->allow('O', 'cartas:cartas');
         
         $application = $e->getApplication();
         $services = $application->getServiceManager();
@@ -70,13 +78,13 @@ class AclListener implements ListenerAggregateInterface{
     
     private function getRole($sm){
         $auth = $sm->get('Application\Model\Login');
-        $role = 'admin';
+        $role = 'A';
         
         if($auth->isLoggedIn()){
             if(!empty($auth->getIdentity()->usu_role)){
                 $role = $auth->getIdentity()->usu_role;
             } else {
-                $auth->getIdentity()->usu_role = 'admin';
+                $auth->getIdentity()->usu_role = 'A';
                 $role = $auth->getIdentity()->usu_role;
             }
         }
