@@ -30,9 +30,13 @@ class IndexController extends AbstractActionController {
 	protected $detalleContactoDao;
 	protected $contactoRelacionado;
 	private $privado = 'S';
-	private $tipo_usuario = 'A';
+	private $tipo_usuario;
 	private $tipoContactoDao;
 	protected $tipoTelefonoDao;
+	
+	public function __construct(){
+		$this->tipo_usuario = $_SESSION['Zend_Auth']['storage']->us_role;
+	}
 	
 	public function indexAction() {
 		return $this->redirect ()->toRoute ( 'contactos', array (

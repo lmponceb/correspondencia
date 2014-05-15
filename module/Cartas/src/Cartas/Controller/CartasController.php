@@ -27,7 +27,6 @@ class CartasController extends AbstractActionController
 	
     public function listadoAction()
     {
-    	
         $cartas = $this->getCartaDao ()->traerTodos ();
 		
 		return new ViewModel ( array (

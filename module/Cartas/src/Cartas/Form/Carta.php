@@ -128,8 +128,7 @@ class Carta extends Form {
 						'maxlenght' => '20',
 						'id' => 'US_CODIGO',
 						'class' => 'form-control',
-						'value' => 'manucv'
-						//'value' => $_SESSION['Zend_Auth']['storage']->doc_id
+						'value' => $_SESSION['Zend_Auth']['storage']->us_codigo
 				)
 		) );
 		

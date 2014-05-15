@@ -25,7 +25,7 @@ class AclListener implements ListenerAggregateInterface{
     }
     
     public function onDispatch(MvcEvent $e){
-        
+    	
         $acl = new Acl();
         
         $acl->addRole(new Role('O'))

@@ -207,8 +207,8 @@ class Contacto extends Form {
 						'id' => 'CON_USUARIO',
 						'class' => 'form-control',
 						'readonly' => 'readonly',
-						'value' => 'manucv'
-						//'value' => $_SESSION['Zend_Auth']['storage']->doc_id
+						//'value' => 'manucv'
+						'value' => $_SESSION['Zend_Auth']['storage']->us_codigo
 				)
 		) );
 		
