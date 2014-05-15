@@ -95,6 +95,7 @@ use Zend\View\Model\ViewModel;
         }
 
         $params=$this->request->getPost();
+
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);
@@ -127,6 +128,26 @@ use Zend\View\Model\ViewModel;
           
             $listado = $this->getEmpresasDao()->traerListadoJsonPorNombre($term,$emp_id);   
 
+
+            $response=$this->getResponse();
+            $response->setStatusCode(200);
+            $response->setContent($listado);
+            return $response;
+        }else{
+
+            return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
+        }
+
+     }
+
+     public function consultaCedulaXmlHttpAction()
+     {  
+        if($this->getRequest()->isXmlHttpRequest()){
+            $emp_documento =  $this->getRequest()->getPost('EMP_DOCUMENTO');
+            $emp_id =  $this->getRequest()->getPost('EMP_ID');
+          
+            $listado = $this->getEmpresasDao()->existeDocumento($emp_documento,$emp_id);   
+
             $response=$this->getResponse();
             $response->setStatusCode(200);
             $response->setContent($listado);
@@ -134,7 +155,7 @@ use Zend\View\Model\ViewModel;
         }else{
             return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
         }
-     }
+     }     
      
      public function getEmpresasDao()
      {

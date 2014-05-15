@@ -199,6 +199,22 @@ namespace Empresas\Form;
              )
         ));
 
+        $this->add(array(
+             'name' => 'EMP_ESTADO',
+             'type' => 'Zend\Form\Element\Select',
+             'options' => array(
+                 'label' => 'Estado*:',
+                 'empty_option' => '-- Seleccione --',
+                 'value_options' => array(
+                    '1' => 'ACTIVO',
+                    '2' => 'INACTIVO'
+                 )
+             ),
+             'attributes' => array(
+                 'id' => 'EMP_ESTADO',
+                 'class' => 'form-control'
+             )
+        ));
         
 
         $this->add(array(

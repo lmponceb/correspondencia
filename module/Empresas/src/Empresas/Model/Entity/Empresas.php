@@ -15,6 +15,7 @@ namespace Empresas\Model\Entity;
     public $emp_email;
     public $emp_pagina_web;
     public $emp_documento;
+    public $emp_estado;    
 
     public function getEmp_id(){ return $this->emp_id; }
     public function getEmp_emp_id(){ return $this->emp_emp_id; }
@@ -27,6 +28,7 @@ namespace Empresas\Model\Entity;
     public function getEmp_email(){ return $this->emp_email; }
     public function getEmp_pagina_web(){ return $this->emp_pagina_web; }
     public function getEmp_documento(){ return $this->emp_documento; }
+    public function getEmp_estado(){ return $this->emp_estado; }    
 
     public function setEmp_id ($emp_id) { $this->emp_id=emp_id; }
     public function setEmp_emp_id ($emp_emp_id) { $this->emp_emp_id=emp_emp_id; }
@@ -39,6 +41,7 @@ namespace Empresas\Model\Entity;
     public function setEmp_email ($emp_email) { $this->emp_email=emp_email; }
     public function setEmp_pagina_web ($emp_pagina_web) { $this->emp_pagina_web=emp_pagina_web; }
     public function setEmp_documento ($emp_documento) { $this->emp_documento=emp_documento; }
+    public function setEmp_estado ($emp_estado) { $this->emp_estado=emp_estado; }    
 
     public function exchangeArray($data)
     {
@@ -53,6 +56,8 @@ namespace Empresas\Model\Entity;
         $this->emp_email = (!empty($data['EMP_EMAIL'])) ? $data['EMP_EMAIL'] : null;
         $this->emp_pagina_web = (!empty($data['EMP_PAGINA_WEB'])) ? $data['EMP_PAGINA_WEB'] : null;    
         $this->emp_documento = (!empty($data['EMP_DOCUMENTO'])) ? $data['EMP_DOCUMENTO'] : null;           
+        $this->emp_estado = (!empty($data['EMP_ESTADO'])) ? $data['EMP_ESTADO'] : null;           
+
     }
 
     public function getArrayCopy(){

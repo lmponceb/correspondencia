@@ -26,11 +26,13 @@
      public function traerTodosPorJerarquia()
      {
         $adapter = $this->tableGateway->getAdapter();
-        $sql =" SELECT EMP_ID, EMP_ID as PADRE, EMP_NOMBRE,EMP_EMAIL,EMP_PAGINA_WEB, 0 AS NIVEL FROM EMPRESA WHERE EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0 ";
+        $sql =" SELECT EMP_ID, EMP_ID as PADRE, EMP_NOMBRE, '' AS PADRE_NOMBRE ,EMP_EMAIL,EMP_PAGINA_WEB, 0 AS NIVEL  FROM EMPRESA WHERE (EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0) and (EMP_ESTADO is null or EMP_ESTADO != '2') ";
         $sql.=" UNION ";
-        $sql.=" SELECT EMP_ID, EMP_EMP_ID as PADRE, EMP_NOMBRE as EMP_NOMBRE ,EMP_EMAIL,EMP_PAGINA_WEB,1  AS NIVEL FROM EMPRESA WHERE EMP_EMP_ID IS NOT NULL AND EMP_EMP_ID != 0 ";
+        $sql.=" SELECT E.EMP_ID, E.EMP_EMP_ID as PADRE, E.EMP_NOMBRE as EMP_NOMBRE , PE.EMP_NOMBRE AS PADRE_NOMBRE, E.EMP_EMAIL,E.EMP_PAGINA_WEB,1  AS NIVEL FROM EMPRESA E JOIN EMPRESA PE ON E.EMP_EMP_ID = PE.EMP_ID WHERE E.EMP_EMP_ID IS NOT NULL AND (E.EMP_ESTADO IS NULL OR E.EMP_ESTADO != '2')  ";
+        $sql.=" AND E.EMP_EMP_ID IN (SELECT EMP_ID FROM EMPRESA WHERE (EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0) and (EMP_ESTADO is null or EMP_ESTADO != '2'))";
         $sql.=" ORDER BY 2,3 ";
         
+
         $statement = $adapter->query($sql);
         $results = $statement->execute();
 
@@ -41,6 +43,7 @@
             $empresa = new Empresas();
             $empresa->exchangeArray($row);
             $empresa->nivel=$row['NIVEL'];
+            $empresa->padre_nombre=$row['PADRE_NOMBRE'];
             $empresas->append($empresa);
         }
 
@@ -98,8 +101,7 @@
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();
         $select->from($this->tableGateway->table);
-        $select->where->expression('UPPER(EMP_NOMBRE) LIKE UPPER(?)','%'.$term.'%'); //espera 2 parametros
-        $select->where->literal('(EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0)');
+
         if($emp_id != '' && !is_null($emp_id)){
             $select->where->notEqualTo('EMP_ID',$emp_id);
         }
@@ -119,7 +121,29 @@
 
         return json_encode($result);
 
-    }
+     }
+
+     public function existeDocumento($emp_documento,$emp_id=null){
+
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from($this->tableGateway->table);
+        $select->where(array('EMP_DOCUMENTO' => $emp_documento));
+        if($emp_id != '' && !is_null($emp_id)){
+            $select->where->notEqualTo('EMP_ID',$emp_id);
+        }
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $count=0;
+        foreach($results as $row){$count++; break;   }
+        if($count){
+            return 'false';   
+        }
+ 
+        return 'true'; 
+
+     }
 
      public function guardar(Empresas $empresa){
 
@@ -134,10 +158,10 @@
             'emp_sector'=>$empresa->getEmp_sector(),
             'emp_email'=>$empresa->getEmp_email(),
             'emp_pagina_web'=>$empresa->getEmp_pagina_web(),
-           // 'emp_fecha_actualizacion' => date('d/m/y'),
         	'emp_fecha_actualizacion' => date('d-M-Y'),
             'emp_usuario'=>1,
-            'emp_documento' => $empresa->getEmp_documento()
+            'emp_documento' => $empresa->getEmp_documento(),
+            'emp_estado' => $empresa->getEmp_estado()
         );
 
         

@@ -78,6 +78,10 @@ echo $this->form ()->openTag ( $form );
 		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_EMAIL')); ?></div>
 		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_PAGINA_WEB')); ?></div>
 	</div>
+
+	<div class="row azul-form-row">
+		<div class="col-md-6"><?php echo $this->formRow($form->get('EMP_ESTADO')); ?></div>
+	</div>	
 </div>
 
 <div class="panel panel-default">
@@ -142,6 +146,19 @@ echo $this->form ()->openTag ( $form );
 <script>
 
 	$(document).ready(function(){
+
+		jQuery.validator.addMethod("choosen",function(value,element){
+			console.log(value);
+			var emp_emp_id= $('#emp_emp_id').val();
+			console.log(emp_emp_id);
+
+		    if(value!='' && $('#emp_emp_id').val()==''){
+		    	return false;	
+		    }else{
+		    	return true;
+		    }
+		},"Debe seleccionar un matriz válida");
+
 		//Carga del combo box de Códigos de teléfono de Ciudades
 		$(".det_con_codigo_ciudad").prop("disabled", true);
 
@@ -200,7 +217,20 @@ echo $this->form ()->openTag ( $form );
 				EMP_REFERENCIA: {},
 				EMP_SECTOR: {required: true},
 				EMP_EMAIL: {required: true, email:true},
-				EMP_PAGINA_WEB: {url:true}
+				EMP_PAGINA_WEB: {url:true},
+				EMP_ESTADO: {required: true},
+				EMP_DOCUMENTO: {
+					remote: {
+        				url: "<?php echo $this->basePath() ?>/empresas/consultaCedulaXmlHttp",
+        				type: "post",
+        				data: {
+          					EMP_ID: function() {
+            					return $( "#emp_id" ).val();
+          					}
+        				}
+      				}
+				},
+				EMP_EMP_ID_AUTOCOMPLETAR: { choosen: true }
 	 		},
 	 		messages:{
 				EMP_NOMBRE: {required:'Nombre es un campo requerido'},
@@ -212,7 +242,9 @@ echo $this->form ()->openTag ( $form );
 				EMP_REFERENCIA: {},
 				EMP_SECTOR: {required: 'Sector es un campo requerido'},
 				EMP_EMAIL: {required: 'Email es un campo requerido',email: 'Ingrese un Email válido'},
-				EMP_PAGINA_WEB: {url: 'Ingrese una Pagina Web válida'}
+				EMP_PAGINA_WEB: {url: 'Ingrese una Pagina Web válida'},
+				EMP_ESTADO: {required: 'Estado es un campo requerido'},
+				EMP_DOCUMENTO: {remote: 'Documento/RUC ya existe en el sistema'}
 	 	 	}
 		});
 
@@ -233,6 +265,7 @@ echo $this->form ()->openTag ( $form );
 			});
 		});
 
+<<<<<<< HEAD
 		/* Autocompletar de Sucursales */
 		$( "#emp_emp_id_autocompletar" ).autocomplete({
 	        source: function(request, response) {
@@ -260,5 +293,24 @@ echo $this->form ()->openTag ( $form );
 			$(this).val('<?php echo $form->get("CIU_ID")->getValue(); ?>');
 		});
 
+		$("#emp_emp_id_autocompletar").on('keyup',function(){
+			$("#emp_emp_id").val('');
+		});
+
+=======
+		var empresas = new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			remote: '<?php echo $this->basePath() ?>/empresas/consultaXmlHttp?emp_nombre=%QUERY'
+		});
+		 
+		empresas.initialize();
+		 
+		$('#emp_emp_id').typeahead(null, {
+			name: 'emp_emp_id_2',
+			displayKey: 'value',
+			source: empresas.ttAdapter()
+		});
+>>>>>>> user_access
 	});
 </script>
