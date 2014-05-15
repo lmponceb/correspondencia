@@ -1,0 +1,56 @@
+<?php if(!$this->loggedIn): ?>
+<?php 
+
+$form = $this->form;
+$form->prepare ()->setAttribute ( 'action', $this->url ( 'application', array (
+		'controller' => 'login',
+		'action' => 'autenticar'
+) ) )->setAttribute ( 'method', 'post' );
+$formLabel = $this->plugin ( 'formLabel' );
+
+echo $this->form()->openTag($form);
+
+?>
+<div class="container">
+<div class="row">
+	<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-4 col-lg-5 col-lg-offset-3 form-login-header">
+		<img src="<?php echo $this->basepath() . '/img/png/circulo.png'?>" class="form-login-img" />
+	</div>
+</div>
+
+
+<div class="row">
+<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-4 col-lg-5 col-lg-offset-3 form-login-item">
+	<?php 
+	$email = $form->get('usu_usuario');
+	echo $formLabel->openTag().$email->getOption('label');
+	echo $formLabel->closeTag();
+	echo $this->forminput($email);
+	echo $this->formelementerrors($email);
+	
+	?>
+</div>
+</div>
+<div class="row">
+<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-4 col-lg-5 col-lg-offset-3 form-login-item">
+	<?php 
+	$password = $form->get('usu_clave');
+	echo $formLabel->openTag().$password->getOption('label');
+	echo $formLabel->closeTag();
+	echo $this->forminput($password);
+	echo $this->formelementerrors($password);
+	?>
+</div>
+</div>
+<div class="row">
+<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-4 col-lg-5 col-lg-offset-3 form-login-button">
+	<div class="col-sm-6 col-md-5 col-lg-6"><?php echo $this->formelement($form->get('ingresar')) ?></div>
+	<div class="clearfix visible-xs">&nbsp;</div>
+	<div class="col-sm-6 col-md-7 col-lg-6"><a href="" class="btn btn-info">&iquest;Olvid&oacute; su contrase&ntilde;a?</a></div>
+</div>
+</div>
+</div>
+
+<?php echo $this->form()->closeTag() ?>
+
+<?php endif; ?>

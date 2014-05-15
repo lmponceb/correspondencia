@@ -25,7 +25,7 @@
      ),
  		
  	'module_layouts' => array(
- 		'Usuarios'  => 'layout/layout.phtml',
+ 		'Application'  => 'layout/layout.phtml',
  		'Empresas'  => 'layout/layoutCorrespondencia.phtml',
  		'Contactos' => 'layout/layoutCorrespondencia.phtml',
  		'Cartas'    => 'layout/layoutCorrespondencia.phtml',
