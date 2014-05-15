@@ -15,6 +15,14 @@ class ObraDao {
     	$this->tableGateway = $tableGateway;
     }
     
+    public function traer($id){
+    	$id = (int) $id;
+    	
+    	$rowset = $this->tableGateway->select(array('OBR_ID' => $id));
+    	$row = $rowset->current();
+    	return $row;
+    }
+    
     public function getObrasPorProyecto($pro_id){
     	 
     	$sql = new Sql($this->tableGateway->getAdapter());
