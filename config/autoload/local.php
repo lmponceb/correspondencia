@@ -21,7 +21,7 @@
 
 return array(
 		'db' => array(
-				'username' => 'system',
-				'password' => 'admin',
+				'username' => 'correspondencia',
+				'password' => '123',
 		),
 );

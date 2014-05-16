@@ -15,7 +15,7 @@ class EmpresaDao {
     	$this->tableGateway = $tableGateway;
     }
     
-    /* public function traerTodos(){
+    public function traerTodos(){
     	$resultSet = $this->tableGateway->select();
          return $resultSet;
     }
@@ -24,7 +24,7 @@ class EmpresaDao {
     	$resultSet = $this->tableGateway->select(array('EMP_ID' => $id));
     	$row = $resultSet->current();
     	return $row;
-    } */
+    }
     
     /* public function traerPadre($id){
     	$resultSet = $this->tableGateway->select(array('EMP_EMP_ID' => $id));

@@ -35,6 +35,8 @@ $suc_id = $form->get ( 'SUC_ID' );
 $sucursal_oculto = $form->get ( 'sucursal_oculto' );
 $con_id = $form->get ( 'CON_ID' );
 $contacto_oculto = $form->get ( 'contacto_oculto' );
+$empresa_oculto = $form->get ( 'empresa_oculto' );
+$proyecto_oculto = $form->get ( 'proyecto_oculto' );
 
 $proyecto_oculto = $form->get ( 'proyecto_oculto' );
 
@@ -67,6 +69,10 @@ echo $this->formelementerrors ( $contacto_oculto );
 
 echo $this->formhidden ( $sucursal_oculto );
 echo $this->formelementerrors ( $sucursal_oculto );
+
+
+echo $this->formhidden ( $empresa_oculto );
+echo $this->formelementerrors ( $empresa_oculto );
 
 echo $this->formhidden ( $proyecto_oculto );
 echo $this->formelementerrors ( $proyecto_oculto );
@@ -265,7 +271,14 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	                $("#CON_ID").html("");
 	                $("#CON_ID").append('<option value = "">-- Seleccione un destinatario --</option>');
 	                for (sucursal in sucursales) {
-	                    $("#CON_ID").append('<option value="' + sucursal + '">' + sucursales[sucursal] + '</option>');
+
+	                	if($("#contacto_oculto").val() == contacto){
+							selected = 'selected="selected"';
+						}else{
+							selected = '';
+						}
+		                
+	                    $("#CON_ID").append('<option value="' + sucursal + '" '+selected+'>' + sucursales[sucursal] + '</option>');
 	                }
 	                $("#CON_ID").prop("disabled", false);
 	            });
@@ -299,11 +312,51 @@ echo $this->formelementerrors ( $proyecto_oculto );
 			}
         });
 
+		$("#EMP_ID").ready(function() {
+			if($('#EMP_ID').val() != '' && $('#EMP_ID').val() != null){
+	            $.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'contactosempresa')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#EMP_ID').val(),
+	                beforeSend: function() {
+	                	 $("#CON_ID").html("");
+	                	 $("#CON_ID").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(contactos) {
+	                $("#CON_ID").html("");
+	                $("#CON_ID").append('<option value = "">-- Seleccione un destinatario --</option>');
+	                var selected = '';
+	                for (contacto in contactos) {
+
+	                	if($("#contacto_oculto").val() == contacto){
+							selected = 'selected="selected"';
+						}else{
+							selected = '';
+						}
+		                
+	                    $("#CON_ID").append('<option value="' + contacto + '" '+selected+'>' + contactos[contacto] + '</option>');
+	                }
+	                $("#CON_ID").prop("disabled", false);
+	            });
+			}else{
+				$("#CON_ID").prop("disabled", true);
+			}
+        });
+
 		$("#EPL_ID_UNO").change(function() {
 			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
 		});
 
+		$("#EPL_ID_UNO").ready(function() {
+			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
+		});
+
 		$("#EPL_ID_DOS").change(function() {
+			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
+		});
+
+		$("#EPL_ID_DOS").ready(function() {
 			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
 		});
 		

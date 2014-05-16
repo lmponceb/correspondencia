@@ -101,6 +101,14 @@ class CartaDao {
     	
     	$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');
     	$this->tableGateway->insert($data);
+
+    	
+    	$adapter=$this->tableGateway->getAdapter();
+    	$query ="SELECT s_carta.currVal FROM CARTA";
+    	$statement = $adapter->query ( $query );
+    	$results =  $statement->execute ();
+    	 
+    	return $results;
     }
     
 	public function procesar($id, $rol){

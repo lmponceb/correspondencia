@@ -23,6 +23,10 @@ class CartaDestinatarioDao {
     	return $row;
     }
     
+    public function eliminarPorCarta($ctr_id){
+    	$this->tableGateway->delete(array('CTR_ID' => $ctr_id));
+    }
+    
     public function guardar(CartaDestinatario $carta){
     	date_default_timezone_set('America/Guayaquil');
     	 
@@ -33,6 +37,18 @@ class CartaDestinatarioDao {
     	);
     	 
     		$this->tableGateway->insert($data);
+    }
+    
+    public function duplicar(CartaDestinatario $carta, $ctr_id){
+    	date_default_timezone_set('America/Guayaquil');
+    
+    	$data = array(
+    			'CTR_ID' => $ctr_id,
+    			'CON_ID' => $carta->getCon_id(),
+    			'CAR_DES_PRINCIPAL' => $carta->getCar_des_principal(),
+    	);
+    
+    	$this->tableGateway->insert($data);
     }
 	
 }

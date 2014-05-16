@@ -1281,4 +1281,3 @@ Insert into "vista_usuario"
  Values
    ('manucv', 'manucv', 'Emanuel Carrasco V.', 'A');
 COMMIT;
-
