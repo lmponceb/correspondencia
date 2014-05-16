@@ -34,8 +34,11 @@
  foreach ($this->cartas as $carta) : ?>
  <tr>
  	 <td width="100">
- 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'editar', 'id' => $carta->getCtr_id()))?>" title="Actualizar" alt="Actualizar">Editar</a> |
+ 	 	<?php $estado = $carta->getCtr_tipo(); if(strtoupper($estado) == 'P'): ?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $carta->getCtr_id()))?>" title="Duplicar" alt="Duplicar">Duplicar</a>
+ 	 	<?php else:?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'editar', 'id' => $carta->getCtr_id()))?>" title="Actualizar" alt="Actualizar">Editar</a>
+ 	 	<?php endif; ?>
  	 </td>
 	 <td><?php echo $this->escapeHtml($carta->getEmp_int_nombre());?></td>
  	 <td><?php echo $this->escapeHtml($carta->getTip_car_descripcion());?></td>

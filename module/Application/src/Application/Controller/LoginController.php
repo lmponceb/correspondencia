@@ -66,8 +66,9 @@ class LoginController extends AbstractActionController {
 			$this->login->login ( $usuario, $clave );
 			
 			//$docId = $this->login->getIdentity()->doc_id;
-			//$role = $this->login->getIdentity()->usu_role;
-			
+
+			$role = $this->login->getIdentity()->us_role;
+
 			/*if(!empty($docId) && !is_null($docId) && strtolower($role) == 'medico'){
 				return $this->redirect ()->toRoute ( 'recetas', array (
 						'controller' => 'index',

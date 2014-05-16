@@ -8,9 +8,17 @@ use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\GenericRole as Role;
 use Zend\Permissions\Acl\Resource\GenericResource as Resource;
 
+use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\Expression;
+
 class AclListener implements ListenerAggregateInterface{
     
     protected $listeners = array();
+    protected $rolUsuarioDao;
+
+    /*public function __construct($dbauth){
+        print_r($dbauth);
+    }*/
     
     public function attach(EventManagerInterface $events, $priority = 100){
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatch'), $priority);
@@ -24,35 +32,75 @@ class AclListener implements ListenerAggregateInterface{
         }
     }
     
+
+
     public function onDispatch(MvcEvent $e){
+
+
+
+        $app = $e->getParam('application');
+        $sm = $app->getServiceManager();
+        $config = $sm->get('config');
+
+        $db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db'] );
+
+         $sql = new Sql($db_auth);
+         $selectRoles = $sql->select();
+         $selectRoles->from('ROL');
+         $selectRoles->join(array('RA' => 'ROL_APLICACION'),'ROL.ROL_ID = RA.ROL_ID');
+         $selectRoles->join(array('A' => 'APLICACION'),'RA.APL_ID = A.APL_ID');
+        $statement = $sql->prepareStatementForSqlObject($selectRoles);
+        $results = $statement->execute();
+
         $acl = new Acl();
-        
-        $acl->addRole(new Role('O'))
-            ->addRole(new Role('G'))
-            ->addRole(new Role('A'));
-        
-        $acl->addResource(new Resource('empresas:empresas'))
+ 
+        $permissionsArray=array();
+
+        foreach($results as $rol){
+            $permissionsArray[$rol['ROL_ID']][$rol['APL_ID']]=$rol['APL_DESCRIPCION'];
+        }
+
+         $selectResource = $sql->select();
+         $selectResource->from('APLICACION');
+         $statement = $sql->prepareStatementForSqlObject($selectResource);
+         $results = $statement->execute();
+
+        foreach($results as $resource){
+            $acl->addResource(new Resource($resource['APL_DESCRIPCION']));
+        }
+
+        foreach($permissionsArray as $rol_id=>$permission){
+            $acl->addRole(new Role($rol_id));
+            foreach($permission as $apl_id=>$resource){
+                $acl->allow($rol_id, $resource);
+            }            
+        }
+
+
+       /* $acl->addResource(new Resource('empresas:empresas'))
         ->addResource(new Resource('application:login'))
+        ->addResource(new Resource('application:index'))
         ->addResource(new Resource('application:error'))
         ->addResource(new Resource('contactos:index'))
         ->addResource(new Resource('cartas:cartas'))
-        ->allow('A', 'application:login')
-        ->allow('A', 'application:error')
-        ->allow('A', 'empresas:empresas')
-        ->allow('A', 'contactos:index')
-        ->allow('A', 'cartas:cartas')
+        ->allow('1', 'application:index')
+        ->allow('1', 'application:login')
+        ->allow('1', 'application:error')
+        ->allow('1', 'empresas:empresas')
+        ->allow('1', 'contactos:index')
+        ->allow('1', 'cartas:cartas')
         
-        ->allow('G', 'application:login')
-        ->allow('G', 'application:error')
-        ->allow('G', 'empresas:empresas')
-        ->allow('G', 'contactos:index')
-        ->allow('G', 'cartas:cartas')
+        ->allow('2', 'application:login')
+        ->allow('2', 'application:error')
+        ->allow('2', 'empresas:empresas')
+        ->allow('2', 'contactos:index')
+        ->allow('2', 'cartas:cartas')
         
-        ->allow('O', 'application:login')
-        ->allow('O', 'application:error')
-        ->allow('O', 'empresas:empresas')
-        ->allow('O', 'contactos:index')
-        ->allow('O', 'cartas:cartas');
+        ->allow('3', 'application:login')
+        ->allow('3', 'application:error')
+        ->allow('3', 'empresas:empresas')
+        ->allow('3', 'contactos:index')
+        ->allow('3', 'cartas:cartas');*/
         
         $application = $e->getApplication();
         $services = $application->getServiceManager();
@@ -77,17 +125,19 @@ class AclListener implements ListenerAggregateInterface{
     
     private function getRole($sm){
         $auth = $sm->get('Application\Model\Login');
-        $role = 'A';
+        $role = '1';
         
         if($auth->isLoggedIn()){
-            if(!empty($auth->getIdentity()->usu_role)){
-                $role = $auth->getIdentity()->usu_role;
+            if(!empty($auth->getIdentity()->us_role)){
+                $role = $auth->getIdentity()->us_role;
             } else {
-                $auth->getIdentity()->usu_role = 'A';
-                $role = $auth->getIdentity()->usu_role;
+                $auth->getIdentity()->us_role = '1';
+                $role = $auth->getIdentity()->us_role;
             }
         }
         return $role;
     }
+
+    
     
 }

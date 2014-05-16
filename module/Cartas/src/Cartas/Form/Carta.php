@@ -36,7 +36,7 @@ class Carta extends Form {
 				'attributes' => array (
 						'type' => 'hidden',
 						'maxlenght' => '11',
-						'id' => 'ciudad_oculto',
+						'id' => 'obra_oculto',
 						'class' => 'form-control'
 				)
 		) );
@@ -97,6 +97,21 @@ class Carta extends Form {
 				'disable_inarray_validator' => false, // <-- disable
 		));
 		$this->add($pro_id);
+		
+		
+		/* ********************************************
+		 * CAMPO PROYECTO OCULTO
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'proyecto_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'proyecto_oculto',
+						'class' => 'form-control'
+				)
+		) );
 		
 		
 		/* ********************************************

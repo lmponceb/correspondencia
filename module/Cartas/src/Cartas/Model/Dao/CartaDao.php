@@ -75,6 +75,47 @@ class CartaDao {
     		}
     	}
     }
+    
+    public function duplicar(Carta $carta){
+    	date_default_timezone_set('America/Guayaquil');
+    
+    	$id = (int) $carta->getCtr_id();
+    
+    	$data = array(
+    			//'CTR_ID' => (int) $carta->getCtr_id(),
+    			'OBR_ID' => $carta->getObr_id(),
+    			'EMP_INT_ID' => $carta->getEmp_int_id(),
+    			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->us_codigo,
+    			'TIP_CAR_ID' => $carta->getTip_car_id(),
+    			'CTR_IDIOMA' => $carta->getCtr_idioma(),
+    			'CTR_FECHA_CREACION' => date('d-M-Y'),
+    			'CTR_CUERPO' => $carta->getCtr_cuerpo(),
+    			'CTR_CODIGO_FINAL' => null,
+    			'CTR_FECHA_ACTUALIZACION' => date('d-M-Y'),
+    			'CTR_REFERENCIA' => $carta->getCtr_referencia(),
+    			'CTR_SALUDO' => $carta->getCtr_saludo(),
+    			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
+    			'CTR_TIPO' => 'B',
+    			'CTR_ESTADO' => 'A'
+    	);
+    	
+    	$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');
+    	$this->tableGateway->insert($data);
+    }
+    
+	public function procesar($id, $rol){
+		
+		$data['CTR_TIPO'] = 'P';
+		$data['CTR_CODIGO_FINAL'] = $rol . '-' . $id;
+
+		if($this->traer($id)){
+			$this->tableGateway->update($data, array('CTR_ID' => $id ));
+				
+		}else{
+			throw new \Exception( 'No se encontro el id para actualizar' );
+		}
+	}
+    
     /*
 
 	public function cambiarEstado($id, $estado){

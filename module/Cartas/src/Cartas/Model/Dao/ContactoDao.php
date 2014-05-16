@@ -43,18 +43,26 @@ class ContactoDao {
     	
     	$adapter = $this->tableGateway->getAdapter();
     	$query = "
-    			SELECT * FROM CONTACTO
+SELECT * FROM CONTACTO
 WHERE CONTACTO.EMP_ID IN
 (
-SELECT EMP_ID 
+SELECT EMPRESA.EMP_ID 
 FROM EMPRESA
 WHERE EMPRESA.EMP_ID IN
 (
  SELECT SUC.EMP_ID
  FROM EMPRESA \"SUC\"
- WHERE  SUC.EMP_EMP_ID = 1
+ WHERE SUC.EMP_EMP_ID = ".$emp_id."
 )
 )
+union
+SELECT * FROM CONTACTO
+WHERE CONTACTO.EMP_ID IN
+(
+SELECT EMPRESA.EMP_ID 
+FROM EMPRESA
+WHERE EMPRESA.EMP_ID = ".$emp_id."
+) 		
     			";
     	
     	$statement = $adapter->query($query);

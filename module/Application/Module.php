@@ -25,6 +25,9 @@ class Module {
 		$app = $e->getParam('application');
 		$app->getEventManager()->attach('dispatch', array($this, 'initAuth'), 100);
 		
+		//$sm = $app->getServiceManager();
+		//$sm->get('Application\Model\Dao\RolUsuarioDao');
+
 		$aclListener = new AclListener();
 		$aclListener->attach($eventManager);
 		
@@ -95,6 +98,12 @@ class Module {
 							$config = $sm->get ( 'config' );
 							$db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db'] );
 							return new Login($db_auth);
+						},
+
+						'Application\Permissions\AclListener' => function ($sm){
+							$config = $sm->get ( 'config' );
+							$db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db'] );
+							return new AclListener($db_auth);
 						},
 						
 				),

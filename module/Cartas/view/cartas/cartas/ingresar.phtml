@@ -36,6 +36,8 @@ $sucursal_oculto = $form->get ( 'sucursal_oculto' );
 $con_id = $form->get ( 'CON_ID' );
 $contacto_oculto = $form->get ( 'contacto_oculto' );
 
+$proyecto_oculto = $form->get ( 'proyecto_oculto' );
+
 echo $this->form ()->openTag ( $form );
 
 //CAMPOS OCULTOS
@@ -65,6 +67,9 @@ echo $this->formelementerrors ( $contacto_oculto );
 
 echo $this->formhidden ( $sucursal_oculto );
 echo $this->formelementerrors ( $sucursal_oculto );
+
+echo $this->formhidden ( $proyecto_oculto );
+echo $this->formelementerrors ( $proyecto_oculto );
 ?>
 <ul class="error_container bs-callout bs-callout-danger">
 
@@ -218,10 +223,23 @@ echo $this->formelementerrors ( $sucursal_oculto );
 	</tr>
 </table>
 	<hr />
-			<div align="center">
-				<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
-				<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
-			</div>	
+		<div align="center">
+		
+			<?php $codigo_final = $ctr_codigo_final->getValue();  if( !isset($codigo_final) || is_null($codigo_final) ):?>
+		
+			<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+			<?php if(strtolower($this->action) == 'editar'): ?>
+			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'procesar', 'id' => $ctr_id->getValue() ))?>" class ="btn btn-primary">Procesar</a>
+			<?php endif;?>
+			<?php else:?>
+			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $ctr_id->getValue()))?>" class ="btn btn-primary">Duplicar</a>
+			<?php endif; ?>
+			
+			
+			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
+			
+			
+		</div>	
 					
 <?php echo $this->form()->closeTag(); ?>
 
@@ -328,6 +346,39 @@ echo $this->formelementerrors ( $sucursal_oculto );
 	                var selected = '';
 	                for (obra in obras) {
 	                    $("#OBR_ID").append('<option value="' + obra + '">' + obras[obra] + '</option>');
+	                }
+	                $("#OBR_ID").prop("disabled", false);
+	            });
+			}else{
+				$("#OBR_ID").prop("disabled", true);
+			}
+        });
+
+        $("#PRO_ID").ready(function() {
+			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
+	            $.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "proyecto=" + $('#PRO_ID').val(),
+	                beforeSend: function() {
+	                	 $("#OBR_ID").html("");
+	                	 $("#OBR_ID").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(obras) {
+	                $("#OBR_ID").html("");
+	                $("#OBR_ID").append('<option value = "">-- Seleccione una obra --</option>');
+	                var selected = '';
+	                for (obra in obras) {
+
+	                	if($("#obra_oculto").val() == obra){
+							selected = 'selected="selected"';
+						}else{
+							selected = '';
+						}
+
+		                
+	                    $("#OBR_ID").append('<option value="' + obra + '" '+selected+'>' + obras[obra] + '</option>');
 	                }
 	                $("#OBR_ID").prop("disabled", false);
 	            });

@@ -18,6 +18,14 @@ class ProyectoDao {
     	return $this->tableGateway->select ();
     }
     
+    public function traer($id){
+    	$id = (int) $id;
+    	 
+    	$rowset = $this->tableGateway->select(array('PRO_ID' => $id));
+    	$row = $rowset->current();
+    	return $row;
+    }
+    
     public function traerTodosArreglo(){
     	 
     	$sql = new Sql($this->tableGateway->getAdapter());

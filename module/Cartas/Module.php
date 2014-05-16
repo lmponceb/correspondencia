@@ -30,6 +30,10 @@ use Cartas\Model\Entity\Contacto;
 use Cartas\Model\Dao\ContactoDao;
 use Cartas\Model\Entity\Obra;
 use Cartas\Model\Dao\ObraDao;
+use Cartas\Model\Dao\CartaDestinatarioDao;
+use Cartas\Model\Entity\CartaDestinatario;
+use Cartas\Model\Dao\CartaFirmaDao;
+use Cartas\Model\Entity\CartaFirma;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -145,6 +149,27 @@ class Module implements AutoloaderProviderInterface
     						$resultSetPrototype->setArrayObjectPrototype(new Obra());
     						return new TableGateway('OBRA', $dbAdapter, null, $resultSetPrototype);
     					},
+    					'Cartas\Model\Dao\CartaDestinatarioDao' => function($sm){
+    						$tableGateway = $sm->get('CartaDestinatarioTableGateway');
+    						return new CartaDestinatarioDao($tableGateway);
+    					},
+    					'CartaDestinatarioTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new CartaDestinatario());
+    						return new TableGateway('CARTA_DESTINATARIO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Cartas\Model\Dao\CartaFirmaDao' => function($sm){
+    						$tableGateway = $sm->get('CartaFirmaTableGateway');
+    						return new CartaFirmaDao($tableGateway);
+    					},
+    					'CartaFirmaTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new CartaFirma());
+    						return new TableGateway('CARTA_FIRMA', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					
     			),
     	);
     }

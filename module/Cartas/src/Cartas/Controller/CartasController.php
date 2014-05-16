@@ -13,6 +13,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Cartas\Form\Carta;
 use Cartas\Model\Entity\Carta as CartaEntity;
+use Cartas\Model\Entity\CartaDestinatario;
+use Cartas\Model\Entity\CartaFirma;
 
 class CartasController extends AbstractActionController
 {
@@ -24,6 +26,8 @@ class CartasController extends AbstractActionController
 	protected $proyectoDao;
 	protected $contactoDao;
 	protected $obraDao;
+	protected $cartaDestinatarioDao;
+	protected $cartaFirmaDao;
 	
     public function listadoAction()
     {
@@ -55,6 +59,7 @@ class CartasController extends AbstractActionController
     	
     	//FORMULARIO DE ACTUALIZACION DE INFORMACION
     	$carta = $this->getCartaDao ()->traer ( $id );
+    	
     	$form->bind ( $carta );
     		
     	//TRAER LOS CONTACTOS RELACIONADOS
@@ -63,9 +68,19 @@ class CartasController extends AbstractActionController
     	//TRAER LOS DETALLES DE CONTACTO
     	//$detalle_contacto = $this->getDetalleContactoDao()->traerPorContacto($id);
     	
+    	$obr_id = $carta->getObr_id();
+    	
+    	$obra = $this->getObraDao()->traer($obr_id);
+    	
+    	$proyecto = $this->getProyectoDao()->traer($obra->getPro_id());
+    	
+    	$form->get ( 'PRO_ID' )->setAttribute ( 'value', $proyecto->getPro_id());
+    	
+    	$form->get ( 'proyecto_oculto' )->setAttribute('value', $proyecto->getPro_id());
+    	$form->get ( 'obra_oculto' )->setAttribute('value', $carta->getObr_id());
     	$form->get ( 'ingresar' )->setAttribute ( 'value', 'Actualizar' );
     	$form->get ( 'CTR_ID' )->setAttribute ( 'value', $carta->getCtr_id() );
-    		
+    	/* 	
     	$empresa = $this->getEmpresaDao()->traer($carta->getEmp_id());
     	$codigo_empresa = $empresa->getEmp_id();
     	$codigo_padre = $empresa->getEmp_emp_id();
@@ -82,7 +97,7 @@ class CartasController extends AbstractActionController
     		$form->get ( 'EMP_ID' )->setAttribute ( 'value', $codigo_padre );
     		$form->get ( 'SUC_ID' )->setAttribute ( 'value', $codigo_empresa);
     		$form->get ( 'sucursal_oculto' )->setAttribute ( 'value', $codigo_empresa);
-    	}
+    	} */
     		
     	$view = new ViewModel ( array (
     			'formulario' => $form ,
@@ -98,7 +113,6 @@ class CartasController extends AbstractActionController
     }
     
     public function validarAction(){
-    
     	
 		//VERIFICA QUE SE HAYA REALIZADO UN POST DE INFORMACION
 		if (! $this->request->isPost ()) {
@@ -157,16 +171,14 @@ class CartasController extends AbstractActionController
 		$codigo_carta = $this->getCartaDao() ->guardar ( $carta );
 		
 		//SI SE ACTUALIZA EL CONTACTO, SE BORRAN LOS DATOS ASOCIADOS
-		if(!empty($data['CAR_ID']) && !is_null($data['CAR_ID'])){
-			
-			$this->getCartaDestinoDao()->eliminarPorCarta($data['CAR_ID']);
+		if(!empty($data['CTR_ID']) && !is_null($data['CTR_ID'])){
 			
 			//SI EL USURIO ES DIFERENTE DE OPERADOR, PUEDE ELIMINAR LA INFORMACION
-			if(strtoupper($this->tipo_usuario) != 'O'){
-				$this->getContactoRelacionadoDao()->eliminarPorContacto($data['CAR_ID']);
-			}
+			//$this->getContactoRelacionadoDao()->eliminarPorContacto($data['CAR_ID']);
+			//$this->getCartaDestinoDao()->eliminarPorCarta($data['CAR_ID']);
 			
-			$codigo_carta = $data['CAR_ID'];
+			
+			$codigo_carta = $data['CTR_ID'];
 		}else{
 			$arreglo = array();
 			foreach($codigo_carta as $codigo){
@@ -176,10 +188,26 @@ class CartasController extends AbstractActionController
 			$codigo_carta = $arreglo[0]['CURRVAL'];
 		}
 		
-		/* $detalleContacto = new DetalleContacto();
-		$detalleContactoParams['CON_ID'] = $codigo_carta;
-		$detalleContacto->exchangeArray($detalleContactoParams);
-		$this->getDetalleContactoDao()->guardar($detalleContacto); */
+		//GRABA LA INFORMACION DEL DESTINATARIO DE LA CARTA
+		$cartaDestinatario = new CartaDestinatario();
+		$cartaDestinatarioParams['CTR_ID'] = $codigo_carta;
+		$cartaDestinatarioParams['CON_ID'] = $data['CON_ID'];
+		$cartaDestinatarioParams['CAR_DES_PRINCIPAL'] = 'S';
+		$cartaDestinatario->exchangeArray($cartaDestinatarioParams);
+		$this->getCartaDestinatarioDao()->guardar($cartaDestinatario);
+		
+		//GRABA LA INFORMACION DE QUIENES FIRMAN LA CARTA
+		$cartaFirma = new CartaFirma();
+		$cartaFirmaParams['CTR_ID'] = $codigo_carta;
+		$cartaFirmaParams['EPL_ID'] = $data['EPL_ID_UNO'];
+		$cartaFirma->exchangeArray($cartaFirmaParams);
+		$this->getCartaFirmaDao()->guardar($cartaFirma);
+		
+		$cartaFirma = new CartaFirma();
+		$cartaFirmaParams['CTR_ID'] = $codigo_carta;
+		$cartaFirmaParams['EPL_ID'] = $data['EPL_ID_DOS'];
+		$cartaFirma->exchangeArray($cartaFirmaParams);
+		$this->getCartaFirmaDao()->guardar($cartaFirma);
 		
         //SI SE EJECUTO EXITOSAMENTE SE REGRESA AL LISTADO DE CONTACTOS
 		return $this->redirect ()->toRoute ( 'cartas', array (
@@ -188,8 +216,38 @@ class CartasController extends AbstractActionController
 		) );
     }
     
-    public function eliminarAction(){
+    public function procesarAction(){
+    	
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	$role = $_SESSION['Zend_Auth']['storage']->us_role;
+    	
+    	
+    	switch ($role){
+    		case 'A':
+    			$text_role = 'ADM';
+    			break;
+    		case 'O':
+    			$text_role = 'OPE';
+    			break;
+    		case 'G':
+    			$text_role = 'GER';
+    			break;
+    	}
+    	
+    	$this->getCartaDao()->procesar($id, $text_role);
+    	$this->redirect()->toRoute('cartas', array('controller' => 'cartas', 'action' => 'listado'));
+    	
+    }
     
+    public function duplicarAction(){
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	
+    	$carta = $this->getCartaDao()->traer($id);
+    	
+    	$this->getCartaDao() ->duplicar ( $carta );
+    	
+    	$this->redirect()->toRoute('cartas', array('controller' => 'cartas', 'action' => 'listado'));
+    	
     }
     
     public function getForm() {
@@ -204,24 +262,28 @@ class CartasController extends AbstractActionController
     	return $form;
     }
     
-    /* public function getFormIngles() {
-	    
-    	$form = new Carta ();
-	    $form->get ( 'TIP_CAR_ID' )->setValueOptions ( $this->getTipoCartaDao ()->traerTodosArreglo () );
-	    $form->get ( 'EMP_INT_ID' )->setValueOptions ( $this->getEmpresaInternaDao ()->traerTodosArreglo () );
-	    $form->get ( 'EMP_ID' )->setValueOptions ( $this->getEmpresaDao ()->traerEmpresas () );
-	    $form->get ( 'EPL_ID_UNO' )->setValueOptions ( $this->getEmpleadoDao ()->traerTodosArreglo () );
-	    $form->get ( 'EPL_ID_DOS' )->setValueOptions ( $this->getEmpleadoDao ()->traerTodosArreglo () );
-	    $form->get ( 'PRO_ID' )->setValueOptions ( $this->getProyectoDao ()->traerTodosArreglo () );
-	    return $form;
-    } */
-    
     public function getCartaDao() {
     	if (! $this->cartaDao) {
     		$sm = $this->getServiceLocator ();
     		$this->cartaDao = $sm->get ( 'Cartas\Model\Dao\CartaDao' );
     	}
     	return $this->cartaDao;
+    }
+    
+    public function getCartaFirmaDao() {
+    	if (! $this->cartaFirmaDao) {
+    		$sm = $this->getServiceLocator ();
+    		$this->cartaFirmaDao = $sm->get ( 'Cartas\Model\Dao\CartaFirmaDao' );
+    	}
+    	return $this->cartaFirmaDao;
+    }
+    
+    public function getCartaDestinatarioDao() {
+    	if (! $this->cartaDestinatarioDao) {
+    		$sm = $this->getServiceLocator ();
+    		$this->cartaDestinatarioDao = $sm->get ( 'Cartas\Model\Dao\CartaDestinatarioDao' );
+    	}
+    	return $this->cartaDestinatarioDao;
     }
     
     public function getTipoCartaDao() {
