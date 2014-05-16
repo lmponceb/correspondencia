@@ -158,7 +158,7 @@ class ContactoValidator extends InputFilter {
 		$fecha_actualizacion->setRequired ( true );
 		$fecha_actualizacion->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 30,
-				'min' => 9
+				'min' => 8
 		) ) )->attach(new NotEmpty());
 		
 		

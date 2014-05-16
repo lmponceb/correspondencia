@@ -55,7 +55,7 @@ class LoginController extends AbstractActionController {
 		
 		$usuario = $values ['usu_usuario'];
 		$clave = $values ['usu_clave'];
-		
+
 		try {
 			
 			$this->login->setMessage ( 'El nombre de usuario o la contrase&ntilde;a son incorrectas.', LoginService::NOT_IDENTITY );
@@ -63,29 +63,11 @@ class LoginController extends AbstractActionController {
 			$this->login->setMessage ( 'Los campos de usuario y contrase&ntilde;a no pueden dejarse en blanco.', LoginService::INVALID_LOGIN );
 			$this->login->setMessage ( 'Usuario inactivo. Comun&iacute;quese con el administrador', LoginService::USER_INACTIVE );
 			
-			$this->login->login ( $usuario, $clave );
-			
-			//$docId = $this->login->getIdentity()->doc_id;
 
+			$this->login->login ( $usuario, $this->secret($clave) );
+
+			
 			$role = $this->login->getIdentity()->us_role;
-
-			/*if(!empty($docId) && !is_null($docId) && strtolower($role) == 'medico'){
-				return $this->redirect ()->toRoute ( 'recetas', array (
-						'controller' => 'index',
-						'action' => 'index'
-				) );
-			}elseif((empty($docId) || is_null($docId)) && strtolower($role) == 'admin'){
-				return $this->redirect ()->toRoute ( 'administrador', array (
-						'controller' => 'index',
-						'action' => 'index'
-				) );
-			}else{
-				return $this->redirect ()->toRoute ( 'application', array (
-						'controller' => 'login',
-						'action' => 'logout'
-				) );
-			}*/
-			
 			
 			return $this->redirect ()->toRoute ( 'empresas', array (
 				'controller' => 'index',
@@ -117,5 +99,10 @@ class LoginController extends AbstractActionController {
 				'action' => 'logout'
 		) );
 		
+	}
+
+	public function secret($password){
+		/*Aqui va la llamada a la librería de validación de contraseñas de Azul*/
+		return md5($password);
 	}
 }

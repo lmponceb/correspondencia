@@ -265,7 +265,6 @@ echo $this->form ()->openTag ( $form );
 			});
 		});
 
-<<<<<<< HEAD
 		/* Autocompletar de Sucursales */
 		$( "#emp_emp_id_autocompletar" ).autocomplete({
 	        source: function(request, response) {
@@ -297,20 +296,5 @@ echo $this->form ()->openTag ( $form );
 			$("#emp_emp_id").val('');
 		});
 
-=======
-		var empresas = new Bloodhound({
-			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			remote: '<?php echo $this->basePath() ?>/empresas/consultaXmlHttp?emp_nombre=%QUERY'
-		});
-		 
-		empresas.initialize();
-		 
-		$('#emp_emp_id').typeahead(null, {
-			name: 'emp_emp_id_2',
-			displayKey: 'value',
-			source: empresas.ttAdapter()
-		});
->>>>>>> user_access
 	});
 </script>

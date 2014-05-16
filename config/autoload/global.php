@@ -29,5 +29,6 @@
  		'Empresas'  => 'layout/layoutCorrespondencia.phtml',
  		'Contactos' => 'layout/layoutCorrespondencia.phtml',
  		'Cartas'    => 'layout/layoutCorrespondencia.phtml',
+        'Usuarios'    => 'layout/layoutCorrespondencia.phtml',
  	),
  );

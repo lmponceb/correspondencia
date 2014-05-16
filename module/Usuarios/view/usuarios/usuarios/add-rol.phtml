@@ -1,0 +1,72 @@
+ <?php
+ // module/Empresas/view/empresas/empresas/add.phtml:
+
+ $title = 'Ingresar un Nuevo Rol';
+ $this->headTitle($title);
+
+ ?>
+<div class="row">
+	<div class="col-md-12">
+ <table cellspacing="0" cellpadding="0" border="0" align="left" width="100%">
+	<tr>
+		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/empresas_grande.png'?>" border="0" /></td>
+		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages"><?php echo $this->escapeHtml($title); ?></span><br />Registre toda la información solicitada para ingresar un nuevo rol.</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="padding-bottom: 20px;"><hr /></td>
+	</tr>
+</table>
+</div>
+</div>
+
+<?php
+$form = $this->form;
+$detalles = $this->detalles;
+$form->prepare ();
+$form->setAttribute ( 'action', $this->url ( 'usuarios', array (
+		'controller' => 'usuarios',
+		'action' => 'guardarRol' 
+) ) );
+
+$form->setAttribute ( 'method', 'post' );
+
+$formLabel = $this->plugin ( 'formLabel' );
+
+$comment=$this->comment;
+
+echo $this->form ()->openTag ( $form );
+?>
+
+<ul class="error_container bs-callout bs-callout-danger">
+
+</ul>
+
+<div class="panel panel-default">
+	<div class="panel-heading panel-heading-txt">&nbsp;</div>
+	<div class="col-md-12"><h3 align="left">Informaci&oacute;n General</h3><hr/></div>
+	<div class="row azul-form-row">
+		<div class="col-md-6"><?php echo $this->formRow($form->get('ROL_DESCRIPCION')); ?></div>
+		<div class="col-md-6"><?php echo $this->formRow($form->get('ROL_ID')); ?></div>
+	</div>
+	<div class="panel-heading panel-heading-txt">&nbsp;</div>
+	<div class="col-md-12"><h3 align="left">Permisos</h3><hr/></div>
+	<?php foreach($aplicaciones as $aplicacion): ?>
+	<div class="row azul-form-row">
+
+		<div class="col-md-6"><?php echo $aplicacion->getApl_descripcion(); ?> </div>
+			<div class="col-md-6"><input type='checkbox' name='APLICACION[<?php echo $aplicacion->getApl_id(); ?>][APL_ID]' value='<?php echo $aplicacion->getApl_id(); ?>'
+		<?php if(isset($rolApl)):?>
+			<?php if(isset($rolApl[$aplicacion->getApl_id()])):?>	
+				checked='checked' 
+			<?php endif;?>
+		<?php endif;?>
+		 ></div>
+	</div>	
+<?php endforeach; ?>
+</div>
+<div align="center">
+	<?php echo $this->formRow($form->get('SUBMIT')); ?>
+&nbsp;
+<a href="<?php echo $this->url('usuarios', array('controller' => 'usuarios', 'action' => 'roles'))?>" class ="btn btn-primary">Cancelar</a>
+</div>
+<?php echo $this->form()->closeTag(); ?>
