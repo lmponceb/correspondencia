@@ -412,6 +412,21 @@ class Carta extends Form {
 		
 		
 		/* ********************************************
+		 * CAMPO EMPRESA OCULTO
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'empresa_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'empresa_oculto',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
+		/* ********************************************
 		 * CAMPO CONTACTO
 		 * ********************************************/
 		$con_id = new Select('CON_ID');

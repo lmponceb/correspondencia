@@ -14,6 +14,12 @@ class ContactoDao {
     	$this->tableGateway = $tableGateway;
     }
     
+    public function traer($id){
+    	$rowset = $this->tableGateway->select(array('CON_ID' => $id));
+    	$row = $rowset->current();
+    	return $row;
+    }
+    
     public function getContactosPorSucursal($emp_id){
     	$sql = new Sql($this->tableGateway->getAdapter());
     	$select = $sql->select();

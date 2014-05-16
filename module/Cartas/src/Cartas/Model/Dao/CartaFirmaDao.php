@@ -23,6 +23,18 @@ class CartaFirmaDao {
     	return $row;
     }
     
+    public function traerTodosPorCarta($id){
+    	 
+    	$id = ( int ) $id;
+    	 
+    	$resultSet = $this->tableGateway->select(array('CTR_ID' => $id));
+    	return $resultSet;
+    }
+    
+    public function eliminarPorCarta($ctr_id){
+    	$this->tableGateway->delete(array('CTR_ID' => $ctr_id));
+    }
+    
     public function guardar(CartaFirma $carta){
     	
     	$data = array(
@@ -30,6 +42,17 @@ class CartaFirmaDao {
     			'EPL_ID' => $carta->getEpl_id()
     	);
     	
+    	$data['CAR_FIR_ID'] = new Sql\Expression('s_carta_firma.nextVal');
+    	$this->tableGateway->insert($data);
+    }
+    
+    public function duplicar(CartaFirma $carta, $ctr_id){
+    	 
+    	$data = array(
+    			'CTR_ID' => $ctr_id,
+    			'EPL_ID' => $carta->getEpl_id()
+    	);
+    	 
     	$data['CAR_FIR_ID'] = new Sql\Expression('s_carta_firma.nextVal');
     	$this->tableGateway->insert($data);
     }

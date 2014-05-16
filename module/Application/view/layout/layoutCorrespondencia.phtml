@@ -51,7 +51,6 @@
 		            }).done(function(sucursales) {
 		                $("#SUC_ID").html("");
 		                $("#SUC_ID").append('<option value = "">-- Seleccione una sucursal --</option>');
-		                var selected = '';
 		                for (sucursal in sucursales) {
 		                    $("#SUC_ID").append('<option value="' + sucursal + '">' + sucursales[sucursal] + '</option>');
 		                }
@@ -77,9 +76,11 @@
 		            }).done(function(sucursales) {
 		                $("#SUC_ID").html("");
 		                $("#SUC_ID").append('<option value = "">-- Seleccione una sucursal --</option>');
+		                
 		                for (sucursal in sucursales) {
+		                	var selected = '';
 							if(sucursal == $('#sucursal_oculto').val()){
-								 var selected = 'selected="selected"';
+								 selected = 'selected="selected"';
 							}
 		                    $("#SUC_ID").append('<option value="' + sucursal + '" '+selected+'>' + sucursales[sucursal] + '</option>');
 		                }
@@ -146,9 +147,8 @@
 		            }).done(function(estados) {
 		                $("#EST_ID").html("");
 		                $("#EST_ID").append('<option value = "">-- Seleccione un estado --</option>');
-		                var selected = '';
 		                for (estado in estados) {
-
+		                	var selected = '';
 							if($("#estado_oculto").val() == estado){
 								selected = 'selected="selected"';
 							}else{
@@ -203,9 +203,8 @@
 		            }).done(function(ciudades) {
 		                $("#CIU_ID").html("");
 		                $("#CIU_ID").append('<option value = "">-- Seleccione una ciudad --</option>');
-		                var selected = '';
 		                for (ciudad in ciudades) {
-
+		                	var selected = '';
 		                	if($("#ciudad_oculto").val() == ciudad){
 								selected = 'selected="selected"';
 							}else{
