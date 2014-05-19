@@ -497,6 +497,26 @@ class IndexController extends AbstractActionController {
         }
 	}
 	
+	public function datosEmpresaAction(){
+		if($this->getRequest()->isXmlHttpRequest()){
+			$empresa = $this->request->getPost('empresa');
+			$data = $this->getEmpresaDao()->traer($empresa);
+			$valores = array();
+			$valores['emp_direccion'] = $data->getEmp_direccion();
+			$valores['emp_email'] = $data->getEmp_email();
+			$valores['emp_pagina_web'] = $data->getEmp_pagina_web();
+	
+			$jsonData = json_encode($valores);
+			$response = $this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($jsonData);
+	
+			return $response;
+		}else{
+			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
+		}
+	}
+	
 	public function getContactoDao() {
 		if (! $this->contactoDao) {
 			$sm = $this->getServiceLocator ();

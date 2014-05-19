@@ -33,10 +33,8 @@ class AclListener implements ListenerAggregateInterface{
     }
     
 
-
     public function onDispatch(MvcEvent $e){
-
-
+    	
         $app = $e->getParam('application');
         $sm = $app->getServiceManager();
         $config = $sm->get('config');
@@ -114,6 +112,7 @@ class AclListener implements ListenerAggregateInterface{
         ->allow('O', 'cartas:cartas')
         ->allow('O', 'parametros:index');*/
         
+
         $application = $e->getApplication();
         $services = $application->getServiceManager();
         $services->setService('AclService', $acl);
@@ -133,12 +132,12 @@ class AclListener implements ListenerAggregateInterface{
             $matches->setParam('controller', 'Application\Controller\Error');
 			$matches->setParam('action','denied');
         }
-    }
+   }
     
     private function getRole($sm){
+    	
         $auth = $sm->get('Application\Model\Login');
         $role = '1';
-        
         if($auth->isLoggedIn()){
             if(!empty($auth->getIdentity()->us_role)){
                 $role = $auth->getIdentity()->us_role;

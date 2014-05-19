@@ -671,6 +671,63 @@ class Contacto extends Form {
 			
 		}
 		
+		
+		/************ CAMPOS ADICIONALES DE EMPRESA **************/
+		
+		/* ********************************************
+		 * CAMPO DIRECCION EMPRESA
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'EMP_DIRECCION',
+				'options' => array (
+						'label' => 'Direcci&oacute;n de la empresa:'
+				),
+				'attributes' => array (
+						'type' => 'textarea',
+						'maxlength' => '150',
+						'id' => 'EMP_DIRECCION',
+						'readonly' => 'readonly',
+						'class' => 'form-control',
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO EMAIL EMPRESA
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'EMP_EMAIL',
+				'options' => array (
+						'label' => 'Email de la empresa:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlength' => '150',
+						'id' => 'EMP_EMAIL',
+						'readonly' => 'readonly',
+						'class' => 'form-control',
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO PAGINA WEB EMPRESA
+		 * ********************************************/
+		
+		$this->add ( array (
+				'name' => 'EMP_PAGINA_WEB',
+				'options' => array (
+						'label' => 'P&aacute;gina web de la empresa:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlength' => '150',
+						'id' => 'EMP_PAGINA_WEB',
+						'readonly' => 'readonly',
+						'class' => 'form-control',
+				)
+		) );
+		
 		//BOTON DE SUBMIT
 		$this->add ( array (
 				'name' => 'ingresar',

@@ -47,6 +47,11 @@ $con_estado = $form->get ( 'CON_ESTADO' );
 
 $con_observaciones_privado = $form->get ( 'CON_OBSERVACIONES_PRIVADO' );
 
+//CAMPOS DE EMPRESA - NO SON PARTE DEL POST DEL FORMULARIO
+$emp_direccion = $form->get ( 'EMP_DIRECCION' );
+$emp_email = $form->get ( 'EMP_EMAIL' );
+$emp_pagina_web = $form->get ( 'EMP_PAGINA_WEB' );
+
 //$date = new Fecha();
 
 echo $this->form ()->openTag ( $form );
@@ -133,6 +138,31 @@ echo $this->formelementerrors ( $con_estado );
 					?>
 					</td>	
 				</tr>
+				
+				<!-- CAMPOS OCULTOS DE EMPRESA -->
+				<tr id="datos_empresa" style="display: none;">
+					<td>
+					<?php echo $formLabel->openTag() . $emp_direccion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $emp_direccion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $emp_direccion ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $emp_email->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $emp_email ) );
+						  echo html_entity_decode( $this->formelementerrors ( $emp_email ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $emp_pagina_web->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $emp_pagina_web ) );
+						  echo html_entity_decode( $this->formelementerrors ( $emp_pagina_web ) );
+					?>
+					</td>	
+				</tr>
+				<!-- FIN CAMPOS EMPRESA -->
+				
+				
 				<tr>
 					<td>
 					<?php echo $formLabel->openTag() . $con_descripcion_es->getLabel() . $formLabel->closeTag();
@@ -382,6 +412,51 @@ echo $this->formelementerrors ( $con_estado );
 			}
 		});
         */
+
+		$('#EMP_ID').change(function(){
+			if($('#EMP_ID').val() != null && $('#EMP_ID').val() != ''){
+
+				$.ajax({
+	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'datosEmpresa')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#EMP_ID').val(),
+	                beforeSend: function() {
+						$('#EMP_DIRECCION, #EMP_EMAIL, #EMP_PAGINA_WEB').val('Procesando, espere por favor...');
+	                }
+	            }).done(function(empresa) {
+		            $('#datos_empresa').attr('style', 'display:true');
+	            	$("#EMP_DIRECCION").val(''+empresa['emp_direccion']);
+	            	$("#EMP_EMAIL").val(''+empresa['emp_email']);
+	            	$("#EMP_PAGINA_WEB").val(''+empresa['emp_pagina_web']);
+	            });
+			}else{
+				$('#datos_empresa').attr('style', 'display:none');
+			}
+		});
+
+		$('#EMP_ID').ready(function(){
+			if($('#EMP_ID').val() != null && $('#EMP_ID').val() != ''){
+
+				$.ajax({
+	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'datosEmpresa')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#EMP_ID').val(),
+	                beforeSend: function() {
+						$('#EMP_DIRECCION, #EMP_EMAIL, #EMP_PAGINA_WEB').val('Procesando, espere por favor...');
+	                }
+	            }).done(function(empresa) {
+		            $('#datos_empresa').attr('style', 'display:true');
+	            	$("#EMP_DIRECCION").val(''+empresa['emp_direccion']);
+	            	$("#EMP_EMAIL").val(''+empresa['emp_email']);
+	            	$("#EMP_PAGINA_WEB").val(''+empresa['emp_pagina_web']);
+	            });
+			}else{
+				$('#datos_empresa').attr('style', 'display:none');
+			}
+		});
+        
 		
 		//Carga del combo box de Códigos de teléfono de Ciudades
 		$(".det_con_codigo_ciudad").prop("disabled", true);
