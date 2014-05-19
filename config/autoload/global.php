@@ -30,5 +30,6 @@
  		'Contactos' => 'layout/layoutCorrespondencia.phtml',
  		'Cartas'    => 'layout/layoutCorrespondencia.phtml',
         'Usuarios'    => 'layout/layoutCorrespondencia.phtml',
+        'Parametros'    => 'layout/layoutCorrespondencia.phtml',
  	),
  );

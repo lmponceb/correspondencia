@@ -20,7 +20,7 @@ class Contacto extends Form {
 				'name' => 'CON_ID',
 				'attributes' => array (
 						'type' => 'hidden',
-						'maxlenght' => '11',
+						'maxlength' => '11',
 						'id' => 'CON_ID',
 						'class' => 'form-control'
 				)
@@ -34,7 +34,7 @@ class Contacto extends Form {
 				'name' => 'sucursal_oculto',
 				'attributes' => array (
 						'type' => 'hidden',
-						'maxlenght' => '11',
+						'maxlength' => '11',
 						'id' => 'sucursal_oculto',
 						'class' => 'form-control'
 				)
@@ -48,7 +48,7 @@ class Contacto extends Form {
 				'name' => 'estado_oculto',
 				'attributes' => array (
 						'type' => 'hidden',
-						'maxlenght' => '11',
+						'maxlength' => '11',
 						'id' => 'estado_oculto',
 						'class' => 'form-control'
 				)
@@ -62,7 +62,7 @@ class Contacto extends Form {
 				'name' => 'ciudad_oculto',
 				'attributes' => array (
 						'type' => 'hidden',
-						'maxlenght' => '11',
+						'maxlength' => '11',
 						'id' => 'ciudad_oculto',
 						'class' => 'form-control'
 				)
@@ -151,7 +151,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '35',
+						'maxlength' => '35',
 						'id' => 'CON_NOMBRE',
 						'class' => 'form-control'
 				)
@@ -168,7 +168,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '35',
+						'maxlength' => '35',
 						'id' => 'CON_APELLIDO',
 						'class' => 'form-control'
 				)
@@ -185,7 +185,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '150',
+						'maxlength' => '150',
 						'id' => 'CON_EMAIL',
 						'class' => 'form-control'
 				)
@@ -203,7 +203,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '20',
+						'maxlength' => '20',
 						'id' => 'CON_USUARIO',
 						'class' => 'form-control',
 						'readonly' => 'readonly',
@@ -223,7 +223,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '10',
+						'maxlength' => '10',
 						'id' => 'CON_FECHA_ACTUALIZACION',
 						'class' => 'form-control',
 						'readonly' => 'readonly',
@@ -259,7 +259,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '150',
+						'maxlength' => '150',
 						'id' => 'CON_FECHA_NACIMIENTO_PERSONAL',
 						'class' => 'form-control fecha_nacimiento',
 				)
@@ -276,7 +276,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '150',
+						'maxlength' => '150',
 						'id' => 'CON_EMAIL_PERSONAL',
 						'class' => 'form-control',
 				)
@@ -293,7 +293,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '5',
+						'maxlength' => '5',
 						'id' => 'CON_CODIGO_PAIS',
 						'readonly' => 'readonly', 
 						'class' => 'form-control codigo_telefono',
@@ -311,7 +311,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '5',
+						'maxlength' => '5',
 						'id' => 'CON_CODIGO_CIUDAD',
 						'readonly' => 'readonly',
 						'class' => 'form-control codigo_telefono',
@@ -329,7 +329,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '15',
+						'maxlength' => '15',
 						'id' => 'CON_TELEFONO_DOMICILIO_PER',
 						'class' => 'form-control',
 				)
@@ -346,7 +346,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '15',
+						'maxlength' => '15',
 						'id' => 'CON_CELULAR_PERSONAL',
 						'class' => 'form-control',
 				)
@@ -363,8 +363,25 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '4000',
+						'maxlength' => '4000',
 						'id' => 'CON_OBSERVACIONES',
+						'class' => 'form-control',
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO CON_OBSERVACIONES_PRIVADO
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CON_OBSERVACIONES_PRIVADO',
+				'options' => array (
+						'label' => 'Observaciones:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlength' => '4000',
+						'id' => 'CON_OBSERVACIONES_PRIVADO',
 						'class' => 'form-control',
 				)
 		) );
@@ -381,7 +398,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '30',
+						'maxlength' => '30',
 						'id' => 'CON_DESCRIPCION_ES',
 						'class' => 'form-control',
 				)
@@ -399,7 +416,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '30',
+						'maxlength' => '30',
 						'id' => 'CON_DESCRIPCION_EN',
 						'class' => 'form-control',
 				)
@@ -417,7 +434,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '30',
+						'maxlength' => '30',
 						'id' => 'CON_TIP_PER_ES',
 						'class' => 'form-control',
 				)
@@ -435,7 +452,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '30',
+						'maxlength' => '30',
 						'id' => 'CON_TIP_PER_EN',
 						'class' => 'form-control',
 				)
@@ -453,7 +470,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'textarea',
-						'maxlenght' => '150',
+						'maxlength' => '150',
 						'id' => 'CON_DIRECCION',
 						'class' => 'form-control',
 				)
@@ -470,7 +487,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'textarea',
-						'maxlenght' => '150',
+						'maxlength' => '150',
 						'id' => 'CON_DIRECCION_DOMICILIO_PER',
 						'class' => 'form-control',
 				)
@@ -487,7 +504,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '70',
+						'maxlength' => '70',
 						'id' => 'CON_SECRETARIA',
 						'class' => 'form-control',
 				)
@@ -505,7 +522,7 @@ class Contacto extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '15',
+						'maxlength' => '15',
 						'id' => 'CON_SECRETARIA_TELEFONO',
 						'class' => 'form-control',
 				)
@@ -520,7 +537,7 @@ class Contacto extends Form {
 				'name' => 'CON_ESTADO',
 				'attributes' => array (
 						'type' => 'text',
-						'maxlenght' => '1',
+						'maxlength' => '1',
 						'value' => 'A',
 						'id' => 'CON_ESTADO',
 						'class' => 'form-control',

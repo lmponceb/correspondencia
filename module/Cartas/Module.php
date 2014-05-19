@@ -130,10 +130,10 @@ class Module implements AutoloaderProviderInterface
     						return new TableGateway('PROYECTO', $dbAdapter, null, $resultSetPrototype);
     					},
     					'Cartas\Model\Dao\ContactoDao' => function($sm){
-    						$tableGateway = $sm->get('ContactoTableGateway');
+    						$tableGateway = $sm->get('ContactoCartasTableGateway');
     						return new ContactoDao($tableGateway);
     					},
-    					'ContactoTableGateway' => function ($sm){
+    					'ContactoCartasTableGateway' => function ($sm){
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new Contacto());

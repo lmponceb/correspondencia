@@ -93,10 +93,9 @@ class IndexController extends AbstractActionController {
 		//	$form = $this->getFormIngles ();
 		//}
 		
-		
-		
 			//FORMULARIO DE ACTUALIZACION DE INFORMACION
 			$contacto = $this->getContactoDao ()->traer ( $id );
+			
 			$form->bind ( $contacto );
 			
 			//TRAER LOS CONTACTOS RELACIONADOS
@@ -159,6 +158,7 @@ class IndexController extends AbstractActionController {
 					$form->get ( 'CON_TELEFONO_DOMICILIO_PER' )->setAttribute ( 'readonly', 'readonly' );
 					$form->get ( 'CON_CELULAR_PERSONAL' )->setAttribute ( 'readonly', 'readonly' );
 					$form->get ( 'CON_DIRECCION_DOMICILIO_PER' )->setAttribute ( 'readonly', 'readonly' );
+					$form->get ( 'CON_OBSERVACIONES_PRIVADO' )->setAttribute ( 'readonly', 'readonly' );
 					
 					for ($i=0; $i<5; $i++){
 						$form->get ( 'CONTACTO_RELACIONADO['.$i.'][TIP_CON_ID]' )->setAttribute ( 'disabled', 'disabled' );

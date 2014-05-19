@@ -45,6 +45,8 @@ $con_secretaria_telefono = $form->get ( 'CON_SECRETARIA_TELEFONO' );
 $con_direccion_domicilio_per = $form->get ( 'CON_DIRECCION_DOMICILIO_PER' );
 $con_estado = $form->get ( 'CON_ESTADO' );
 
+$con_observaciones_privado = $form->get ( 'CON_OBSERVACIONES_PRIVADO' );
+
 //$date = new Fecha();
 
 echo $this->form ()->openTag ( $form );
@@ -275,6 +277,14 @@ echo $this->formelementerrors ( $con_estado );
 					<?php echo $formLabel->openTag() . $con_direccion_domicilio_per->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtextarea( $con_direccion_domicilio_per ) );
 						  echo html_entity_decode( $this->formelementerrors ( $con_direccion_domicilio_per ) );
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td  colspan="3">
+					<?php echo $formLabel->openTag() . $con_observaciones_privado->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea( $con_observaciones_privado ) );
+						  echo html_entity_decode( $this->formelementerrors ( $con_observaciones_privado ) );
 					?>
 					</td>
 				</tr>

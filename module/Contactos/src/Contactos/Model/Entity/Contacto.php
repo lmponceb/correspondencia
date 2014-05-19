@@ -1,8 +1,6 @@
 <?php
 namespace Contactos\Model\Entity;
 
-use Contactos\Model\Entity\Ciudad as City;
-
 class Contacto {
 	
 	private $con_id;
@@ -38,9 +36,9 @@ class Contacto {
 	private $empresa_nombre;
 	private $sucursal_nombre;
 	private $emp_emp_id;
+	private $con_observaciones_privado;
 	
 	function __construct() {}
-
 
 	/**
 	 * @return the $con_id
@@ -267,6 +265,13 @@ class Contacto {
 	}
 
 	/**
+	 * @return the $con_observaciones_privado
+	 */
+	public function getCon_observaciones_privado() {
+		return $this->con_observaciones_privado;
+	}
+
+	/**
 	 * @param Ambigous <number, unknown> $con_id
 	 */
 	public function setCon_id($con_id) {
@@ -490,6 +495,13 @@ class Contacto {
 		$this->emp_emp_id = $emp_emp_id;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $con_observaciones_privado
+	 */
+	public function setCon_observaciones_privado($con_observaciones_privado) {
+		$this->con_observaciones_privado = $con_observaciones_privado;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->con_id = (isset($data['CON_ID'])) ? $data['CON_ID'] : 0;
@@ -524,6 +536,7 @@ class Contacto {
 		$this->empresa_nombre = (isset($data['EMP_NOMBRE'])) ? $data['EMP_NOMBRE'] : null;
 		$this->sucursal_nombre = (isset($data['SUC_NOMBRE'])) ? $data['SUC_NOMBRE'] : null;
 		$this->emp_emp_id = (isset($data['EMP_EMP_ID'])) ? $data['EMP_EMP_ID'] : null;
+		$this->con_observaciones_privado = (isset($data['CON_OBSERVACIONES_PRIVADO'])) ? $data['CON_OBSERVACIONES_PRIVADO'] : null;
 	}
 	
 	public function getArrayCopy(){

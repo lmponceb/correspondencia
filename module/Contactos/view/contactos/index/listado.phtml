@@ -32,14 +32,13 @@
  <?php 
  foreach ($this->contactos as $carta) : ?>
  <tr>
- 	 <td width="100">
+ 	 <td width="150">
  	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'editar', 'id' => $carta->getCon_id()))?>" title="Actualizar" alt="Actualizar">Editar</a>
  	 	
  	 	<?php
  	 	$activo = $carta->getCon_estado();
- 	 	
  	 	if(strtoupper($activo) == 'A'): ?>
- 	 	| <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'eliminar', 'id' => $carta->getCon_id()))?>" title="Dar de baja" alt="Dar de baja">Eliminar</a>
+ 	 	| <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'eliminar', 'id' => $carta->getCon_id()))?>" title="Dar de baja" alt="Dar de baja">Desactivar</a>
  	 	<?php else:?>
  	 		<?php if(strtoupper($this->tipo_usuario) == 'A'): ?>
  	 			| <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'activar', 'id' => $carta->getCon_id()))?>" title="Activar" alt="Activar">Activar</a>

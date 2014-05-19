@@ -1,0 +1,74 @@
+<?php echo $this->doctype(); ?>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <?php echo $this->headTitle('FORMULARIO DE REGISTRO') ?>
+        <style>
+			body, html{
+				margin: 0 0;
+				padding: 0 0;
+				font-family: sans-serif;
+				<?php $carta = $this->carta->getCtr_tipo(); if(strtoupper($carta) == 'B'): ?>
+				background-image: url("<?php echo $this->basepath() . '/img/jpg/borrador.jpg'?>");
+				background-repeat: no-repeat;
+				background-position: center;
+				<?php endif; ?>
+				}
+		</style>
+    </head>
+    <body>
+<table cellspacing="0" cellpadding="10" border="0" width="100%" class="tabla_formulario">
+    <tr>
+        <td>
+        	<div>Quito D.M, <?php echo date('d') . ' de ' . date('M') . ' de ' . date('Y')?></div>
+        	<div><?php echo $this->carta->getCtr_codigo_final()?></div>
+        </td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+    	<td>
+    		<div>TIPO DE PERSONA</div>
+    		<div>DESTINATARIO</div>
+    		<div>CARGO</div>
+    		<div>EMPRESA</div>
+    	</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+    	<td>
+    		<div><?php echo $this->carta->getCtr_referencia()?></div>
+    	</td>
+    </tr>
+    <tr>
+    	<td>
+    		<div><?php echo $this->carta->getCtr_saludo()?></div>
+    	</td>
+    </tr>
+    <tr>
+    	<td>
+    		<div><?php echo $this->carta->getCtr_cuerpo()?></div>
+    	</td>
+    </tr>
+    <tr>
+    	<td>
+    		<div><?php echo $this->carta->getCtr_despedida()?></div>
+    	</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+    	<td>
+    		<table>
+    			<tr>
+    				<td>FIRMA 1</td>
+    				<td>FIRMA 2</td>
+    			</tr>
+    			<tr>
+    				<td>CARGO FIRMA 1</td>
+    				<td>CARGO FIRMA 2</td>
+    			</tr>
+    		</table>
+    	</td>
+    </tr>
+</table>
+</body>
+</html>

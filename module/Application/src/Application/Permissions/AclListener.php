@@ -36,7 +36,7 @@ class AclListener implements ListenerAggregateInterface{
 
     public function onDispatch(MvcEvent $e){
 
-
+/*
 
         $app = $e->getParam('application');
         $sm = $app->getServiceManager();
@@ -51,9 +51,9 @@ class AclListener implements ListenerAggregateInterface{
          $selectRoles->join(array('A' => 'APLICACION'),'RA.APL_ID = A.APL_ID');
         $statement = $sql->prepareStatementForSqlObject($selectRoles);
         $results = $statement->execute();
-
+*/
         $acl = new Acl();
- 
+ /*
         $permissionsArray=array();
 
         foreach($results as $rol){
@@ -75,32 +75,45 @@ class AclListener implements ListenerAggregateInterface{
                 $acl->allow($rol_id, $resource);
             }            
         }
+*/
 
-
-       /* $acl->addResource(new Resource('empresas:empresas'))
+       $acl->addRole(new Role('A'))
+        ->addRole(new Role('G'))
+        ->addRole(new Role('O'))
+        ->addResource(new Resource('parametros:index'))
+        ->addResource(new Resource('empresas:empresas'))
         ->addResource(new Resource('application:login'))
         ->addResource(new Resource('application:index'))
         ->addResource(new Resource('application:error'))
         ->addResource(new Resource('contactos:index'))
         ->addResource(new Resource('cartas:cartas'))
-        ->allow('1', 'application:index')
-        ->allow('1', 'application:login')
-        ->allow('1', 'application:error')
-        ->allow('1', 'empresas:empresas')
-        ->allow('1', 'contactos:index')
-        ->allow('1', 'cartas:cartas')
+        ->addResource(new Resource('parametros:pais'))
+        ->addResource(new Resource('parametros:estado'))
+        ->addResource(new Resource('parametros:ciudad'))
+        ->allow('A', 'application:index')
+        ->allow('A', 'application:login')
+        ->allow('A', 'application:error')
+        ->allow('A', 'empresas:empresas')
+        ->allow('A', 'contactos:index')
+        ->allow('A', 'cartas:cartas')
+        ->allow('A', 'parametros:index')
+        ->allow('A', 'parametros:pais')
+        ->allow('A', 'parametros:estado')
+        ->allow('A', 'parametros:ciudad')
         
-        ->allow('2', 'application:login')
-        ->allow('2', 'application:error')
-        ->allow('2', 'empresas:empresas')
-        ->allow('2', 'contactos:index')
-        ->allow('2', 'cartas:cartas')
+        ->allow('G', 'application:login')
+        ->allow('G', 'application:error')
+        ->allow('G', 'empresas:empresas')
+        ->allow('G', 'contactos:index')
+        ->allow('G', 'cartas:cartas')
+        ->allow('G', 'parametros:index')
         
-        ->allow('3', 'application:login')
-        ->allow('3', 'application:error')
-        ->allow('3', 'empresas:empresas')
-        ->allow('3', 'contactos:index')
-        ->allow('3', 'cartas:cartas');*/
+        ->allow('O', 'application:login')
+        ->allow('O', 'application:error')
+        ->allow('O', 'empresas:empresas')
+        ->allow('O', 'contactos:index')
+        ->allow('O', 'cartas:cartas')
+        ->allow('O', 'parametros:index');
         
         $application = $e->getApplication();
         $services = $application->getServiceManager();
@@ -125,13 +138,13 @@ class AclListener implements ListenerAggregateInterface{
     
     private function getRole($sm){
         $auth = $sm->get('Application\Model\Login');
-        $role = '1';
+        $role = 'A';
         
         if($auth->isLoggedIn()){
             if(!empty($auth->getIdentity()->us_role)){
                 $role = $auth->getIdentity()->us_role;
             } else {
-                $auth->getIdentity()->us_role = '1';
+                $auth->getIdentity()->us_role = 'A';
                 $role = $auth->getIdentity()->us_role;
             }
         }

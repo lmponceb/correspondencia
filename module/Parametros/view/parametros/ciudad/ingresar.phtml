@@ -1,0 +1,81 @@
+<?php
+//use Recetas\Model\Funciones\Fecha;
+
+$form = $this->formulario;
+$form->prepare ();
+$form->setAttribute ( 'action', $this->url ( 'parametros', array (
+		'controller' => 'ciudad',
+		'action' => 'validar' 
+) ) )->setAttribute ( 'method', 'post' );
+$formLabel = $this->plugin ( 'formLabel' );
+
+$ciu_id = $form->get ( 'CIU_ID' );
+$est_id = $form->get ( 'EST_ID' );
+$ciu_nombre = $form->get ( 'CIU_NOMBRE' );
+$ciu_codigo_telefono = $form->get ( 'CIU_CODIGO_TELEFONO' );
+
+//$date = new Fecha();
+
+echo $this->form ()->openTag ( $form );
+
+//CAMPOS OCULTOS
+echo $this->formhidden ( $ciu_id );
+echo $this->formelementerrors ( $ciu_id );
+
+?>
+<ul class="error_container bs-callout bs-callout-danger">
+
+</ul>
+ <table cellspacing="0" cellpadding="0" border="0" align="left" width="100%">
+	<tr>
+		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/contacto_grande.png'?>" border="0" /></td>
+		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages">Ingresar una nueva ciudad</span><br />Registre toda la informaci&oacute;n solicitada para ingresar una nueva ciudad.</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="padding-bottom: 20px;"><hr /></td>
+	</tr>
+</table>
+<br />
+<table width="100%" style="font-size: 13px; font-weight: 700;">
+	<tr>
+		<td align="center" style="padding: 20px; padding-top: 0px;">
+		<div class="panel panel-default">
+		<div class="panel-heading panel-heading-txt">&nbsp;</div>
+			<table width="100%" cellpadding="5">
+				<tr>
+					<td colspan="3"><h3 align="left">Informaci&oacute;n de Ciudad</h3><hr /></td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $est_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $est_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $est_id ) ); 
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $ciu_nombre->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $ciu_nombre ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ciu_nombre ) ); 
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $ciu_codigo_telefono->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $ciu_codigo_telefono ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ciu_codigo_telefono ) ); 
+					?>
+					</td>
+				</tr>
+			</table>
+			</div>
+			</div>
+			
+		</td>
+	</tr>
+</table>
+	<hr />
+			<div align="center">
+				<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+				<a href="<?php echo $this->url('parametros', array('controller' => 'ciudad', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
+			</div>	
+					
+<?php echo $this->form()->closeTag(); ?>

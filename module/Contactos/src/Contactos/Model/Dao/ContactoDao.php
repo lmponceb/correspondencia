@@ -73,7 +73,8 @@ class ContactoDao {
     			'CON_DIRECCION' => $contacto->getCon_direccion(),
     			'CON_SECRETARIA' => $contacto->getCon_secretaria(),
     			'CON_SECRETARIA_TELEFONO' => $contacto->getCon_secretaria_telfono(),
-    			'CON_ESTADO' => $contacto->getCon_estado()
+    			'CON_ESTADO' => $contacto->getCon_estado(),
+    			'CON_OBSERVACIONES_PRIVADO' => $contacto->getCon_observaciones_privado()
     	);
     	
     	if(empty($id) || is_null($id)){

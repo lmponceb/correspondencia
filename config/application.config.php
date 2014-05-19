@@ -11,7 +11,9 @@ return array(
         'Empresas',
         'Contactos',
         'Cartas',
-        'Usuarios'
+        'Usuarios',
+    	'Parametros',
+    	'DOMPDFModule',
     ),
     'module_listener_options' => array(
         'module_paths' => array(

@@ -1,0 +1,74 @@
+<?php
+//use Recetas\Model\Funciones\Fecha;
+
+$form = $this->formulario;
+$form->prepare ();
+$form->setAttribute ( 'action', $this->url ( 'parametros', array (
+		'controller' => 'pais',
+		'action' => 'validar' 
+) ) )->setAttribute ( 'method', 'post' );
+$formLabel = $this->plugin ( 'formLabel' );
+
+$pai_id = $form->get ( 'PAI_ID' );
+$pai_nombre = $form->get ( 'PAI_NOMBRE' );
+$pai_codigo_telefono = $form->get ( 'PAI_CODIGO_TELEFONO' );
+
+//$date = new Fecha();
+
+echo $this->form ()->openTag ( $form );
+
+//CAMPOS OCULTOS
+echo $this->formhidden ( $pai_id );
+echo $this->formelementerrors ( $pai_id );
+
+?>
+<ul class="error_container bs-callout bs-callout-danger">
+
+</ul>
+ <table cellspacing="0" cellpadding="0" border="0" align="left" width="100%">
+	<tr>
+		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/contacto_grande.png'?>" border="0" /></td>
+		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages">Ingresar un nuevo pa&iacute;s</span><br />Registre toda la informaci&oacute;n solicitada para ingresar un nuevo pais.</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="padding-bottom: 20px;"><hr /></td>
+	</tr>
+</table>
+<br />
+<table width="100%" style="font-size: 13px; font-weight: 700;">
+	<tr>
+		<td align="center" style="padding: 20px; padding-top: 0px;">
+		<div class="panel panel-default">
+		<div class="panel-heading panel-heading-txt">&nbsp;</div>
+			<table width="100%" cellpadding="5">
+				<tr>
+					<td colspan="3"><h3 align="left">Informaci&oacute;n de Pa&iacute;s</h3><hr /></td>
+				</tr>
+				<tr>
+					<td>
+					<?php echo $formLabel->openTag() . $pai_nombre->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $pai_nombre ) );
+						  echo html_entity_decode( $this->formelementerrors ( $pai_nombre ) ); 
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $pai_codigo_telefono->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $pai_codigo_telefono ) );
+						  echo html_entity_decode( $this->formelementerrors ( $pai_codigo_telefono ) ); 
+					?>
+					</td>
+				</tr>
+			</table>
+			</div>
+			</div>
+			
+		</td>
+	</tr>
+</table>
+	<hr />
+			<div align="center">
+				<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+				<a href="<?php echo $this->url('parametros', array('controller' => 'pais', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
+			</div>	
+					
+<?php echo $this->form()->closeTag(); ?>

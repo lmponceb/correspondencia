@@ -34,11 +34,18 @@
  foreach ($this->cartas as $carta) : ?>
  <tr>
  	 <td width="100">
- 	 	<?php $estado = $carta->getCtr_tipo(); if(strtoupper($estado) == 'P'): ?>
- 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $carta->getCtr_id()))?>" title="Duplicar" alt="Duplicar">Duplicar</a>
+ 	 	<?php $ciudad = $carta->getCtr_tipo(); if(strtoupper($ciudad) == 'P'): ?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $carta->getCtr_id()))?>" title="Duplicar" alt="Duplicar">Duplicar</a> |
  	 	<?php else:?>
- 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'editar', 'id' => $carta->getCtr_id()))?>" title="Actualizar" alt="Actualizar">Editar</a>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'editar', 'id' => $carta->getCtr_id()))?>" title="Actualizar" alt="Actualizar">Editar</a> |
  	 	<?php endif; ?>
+ 	 	
+ 	 	<?php if($carta->getTip_car_id() == 1):?> 
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartaformal', 'id' => $carta->getCtr_id()))?>" title="PDF" alt="PDF">PDF</a>
+ 	 	<?php elseif($carta->getTip_car_id() == 2):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartainformal', 'id' => $carta->getCtr_id()))?>" title="PDF" alt="PDF">PDF</a>
+ 	 	<?php endif;?>
+ 	 	
  	 </td>
 	 <td><?php echo $this->escapeHtml($carta->getEmp_int_nombre());?></td>
  	 <td><?php echo $this->escapeHtml($carta->getTip_car_descripcion());?></td>
@@ -53,8 +60,8 @@
      <td><?php echo $this->escapeHtml($carta->getCtr_codigo_final());?></td>
      <td>
      	<?php 
-     	$estado = $carta->getCtr_tipo();
-     	if(strtoupper($estado) == 'B'){ echo 'Borrador'; }else{ echo 'Procesado'; } 
+     	$ciudad = $carta->getCtr_tipo();
+     	if(strtoupper($ciudad) == 'B'){ echo 'Borrador'; }else{ echo 'Procesado'; } 
      	?>
      </td>
  </tr>

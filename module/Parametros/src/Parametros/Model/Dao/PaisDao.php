@@ -1,10 +1,10 @@
 <?php
-namespace Contactos\Model\Dao;
+namespace Parametros\Model\Dao;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Expression;
-use Contactos\Model\Entity\Pais;
+use Parametros\Model\Entity\Pais;
 
 class PaisDao {
 	
@@ -33,7 +33,34 @@ class PaisDao {
     	return $row;
     }
     
-    public function traerTodosArreglo(){
+    public function guardar(Pais $pais){
+    	date_default_timezone_set('America/Guayaquil');
+    	 
+    	$id = (int) $pais->getPai_id();
+    	 
+    	$data = array(
+    			'PAI_NOMBRE' => $pais->getPai_nombre(),
+    			'PAI_CODIGO_TELEFONO' => $pais->getPai_codigo_telefono()
+    	);
+    	 
+    	if(empty($id) || is_null($id)){
+    		$data['PAI_ID'] = new Expression('s_pais.nextVal');
+    		$this->tableGateway->insert($data);
+    
+    	}else{
+    		if($this->traer($id)){
+    			$this->tableGateway->update($data, array('PAI_ID' => $id ));
+    		}else{
+    			throw new \Exception( 'No se encontro el id para actualizar' );
+    		}
+    	}
+    }
+    
+    public function eliminar($id){
+    	$this->tableGateway->delete(array('PAI_ID' => $id));
+    }
+    
+ 	public function traerTodosArreglo(){
     	 
     	$sql = new Sql($this->tableGateway->getAdapter());
     	$select = $sql->select();
@@ -58,19 +85,4 @@ class PaisDao {
     	return $result;
     }
     
-    public function getCodigoTelefonoPais($pais){
-    	$resultSet = $this->tableGateway->select(array('PAI_ID' => $pais));
-    	$row = $resultSet->current();
-    	return $row;
-    }
-    
-    public function getCodigoPaisesSelect()
-    {
-    	$resultSet= $this->tableGateway->select();
-    	$result=array();
-    	foreach($resultSet as $pais){
-    		$result[$pais->getPai_codigo_telefono()]=$pais->getPai_codigo_telefono().'-'.$pais->getPai_nombre();
-    	}
-    	return $result;
-    }
 }

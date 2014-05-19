@@ -15,6 +15,9 @@ use Cartas\Form\Carta;
 use Cartas\Model\Entity\Carta as CartaEntity;
 use Cartas\Model\Entity\CartaDestinatario;
 use Cartas\Model\Entity\CartaFirma;
+use DOMPDFModule\View\Model\PdfModel;
+
+date_default_timezone_set('America/Guayaquil');
 
 class CartasController extends AbstractActionController
 {
@@ -282,6 +285,52 @@ class CartasController extends AbstractActionController
     	
     	$this->redirect()->toRoute('cartas', array('controller' => 'cartas', 'action' => 'listado'));
     	
+    }
+    
+    public function cartaformalAction(){
+    	
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	
+    	$carta = $this->getCartaDao()->traer($id);
+    	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
+    	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCarta($id);
+    	
+    	$pdf = new PdfModel();
+    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    	
+    	$pdf->setVariables(array(
+    			'carta' => $carta,
+    			'carta_destinatario' => $carta_destinatario,
+    			'carta_firma' => $carta_firma,
+    	));
+    	 
+    	return $pdf;
+    	
+    }
+    
+    public function cartainformalAction(){
+    	 
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	 
+    	$carta = $this->getCartaDao()->traer($id);
+    	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
+    	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCarta($id);
+    	 
+    	$pdf = new PdfModel();
+    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    	 
+    	$pdf->setVariables(array(
+    			'carta' => $carta,
+    			'carta_destinatario' => $carta_destinatario,
+    			'carta_firma' => $carta_firma,
+    	));
+    
+    	return $pdf;
+    	 
     }
     
     public function getForm() {

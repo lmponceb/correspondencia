@@ -272,8 +272,8 @@
 								<div class="btn-group">
 									<a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 18px; padding-left: 4px ;"><?php echo $_SESSION['Zend_Auth']['storage']->us_nombre?> &nbsp;<span class="caret"></span></a>
 									<ul class="dropdown-menu">
-										<li><a href="#"><i class="icon-pencil"></i> Actualizar contrase&ntilde;a</a></li>
-										<li class="divider"></li>
+										<!-- <li><a href="#"><i class="icon-pencil"></i> Actualizar contrase&ntilde;a</a></li> 
+										<li class="divider"></li>-->
 										<li><a href="<?php echo $this->url('application', array('controller' => 'login', 'action' => 'logout'))?>"><i class="i"></i> Salir del Sistema</a></li>
 									</ul>
 								</div>
@@ -293,8 +293,10 @@
 						<li><img src=" <?php echo $this->basepath() . '/img/png/empresas.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('empresas', array('controller' => 'index', 'action' => 'index'))?>">Empresas</a></li>
 						<li><img src=" <?php echo $this->basepath() . '/img/png/correspondencia.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'listado'))?>">Correspondencia</a></li>
 						<li><img src=" <?php echo $this->basepath() . '/img/png/recepcion.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('empresas', array('controller' => 'index', 'action' => 'index'))?>">Fe de recepci&oacute;n</a></li>
-						<li><img src=" <?php echo $this->basepath() . '/img/png/usuario.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('usuarios', array('controller' => 'usuarios', 'action' => 'index'))?>">Usuarios</a></li>
-						<li><img src=" <?php echo $this->basepath() . '/img/png/usuario.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('usuarios', array('controller' => 'usuarios', 'action' => 'roles'))?>">Roles</a></li>
+						
+						<li><img src=" <?php echo $this->basepath() . '/img/png/usuario.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('parametros', array('controller' => 'pais', 'action' => 'listado'))?>">Pa&iacute;s</a></li>
+						<li><img src=" <?php echo $this->basepath() . '/img/png/usuario.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('parametros', array('controller' => 'estado', 'action' => 'listado'))?>">Estado</a></li>
+						<li><img src=" <?php echo $this->basepath() . '/img/png/usuario.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('parametros', array('controller' => 'ciudad', 'action' => 'listado'))?>">Ciudad</a></li>
 
 
 					</ul>
