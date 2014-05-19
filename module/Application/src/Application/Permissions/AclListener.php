@@ -36,7 +36,6 @@ class AclListener implements ListenerAggregateInterface{
 
     public function onDispatch(MvcEvent $e){
 
-/*
 
         $app = $e->getParam('application');
         $sm = $app->getServiceManager();
@@ -51,9 +50,9 @@ class AclListener implements ListenerAggregateInterface{
          $selectRoles->join(array('A' => 'APLICACION'),'RA.APL_ID = A.APL_ID');
         $statement = $sql->prepareStatementForSqlObject($selectRoles);
         $results = $statement->execute();
-*/
+
         $acl = new Acl();
- /*
+ 
         $permissionsArray=array();
 
         foreach($results as $rol){
@@ -75,9 +74,9 @@ class AclListener implements ListenerAggregateInterface{
                 $acl->allow($rol_id, $resource);
             }            
         }
-*/
 
-       $acl->addRole(new Role('A'))
+
+       /*$acl->addRole(new Role('A'))
         ->addRole(new Role('G'))
         ->addRole(new Role('O'))
         ->addResource(new Resource('parametros:index'))
@@ -113,7 +112,7 @@ class AclListener implements ListenerAggregateInterface{
         ->allow('O', 'empresas:empresas')
         ->allow('O', 'contactos:index')
         ->allow('O', 'cartas:cartas')
-        ->allow('O', 'parametros:index');
+        ->allow('O', 'parametros:index');*/
         
         $application = $e->getApplication();
         $services = $application->getServiceManager();
@@ -138,13 +137,13 @@ class AclListener implements ListenerAggregateInterface{
     
     private function getRole($sm){
         $auth = $sm->get('Application\Model\Login');
-        $role = 'A';
+        $role = '1';
         
         if($auth->isLoggedIn()){
             if(!empty($auth->getIdentity()->us_role)){
                 $role = $auth->getIdentity()->us_role;
             } else {
-                $auth->getIdentity()->us_role = 'A';
+                $auth->getIdentity()->us_role = '1';
                 $role = $auth->getIdentity()->us_role;
             }
         }

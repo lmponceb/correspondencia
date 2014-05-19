@@ -12,12 +12,11 @@ class LoginController extends AbstractActionController {
 	
 	private $login;
 	
-	public function indexAction() {
-		
+	public function indexAction	() {
 		$form = new Login ( 'login' );
 		$loggedIn = $this->login->isLoggedIn ();
 
-		$viewParams = array ('form' => $form );
+		$viewParams = array ('form' => $form );	
 		
 		if ($loggedIn) {
 			return $this->redirect ()->toRoute ( 'application', array (
@@ -45,7 +44,6 @@ class LoginController extends AbstractActionController {
 		$form->setData ( $data );
 		
 		if (! $form->isValid ()) {
-			
 			$modelView = new ViewModel ( array ( 'form' => $form	) );
 			$modelView->setTemplate ( 'application/login/index' );
 			return $modelView;
