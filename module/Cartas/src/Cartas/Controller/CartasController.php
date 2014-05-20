@@ -65,22 +65,14 @@ class CartasController extends AbstractActionController
     	
     	$form->bind ( $carta );
     		
-    	//TRAER LOS CONTACTOS RELACIONADOS
-    	//$contacto_relacionado = $this->getContactoRelacionadoDao()->traerPorContacto($id);
-    		
-    	//TRAER LOS DETALLES DE CONTACTO
-    	//$detalle_contacto = $this->getDetalleContactoDao()->traerPorContacto($id);
+    	//$obr_id = $carta->getObr_id();
+    	//$obra = $this->getObraDao()->traer($obr_id);
+    	//$proyecto = $this->getProyectoDao()->traer($obra->getPro_id());
     	
-    	$obr_id = $carta->getObr_id();
+    	$form->get ( 'PRO_ID' )->setAttribute ( 'value', $carta->getPro_id());
     	
-    	$obra = $this->getObraDao()->traer($obr_id);
-    	
-    	$proyecto = $this->getProyectoDao()->traer($obra->getPro_id());
-    	
-    	$form->get ( 'PRO_ID' )->setAttribute ( 'value', $proyecto->getPro_id());
-    	
-    	$form->get ( 'proyecto_oculto' )->setAttribute('value', $proyecto->getPro_id());
-    	$form->get ( 'obra_oculto' )->setAttribute('value', $carta->getObr_id());
+    	$form->get ( 'proyecto_oculto' )->setAttribute('value', $carta->getPro_id());
+    	//$form->get ( 'obra_oculto' )->setAttribute('value', $carta->getObr_id());
     	$form->get ( 'ingresar' )->setAttribute ( 'value', 'Actualizar' );
     	$form->get ( 'CTR_ID' )->setAttribute ( 'value', $carta->getCtr_id() );
 
@@ -142,12 +134,6 @@ class CartasController extends AbstractActionController
 		
 		//CAPTURA LA INFORMACION ENVIADA EN EL POST
 		$data = $this->request->getPost ();
-		
-		//LLENA LOS CAMPOS OCULTOS PARA GENERAR LA FUNCION READY DE JQUERY
-		//$data['contacto_oculto'] = $data['CON_ID'];
-		//$data['sucursal_oculto'] = $data['SUC_ID'];
-		//$data['ciudad_oculto'] = $data['CIU_ID'];
-		
 		
 		$form = $this->getForm();
 		
@@ -238,23 +224,36 @@ class CartasController extends AbstractActionController
     
     public function procesarAction(){
     	
+    	date_default_timezone_set('America/Guayaquil');
+    	$anio = date('Y');
+    	
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	
+    	$ei = $this->getCartaDao()->traerEmpresaInterna($id);
+    	
+    	foreach ($ei as $emp){
+    		$empresa_interna = $emp->getEmp_int_abreviacion();
+    	}
+    	
     	$role = $_SESSION['Zend_Auth']['storage']->us_role;
     	
     	
     	switch ($role){
-    		case 'A':
+    		case 1:
     			$text_role = 'ADM';
     			break;
-    		case 'O':
+    		case 3:
     			$text_role = 'OPE';
     			break;
-    		case 'G':
-    			$text_role = 'GER';
+    		case 2:
+    			$text_role = 'ADM';
+    			break;
+    		default:
+    			$text_role = 'OPE';
     			break;
     	}
     	
-    	$this->getCartaDao()->procesar($id, $text_role);
+    	$this->getCartaDao()->procesar($id, $text_role, $anio, $empresa_interna);
     	$this->redirect()->toRoute('cartas', array('controller' => 'cartas', 'action' => 'listado'));
     	
     }
@@ -417,13 +416,13 @@ class CartasController extends AbstractActionController
     	return $this->contactoDao;
     }
     
-    public function getObraDao() {
+    /* public function getObraDao() {
     	if (! $this->obraDao) {
     		$sm = $this->getServiceLocator ();
     		$this->obraDao = $sm->get ( 'Cartas\Model\Dao\ObraDao' );
     	}
     	return $this->obraDao;
-    }
+    } */
     
     public function contactosAction(){
     	if($this->getRequest()->isXmlHttpRequest()){
@@ -476,7 +475,7 @@ class CartasController extends AbstractActionController
     	}
     }
     
-    public function obraAction(){
+    /* public function obraAction(){
   	  if($this->getRequest()->isXmlHttpRequest()){
     		$pro_id = $this->request->getPost('proyecto');
     		$data = $this->getObraDao()->getObrasPorProyecto($pro_id);
@@ -490,6 +489,6 @@ class CartasController extends AbstractActionController
     	}else{
     		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
     	}
-    }
+    } */
     
 }

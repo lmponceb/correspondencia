@@ -10,20 +10,17 @@ $form->setAttribute ( 'action', $this->url ( 'contactos', array (
 $formLabel = $this->plugin ( 'formLabel' );
 
 $con_id = $form->get ( 'CON_ID' );
-//$car_id = $form->get ( 'CAR_ID' );
 $emp_id = $form->get ( 'EMP_ID' );
 $est_id = $form->get ( 'EST_ID' );
 $estado_oculto = $form->get ( 'estado_oculto' );
 $suc_id = $form->get ( 'SUC_ID' );
 $sucursal_oculto = $form->get ( 'sucursal_oculto' );
-//$tip_per_id = $form->get ( 'TIP_PER_ID' );
 $pai_id = $form->get ( 'PAI_ID' );
 $ciu_id = $form->get ( 'CIU_ID' );
 $ciudad_oculto = $form->get ( 'ciudad_oculto' );
 $con_nombre = $form->get ( 'CON_NOMBRE' );
 $con_apellido = $form->get ( 'CON_APELLIDO' );
 $con_email = $form->get ( 'CON_EMAIL' );
-//$con_idioma = $form->get ( 'CON_IDIOMA' );
 $con_usuario = $form->get ( 'CON_USUARIO' );
 $con_fecha_actualizacion = $form->get ( 'CON_FECHA_ACTUALIZACION' );
 $con_privado = $form->get ( 'CON_PRIVADO' );
@@ -51,8 +48,6 @@ $con_observaciones_privado = $form->get ( 'CON_OBSERVACIONES_PRIVADO' );
 $emp_direccion = $form->get ( 'EMP_DIRECCION' );
 $emp_email = $form->get ( 'EMP_EMAIL' );
 $emp_pagina_web = $form->get ( 'EMP_PAGINA_WEB' );
-
-//$date = new Fecha();
 
 echo $this->form ()->openTag ( $form );
 
@@ -162,7 +157,6 @@ echo $this->formelementerrors ( $con_estado );
 				</tr>
 				<!-- FIN CAMPOS EMPRESA -->
 				
-				
 				<tr>
 					<td>
 					<?php echo $formLabel->openTag() . $con_descripcion_es->getLabel() . $formLabel->closeTag();
@@ -242,13 +236,13 @@ echo $this->formelementerrors ( $con_estado );
 			</table>
 			</div>
 			</div>
-			<div class="panel panel-default" <?php if($this->privado == 'S' && $this->tipo_usuario == 'O'){ echo 'style="display:none"'; }?>>
+			<div class="panel panel-default" <?php if($this->privado == 'S' && ($this->tipo_usuario != 1 && $this->tipo_usuario != 2)){ echo 'style="display:none"'; }?>>
 			<div class="panel-heading">&nbsp;</div>
 			<table width="100%" cellpadding="5">				
 				<tr>
 					<td colspan="3"><h3 align="left">Informaci&oacute;n Privada</h3><hr /></td>
 				</tr>
-				<tr <?php if($this->tipo_usuario != 'A' && $this->privado == 'N'): echo 'style="display:none"'; endif;?>>
+				<tr <?php //if(($this->tipo_usuario != 1 && $this->tipo_usuario != 2 )&& $this->privado == 'N'): echo 'style="display:none"'; endif;?>>
 					<td>
 					<?php echo $formLabel->openTag() . $con_privado->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $con_privado ) );

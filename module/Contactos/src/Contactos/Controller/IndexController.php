@@ -59,16 +59,7 @@ class IndexController extends AbstractActionController {
 	public function ingresarAction() {
 		
 		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
-		//$lang = $this->params ()->fromRoute ( 'lang', 'E' );
-		
-		
-		//if(strtoupper($lang) === 'E'){
-			$form = $this->getForm ();
-		//}else{
-			//$form = $this->getFormIngles ();
-		//}
-		
-		//$form->get ( 'CON_IDIOMA' )->setValue($lang);
+		$form = $this->getForm ();
 		
 		//FORMULARIO DE INGRESO DE INFORMACION
 		return new ViewModel ( array (
@@ -85,13 +76,8 @@ class IndexController extends AbstractActionController {
 	public function editarAction(){
 
 		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
-		//$lang = $this->params ()->fromRoute ( 'lang', 'E' );
-		
-		//if(strtoupper($lang) === 'E'){
-			$form = $this->getForm ();
-		//}else{
-		//	$form = $this->getFormIngles ();
-		//}
+
+		$form = $this->getForm ();
 		
 			//FORMULARIO DE ACTUALIZACION DE INFORMACION
 			$contacto = $this->getContactoDao ()->traer ( $id );
@@ -150,7 +136,7 @@ class IndexController extends AbstractActionController {
 			$form->get ( 'PAI_ID' )->setAttribute ( 'value', $estado->getPai_id() );
 			$form->get ( 'ciudad_oculto' )->setAttribute ( 'value', $contacto->getCiu_id() );
 				
-			if(strtoupper($this->tipo_usuario) == 'O'){
+			if(strtoupper($this->tipo_usuario) != 1 && strtoupper($this->tipo_usuario) != 2){
 		
 				if(strtoupper($contacto->getCon_privado()) == 'N'){
 					$form->get ( 'CON_EMAIL_PERSONAL' )->setAttribute ( 'readonly', 'readonly' );
@@ -165,27 +151,18 @@ class IndexController extends AbstractActionController {
 						$form->get ( 'CONTACTO_RELACIONADO['.$i.'][CON_REL_VALOR]' )->setAttribute ( 'readonly', 'readonly' );
 					}
 					
-					
 					$this->privado = 'N';
 				}
 		
 				if(strtoupper($contacto->getCon_privado()) == 'S'){
-					//$form->get ( 'CON_PRIVADO' )->setAttribute ( 'type', 'hidden' );
-					//$form->get ( 'CON_EMAIL_PERSONAL' )->setAttribute ( 'type', 'hidden' );
-					//$form->get ( 'CON_FECHA_NACIMIENTO_PERSONAL' )->setAttribute ( 'type', 'hidden' );
-					//$form->get ( 'CON_TELEFONO_DOMICILIO_PER' )->setAttribute ( 'type', 'hidden' );
-					//$form->get ( 'CON_CELULAR_PERSONAL' )->setAttribute ( 'type', 'hidden' );
 					$this->privado = 'S';
 				}
 			}
-			
-			//$form->get ( 'CON_IDIOMA' )->setValue($lang);
 			
 		$view = new ViewModel ( array (
 				'formulario' => $form ,
 				'tipo_usuario' => $this->tipo_usuario,
 				'privado' => $this->privado,
-				//'lang' => $lang,
 				'id' => $id,
 				'action' => $this->params()->fromRoute('action')
 		) );
@@ -237,11 +214,7 @@ class IndexController extends AbstractActionController {
 		$data['ciudad_oculto'] = $data['CIU_ID'];
 		
 		//VERIFICA EL IDIOMA INGRESADO PARA TRAER EL FORMULARIO SEGUN EL IDIOMA 
-		//if(strtoupper($data['CON_IDIOMA']) == 'E'){
-			$form = $this->getForm();
-		//}else{
-			//$form = $this->getFormIngles();
-		//}
+		$form = $this->getForm();
 		
 		//SE VALIDA EL FORMULARIO
 		$form->setInputFilter ( new ContactoValidator () );
@@ -298,7 +271,7 @@ class IndexController extends AbstractActionController {
 			$this->getDetalleContactoDao()->eliminarPorContacto($data['CON_ID']);
 			
 			//SI EL USURIO ES DIFERENTE DE OPERADOR, PUEDE ELIMINAR LA INFORMACION
-			if(strtoupper($this->tipo_usuario) != 'O'){
+			if(strtoupper($this->tipo_usuario) == 1 || strtoupper($this->tipo_usuario) == 2){
 				$this->getContactoRelacionadoDao()->eliminarPorContacto($data['CON_ID']);
 			}
 			
@@ -317,7 +290,7 @@ class IndexController extends AbstractActionController {
 		
 		//SE GRABAN LOS DATOS ASOCIADOS
 		// SOLO SI ES ADMINISTRADOR O USUARIO GERENCIAL PUEDE INGRESAR LA INFORMACION DE CONTACTO RELACIONADO
-		if(strtoupper($this->tipo_usuario) != 'O'){
+		if(strtoupper($this->tipo_usuario) == 1 || strtoupper($this->tipo_usuario) == 2){
 			
 			foreach($contactoRelacionadoParamsArray as $contactoRelacionadoParams){
 	        	if(
@@ -364,9 +337,7 @@ class IndexController extends AbstractActionController {
 		$indice_detalle_contacto=0;
 		$indice_contacto_relacionado = 0;
 		
-		//$form->get ( 'TIP_PER_ID' )->setValueOptions ( $this->getTipoPersonaDao ()->traerTodosArreglo () );
 		$form->get ( 'EMP_ID' )->setValueOptions ( $this->getEmpresaDao ()->traerEmpresas () );
-		//$form->get ( 'CAR_ID' )->setValueOptions ( $this->getCargoDao ()->traerTodosArreglo () );
 		$form->get ( 'PAI_ID' )->setValueOptions ( $this->getPaisDao ()->traerTodosArreglo () );
 		for ($indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++){
 			$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
@@ -376,26 +347,6 @@ class IndexController extends AbstractActionController {
 		
 		return $form;
 	}
-	
-	/* public function getFormIngles() {
-		$form = new Contacto ();
-	
-		$indice_detalle_contacto=0;
-		$indice_contacto_relacionado = 0;
-	
-		$form->get ( 'TIP_PER_ID' )->setValueOptions ( $this->getTipoPersonaDao ()->traerTodosArregloIngles () );
-		$form->get ( 'EMP_ID' )->setValueOptions ( $this->getEmpresaDao ()->traerEmpresas () );
-		$form->get ( 'CAR_ID' )->setValueOptions ( $this->getCargoDao ()->traerTodosArregloIngles () );
-		$form->get ( 'PAI_ID' )->setValueOptions ( $this->getPaisDao ()->traerTodosArreglo () );
-		
-		for ($indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++){
-			$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
-			$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
-			$form->get( 'CONTACTO_RELACIONADO[' . $indice_detalle_contacto . '][TIP_CON_ID]')->setValueOptions($this->getTipoContactoDao()->getTipoContactoSelect());
-		}
-	
-		return $form;
-	} */
 	
 	public function sucursalesAction(){
 		if($this->getRequest()->isXmlHttpRequest()){

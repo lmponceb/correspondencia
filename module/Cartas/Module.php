@@ -139,16 +139,6 @@ class Module implements AutoloaderProviderInterface
     						$resultSetPrototype->setArrayObjectPrototype(new Contacto());
     						return new TableGateway('CONTACTO', $dbAdapter, null, $resultSetPrototype);
     					},
-    					'Cartas\Model\Dao\ObraDao' => function($sm){
-    						$tableGateway = $sm->get('ObraTableGateway');
-    						return new ObraDao($tableGateway);
-    					},
-    					'ObraTableGateway' => function ($sm){
-    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-    						$resultSetPrototype = new ResultSet();
-    						$resultSetPrototype->setArrayObjectPrototype(new Obra());
-    						return new TableGateway('OBRA', $dbAdapter, null, $resultSetPrototype);
-    					},
     					'Cartas\Model\Dao\CartaDestinatarioDao' => function($sm){
     						$tableGateway = $sm->get('CartaDestinatarioTableGateway');
     						return new CartaDestinatarioDao($tableGateway);

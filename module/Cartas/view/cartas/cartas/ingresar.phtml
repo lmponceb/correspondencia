@@ -10,8 +10,8 @@ $form->setAttribute ( 'action', $this->url ( 'cartas', array (
 $formLabel = $this->plugin ( 'formLabel' );
 
 $ctr_id = $form->get ( 'CTR_ID' );
-$obr_id = $form->get ( 'OBR_ID' );
-$obra_oculto = $form->get ( 'obra_oculto' );
+//$obr_id = $form->get ( 'OBR_ID' );
+//$obra_oculto = $form->get ( 'obra_oculto' );
 $emp_int_id = $form->get ( 'EMP_INT_ID' );
 $pro_id = $form->get ( 'PRO_ID' );
 $us_codigo = $form->get ( 'US_CODIGO' );
@@ -46,8 +46,8 @@ echo $this->form ()->openTag ( $form );
 echo $this->formhidden ( $ctr_id );
 echo $this->formelementerrors ( $ctr_id );
 
-echo $this->formhidden ( $obra_oculto );
-echo $this->formelementerrors ( $obra_oculto );
+/* echo $this->formhidden ( $obra_oculto );
+echo $this->formelementerrors ( $obra_oculto ); */
 
 echo $this->formhidden ( $us_codigo );
 echo $this->formelementerrors ( $us_codigo );
@@ -209,19 +209,18 @@ echo $this->formelementerrors ( $proyecto_oculto );
 					?>
 					</td>	
 					<td>
-					<?php echo $formLabel->openTag() . $obr_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $obr_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $obr_id ) );
-					?>
-					</td>
-					<td>
 					<?php echo $formLabel->openTag() . $ctr_codigo_final->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $ctr_codigo_final ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_codigo_final ) );
 					?>
 					</td>
 					<td>
+					<?php /* echo $formLabel->openTag() . $obr_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $obr_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $obr_id ) ); */
+					?>
 					</td>
+					
 				</tr>
 			</table>
 			</div>
@@ -381,11 +380,11 @@ echo $this->formelementerrors ( $proyecto_oculto );
         		};
     		
         }
-
+/*
         $("#PRO_ID").change(function() {
 			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
 	            $.ajax({
-	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
+	                url: "<?php //echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
 	                type: "POST",
 	                dataType: "json",
 	                data: "proyecto=" + $('#PRO_ID').val(),
@@ -410,7 +409,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
         $("#PRO_ID").ready(function() {
 			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
 	            $.ajax({
-	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
+	                url: "<?php //echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
 	                type: "POST",
 	                dataType: "json",
 	                data: "proyecto=" + $('#PRO_ID').val(),
@@ -439,6 +438,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 				$("#OBR_ID").prop("disabled", true);
 			}
         });
+        */
 
 	});
 </script>

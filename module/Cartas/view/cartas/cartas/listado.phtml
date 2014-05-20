@@ -4,7 +4,7 @@
  ?>
  <table cellspacing="0" cellpadding="0" border="0" align="left" width="100%">
 	<tr>
-		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/contacto_grande.png'?>" border="0" /></td>
+		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/correspondencia_grande.png'?>" border="0" /></td>
 		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages"><?php echo $this->escapeHtml($title); ?></span><br />Visualizar, buscar y verificar todas las cartas ingresadas en el sistema.</td>
 	</tr>
 	<tr>
@@ -34,7 +34,7 @@
  foreach ($this->cartas as $carta) : ?>
  <tr>
  	 <td width="100">
- 	 	<?php $ciudad = $carta->getCtr_tipo(); if(strtoupper($ciudad) == 'P'): ?>
+ 	 	<?php $carta_tipo = $carta->getCtr_tipo(); if(strtoupper($carta_tipo) == 'P'): ?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $carta->getCtr_id()))?>" title="Duplicar" alt="Duplicar">Duplicar</a> |
  	 	<?php else:?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'editar', 'id' => $carta->getCtr_id()))?>" title="Actualizar" alt="Actualizar">Editar</a> |

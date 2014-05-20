@@ -24,6 +24,16 @@ class CartaDao {
         return $resultSet;
     }
     
+    public function traerEmpresaInterna($id){
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
+    	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
+    	$select->where(array('CTR_ID' => $id));
+    	 
+    	$resultSet = $this->tableGateway->selectWith ( $select );
+    	return $resultSet;
+    }
+    
     public function traer($id){
     	
     	$id = ( int ) $id;
@@ -111,10 +121,10 @@ class CartaDao {
     	return $results;
     }
     
-	public function procesar($id, $rol){
+	public function procesar($id, $role, $anio, $empresa_interna){
 		
 		$data['CTR_TIPO'] = 'P';
-		$data['CTR_CODIGO_FINAL'] = $rol . '-' . $id;
+		$data['CTR_CODIGO_FINAL'] = $empresa_interna . '-' . $role . '-' . $anio . '-' . $id;
 
 		if($this->traer($id)){
 			$this->tableGateway->update($data, array('CTR_ID' => $id ));

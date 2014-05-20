@@ -31,7 +31,7 @@ class Carta extends Form {
 		 * CAMPO OBRA OCULTO
 		 * ********************************************/
 		
-		$this->add ( array (
+		/* $this->add ( array (
 				'name' => 'obra_oculto',
 				'attributes' => array (
 						'type' => 'hidden',
@@ -39,7 +39,7 @@ class Carta extends Form {
 						'id' => 'obra_oculto',
 						'class' => 'form-control'
 				)
-		) );
+		) ); */
 		
 		
 		/* ********************************************
@@ -59,7 +59,7 @@ class Carta extends Form {
 		/* ********************************************
 		 * CAMPO OBRA
 		 * ********************************************/
-		$obr_id = new Select('OBR_ID');
+		/* $obr_id = new Select('OBR_ID');
 		$obr_id->setLabel('Obra*: ');
 		$obr_id->setAttributes(array('id' => 'OBR_ID'));
 		$obr_id->setAttributes(array('disabled' => 'disabled'));
@@ -68,7 +68,7 @@ class Carta extends Form {
 		$obr_id->setOptions(array(
 				'disable_inarray_validator' => true, // <-- disable
 		));
-		$this->add($obr_id);
+		$this->add($obr_id); */
 		
 		
 		/* ********************************************
