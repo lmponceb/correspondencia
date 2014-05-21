@@ -6,4 +6,5 @@
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{D39A8D41-3B0F-4705-B337-CF26FAA52EED}" Name="Azul" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Azul.prj"/>
 	</Local>
+	<BrowserModule Name="Repository"/>
 </Workspace>
