@@ -74,7 +74,7 @@ class AclListener implements ListenerAggregateInterface{
             }            
         }
         if (isset($_SESSION['Zend_Auth']) && is_object($_SESSION['Zend_Auth'])){
-          $_SESSION['Zend_Auth']['storage']->menu=str_replace(':','/',$this->permisosArray);  
+          $_SESSION['Zend_Auth']['storage']->menu=$this->permisosArray;  
         } 
         //
 
