@@ -14,10 +14,15 @@ echo $this->headMeta ()->appendName ( 'viewport', 'width=device-width, initial-s
         <?php
 								
 echo $this->headLink ( array (
-										'rel' => 'shortcut icon',
-										'type' => 'image/vnd.microsoft.icon',
-										'href' => $this->basePath () . '/img/favicon.ico' 
-								) )->prependStylesheet ( $this->basePath () . '/css/style.css' )->prependStylesheet ( $this->basePath () . '/css/bootstrap-theme.min.css' )->prependStylesheet ( $this->basePath () . '/css/bootstrap.min.css' )?>
+					'rel' => 'shortcut icon',
+					'type' => 'image/vnd.microsoft.icon',
+					'href' => $this->basePath () . '/img/favicon.ico' 
+					) )
+					->prependStylesheet ( $this->basePath () . '/css/style.css' )
+					->prependStylesheet ( $this->basePath () . '/css/bootstrap-theme.min.css' )
+					->prependStylesheet ( $this->basePath () . '/css/bootstrap.min.css' )
+					->prependStylesheet ( $this->basePath () . '/css/login.css')
+					?>
 
         <!-- Scripts -->
         <?php
@@ -33,17 +38,13 @@ echo $this->headScript ()->prependFile ( $this->basePath () . '/js/bootstrap.min
 			overflow-x: hidden;
 		}
 	</style>
+
+
+
    </head>
     
 <body>
-<div class="hidden-xs hidden-sm cabecera-background" style="">
-	<div class="header-text">Ingresar al Sistema</div>
-	<img src="<?php echo $this->basepath() . '/img/png/cabecera_azul.png' ?>" />
-</div>
-<div class="visible-xs visible-sm">
-	<div class="header-text-xs">Ingresar al Sistema</div>
-	<div class="header-subline-xs">&nbsp;</div>
-</div>
+
 
 	<div class="container-content-layout hidden-xs">&nbsp;</div>
 	<div class="container-content-layout-xs visible-xs">&nbsp;</div>
@@ -61,7 +62,6 @@ echo $this->headScript ()->prependFile ( $this->basePath () . '/js/bootstrap.min
             
 			</div>
 	</div>
-	<div class="general-footer">Todos los derechos reservados &copy; <?php date_default_timezone_set('America/Guayaquil'); echo date('Y');?></div>
     
     </body>
 </html>

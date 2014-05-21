@@ -34,8 +34,14 @@
 <tbody>
  <?php foreach ($roles as $rol) : ?>
  <tr>
-	 <td><a href='editRol/<?php echo $this->escapeHtml($rol->getRol_id());?>'>Editar</a></td>
-     <td><?php echo $this->escapeHtml($rol->getRol_descripcion());?></td>
+	<td>
+		<?php if($rol->getRol_estado()!='O'): ?>
+ 			<a href='editRol/<?php echo $this->escapeHtml($rol->getRol_id());?>'>Editar</a>
+ 		<?php else: ?>
+ 			<span class='disabled'>Editar</span>	
+		<?php endif; ?>
+ 	</td>
+    <td><?php echo $this->escapeHtml($rol->getRol_descripcion());?></td>
  </tr>
  <?php endforeach; ?>
 </tbody>
