@@ -269,6 +269,9 @@
 									<img src=" <?php echo $this->basepath() . '/img/png/user.png'?>" border="0" align="absmiddle" style="padding-bottom: 0px;" />
 									
 								</div>
+								<pre>
+									<?php $menu=$_SESSION['Zend_Auth']['storage']->menu; ?>
+								</pre>
 								<div class="btn-group">
 									<a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 18px; padding-left: 4px ;"><?php echo $_SESSION['Zend_Auth']['storage']->us_nombre?> &nbsp;<span class="caret"></span></a>
 									<ul class="dropdown-menu">
@@ -288,6 +291,7 @@
     		<tr>
     			<td class="menu">
 					<ul id="menu">
+						
 						<li><img src=" <?php echo $this->basepath() . '/img/png/home.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('application', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></li>
 						<li><img src=" <?php echo $this->basepath() . '/img/png/contacto.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>">Contactos</a></li>
 						<li><img src=" <?php echo $this->basepath() . '/img/png/empresas.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('empresas', array('controller' => 'index', 'action' => 'index'))?>">Empresas</a></li>

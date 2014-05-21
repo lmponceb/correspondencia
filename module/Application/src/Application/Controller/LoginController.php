@@ -11,6 +11,7 @@ use Application\Form\LoginValidator;
 class LoginController extends AbstractActionController {
 	
 	private $login;
+	protected $rolUsuarioDao;
 	
 	public function indexAction	() {
 		$form = new Login ( 'login' );
@@ -32,7 +33,7 @@ class LoginController extends AbstractActionController {
 		
 		if (! $this->request->isPost ()) {
 			$this->redirect ()->toRoute ( 'application', array (
-					'controller' => 'login' 
+					'controller' => 'login'
 			) );
 		}
 		
@@ -62,10 +63,15 @@ class LoginController extends AbstractActionController {
 			$this->login->setMessage ( 'Usuario inactivo. Comun&iacute;quese con el administrador', LoginService::USER_INACTIVE );
 			
 
+			
 			$this->login->login ( $usuario, $this->secret($clave) );
 
-			
-			$role = $this->login->getIdentity()->us_role;
+			$role=$this->getRolUsuarioDao()->rolPorCodigo( $usuario )->getRol_id();
+			$this->login->getIdentity()->us_role=$role;
+			//$role = $this->login->getIdentity()->us_role;
+			//$role = $this->login->getIdentity()->us_codigo;
+
+
 			
 			return $this->redirect ()->toRoute ( 'empresas', array (
 				'controller' => 'index',
@@ -103,4 +109,13 @@ class LoginController extends AbstractActionController {
 		/*Aqui va la llamada a la librería de validación de contraseñas de Azul*/
 		return md5($password);
 	}
+
+    public function getRolUsuarioDao()
+ 	{
+		if (!$this->rolUsuarioDao) {
+			$sm = $this->getServiceLocator();
+			$this->rolUsuarioDao = $sm->get('Application\Model\Dao\RolUsuarioDao');
+		}
+		return $this->rolUsuarioDao;
+    }
 }

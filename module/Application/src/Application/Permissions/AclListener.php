@@ -15,7 +15,7 @@ class AclListener implements ListenerAggregateInterface{
     
     protected $listeners = array();
     protected $rolUsuarioDao;
-
+    protected $permisosArray = array();
     /*public function __construct($dbauth){
         print_r($dbauth);
     }*/
@@ -34,7 +34,7 @@ class AclListener implements ListenerAggregateInterface{
     
 
     public function onDispatch(MvcEvent $e){
-    	
+    	//session_unset();
         $app = $e->getParam('application');
         $sm = $app->getServiceManager();
         $config = $sm->get('config');
@@ -70,9 +70,13 @@ class AclListener implements ListenerAggregateInterface{
             $acl->addRole(new Role($rol_id));
             foreach($permission as $apl_id=>$resource){
                 $acl->allow($rol_id, $resource);
+                $this->permisosArray[$rol_id][]=$resource;
             }            
         }
-
+        if (isset($_SESSION['Zend_Auth']) && is_object($_SESSION['Zend_Auth'])){
+          $_SESSION['Zend_Auth']['storage']->menu=str_replace(':','/',$this->permisosArray);  
+        } 
+        //
 
        /*$acl->addRole(new Role('A'))
         ->addRole(new Role('G'))
@@ -127,7 +131,7 @@ class AclListener implements ListenerAggregateInterface{
         $action = $matches->getParam('action');
         
         $resourceName = $module . ':' . $controller;
-        
+        //print_r($this->getRole($services));
         if(!$acl->isAllowed($this->getRole($services), $resourceName, $action)){
             $matches->setParam('controller', 'Application\Controller\Error');
 			$matches->setParam('action','denied');
@@ -135,20 +139,20 @@ class AclListener implements ListenerAggregateInterface{
    }
     
     private function getRole($sm){
-    	
         $auth = $sm->get('Application\Model\Login');
-        $role = '1';
+
         if($auth->isLoggedIn()){
             if(!empty($auth->getIdentity()->us_role)){
+
                 $role = $auth->getIdentity()->us_role;
             } else {
                 $auth->getIdentity()->us_role = '1';
                 $role = $auth->getIdentity()->us_role;
             }
+        }else{
+            $role = '1';
         }
         return $role;
     }
-
-    
     
 }

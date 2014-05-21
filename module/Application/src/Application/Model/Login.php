@@ -57,6 +57,9 @@ class Login {
 
             $result = $this->auth->authenticate($this->authAdapter);
 
+//            print_r( $this->authAdapter->getIdentity() );
+//            die();
+
             switch ($result->getCode()) {
                 case Result::FAILURE_IDENTITY_NOT_FOUND:
                     throw new \Exception($this->messages[self::NOT_IDENTITY]);

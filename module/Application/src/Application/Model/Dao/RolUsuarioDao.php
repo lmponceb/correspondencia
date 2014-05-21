@@ -20,4 +20,11 @@
          return $resultSet;
      }
 
+     public function rolPorCodigo($codigo)
+     {
+         $resultSet = $this->tableGateway->select(array('US_CODIGO'=>$codigo))->current();
+
+         return $resultSet;
+     }
+
  }

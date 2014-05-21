@@ -14,6 +14,8 @@ use Zend\Mvc\MvcEvent;
 use Application\Model\Login;
 use Application\Controller\LoginController;
 use Application\Permissions\AclListener;
+use Application\Model\Dao\RolUsuarioDao;
+use Application\Model\Entity\RolUsuario;
 
 class Module {
 	public function onBootstrap(MvcEvent $e) {
@@ -105,6 +107,16 @@ class Module {
 							$db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db'] );
 							return new AclListener($db_auth);
 						},
+		                'Application\Model\Dao\RolUsuarioDao' => function($sm){
+		                    $tableGateway = $sm->get('RolUsuarioTableGateway');
+		                    return new RolUsuarioDao($tableGateway);
+		                },
+		                'RolUsuarioTableGateway' => function ($sm){
+		                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+		                    $resultSetPrototype = new ResultSet();
+		                    $resultSetPrototype->setArrayObjectPrototype(new RolUsuario());
+		                    return new TableGateway('ROL_USUARIO', $dbAdapter, null, $resultSetPrototype);
+		                },
 						
 				),
 		);
