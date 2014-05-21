@@ -49,8 +49,7 @@ class CartaDao {
     	$id = (int) $carta->getCtr_id();
     	 
     	$data = array(
-    			//'CTR_ID' => (int) $carta->getCtr_id(),
-    			'OBR_ID' => $carta->getObr_id(),
+    			'PRO_ID' => $carta->getPro_id(),
     			'EMP_INT_ID' => $carta->getEmp_int_id(),
     			'US_CODIGO' => $carta->getUs_codigo(),
     			'TIP_CAR_ID' => $carta->getTip_car_id(),
@@ -93,7 +92,7 @@ class CartaDao {
     
     	$data = array(
     			//'CTR_ID' => (int) $carta->getCtr_id(),
-    			'OBR_ID' => $carta->getObr_id(),
+    			'PRO_ID' => $carta->getPro_id(),
     			'EMP_INT_ID' => $carta->getEmp_int_id(),
     			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->us_codigo,
     			'TIP_CAR_ID' => $carta->getTip_car_id(),
@@ -133,19 +132,4 @@ class CartaDao {
 			throw new \Exception( 'No se encontro el id para actualizar' );
 		}
 	}
-    
-    /*
-
-	public function cambiarEstado($id, $estado){
-		
-		$data['CON_ESTADO'] = strtoupper($estado);
-
-		if($this->traer($id)){
-			$this->tableGateway->update($data, array('CON_ID' => $id ));
-				
-		}else{
-			throw new \Exception( 'No se encontro el id para eliminar' );
-		}
-	} */
-	
 }

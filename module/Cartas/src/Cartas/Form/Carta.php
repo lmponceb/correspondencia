@@ -57,21 +57,6 @@ class Carta extends Form {
 		
 		
 		/* ********************************************
-		 * CAMPO OBRA
-		 * ********************************************/
-		/* $obr_id = new Select('OBR_ID');
-		$obr_id->setLabel('Obra*: ');
-		$obr_id->setAttributes(array('id' => 'OBR_ID'));
-		$obr_id->setAttributes(array('disabled' => 'disabled'));
-		$obr_id->setAttributes(array('class' => 'form-control'));
-		$obr_id->setEmptyOption('-- Seleccione --');
-		$obr_id->setOptions(array(
-				'disable_inarray_validator' => true, // <-- disable
-		));
-		$this->add($obr_id); */
-		
-		
-		/* ********************************************
 		 * CAMPO TIPO DE CARTA
 		 * ********************************************/
 		$tip_car_id = new Select('TIP_CAR_ID');
@@ -223,7 +208,7 @@ class Carta extends Form {
 		$this->add ( array (
 				'name' => 'CTR_REFERENCIA',
 				'options' => array (
-						'label' => 'Referencia*:'
+						'label' => 'Referencia:'
 				),
 				'attributes' => array (
 						'type' => 'text',
