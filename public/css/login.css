@@ -23,3 +23,16 @@ body{
 	top:-50px;
 	color:#fff;
 }
+.error_container {
+	position:absolute;
+	top:359px;
+	left:17px;
+
+}
+.error_container li{
+		color:#fff !important;
+		padding-top: 7px !important;
+}
+.error_container li label.error{
+		color:#fff !important;	
+}

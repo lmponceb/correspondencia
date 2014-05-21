@@ -26,12 +26,21 @@
      public function traerTodosPorJerarquia()
      {
         $adapter = $this->tableGateway->getAdapter();
+        /*
         $sql =" SELECT EMP_ID, EMP_ID as PADRE, EMP_NOMBRE, '' AS PADRE_NOMBRE ,EMP_EMAIL,EMP_PAGINA_WEB, 0 AS NIVEL  FROM EMPRESA WHERE (EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0) and (EMP_ESTADO is null or EMP_ESTADO != '2') ";
         $sql.=" UNION ";
         $sql.=" SELECT E.EMP_ID, E.EMP_EMP_ID as PADRE, E.EMP_NOMBRE as EMP_NOMBRE , PE.EMP_NOMBRE AS PADRE_NOMBRE, E.EMP_EMAIL,E.EMP_PAGINA_WEB,1  AS NIVEL FROM EMPRESA E JOIN EMPRESA PE ON E.EMP_EMP_ID = PE.EMP_ID WHERE E.EMP_EMP_ID IS NOT NULL AND (E.EMP_ESTADO IS NULL OR E.EMP_ESTADO != '2')  ";
         $sql.=" AND E.EMP_EMP_ID IN (SELECT EMP_ID FROM EMPRESA WHERE (EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0) and (EMP_ESTADO is null or EMP_ESTADO != '2'))";
         $sql.=" ORDER BY 2,3 ";
+        */
         
+        
+        $sql =" SELECT EMP_ID, EMP_ID as PADRE, EMP_NOMBRE, '' AS PADRE_NOMBRE ,EMP_EMAIL,EMP_PAGINA_WEB, 0 AS NIVEL, EMP_ESTADO FROM EMPRESA WHERE (EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0) ";
+        $sql.=" UNION ";
+        $sql.=" SELECT E.EMP_ID, E.EMP_EMP_ID as PADRE, E.EMP_NOMBRE as EMP_NOMBRE , PE.EMP_NOMBRE AS PADRE_NOMBRE, E.EMP_EMAIL,E.EMP_PAGINA_WEB,1  AS NIVEL, E.EMP_ESTADO FROM EMPRESA E JOIN EMPRESA PE ON E.EMP_EMP_ID = PE.EMP_ID WHERE E.EMP_EMP_ID IS NOT NULL   ";
+        $sql.=" AND E.EMP_EMP_ID IN (SELECT EMP_ID FROM EMPRESA WHERE (EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0))";
+        $sql.=" ORDER BY 2,3 ";
+               
 
         $statement = $adapter->query($sql);
         $results = $statement->execute();

@@ -30,18 +30,18 @@ namespace Empresas\Model\Entity;
     public function getEmp_documento(){ return $this->emp_documento; }
     public function getEmp_estado(){ return $this->emp_estado; }    
 
-    public function setEmp_id ($emp_id) { $this->emp_id=emp_id; }
-    public function setEmp_emp_id ($emp_emp_id) { $this->emp_emp_id=emp_emp_id; }
-    public function setCat_emp_id ($cat_emp_id) { $this->cat_emp_id=cat_emp_id; }
-    public function setCiu_id ($ciu_id) { $this->ciu_id=ciu_id; }
-    public function setEmp_nombre ($emp_nombre) { $this->emp_nombre=emp_nombre; }
-    public function setEmp_direccion ($emp_direccion) { $this->emp_direccion=emp_direccion; }
-    public function setEmp_referencia ($emp_referencia) { $this->emp_referencia=emp_referencia; }
-    public function setEmp_sector ($emp_sector) { $this->emp_sector=emp_sector; }
-    public function setEmp_email ($emp_email) { $this->emp_email=emp_email; }
-    public function setEmp_pagina_web ($emp_pagina_web) { $this->emp_pagina_web=emp_pagina_web; }
-    public function setEmp_documento ($emp_documento) { $this->emp_documento=emp_documento; }
-    public function setEmp_estado ($emp_estado) { $this->emp_estado=emp_estado; }    
+    public function setEmp_id ($emp_id) { $this->emp_id=$emp_id; }
+    public function setEmp_emp_id ($emp_emp_id) { $this->emp_emp_id=$emp_emp_id; }
+    public function setCat_emp_id ($cat_emp_id) { $this->cat_emp_id=$cat_emp_id; }
+    public function setCiu_id ($ciu_id) { $this->ciu_id=$ciu_id; }
+    public function setEmp_nombre ($emp_nombre) { $this->emp_nombre=$emp_nombre; }
+    public function setEmp_direccion ($emp_direccion) { $this->emp_direccion=$emp_direccion; }
+    public function setEmp_referencia ($emp_referencia) { $this->emp_referencia=$emp_referencia; }
+    public function setEmp_sector ($emp_sector) { $this->emp_sector=$emp_sector; }
+    public function setEmp_email ($emp_email) { $this->emp_email=$emp_email; }
+    public function setEmp_pagina_web ($emp_pagina_web) { $this->emp_pagina_web=$emp_pagina_web; }
+    public function setEmp_documento ($emp_documento) { $this->emp_documento=$emp_documento; }
+    public function setEmp_estado ($emp_estado) { $this->emp_estado=$emp_estado; }    
 
     public function exchangeArray($data)
     {

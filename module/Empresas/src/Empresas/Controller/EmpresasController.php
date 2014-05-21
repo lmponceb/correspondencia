@@ -240,4 +240,35 @@ use Zend\View\Model\ViewModel;
         $form = new EmpresasForm ( 'empresasForm' );
         return $form;
      }
+
+    public function activarAction()
+    {
+        if($this->getRequest()->isXmlHttpRequest()){
+            $params=$this->request->getPost();
+            //$empresa=new Empresas();
+            $empresa = $this->getEmpresasDao ()->traerPorId ( $params['emp_id'] );
+            $empresa->setEmp_id($params['emp_id']);
+            $empresa->setEmp_estado($params['emp_estado']);
+            $this->getEmpresasDao()->guardar($empresa);
+          
+            $response=$this->getResponse();
+            $response->setStatusCode(200);
+            $response->setContent('OK');
+            return $response;
+        }else{
+            return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
+        }
+    }    
+
+    public function desactivarAction()
+    {
+            $emp_id = $this->params()->fromRoute ( 'id', 0 ); 
+            $empresa = $this->getEmpresasDao ()->traerPorId ( $emp_id );
+            $empresa->setEmp_id($emp_id);
+            $empresa->setEmp_estado('2');
+            $this->getEmpresasDao()->guardar($empresa);
+            return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
+
+    }   
+
  }
