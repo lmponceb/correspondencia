@@ -31,6 +31,20 @@ class CartaFirmaDao {
     	return $resultSet;
     }
     
+    public function traerTodosPorCartaEmpleado($id){
+    
+    	$id = ( int ) $id;
+    
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->join ( 'EMPLEADO', 'EMPLEADO.EPL_ID  = CARTA_FIRMA.EPL_ID' );
+    	$select->where(array('CTR_ID' => $id));
+    	 
+    	$resultSet = $this->tableGateway->selectWith ( $select );
+    	return $resultSet;
+    	
+    	
+    }
+    
     public function eliminarPorCarta($ctr_id){
     	$this->tableGateway->delete(array('CTR_ID' => $ctr_id));
     }

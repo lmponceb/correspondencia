@@ -18,58 +18,209 @@ use Zend\I18n\Filter\Alpha;
 class CartaValidator extends InputFilter {
 	function __construct() {
 		
-		/* $idioma = new Input ( 'CON_IDIOMA' );
-		$idioma->setRequired ( false );
+		$codigo = new Input ( 'CTR_ID' );
+		$codigo->setRequired ( false );
+		$codigo->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+				'min' => 1 
+		) ) )->attach ( new Digits () );
+		
+		$this->add ( $codigo );
+		
+		
+		$empresa_interna = new Input ( 'EMP_INT_ID' );
+		$empresa_interna->setRequired ( true );
+		$empresa_interna->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 3,
+				'min' => 1
+		) ) )->attach(new NotEmpty())
+		->attach ( new Digits () );
+		
+		$this->add ( $empresa_interna );
+		
+		
+		$tipo_carta = new Input ( 'TIP_CAR_ID' );
+		$tipo_carta->setRequired ( true );
+		$tipo_carta->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 2,
+				'min' => 1
+		) ) )->attach(new NotEmpty())
+		->attach ( new Digits () );
+		
+		$this->add ( $tipo_carta );
+		
+		
+		$proyecto = new Input ( 'PRO_ID' );
+		$proyecto->setRequired ( true );
+		$proyecto->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+				'min' => 1
+		) ) )->attach(new NotEmpty())
+		->attach ( new Digits () );
+		
+		$this->add ( $proyecto );
+		
+		
+		$idioma = new Input ( 'CTR_IDIOMA' );
+		$idioma->setRequired ( true );
 		$idioma->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 1,
 				'min' => 1
 		) ) )->attach(new Alnum(array(
-        		'allowWhiteSpace' => false,
-        )))->attach(new NotEmpty())
-           ->attach(new InArray(array(
-           		'haystack' => array('I','E'),
-        )));
+				'allowWhiteSpace' => false,
+		)))->attach(new NotEmpty())
+		->attach(new InArray(array(
+				'haystack' => array('I','E'),
+		)));
 		
-		$this->add ( $idioma ); */
+		$this->add ( $idioma );
 		
 		
-		/* $cargo = new Input ( 'CAR_ID' );
-		$cargo->setRequired ( true );
-		$cargo->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 6,
-				'min' => 1 
-		) ) )->attach ( new Digits () )
+		$us_codigo = new Input ( 'US_CODIGO' );
+		$us_codigo->setRequired ( true );
+		$us_codigo->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 20,
+				'min' => 1
+		) ) )
 		->attach(new NotEmpty());
 		
-		$this->add ( $cargo ); */
+		$this->add ( $us_codigo );
 		
 		
-		$empresa = new Input ( 'EMP_ID' );
-		$empresa->setRequired ( true );
-		$empresa->getValidatorChain ()->attach ( new StringLength ( array (
+		$ctr_fecha_creacion = new Input ( 'CTR_FECHA_CREACION' );
+		$ctr_fecha_creacion->setRequired ( true );
+		$ctr_fecha_creacion->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 10,
+				'min' => 8
+		) ) )
+		->attach(new NotEmpty());
+		
+		$this->add ( $ctr_fecha_creacion );
+		
+		
+		$ctr_cuerpo = new Input ( 'CTR_CUERPO' );
+		$ctr_cuerpo->setRequired ( true );
+		$ctr_cuerpo->getValidatorChain ()
+		->attach(new NotEmpty());
+		
+		$this->add ( $ctr_cuerpo );
+		
+		
+		$ctr_referencia = new Input ( 'CTR_REFERENCIA' );
+		$ctr_referencia->setRequired ( false );
+		$ctr_referencia->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 300,
+		) ) );
+		
+		$this->add ( $ctr_referencia );
+		
+		
+		$ctr_saludo = new Input ( 'CTR_SALUDO' );
+		$ctr_saludo->setRequired ( true );
+		$ctr_saludo->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 100,
+		) ) )
+		->attach(new NotEmpty());
+		
+		$this->add ( $ctr_saludo );
+		
+		
+		$ctr_despedida = new Input ( 'CTR_DESPEDIDA' );
+		$ctr_despedida->setRequired ( true );
+		$ctr_despedida->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 100,
+		) ) )
+		->attach(new NotEmpty());
+		
+		$this->add ( $ctr_despedida );
+		
+		
+		$ctr_tipo = new Input ( 'CTR_TIPO' );
+		$ctr_tipo->setRequired ( true );
+		$ctr_tipo->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 1,
+				'min' => 1
+		) ) )->attach(new Alnum(array(
+				'allowWhiteSpace' => false,
+		)))->attach(new NotEmpty())
+		->attach(new InArray(array(
+				'haystack' => array('B','P'),
+		)));
+		
+		$this->add ( $ctr_tipo );
+		
+		$ctr_estado = new Input ( 'CTR_ESTADO' );
+		$ctr_estado->setRequired ( true );
+		$ctr_estado->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 1,
+				'min' => 1
+		) ) )->attach(new Alnum(array(
+				'allowWhiteSpace' => false,
+		)))->attach(new NotEmpty())
+		->attach(new InArray(array(
+				'haystack' => array('A','I'),
+		)));
+		
+		$this->add ( $ctr_estado );
+		
+		
+		$epl_id_uno = new Input ( 'EPL_ID_UNO' );
+		$epl_id_uno->setRequired ( true );
+		$epl_id_uno->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+				'min' => 1,
+		) ) )
+		->attach(new NotEmpty());
+		
+		$this->add ( $epl_id_uno );
+		
+		
+		$epl_id_dos = new Input ( 'EPL_ID_DOS' );
+		$epl_id_dos->setRequired ( true );
+		$epl_id_dos->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+				'min' => 1,
+		) ) )
+		->attach(new NotEmpty());
+		
+		$this->add ( $epl_id_dos );
+		
+		
+		$emp_id = new Input ( 'EMP_ID' );
+		$emp_id->setRequired ( true );
+		$emp_id->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 11,
 				'min' => 1
-		) ) )->attach ( new Digits () )
-		->attach(new NotEmpty());
+		) ) )->attach(new NotEmpty())
+		->attach ( new Digits () );
 		
-		$this->add ( $empresa );
+		$this->add ( $emp_id );
 		
 		
+		$suc_id = new Input ( 'SUC_ID' );
+		$suc_id->setRequired ( false );
+		$suc_id->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+		) ) )->attach ( new Digits () );
+		
+		$this->add ( $suc_id );
+		
+		
+		$con_id = new Input ( 'CON_ID' );
+		$con_id->setRequired ( true );
+		$con_id->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+				'min' => 1
+		) ) )->attach(new NotEmpty())
+		->attach ( new Digits () );
+		
+		$this->add ( $con_id );
+		
+		/*
 		$sucursal = new Input ( 'SUC_ID' );
 		$sucursal->setRequired ( false );
 		$sucursal->setAllowEmpty(true);
 		$this->add ( $sucursal );
-		
-		
-		/* $tipo_persona = new Input ( 'TIP_PER_ID' );
-		$tipo_persona->setRequired ( true );
-		$tipo_persona->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 3,
-				'min' => 1
-		) ) )->attach ( new Digits () )
-		->attach(new NotEmpty());
-		
-		$this->add ( $tipo_persona ); */
 		
 		
 		$pais = new Input ( 'PAI_ID' );
@@ -235,144 +386,6 @@ class CartaValidator extends InputFilter {
 		
 		$this->add ( $con_estado );
 		
-		
-		
-		/***************** DATOS PARA USUARIOS ADMINISTRATIVOS ************************/
-		
-		
-		$privado = new Input ( 'CON_PRIVADO' );
-		$privado->setRequired ( false );
-		$privado->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 1,
-				'min' => 1
-		) ) )->attach(new Alnum(array(
-				'allowWhiteSpace' => false,
-		)))->attach(new NotEmpty())
-		->attach(new InArray(array(
-				'haystack' => array('S','N'),
-		)));
-		
-		$this->add ( $privado );
-		
-		
-		$email_personal = new Input ( 'CON_EMAIL_PERSONAL' );
-		$email_personal->setRequired ( false );
-		$email_personal->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 150,
-				'min' => 6
-		) ) )->attach ( new EmailAddress () );
-		
-		$this->add ( $email_personal );
-		
-		
-		$fecha_nacimiento = new Input ( 'CON_FECHA_NACIMIENTO_PERSONAL' );
-		$fecha_nacimiento->setRequired ( false );
-		$fecha_nacimiento->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 30,
-				'min' => 9
-		) ) );
-		
-		$this->add ( $fecha_nacimiento );
-		
-		
-		$codigo_pais = new Input ( 'CON_CODIGO_PAIS' );
-		$codigo_pais->setRequired ( false );
-		$codigo_pais->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 5,
-				'min' => 1
-		) ) )->attach ( new Digits() );
-		
-		$this->add ( $codigo_pais );
-		
-		
-		$codigo_ciudad = new Input ( 'CON_CODIGO_CIUDAD' );
-		$codigo_ciudad->setRequired ( false );
-		$codigo_ciudad->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 5,
-				'min' => 1
-		) ) )->attach ( new Digits() );
-		
-		$this->add ( $codigo_ciudad );
-		
-		
-		$telefono_domicilio = new Input ( 'CON_TELEFONO_DOMICILIO_PER' );
-		$telefono_domicilio->setRequired ( false );
-		$telefono_domicilio->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 15,
-				'min' => 6
-		) ) )->attach ( new Digits() );
-		
-		$this->add ( $telefono_domicilio );
-		
-		
-		$celular_personal = new Input ( 'CON_CELULAR_PERSONAL' );
-		$celular_personal->setRequired ( false );
-		$celular_personal->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 15,
-				'min' => 8
-		) ) )->attach ( new Digits() );
-		
-		$this->add ( $celular_personal );
-		
-		
-		$observaciones = new Input ( 'CON_OBSERVACIONES' );
-		$observaciones->setRequired ( false );
-		$observaciones->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 4000
-		) ) );
-		
-		$this->add ( $observaciones );
-		
-		for ($indice_contacto_relacionado=0; $indice_contacto_relacionado<5; $indice_contacto_relacionado++){
-			
-			$tip_con_id = new Input ( 'CONTACTO_RELACIONADO['.$indice_contacto_relacionado.'][TIP_CON_ID]' );
-			$tip_con_id->setRequired ( false );
-			$tip_con_id->getValidatorChain ()->attach ( new Digits () );
-			$this->add ( $tip_con_id );
-		}
-		
-		for ($indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++){
-				
-			$tip_tel_id = new Input ( 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]' );
-			$tip_tel_id->setRequired ( false );
-			$tip_tel_id->getValidatorChain ()->attach ( new Digits () );
-			$this->add ( $tip_tel_id );
-			
-			$det_con_codigo_pais = new Input ( 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]' );
-			$det_con_codigo_pais->setRequired ( false );
-			$det_con_codigo_pais->getValidatorChain ()->attach ( new Digits () );
-			$this->add ( $det_con_codigo_pais );
-			
-			$det_con_codigo_ciudad = new Input ( 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_CIUDAD]' );
-			$det_con_codigo_ciudad->setRequired ( false );
-			$det_con_codigo_ciudad->getValidatorChain ()->attach ( new Digits () );
-			$this->add ( $det_con_codigo_ciudad );
-		}
-		
-		/* 
-		
-		$telefono = new Input ( 'pac_telefono' );
-		$telefono->setRequired ( true );
-		$telefono->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 13,
-				'min' => 7 
-		) ) )->attach ( new Digits () );
-		
-		$this->add ( $telefono );
-		
-		$celular = new Input ( 'pac_celular' );
-		$celular->setRequired ( true );
-		$celular->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 13,
-				'min' => 10 
-		) ) )->attach ( new Digits () );
-		
-		$this->add ( $celular );
-		
-		*/
-		
-				
+				*/
 	}
 }
-
-?>

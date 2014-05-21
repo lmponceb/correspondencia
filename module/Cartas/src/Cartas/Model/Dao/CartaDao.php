@@ -24,6 +24,16 @@ class CartaDao {
         return $resultSet;
     }
     
+    public function traerEmpresaInterna($id){
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
+    	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
+    	$select->where(array('CTR_ID' => $id));
+    	 
+    	$resultSet = $this->tableGateway->selectWith ( $select );
+    	return $resultSet;
+    }
+    
     public function traer($id){
     	
     	$id = ( int ) $id;
@@ -39,8 +49,7 @@ class CartaDao {
     	$id = (int) $carta->getCtr_id();
     	 
     	$data = array(
-    			//'CTR_ID' => (int) $carta->getCtr_id(),
-    			'OBR_ID' => $carta->getObr_id(),
+    			'PRO_ID' => $carta->getPro_id(),
     			'EMP_INT_ID' => $carta->getEmp_int_id(),
     			'US_CODIGO' => $carta->getUs_codigo(),
     			'TIP_CAR_ID' => $carta->getTip_car_id(),
@@ -83,7 +92,7 @@ class CartaDao {
     
     	$data = array(
     			//'CTR_ID' => (int) $carta->getCtr_id(),
-    			'OBR_ID' => $carta->getObr_id(),
+    			'PRO_ID' => $carta->getPro_id(),
     			'EMP_INT_ID' => $carta->getEmp_int_id(),
     			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->us_codigo,
     			'TIP_CAR_ID' => $carta->getTip_car_id(),
@@ -111,10 +120,10 @@ class CartaDao {
     	return $results;
     }
     
-	public function procesar($id, $rol){
+	public function procesar($id, $role, $anio, $empresa_interna){
 		
 		$data['CTR_TIPO'] = 'P';
-		$data['CTR_CODIGO_FINAL'] = $rol . '-' . $id;
+		$data['CTR_CODIGO_FINAL'] = $empresa_interna . '-' . $role . '-' . $anio . '-' . $id;
 
 		if($this->traer($id)){
 			$this->tableGateway->update($data, array('CTR_ID' => $id ));
@@ -123,19 +132,4 @@ class CartaDao {
 			throw new \Exception( 'No se encontro el id para actualizar' );
 		}
 	}
-    
-    /*
-
-	public function cambiarEstado($id, $estado){
-		
-		$data['CON_ESTADO'] = strtoupper($estado);
-
-		if($this->traer($id)){
-			$this->tableGateway->update($data, array('CON_ID' => $id ));
-				
-		}else{
-			throw new \Exception( 'No se encontro el id para eliminar' );
-		}
-	} */
-	
 }
