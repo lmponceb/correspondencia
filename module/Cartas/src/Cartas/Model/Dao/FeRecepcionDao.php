@@ -14,15 +14,15 @@ class FeRecepcionDao {
     	$this->tableGateway = $tableGateway;
     }
     
-    /* public function traerTodos(){
+    public function traerTodos(){
     	
     	$select = $this->tableGateway->getSql ()->select ();
-    	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
-    	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
+    	//$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
+    	//$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
     	
     	$resultSet = $this->tableGateway->selectWith ( $select );
         return $resultSet;
-    } */
+    }
     /* 
     public function traerEmpresaInterna($id){
     	$select = $this->tableGateway->getSql ()->select ();
@@ -33,16 +33,17 @@ class FeRecepcionDao {
     	$resultSet = $this->tableGateway->selectWith ( $select );
     	return $resultSet;
     }
+    */
     
     public function traer($id){
     	
     	$id = ( int ) $id;
     	
-    	$resultSet = $this->tableGateway->select(array('CTR_ID' => $id));
+    	$resultSet = $this->tableGateway->select(array('FE_REC_ID' => $id));
     	$row = $resultSet->current();
     	return $row;
     }
-    
+    /*
     public function guardar(Carta $carta){
     	date_default_timezone_set('America/Guayaquil');
     	 

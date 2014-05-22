@@ -3,6 +3,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Cartas\Controller\Cartas' => 'Cartas\Controller\CartasController',
+        	'Cartas\Controller\Recepcion' => 'Cartas\Controller\RecepcionController',
         ),
     ),
     'router' => array(

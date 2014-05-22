@@ -20,10 +20,9 @@ class FeRecepcion {
 	private $fe_rec_fecha_mes;
 	private $fe_rec_fecha_dia;
 	private $fe_rec_sobre;
-	
+	private $fe_rec_estado;
 	
 	function __construct() {}
-
 
 	/**
 	 * @return the $fe_rec_id
@@ -145,6 +144,13 @@ class FeRecepcion {
 	}
 
 	/**
+	 * @return the $fe_rec_estado
+	 */
+	public function getFe_rec_estado() {
+		return $this->fe_rec_estado;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $fe_rec_id
 	 */
 	public function setFe_rec_id($fe_rec_id) {
@@ -263,25 +269,33 @@ class FeRecepcion {
 		$this->fe_rec_sobre = $fe_rec_sobre;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_estado
+	 */
+	public function setFe_rec_estado($fe_rec_estado) {
+		$this->fe_rec_estado = $fe_rec_estado;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->fe_rec_id = (isset($data['FE_REC_ID'])) ? $data['FE_REC_ID'] : null;
 		$this->us_codigo = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_tipo = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_idioma = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_fecha = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_responsable = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_descripcion = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_compania = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_oferente = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_oferta_nombre = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_oferta_codigo = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_fecha_hora = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_fecha_minuto = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_fecha_anio = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_fecha_mes = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_fecha_dia = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
-		$this->fe_rec_sobre = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_tipo = (isset($data['FE_REC_TIPO'])) ? $data['FE_REC_TIPO'] : null;
+		$this->fe_rec_idioma = (isset($data['FE_REC_IDIOMA'])) ? $data['FE_REC_IDIOMA'] : null;
+		$this->fe_rec_fecha = (isset($data['FE_REC_FECHA'])) ? $data['FE_REC_FECHA'] : null;
+		$this->fe_rec_responsable = (isset($data['FE_REC_RESPONSABLE'])) ? $data['FE_REC_RESPONSABLE'] : null;
+		$this->fe_rec_descripcion = (isset($data['FE_REC_DESCRIPCION'])) ? $data['FE_REC_DESCRIPCION'] : null;
+		$this->fe_rec_compania = (isset($data['FE_REC_COMPANIA'])) ? $data['FE_REC_COMPANIA'] : null;
+		$this->fe_rec_oferente = (isset($data['FE_REC_OFERENTE'])) ? $data['FE_REC_OFERENTE'] : null;
+		$this->fe_rec_oferta_nombre = (isset($data['FE_REC_OFERTA_NOMBRE'])) ? $data['FE_REC_OFERTA_NOMBRE'] : null;
+		$this->fe_rec_oferta_codigo = (isset($data['FE_REC_OFERTA_CODIGO'])) ? $data['FE_REC_OFERTA_CODIGO'] : null;
+		$this->fe_rec_fecha_hora = (isset($data['FE_REC_FECHA_HORA'])) ? $data['FE_REC_FECHA_HORA'] : null;
+		$this->fe_rec_fecha_minuto = (isset($data['FE_REC_FECHA_MINUTO'])) ? $data['FE_REC_FECHA_MINUTO'] : null;
+		$this->fe_rec_fecha_anio = (isset($data['FE_REC_FECHA_ANIO'])) ? $data['FE_REC_FECHA_ANIO'] : null;
+		$this->fe_rec_fecha_mes = (isset($data['FE_REC_FECHA_MES'])) ? $data['FE_REC_FECHA_MES'] : null;
+		$this->fe_rec_fecha_dia = (isset($data['FE_REC_FECHA_DIA'])) ? $data['FE_REC_FECHA_DIA'] : null;
+		$this->fe_rec_sobre = (isset($data['FE_REC_SOBRE'])) ? $data['FE_REC_SOBRE'] : null;
+		$this->fe_rec_estado = (isset($data['FE_REC_ESTADO'])) ? $data['FE_REC_ESTADO'] : null;
 	}
 	
 	public function getArrayCopy(){
