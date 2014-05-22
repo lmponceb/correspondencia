@@ -16,7 +16,7 @@ echo $this->form()->openTag($form);
 	</ul>
 
 			<div class="usuario form-item">
-			<?php 
+			<?php //campo usuario
 			$email = $form->get('usu_usuario');
 			echo $formLabel->openTag().$email->getOption('label');
 			echo $formLabel->closeTag();
@@ -27,7 +27,7 @@ echo $this->form()->openTag($form);
 			</div>
 
 			<div class="password form-item">
-			<?php 
+			<?php //campo password
 			$password = $form->get('usu_clave');
 			echo $formLabel->openTag().$password->getOption('label');
 			echo $formLabel->closeTag();
