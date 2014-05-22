@@ -4,86 +4,55 @@
 $form = $this->formulario;
 $form->prepare ();
 $form->setAttribute ( 'action', $this->url ( 'cartas', array (
-		'controller' => 'cartas',
+		'controller' => 'recepcion',
 		'action' => 'validar' 
 ) ) )->setAttribute ( 'method', 'post' );
 $formLabel = $this->plugin ( 'formLabel' );
 
-$ctr_id = $form->get ( 'CTR_ID' );
-$emp_int_id = $form->get ( 'EMP_INT_ID' );
-$pro_id = $form->get ( 'PRO_ID' );
+$fe_rec_id = $form->get ( 'FE_REC_ID' );
 $us_codigo = $form->get ( 'US_CODIGO' );
-$tip_car_id = $form->get ( 'TIP_CAR_ID' );
-$ctr_idioma = $form->get ( 'CTR_IDIOMA' );
+$emp_int_id = $form->get ( 'EMP_INT_ID' );
+$fe_rec_tipo = $form->get ( 'FE_REC_TIPO' );
+$fe_rec_idioma = $form->get ( 'FE_REC_IDIOMA' );
 $ctr_fecha_creacion = $form->get ( 'CTR_FECHA_CREACION' );
-$ctr_cuerpo = $form->get ( 'CTR_CUERPO' );
-$ctr_codigo_final = $form->get ( 'CTR_CODIGO_FINAL' );
-$ctr_fecha_actualizacion = $form->get ( 'CTR_FECHA_ACTUALIZACION' );
-$ctr_referencia = $form->get ( 'CTR_REFERENCIA' );
-$ctr_saludo = $form->get ( 'CTR_SALUDO' );
-$ctr_despedida = $form->get ( 'CTR_DESPEDIDA' );
-$ctr_tipo = $form->get ( 'CTR_TIPO' );
-$ctr_estado = $form->get ( 'CTR_ESTADO' );
-$epl_id_uno = $form->get ( 'EPL_ID_UNO' );
-$cargo_uno = $form->get ( 'CARGO_UNO' );
-$epl_id_dos = $form->get ( 'EPL_ID_DOS' );
-$cargo_dos = $form->get ( 'CARGO_DOS' );
-$emp_id = $form->get ( 'EMP_ID' );
-$suc_id = $form->get ( 'SUC_ID' );
-$sucursal_oculto = $form->get ( 'sucursal_oculto' );
-$con_id = $form->get ( 'CON_ID' );
-$contacto_oculto = $form->get ( 'contacto_oculto' );
-$empresa_oculto = $form->get ( 'empresa_oculto' );
-$proyecto_oculto = $form->get ( 'proyecto_oculto' );
+$fe_rec_responsable = $form->get ( 'FE_REC_RESPONSABLE' );
+$fe_rec_descripcion = $form->get ( 'FE_REC_DESCRIPCION' );
+$fe_rec_compania = $form->get ( 'FE_REC_COMPANIA' );
+$fe_rec_oferente = $form->get ( 'FE_REC_OFERENTE' );
+$fe_rec_oferta_nombre = $form->get ( 'FE_REC_OFERTA_NOMBRE' );
+$fe_rec_oferta_codigo = $form->get ( 'FE_REC_OFERTA_CODIGO' );
+$fe_rec_fecha_hora = $form->get ( 'FE_REC_FECHA_HORA' );
+$fe_rec_fecha_minuto = $form->get ( 'FE_REC_FECHA_MINUTO' );
+$fe_rec_fecha_anio = $form->get ( 'FE_REC_FECHA_ANIO' );
+$fe_rec_fecha_mes = $form->get ( 'FE_REC_FECHA_MES' );
+$fe_rec_fecha_dia = $form->get ( 'FE_REC_FECHA_DIA' );
+$fe_rec_sobre = $form->get ( 'FE_REC_SOBRE' );
+$fe_rec_estado = $form->get ( 'FE_REC_ESTADO' );
 
-$proyecto_oculto = $form->get ( 'proyecto_oculto' );
-
-$car_fir_tipo = $form->get ( 'CAR_FIR_TIPO' );
 
 echo $this->form ()->openTag ( $form );
 
 //CAMPOS OCULTOS
-echo $this->formhidden ( $ctr_id );
-echo $this->formelementerrors ( $ctr_id );
-
-/* echo $this->formhidden ( $obra_oculto );
-echo $this->formelementerrors ( $obra_oculto ); */
+echo $this->formhidden ( $fe_rec_id );
+echo $this->formelementerrors ( $fe_rec_id );
 
 echo $this->formhidden ( $us_codigo );
 echo $this->formelementerrors ( $us_codigo );
 
+echo $this->formhidden ( $fe_rec_estado );
+echo $this->formelementerrors ( $fe_rec_estado );
+
 echo $this->formhidden ( $ctr_fecha_creacion );
 echo $this->formelementerrors ( $ctr_fecha_creacion );
 
-echo $this->formhidden ( $ctr_fecha_actualizacion );
-echo $this->formelementerrors ( $ctr_fecha_actualizacion );
-
-echo $this->formhidden ( $ctr_tipo );
-echo $this->formelementerrors ( $ctr_tipo );
-
-echo $this->formhidden ( $ctr_estado );
-echo $this->formelementerrors ( $ctr_estado );
-
-echo $this->formhidden ( $contacto_oculto );
-echo $this->formelementerrors ( $contacto_oculto );
-
-echo $this->formhidden ( $sucursal_oculto );
-echo $this->formelementerrors ( $sucursal_oculto );
-
-
-echo $this->formhidden ( $empresa_oculto );
-echo $this->formelementerrors ( $empresa_oculto );
-
-echo $this->formhidden ( $proyecto_oculto );
-echo $this->formelementerrors ( $proyecto_oculto );
 ?>
 <ul class="error_container bs-callout bs-callout-danger">
 
 </ul>
  <table cellspacing="0" cellpadding="0" border="0" align="left" width="100%">
 	<tr>
-		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/contacto_grande.png'?>" border="0" /></td>
-		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages">Ingresar una nueva carta</span><br />Registre toda la informaci&oacute;n solicitada para ingresar una nueva carta.</td>
+		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/recepcion_grande.png'?>" border="0" /></td>
+		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages">Ingresar una nueva carta de fe de recepcio&oacute;n</span><br />Registre toda la informaci&oacute;n solicitada para ingresar una nueva carta.</td>
 	</tr>
 	<tr>
 		<td colspan="2" style="padding-bottom: 20px;"><hr /></td>
@@ -97,135 +66,108 @@ echo $this->formelementerrors ( $proyecto_oculto );
 		<div class="panel-heading panel-heading-txt">&nbsp;</div>
 			<table width="100%" cellpadding="5">
 				<tr>
-					<td colspan="3"><h3 align="left">Creaci&oacute;n de carta</h3><hr /></td>
+					<td colspan="3"><h3 align="left">Creaci&oacute;n de carta de fe de recepci&oacute;n</h3><hr /></td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo $formLabel->openTag() . $ctr_idioma->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect( $ctr_idioma ) );
-						  echo html_entity_decode( $this->formelementerrors ( $ctr_idioma ) ); 
-					?>
-					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $tip_car_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $tip_car_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $tip_car_id ) ); 
+					<?php echo $formLabel->openTag() . $fe_rec_idioma->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect( $fe_rec_idioma ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_idioma ) ); 
 					?>
 					</td>
 					<td>
 					<?php echo $formLabel->openTag() . $emp_int_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $emp_int_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $emp_int_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $emp_int_id ) ); 
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $fe_rec_tipo->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $fe_rec_tipo ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_tipo ) );
 					?>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo $formLabel->openTag() . $emp_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $emp_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $emp_id ) );
+					<?php echo $formLabel->openTag() . $fe_rec_responsable->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $fe_rec_responsable ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_responsable ) );
 					?>
 					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $suc_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $suc_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $suc_id ) );
-					?>
-					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $con_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $con_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $con_id ) );
+					<td colspan="2">
+					<?php echo $formLabel->openTag() . $fe_rec_descripcion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $fe_rec_descripcion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_descripcion ) );
 					?>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">
-					<?php echo $formLabel->openTag() . $ctr_referencia->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $ctr_referencia ) );
-						  echo html_entity_decode( $this->formelementerrors ( $ctr_referencia ) );
+					<td>
+					<?php echo $formLabel->openTag() . $fe_rec_compania->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $fe_rec_compania ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_compania ) );
 					?>
 					</td>	
-				</tr>
-				<tr>
-					<td colspan="3">
-					<?php echo $formLabel->openTag() . $ctr_saludo->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $ctr_saludo ) );
-						  echo html_entity_decode( $this->formelementerrors ( $ctr_saludo ) );
+					<td>
+					<?php echo $formLabel->openTag() . $fe_rec_oferente->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $fe_rec_oferente ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_oferente ) );
 					?>
 					</td>	
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>	
 				</tr>
 				<tr>
 					<td colspan="3">
-					<?php echo $formLabel->openTag() . $ctr_cuerpo->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtextarea ( $ctr_cuerpo ) );
-						  echo html_entity_decode( $this->formelementerrors ( $ctr_cuerpo ) );
-					?>
-					</td>	
-				</tr>
-				<tr>
-					<td colspan="3">
-					<?php echo $formLabel->openTag() . $ctr_despedida->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $ctr_despedida ) );
-						  echo html_entity_decode( $this->formelementerrors ( $ctr_despedida ) );
+					<?php echo $formLabel->openTag() . $fe_rec_oferta_nombre->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $fe_rec_oferta_nombre ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_oferta_nombre ) );
 					?>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<?php echo $formLabel->openTag() . $epl_id_uno->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $epl_id_uno ) );
-						  echo html_entity_decode( $this->formelementerrors ( $epl_id_uno ) );
+					<?php echo $formLabel->openTag() . $fe_rec_oferta_codigo->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $fe_rec_oferta_codigo ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_oferta_codigo ) );
 					?>
 					</td>
 					<td>
-					<?php echo $formLabel->openTag() . $cargo_uno->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $cargo_uno ) );
-						  echo html_entity_decode( $this->formelementerrors ( $cargo_uno ) );
+					<?php echo $formLabel->openTag() . $fe_rec_fecha_hora->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_hora ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_hora ) );
 					?>
+					<?php echo $formLabel->openTag() . $fe_rec_fecha_minuto->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_minuto ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_minuto ) );
+					?>
+					
 					</td>
 					<td>
-					<?php echo $formLabel->openTag() . $car_fir_tipo->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formcheckbox ( $car_fir_tipo ) );
-						  echo html_entity_decode( $this->formelementerrors ( $car_fir_tipo ) ); 
+					<?php echo $formLabel->openTag() . $fe_rec_fecha_anio->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_anio ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_anio ) ); 
+					?>
+					<?php echo $formLabel->openTag() . $fe_rec_fecha_mes->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_mes ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_mes ) );
+					?>
+					<?php echo $formLabel->openTag() . $fe_rec_fecha_dia->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_dia ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_dia ) );
 					?>
 					</td>				
 				</tr>
 				<tr>
-					<td>
-					<?php echo $formLabel->openTag() . $epl_id_dos->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $epl_id_dos ) );
-						  echo html_entity_decode( $this->formelementerrors ( $epl_id_dos ) );
+					<td colspan="3">
+					<?php echo $formLabel->openTag() . $fe_rec_sobre->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $fe_rec_sobre ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_sobre ) );
 					?>
 					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $cargo_dos->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $cargo_dos ) );
-						  echo html_entity_decode( $this->formelementerrors ( $cargo_dos ) );
-					?>
-					</td>
-					<td>&nbsp;</td>				
-				</tr>
-				<tr>
-					<td>
-					<?php echo $formLabel->openTag() . $pro_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $pro_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $pro_id ) );
-					?>
-					</td>	
-					<td>
-					<?php echo $formLabel->openTag() . $ctr_codigo_final->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $ctr_codigo_final ) );
-						  echo html_entity_decode( $this->formelementerrors ( $ctr_codigo_final ) );
-					?>
-					</td>
-					<td>
-					<?php /* echo $formLabel->openTag() . $obr_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $obr_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $obr_id ) ); */
-					?>
-					</td>
-					
 				</tr>
 			</table>
 			</div>
@@ -235,18 +177,18 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	<hr />
 		<div align="center">
 		
-			<?php $codigo_final = $ctr_codigo_final->getValue(); if( empty($codigo_final) || is_null($codigo_final) ):?>
+			<?php $codigo_final = $fe_rec_oferta_codigo->getValue(); if( empty($codigo_final) || is_null($codigo_final) ):?>
 		
 			<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
 			<?php if(strtolower($this->action) == 'editar'): ?>
-			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'procesar', 'id' => $ctr_id->getValue() ))?>" class ="btn btn-primary">Procesar</a>
+			<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'procesar', 'id' => $fe_rec_id->getValue() ))?>" class ="btn btn-primary">Procesar</a>
 			<?php endif;?>
 			<?php else:?>
-			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $ctr_id->getValue()))?>" class ="btn btn-primary">Duplicar</a>
+			<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'duplicar', 'id' => $fe_rec_id->getValue()))?>" class ="btn btn-primary">Duplicar</a>
 			<?php endif; ?>
 			
 			
-			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
+			<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
 			
 			
 		</div>	
@@ -258,112 +200,6 @@ echo $this->formelementerrors ( $proyecto_oculto );
 
 	$(document).ready(function(){
 
-
-		//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
-		$("#SUC_ID").change(function() {
-			if($('#SUC_ID').val() != '' && $('#SUC_ID').val() != null){
-	            $.ajax({
-	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'contactos')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "sucursal=" + $('#SUC_ID').val(),
-	                beforeSend: function() {
-	                	$("#CON_ID").html("");
-	                	$("#CON_ID").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(sucursales) {
-	                $("#CON_ID").html("");
-	                $("#CON_ID").append('<option value = "">-- Seleccione un destinatario --</option>');
-	                for (sucursal in sucursales) {
-
-	                	if($("#contacto_oculto").val() == contacto){
-							selected = 'selected="selected"';
-						}else{
-							selected = '';
-						}
-		                
-	                    $("#CON_ID").append('<option value="' + sucursal + '" '+selected+'>' + sucursales[sucursal] + '</option>');
-	                }
-	                $("#CON_ID").prop("disabled", false);
-	            });
-			}else{
-				//$("#CON_ID").prop("disabled", true);
-			}
-        });
-
-		$("#EMP_ID").change(function() {
-			if($('#EMP_ID').val() != '' && $('#EMP_ID').val() != null){
-	            $.ajax({
-	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'contactosempresa')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "empresa=" + $('#EMP_ID').val(),
-	                beforeSend: function() {
-	                	 $("#CON_ID").html("");
-	                	 $("#CON_ID").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(contactos) {
-	                $("#CON_ID").html("");
-	                $("#CON_ID").append('<option value = "">-- Seleccione un destinatario --</option>');
-	                var selected = '';
-	                for (contacto in contactos) {
-	                    $("#CON_ID").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
-	                }
-	                $("#CON_ID").prop("disabled", false);
-	            });
-			}else{
-				$("#CON_ID").prop("disabled", true);
-			}
-        });
-
-		$("#EMP_ID").ready(function() {
-			if($('#EMP_ID').val() != '' && $('#EMP_ID').val() != null){
-	            $.ajax({
-	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'contactosempresa')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "empresa=" + $('#EMP_ID').val(),
-	                beforeSend: function() {
-	                	 $("#CON_ID").html("");
-	                	 $("#CON_ID").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(contactos) {
-	                $("#CON_ID").html("");
-	                $("#CON_ID").append('<option value = "">-- Seleccione un destinatario --</option>');
-	                var selected = '';
-	                for (contacto in contactos) {
-
-	                	if($("#contacto_oculto").val() == contacto){
-							selected = 'selected="selected"';
-						}else{
-							selected = '';
-						}
-		                
-	                    $("#CON_ID").append('<option value="' + contacto + '" '+selected+'>' + contactos[contacto] + '</option>');
-	                }
-	                $("#CON_ID").prop("disabled", false);
-	            });
-			}else{
-				$("#CON_ID").prop("disabled", true);
-			}
-        });
-
-		$("#EPL_ID_UNO").change(function() {
-			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
-		});
-
-		$("#EPL_ID_UNO").ready(function() {
-			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
-		});
-
-		$("#EPL_ID_DOS").change(function() {
-			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
-		});
-
-		$("#EPL_ID_DOS").ready(function() {
-			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
-		});
-		
         function traerCargo(id, val, cargo){
         	//FUNCION PARA TRAER EL CARGO DE UN EMPLEADO
     		
@@ -385,65 +221,5 @@ echo $this->formelementerrors ( $proyecto_oculto );
         		};
     		
         }
-/*
-        $("#PRO_ID").change(function() {
-			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
-	            $.ajax({
-	                url: "<?php //echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "proyecto=" + $('#PRO_ID').val(),
-	                beforeSend: function() {
-	                	 $("#OBR_ID").html("");
-	                	 $("#OBR_ID").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(obras) {
-	                $("#OBR_ID").html("");
-	                $("#OBR_ID").append('<option value = "">-- Seleccione una obra --</option>');
-	                var selected = '';
-	                for (obra in obras) {
-	                    $("#OBR_ID").append('<option value="' + obra + '">' + obras[obra] + '</option>');
-	                }
-	                $("#OBR_ID").prop("disabled", false);
-	            });
-			}else{
-				$("#OBR_ID").prop("disabled", true);
-			}
-        });
-
-        $("#PRO_ID").ready(function() {
-			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
-	            $.ajax({
-	                url: "<?php //echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "proyecto=" + $('#PRO_ID').val(),
-	                beforeSend: function() {
-	                	 $("#OBR_ID").html("");
-	                	 $("#OBR_ID").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(obras) {
-	                $("#OBR_ID").html("");
-	                $("#OBR_ID").append('<option value = "">-- Seleccione una obra --</option>');
-	                var selected = '';
-	                for (obra in obras) {
-
-	                	if($("#obra_oculto").val() == obra){
-							selected = 'selected="selected"';
-						}else{
-							selected = '';
-						}
-
-		                
-	                    $("#OBR_ID").append('<option value="' + obra + '" '+selected+'>' + obras[obra] + '</option>');
-	                }
-	                $("#OBR_ID").prop("disabled", false);
-	            });
-			}else{
-				$("#OBR_ID").prop("disabled", true);
-			}
-        });
-        */
-
 	});
 </script>

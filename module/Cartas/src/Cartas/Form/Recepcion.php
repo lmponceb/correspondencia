@@ -135,7 +135,7 @@ class Recepcion extends Form {
 		$this->add ( array (
 				'name' => 'FE_REC_DESCRIPCION',
 				'options' => array (
-						'label' => 'Responsable*:'
+						'label' => 'Descripci&oacute;n*:'
 				),
 				'attributes' => array (
 						'type' => 'textarea',
@@ -189,7 +189,7 @@ class Recepcion extends Form {
 		$this->add ( array (
 				'name' => 'FE_REC_OFERTA_NOMBRE',
 				'options' => array (
-						'label' => 'Oferente*:'
+						'label' => 'Nombre de la oferta*:'
 				),
 				'attributes' => array (
 						'type' => 'text',

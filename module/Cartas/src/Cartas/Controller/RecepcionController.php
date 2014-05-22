@@ -11,10 +11,10 @@ namespace Cartas\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Recepcion\Form\Recepcion;
-use Recepcion\Model\Entity\Recepcion as RecepcionEntity;
+use Cartas\Form\Recepcion;
+use Cartas\Model\Entity\Recepcion as RecepcionEntity;
 use DOMPDFModule\View\Model\PdfModel;
-use Recepcion\Form\RecepcionValidator;
+use Cartas\Form\RecepcionValidator;
 
 date_default_timezone_set('America/Guayaquil');
 
