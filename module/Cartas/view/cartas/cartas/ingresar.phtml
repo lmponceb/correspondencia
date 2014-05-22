@@ -447,3 +447,20 @@ echo $this->formelementerrors ( $proyecto_oculto );
 
 	});
 </script>
+
+<script type="text/javascript">
+
+CKEDITOR.replace( 'CTR_CUERPO', {
+	enterMode : CKEDITOR.ENTER_BR,
+	toolbar :
+		[
+			{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+			//{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+			{ name: 'insert', items : [ 'Table','Smiley' ] },
+			//{ name: 'styles', items : [ 'Styles','Format' ] },
+			{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','-','RemoveFormat' ] },
+			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+			//{ name: 'links', items : [ 'Link','Unlink'] },
+		]
+} );
+</script>
