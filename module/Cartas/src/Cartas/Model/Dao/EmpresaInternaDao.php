@@ -42,4 +42,29 @@ class EmpresaInternaDao {
     
     	return $result;
     }
+    
+    public function traerTodosArregloAbreviado(){
+    
+    	$sql = new Sql($this->tableGateway->getAdapter());
+    	$select = $sql->select();
+    	$select->from($this->tableGateway->table);
+    
+    	$statement = $sql->prepareStatementForSqlObject($select);
+    	$results = $statement->execute();
+    
+    	$empresaInterna = new \ArrayObject();
+    	$result = array();
+    
+    	foreach ($results as $row){
+    		$empresaInt = new EmpresaInterna();
+    		$empresaInt->exchangeArray($row);
+    		$empresaInterna->append($empresaInt);
+    	}
+    
+    	foreach ($empresaInterna as $emp_int){
+    		$result[$emp_int->getEmp_int_id()] = $emp_int->getEmp_int_abreviacion();
+    	}
+    
+    	return $result;
+    }
 }

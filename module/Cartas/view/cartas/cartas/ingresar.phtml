@@ -82,7 +82,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 </ul>
  <table cellspacing="0" cellpadding="0" border="0" align="left" width="100%">
 	<tr>
-		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/contacto_grande.png'?>" border="0" /></td>
+		<td width="50" valign="middle"><img src="<?php echo $this->basepath() . '/img/png/correspondencia_grande.png'?>" border="0" /></td>
 		<td class="titulo_menu_item_pages"><span class="titulo_modulo_pages">Ingresar una nueva carta</span><br />Registre toda la informaci&oacute;n solicitada para ingresar una nueva carta.</td>
 	</tr>
 	<tr>
@@ -446,4 +446,21 @@ echo $this->formelementerrors ( $proyecto_oculto );
         */
 
 	});
+</script>
+
+<script type="text/javascript">
+
+CKEDITOR.replace( 'CTR_CUERPO', {
+	enterMode : CKEDITOR.ENTER_BR,
+	toolbar :
+		[
+			{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+			//{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+			{ name: 'insert', items : [ 'Table','Smiley' ] },
+			//{ name: 'styles', items : [ 'Styles','Format' ] },
+			{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','-','RemoveFormat' ] },
+			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+			//{ name: 'links', items : [ 'Link','Unlink'] },
+		]
+} );
 </script>

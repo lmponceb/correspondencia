@@ -163,7 +163,8 @@ class Carta extends Form {
 						//'cols' => '100',
 						'rows' => '15',
 						'id' => 'CTR_CUERPO',
-						'class' => 'form-control'
+						'class' => 'ckeditor'
+						//form-control
 				)
 		) );
 		
