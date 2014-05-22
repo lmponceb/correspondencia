@@ -12,7 +12,7 @@ class ErrorController extends AbstractActionController {
 	}
 	
 	public function deniedAction(){
-		return new ViewModel(array('mensaje' => 'Acceso denegado'));
+		return new ViewModel(array('mensaje' => 'Acceso Denegado'));
 	}
 	
 }

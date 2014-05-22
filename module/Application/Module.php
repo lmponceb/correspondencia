@@ -80,6 +80,11 @@ class Module {
         		case 'Application\Controller\Error':
         			return;
         			break;
+
+        		case 'Application\Controller\Index':
+        				return;
+
+        			break;	
         	}
         }
         

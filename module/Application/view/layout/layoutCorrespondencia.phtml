@@ -289,9 +289,10 @@
     		<tr>
     			<td class="menu">
 					<ul id="menu">
-						<?php if(in_array('application:index',$menu)): ?>
-							<li><img src=" <?php echo $this->basepath() . '/img/png/home.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('application', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></li>
-						<?php endif; ?>
+						<?php // if(in_array('application:index',$menu)): ?>
+						<!--	<li><img src=" <?php echo $this->basepath() . '/img/png/home.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('application', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></li>
+						-->
+						<?php //endif; ?>
 						<?php if(in_array('contactos:index',$menu)): ?>
 							<li><img src=" <?php echo $this->basepath() . '/img/png/contacto.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>">Contactos</a></li>
 						<?php endif; ?>
@@ -327,9 +328,10 @@
     			</td>
     		</tr>
     		<tr>
-    			<td colspan="2">
-    				 <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
-    			</td>
+    			<td colspan=2>
+    				<p style='float:left;'>Azul Copyright &copy; <?php echo date('Y') ?>. Todos los Derechos Reservados.</p>
+    				<p style='float:right;'><img src='<?php echo $this->basepath() . '/img/hawa.png' ?>'/></p>
+				</td>
     		</tr>
     	</table>
         <?php echo $this->inlineScript() ?>

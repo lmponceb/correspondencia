@@ -20,8 +20,8 @@ class LoginController extends AbstractActionController {
 		$viewParams = array ('form' => $form );	
 		
 		if ($loggedIn) {
-			return $this->redirect ()->toRoute ( 'application', array (
-					'controller' => 'index',
+			return $this->redirect ()->toRoute ( 'empresas', array (
+					'controller' => 'empresas',
 					'action' => 'index'
 			) );
 		}
