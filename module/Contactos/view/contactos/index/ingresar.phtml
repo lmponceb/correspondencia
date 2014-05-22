@@ -498,10 +498,10 @@ echo $this->formelementerrors ( $con_estado );
 			}
 		}
 
-		<?php if(sizeof($detalles)<=0): for ($i=0; $i<10; $i++):?>
+		<?php for ($i=0; $i<10; $i++):?>
 			codigoCiudadSelect(<?php echo $i ?>);
 			
-		<?php endfor; endif; ?>
+		<?php endfor;  ?>
 
 	});
 </script>
