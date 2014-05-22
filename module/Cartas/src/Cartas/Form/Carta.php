@@ -4,6 +4,7 @@ namespace Cartas\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element\Select;
+use Zend\Form\Element\Checkbox;
 
 date_default_timezone_set('America/Guayaquil');
 
@@ -325,7 +326,7 @@ class Carta extends Form {
 		 * CAMPO FIRMA 2
 		 * ********************************************/
 		$epl_id_dos = new Select('EPL_ID_DOS');
-		$epl_id_dos->setLabel('Firma 2*: ');
+		$epl_id_dos->setLabel('Firma 2: ');
 		$epl_id_dos->setAttributes(array('class' => 'form-control'));
 		$epl_id_dos->setAttributes(array('id' => 'EPL_ID_DOS'));
 		$epl_id_dos->setEmptyOption('-- Seleccione --');
@@ -341,7 +342,7 @@ class Carta extends Form {
 		$this->add ( array (
 				'name' => 'CARGO_DOS',
 				'options' => array (
-						'label' => 'Cargo Firma 2*:'
+						'label' => 'Cargo Firma 2:'
 				),
 				'attributes' => array (
 						'type' => 'text',
@@ -351,6 +352,31 @@ class Carta extends Form {
 				)
 		) );
 		
+		
+		/* ********************************************
+		 * CAMPO PRINCIPAL
+		 * ********************************************/
+		/* $this->add ( array (
+				'name' => 'CAR_FIR_TIPO',
+				'options' => array (
+						'label' => '&iquest;Es principal?:'
+				),
+				'attributes' => array (
+						'type' => 'checkbox',
+						'id' => 'CAR_FIR_TIPO',
+						'value' => 'P',
+						'class' => 'form-control'
+				)
+		) ); */
+		
+		$checkbox = new Checkbox('CAR_FIR_TIPO');
+		$checkbox->setLabel('&iquest;Es principal?: &nbsp;');
+		$checkbox->setUseHiddenElement(true);
+		$checkbox->setCheckedValue("P");
+		$checkbox->setUncheckedValue("S");
+		
+		//$form = new Form('my-form');
+		$this->add($checkbox);
 		
 		/* ********************************************
 		 * CAMPO EMPRESA
@@ -421,7 +447,7 @@ class Carta extends Form {
 		$con_id->setAttributes(array('disabled' => 'disabled'));
 		$con_id->setEmptyOption('-- Seleccione --');
 		$con_id->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
+				'disable_inarray_validator' => true, // <-- disable
 		));
 		$this->add($con_id);
 		

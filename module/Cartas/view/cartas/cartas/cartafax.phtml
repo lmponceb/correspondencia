@@ -1,0 +1,110 @@
+<?php echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <?php echo $this->headTitle('FORMULARIO DE REGISTRO') ?>
+        <style>
+			body, html{
+				margin: 0 0;
+				padding: 0 0;
+				font-family: sans-serif;
+				font-size:13px;
+				<?php $carta = $this->carta->getCtr_tipo(); if(strtoupper($carta) == 'B'): ?>
+				background-image: url("<?php echo $this->basepath() . '/img/jpg/borrador.jpg'?>");
+				background-repeat: no-repeat;
+				background-position: 50px 100px;
+				<?php endif; ?>
+			}
+		</style>
+    </head>
+    <body>
+    <div style="padding-left: 88px; padding-top: 60px;"><img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" /></div>
+    <div style="padding-top: 65px;">&nbsp;</div>
+    
+    <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
+    	<tr>
+    		<td colspan="2" align="right" style="font-weight: 700;">Fax: <?php echo $this->carta->getCtr_codigo_final()?></td>
+    	</tr>
+    	<tr>
+    		<td align="left" style="border-top: 2px solid; border-bottom: 2px solid; font-weight: 700; padding-top: 3px; padding-bottom: 5px;">Para / To</td>
+    		<td align="right" style="border-top: 2px solid; border-bottom: 2px solid; font-weight: 700; padding-top: 3px; padding-bottom: 5px;">De / From</td>
+    	</tr>
+    	<tr>
+    		<td valign="top">
+    			<table border="0" width="100%">
+    				<tr>
+    					<td width="100" valign="top">Compa&ntilde;&iacute;a/Company: </td>
+    					<td><?php echo $this->empresa->getEmp_nombre()?> <br /><?php if(strtoupper($idioma) == 'E'){ echo $this->contacto->getCon_descripcion_es(); }else{ echo $this->contacto->getCon_descripcion_en(); }?></td>
+    				</tr>
+    				<tr>
+    					<td>Nombre/Name:</td>
+    					<td><?php if(strtoupper($idioma) == 'E'){ echo $this->contacto->getCon_tip_per_es(); }else{ echo $this->contacto->getCon_tip_per_en(); } echo $this->contacto->getCon_nombre() . ' ' . $this->contacto->getCon_apellido()?></td>
+    				</tr>
+    				<tr><td colspan="2">&nbsp;</td></tr>
+    				<tr>
+    					<td>Fecha/Date:</td>
+    					<td><?php echo $this->carta->getCtr_fecha_actualizacion()?></td>
+    				</tr>
+    			</table>
+    		</td>
+    		<td width="50%">
+    			<table border="0" width="100%">
+    			<?php 
+    			foreach ($this->firma_from as $firma_from):
+    			$principal = $firma_from->getCar_fir_tipo();
+    			if( $principal == 'P'):
+    			?>
+    				<tr>
+    					<td align="right"><?php echo $firma_from->getEpl_nombre() . ' ' . $firma_from->getEpl_apellido() ?> <br /><?php echo $firma_from->getEpl_cargo()?></td>
+    				</tr>
+    				<tr>
+    					<td align="right">N41 Av. de los Granados E11-124 y Colines</td>
+    				</tr>
+    				<tr>
+    					<td align="right">Quito, Ecuador</td>
+    				</tr>
+    				<tr>
+    					<td align="right">Fax: (593 2) 225-4083</td>
+    				</tr>
+    				<tr>
+    					<td align="right">PBX: (593 2) 227-7722 / 297-7600</td>
+    				</tr>
+    				<?php endif; endforeach; ?>
+    			</table>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td colspan="2" style="border-top: 2px solid; border-bottom: 2px solid; font-weight: 700; padding-top: 8px; padding-bottom: 8px;">Ref.: <?php echo $this->carta->getCtr_referencia()?></td>
+    	</tr>
+    	<tr>
+    		<td colspan="2">
+    			<div><br /><?php echo $this->carta->getCtr_saludo()?></div>
+    		</td>
+   		</tr>
+   		<tr>
+    		<td colspan="2">
+    			<div style="text-align: justify;"><?php echo $this->carta->getCtr_cuerpo()?></div>
+    		</td>
+    	</tr>
+   		<tr>
+    		<td colspan="2">
+    			<div><br /><br /><?php echo $this->carta->getCtr_despedida()?><br /><br /><br /></div>
+    		</td>
+    	</tr>
+    	<tr>
+	    	<?php foreach ($this->carta_firma as $firma): ?>
+	    	<td>
+	    		<table>
+	    			<tr>
+	    				<td style="text-transform: capitalize;"><?php echo $firma->getEpl_nombre() . ' ' . $firma->getEpl_apellido() ?></td>
+	    			</tr>
+	    			<tr>
+	    				<td><?php echo $firma->getEpl_cargo()?></td>
+	    			</tr>
+	    		</table>
+	    	</td>
+	    	<?php endforeach; ?>
+    	</tr>
+    </table>
+</body>
+</html>

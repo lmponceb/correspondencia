@@ -90,7 +90,7 @@ class CartaValidator extends InputFilter {
 		$ctr_fecha_creacion = new Input ( 'CTR_FECHA_CREACION' );
 		$ctr_fecha_creacion->setRequired ( true );
 		$ctr_fecha_creacion->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 10,
+				'max' => 15,
 				'min' => 8
 		) ) )
 		->attach(new NotEmpty());
@@ -176,12 +176,11 @@ class CartaValidator extends InputFilter {
 		
 		
 		$epl_id_dos = new Input ( 'EPL_ID_DOS' );
-		$epl_id_dos->setRequired ( true );
+		$epl_id_dos->setRequired ( false );
 		$epl_id_dos->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 11,
 				'min' => 1,
-		) ) )
-		->attach(new NotEmpty());
+		) ) );
 		
 		$this->add ( $epl_id_dos );
 		
@@ -215,177 +214,5 @@ class CartaValidator extends InputFilter {
 		->attach ( new Digits () );
 		
 		$this->add ( $con_id );
-		
-		/*
-		$sucursal = new Input ( 'SUC_ID' );
-		$sucursal->setRequired ( false );
-		$sucursal->setAllowEmpty(true);
-		$this->add ( $sucursal );
-		
-		
-		$pais = new Input ( 'PAI_ID' );
-		$pais->setRequired ( true );
-		$pais->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 3,
-				'min' => 1
-		) ) )->attach ( new Digits () )
-		->attach(new NotEmpty());
-		
-		$this->add ( $pais );
-		
-		
-		$estado = new Input ( 'EST_ID' );
-		$estado->setRequired ( true );
-		$estado->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 3,
-				'min' => 1
-		) ) )->attach ( new Digits () )
-		->attach(new NotEmpty());
-		
-		$this->add ( $estado );
-		
-		
-		$estado = new Input ( 'CIU_ID' );
-		$estado->setRequired ( true );
-		$estado->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 11,
-				'min' => 1
-		) ) )->attach ( new Digits () )
-		->attach(new NotEmpty());
-		
-		$this->add ( $estado );
-		
-		
-		$nombre = new Input ( 'CON_NOMBRE' );
-		$nombre->setRequired ( true );
-		$nombre->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 35,
-				'min' => 2
-		) ) )->attach ( new Alnum ( array (
-				'allowWhiteSpace' => true 
-		) ) )->attach(new NotEmpty());
-		
-		$this->add ( $nombre );
-		
-		
-		$apellido = new Input ( 'CON_APELLIDO' );
-		$apellido->setRequired ( true );
-		$apellido->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 35,
-				'min' => 2
-		) ) )->attach ( new Alnum ( array (
-				'allowWhiteSpace' => true
-		) ) )->attach(new NotEmpty());
-		
-		
-		$this->add ( $apellido );
-		
-		
-		$email = new Input ( 'CON_EMAIL' );
-		$email->setRequired ( true );
-		$email->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 150,
-				'min' => 6
-		) ) )->attach ( new EmailAddress () )
-		->attach(new NotEmpty());
-		
-		$this->add ( $email );
-		
-		
-		$usuario = new Input ( 'CON_USUARIO' );
-		$usuario->setRequired ( true );
-		$usuario->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 20,
-				'min' => 1
-		) ) )->attach ( new Alnum ( array (
-				'allowWhiteSpace' => true
-		) ) )->attach(new NotEmpty());
-		
-		
-		$this->add ( $usuario );
-		
-		
-		$fecha_actualizacion = new Input ( 'CON_FECHA_ACTUALIZACION' );
-		$fecha_actualizacion->setRequired ( true );
-		$fecha_actualizacion->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 30,
-				'min' => 9
-		) ) )->attach(new NotEmpty());
-		
-		
-		$this->add ( $fecha_actualizacion );
-		
-		
-		$con_tip_per_es = new Input ( 'CON_TIP_PER_ES' );
-		$con_tip_per_es->setRequired ( true );
-		$con_tip_per_es->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 30,
-				'min' => 2
-		) ) )->attach(new NotEmpty());
-		
-		
-		$this->add ( $con_tip_per_es );
-		
-		
-		$con_tip_per_en = new Input ( 'CON_TIP_PER_EN' );
-		$con_tip_per_en->setRequired ( true );
-		$con_tip_per_en->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 30,
-				'min' => 2
-		) ) )->attach(new NotEmpty());
-		
-		
-		$this->add ( $con_tip_per_en );
-		
-		
-		$con_descripcion_es = new Input ( 'CON_DESCRIPCION_ES' );
-		$con_descripcion_es->setRequired ( true );
-		$con_descripcion_es->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 30
-		) ) )->attach(new NotEmpty())->attach ( new Alnum ( array (
-				'allowWhiteSpace' => true
-		) ) );
-		
-		
-		$this->add ( $con_descripcion_es );
-		
-		
-		$con_descripcion_en = new Input ( 'CON_DESCRIPCION_EN' );
-		$con_descripcion_en->setRequired ( true );
-		$con_descripcion_en->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 30
-		) ) )->attach(new NotEmpty())->attach ( new Alnum ( array (
-				'allowWhiteSpace' => true
-		) ) );
-		
-		
-		$this->add ( $con_descripcion_en );
-		
-		
-		$con_direccion = new Input ( 'CON_DIRECCION' );
-		$con_direccion->setRequired ( true );
-		$con_direccion->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 150
-		) ) )->attach(new NotEmpty());
-		
-		
-		$this->add ( $con_direccion );
-		
-		
-		$con_estado = new Input ( 'CON_ESTADO' );
-		$con_estado->setRequired ( true );
-		$con_estado->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 1,
-				'min' => 1
-		) ) )->attach(new Alnum(array(
-				'allowWhiteSpace' => false,
-		)))->attach(new NotEmpty())
-		->attach(new InArray(array(
-				'haystack' => array('A','I'),
-		)));
-		
-		$this->add ( $con_estado );
-		
-				*/
 	}
 }

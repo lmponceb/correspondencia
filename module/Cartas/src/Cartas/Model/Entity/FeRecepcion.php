@@ -5,8 +5,25 @@ class FeRecepcion {
 	
 	private $fe_rec_id;
 	private $us_codigo;
+	private $fe_rec_tipo;
+	private $fe_rec_idioma;
+	private $fe_rec_fecha;
+	private $fe_rec_responsable;
+	private $fe_rec_descripcion;
+	private $fe_rec_compania;
+	private $fe_rec_oferente;
+	private $fe_rec_oferta_nombre;
+	private $fe_rec_oferta_codigo;
+	private $fe_rec_fecha_hora;
+	private $fe_rec_fecha_minuto;
+	private $fe_rec_fecha_anio;
+	private $fe_rec_fecha_mes;
+	private $fe_rec_fecha_dia;
+	private $fe_rec_sobre;
+	
 	
 	function __construct() {}
+
 
 	/**
 	 * @return the $fe_rec_id
@@ -23,6 +40,111 @@ class FeRecepcion {
 	}
 
 	/**
+	 * @return the $fe_rec_tipo
+	 */
+	public function getFe_rec_tipo() {
+		return $this->fe_rec_tipo;
+	}
+
+	/**
+	 * @return the $fe_rec_idioma
+	 */
+	public function getFe_rec_idioma() {
+		return $this->fe_rec_idioma;
+	}
+
+	/**
+	 * @return the $fe_rec_fecha
+	 */
+	public function getFe_rec_fecha() {
+		return $this->fe_rec_fecha;
+	}
+
+	/**
+	 * @return the $fe_rec_responsable
+	 */
+	public function getFe_rec_responsable() {
+		return $this->fe_rec_responsable;
+	}
+
+	/**
+	 * @return the $fe_rec_descripcion
+	 */
+	public function getFe_rec_descripcion() {
+		return $this->fe_rec_descripcion;
+	}
+
+	/**
+	 * @return the $fe_rec_compania
+	 */
+	public function getFe_rec_compania() {
+		return $this->fe_rec_compania;
+	}
+
+	/**
+	 * @return the $fe_rec_oferente
+	 */
+	public function getFe_rec_oferente() {
+		return $this->fe_rec_oferente;
+	}
+
+	/**
+	 * @return the $fe_rec_oferta_nombre
+	 */
+	public function getFe_rec_oferta_nombre() {
+		return $this->fe_rec_oferta_nombre;
+	}
+
+	/**
+	 * @return the $fe_rec_oferta_codigo
+	 */
+	public function getFe_rec_oferta_codigo() {
+		return $this->fe_rec_oferta_codigo;
+	}
+
+	/**
+	 * @return the $fe_rec_fecha_hora
+	 */
+	public function getFe_rec_fecha_hora() {
+		return $this->fe_rec_fecha_hora;
+	}
+
+	/**
+	 * @return the $fe_rec_fecha_minuto
+	 */
+	public function getFe_rec_fecha_minuto() {
+		return $this->fe_rec_fecha_minuto;
+	}
+
+	/**
+	 * @return the $fe_rec_fecha_anio
+	 */
+	public function getFe_rec_fecha_anio() {
+		return $this->fe_rec_fecha_anio;
+	}
+
+	/**
+	 * @return the $fe_rec_fecha_mes
+	 */
+	public function getFe_rec_fecha_mes() {
+		return $this->fe_rec_fecha_mes;
+	}
+
+	/**
+	 * @return the $fe_rec_fecha_dia
+	 */
+	public function getFe_rec_fecha_dia() {
+		return $this->fe_rec_fecha_dia;
+	}
+
+	/**
+	 * @return the $fe_rec_sobre
+	 */
+	public function getFe_rec_sobre() {
+		return $this->fe_rec_sobre;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $fe_rec_id
 	 */
 	public function setFe_rec_id($fe_rec_id) {
@@ -36,10 +158,130 @@ class FeRecepcion {
 		$this->us_codigo = $us_codigo;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_tipo
+	 */
+	public function setFe_rec_tipo($fe_rec_tipo) {
+		$this->fe_rec_tipo = $fe_rec_tipo;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_idioma
+	 */
+	public function setFe_rec_idioma($fe_rec_idioma) {
+		$this->fe_rec_idioma = $fe_rec_idioma;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_fecha
+	 */
+	public function setFe_rec_fecha($fe_rec_fecha) {
+		$this->fe_rec_fecha = $fe_rec_fecha;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_responsable
+	 */
+	public function setFe_rec_responsable($fe_rec_responsable) {
+		$this->fe_rec_responsable = $fe_rec_responsable;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_descripcion
+	 */
+	public function setFe_rec_descripcion($fe_rec_descripcion) {
+		$this->fe_rec_descripcion = $fe_rec_descripcion;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_compania
+	 */
+	public function setFe_rec_compania($fe_rec_compania) {
+		$this->fe_rec_compania = $fe_rec_compania;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_oferente
+	 */
+	public function setFe_rec_oferente($fe_rec_oferente) {
+		$this->fe_rec_oferente = $fe_rec_oferente;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_oferta_nombre
+	 */
+	public function setFe_rec_oferta_nombre($fe_rec_oferta_nombre) {
+		$this->fe_rec_oferta_nombre = $fe_rec_oferta_nombre;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_oferta_codigo
+	 */
+	public function setFe_rec_oferta_codigo($fe_rec_oferta_codigo) {
+		$this->fe_rec_oferta_codigo = $fe_rec_oferta_codigo;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_fecha_hora
+	 */
+	public function setFe_rec_fecha_hora($fe_rec_fecha_hora) {
+		$this->fe_rec_fecha_hora = $fe_rec_fecha_hora;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_fecha_minuto
+	 */
+	public function setFe_rec_fecha_minuto($fe_rec_fecha_minuto) {
+		$this->fe_rec_fecha_minuto = $fe_rec_fecha_minuto;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_fecha_anio
+	 */
+	public function setFe_rec_fecha_anio($fe_rec_fecha_anio) {
+		$this->fe_rec_fecha_anio = $fe_rec_fecha_anio;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_fecha_mes
+	 */
+	public function setFe_rec_fecha_mes($fe_rec_fecha_mes) {
+		$this->fe_rec_fecha_mes = $fe_rec_fecha_mes;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_fecha_dia
+	 */
+	public function setFe_rec_fecha_dia($fe_rec_fecha_dia) {
+		$this->fe_rec_fecha_dia = $fe_rec_fecha_dia;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_sobre
+	 */
+	public function setFe_rec_sobre($fe_rec_sobre) {
+		$this->fe_rec_sobre = $fe_rec_sobre;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->fe_rec_id = (isset($data['FE_REC_ID'])) ? $data['FE_REC_ID'] : null;
 		$this->us_codigo = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_tipo = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_idioma = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_fecha = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_responsable = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_descripcion = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_compania = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_oferente = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_oferta_nombre = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_oferta_codigo = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_fecha_hora = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_fecha_minuto = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_fecha_anio = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_fecha_mes = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_fecha_dia = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->fe_rec_sobre = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
 	}
 	
 	public function getArrayCopy(){
