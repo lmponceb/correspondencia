@@ -18,9 +18,11 @@ use Recepcion\Form\RecepcionValidator;
 
 date_default_timezone_set('America/Guayaquil');
 
-class CartasController extends AbstractActionController
+class RecepcionController extends AbstractActionController
 {
-	protected $cartaDao;
+	protected $feRecepcionDao;
+	
+	/* protected $cartaDao;
 	protected $tipoCartaDao;
 	protected $empresaInternaDao;
 	protected $empresaDao;
@@ -29,17 +31,18 @@ class CartasController extends AbstractActionController
 	protected $contactoDao;
 	protected $obraDao;
 	protected $cartaDestinatarioDao;
-	protected $cartaFirmaDao;
+	protected $cartaFirmaDao; */
 	
     public function listadoAction()
     {
-        $cartas = $this->getCartaDao ()->traerTodos ();
+    	
+        $recepcion = $this->getFeRecepcionDao ()->traerTodos ();
 		
 		return new ViewModel ( array (
-				'cartas' => $cartas,
+				'recepcion' => $recepcion,
 		) );
     }
-    
+   
     public function ingresarAction(){
 
    		$form = $this->getForm ();
@@ -47,12 +50,12 @@ class CartasController extends AbstractActionController
     	//FORMULARIO DE INGRESO DE INFORMACION
     	return new ViewModel ( array (
     			'formulario' => $form ,
-    			'tipo_usuario' => $this->tipo_usuario,
-    			'privado' => $this->privado,
+    			//'tipo_usuario' => $this->tipo_usuario,
+    			//'privado' => $this->privado,
     			'action' => $this->params()->fromRoute('action')
     	) );
     }
-    
+    /*
     public function editarAction(){
     	 
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
@@ -290,18 +293,27 @@ class CartasController extends AbstractActionController
     	$this->redirect()->toRoute('cartas', array('controller' => 'cartas', 'action' => 'listado'));
     	
     }
-   
+   */
     public function getForm() {
     	
-    	$form = new Carta();
-    	$form->get ( 'TIP_CAR_ID' )->setValueOptions ( $this->getTipoCartaDao ()->traerTodosArreglo () );
+    	$form = new Recepcion();
+    	/* $form->get ( 'TIP_CAR_ID' )->setValueOptions ( $this->getTipoCartaDao ()->traerTodosArreglo () );
     	$form->get ( 'EMP_INT_ID' )->setValueOptions ( $this->getEmpresaInternaDao ()->traerTodosArreglo () );
     	$form->get ( 'EMP_ID' )->setValueOptions ( $this->getEmpresaDao ()->traerEmpresas () );
     	$form->get ( 'EPL_ID_UNO' )->setValueOptions ( $this->getEmpleadoDao ()->traerTodosArreglo () );
     	$form->get ( 'EPL_ID_DOS' )->setValueOptions ( $this->getEmpleadoDao ()->traerTodosArreglo () );
-    	$form->get ( 'PRO_ID' )->setValueOptions ( $this->getProyectoDao ()->traerTodosArreglo () );
+    	$form->get ( 'PRO_ID' )->setValueOptions ( $this->getProyectoDao ()->traerTodosArreglo () ); */
     	return $form;
     }
+    
+    public function getFeRecepcionDao() {
+    	if (! $this->feRecepcionDao) {
+    		$sm = $this->getServiceLocator ();
+    		$this->feRecepcionDao = $sm->get ( 'Cartas\Model\Dao\FeRecepcionDao' );
+    	}
+    	return $this->feRecepcionDao;
+    } 
+    
     /* 
     public function getCartaDao() {
     	if (! $this->cartaDao) {

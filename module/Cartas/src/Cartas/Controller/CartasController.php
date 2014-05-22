@@ -32,6 +32,8 @@ class CartasController extends AbstractActionController
 	protected $obraDao;
 	protected $cartaDestinatarioDao;
 	protected $cartaFirmaDao;
+	protected $tipo_usuario;
+	protected $privado;
 	
     public function listadoAction()
     {
