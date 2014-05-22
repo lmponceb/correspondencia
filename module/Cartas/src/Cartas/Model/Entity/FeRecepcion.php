@@ -22,8 +22,13 @@ class FeRecepcion {
 	private $fe_rec_sobre;
 	private $fe_rec_estado;
 	private $emp_int_id;
+	private $fe_rec_codigo_procesado;
+	
+	private $emp_int_nombre;
+	private $emp_int_abreviacion;
 	
 	function __construct() {}
+
 
 	/**
 	 * @return the $fe_rec_id
@@ -159,6 +164,27 @@ class FeRecepcion {
 	}
 
 	/**
+	 * @return the $fe_rec_codigo_procesado
+	 */
+	public function getFe_rec_codigo_procesado() {
+		return $this->fe_rec_codigo_procesado;
+	}
+
+	/**
+	 * @return the $emp_int_nombre
+	 */
+	public function getEmp_int_nombre() {
+		return $this->emp_int_nombre;
+	}
+
+	/**
+	 * @return the $emp_int_abreviacion
+	 */
+	public function getEmp_int_abreviacion() {
+		return $this->emp_int_abreviacion;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $fe_rec_id
 	 */
 	public function setFe_rec_id($fe_rec_id) {
@@ -291,6 +317,27 @@ class FeRecepcion {
 		$this->emp_int_id = $emp_int_id;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $fe_rec_codigo_procesado
+	 */
+	public function setFe_rec_codigo_procesado($fe_rec_codigo_procesado) {
+		$this->fe_rec_codigo_procesado = $fe_rec_codigo_procesado;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $emp_int_nombre
+	 */
+	public function setEmp_int_nombre($emp_int_nombre) {
+		$this->emp_int_nombre = $emp_int_nombre;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $emp_int_abreviacion
+	 */
+	public function setEmp_int_abreviacion($emp_int_abreviacion) {
+		$this->emp_int_abreviacion = $emp_int_abreviacion;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->fe_rec_id = (isset($data['FE_REC_ID'])) ? $data['FE_REC_ID'] : null;
@@ -312,6 +359,10 @@ class FeRecepcion {
 		$this->fe_rec_sobre = (isset($data['FE_REC_SOBRE'])) ? $data['FE_REC_SOBRE'] : null;
 		$this->fe_rec_estado = (isset($data['FE_REC_ESTADO'])) ? $data['FE_REC_ESTADO'] : null;
 		$this->emp_int_id = (isset($data['EMP_INT_ID'])) ? $data['EMP_INT_ID'] : null;
+		$this->fe_rec_codigo_procesado = (isset($data['FE_REC_CODIGO_PROCESADO'])) ? $data['FE_REC_CODIGO_PROCESADO'] : null;
+		
+		$this->emp_int_nombre = (isset($data['EMP_INT_NOMBRE'])) ? $data['EMP_INT_NOMBRE'] : null;
+		$this->emp_int_abreviacion = (isset($data['EMP_INT_ABREVIACION'])) ? $data['EMP_INT_ABREVIACION'] : null;
 	}
 	
 	public function getArrayCopy(){

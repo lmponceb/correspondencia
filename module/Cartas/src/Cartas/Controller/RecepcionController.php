@@ -140,31 +140,14 @@ class RecepcionController extends AbstractActionController
     	
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
     	
-    	/* $ei = $this->getFeRecepcionDao()->traerEmpresaInterna($id);
+    	$ei = $this->getFeRecepcionDao()->traerEmpresaInterna($id);
     	
     	foreach ($ei as $emp){
     		$empresa_interna = $emp->getEmp_int_abreviacion();
     	}
-    	 */
-    	$role = $_SESSION['Zend_Auth']['storage']->us_role;
     	
     	
-    	switch ($role){
-    		case 1:
-    			$text_role = 'ADM';
-    			break;
-    		case 3:
-    			$text_role = 'OPE';
-    			break;
-    		case 2:
-    			$text_role = 'ADM';
-    			break;
-    		default:
-    			$text_role = 'OPE';
-    			break;
-    	}
-    	
-    	$this->getFeRecepcionDao()->procesar($id, $text_role, $anio, $empresa_interna);
+    	$this->getFeRecepcionDao()->procesar($id, $anio, $empresa_interna);
     	$this->redirect()->toRoute('cartas', array('controller' => 'recepcion', 'action' => 'listado'));
     	
     }
@@ -196,6 +179,42 @@ class RecepcionController extends AbstractActionController
     	
     	$this->redirect()->toRoute('cartas', array('controller' => 'recepcion', 'action' => 'listado'));
     	
+    }
+    
+    public function pdfAction(){
+    	
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	 
+    	$fe_recepcion = $this->getFeRecepcionDao()->traer($id);
+    	//$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
+    	 
+    	//$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
+    	 
+    	/* $empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    	 
+    	$emp_emp_id = $empresa->getEmp_emp_id();
+    	 
+    	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    	}else{
+    		$empresa_padre = $empresa;
+    	} */
+    	 
+    	//$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
+    	 
+    	$pdf = new PdfModel();
+    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    	 
+    	$pdf->setVariables(array(
+    			'fe_recepcion' => $fe_recepcion,
+    			//'contacto' => $contacto,
+    			//'carta_firma' => $carta_firma,
+    			//'empresa' => $empresa_padre
+    	));
+    	
+    	return $pdf;
     }
   
     public function getForm() {

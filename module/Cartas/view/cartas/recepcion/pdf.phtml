@@ -1,0 +1,77 @@
+<?php echo $this->doctype(); ?>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <?php echo $this->headTitle('FORMULARIO DE REGISTRO') ?>
+        <style>
+			body, html{
+				margin: 0 0;
+				padding: 0 0;
+				font-family: sans-serif;
+				font-size:13px;
+				<?php $fe_recepcion = $this->fe_recepcion->getFe_rec_estado(); if(strtoupper($fe_recepcion) == 'B'): ?>
+				background-image: url("<?php echo $this->basepath() . '/img/jpg/borrador.jpg'?>");
+				background-repeat: no-repeat;
+				background-position: 50px 100px;
+				<?php endif; ?>
+			}
+			
+			.tabla_recepcion .title{
+				font-weight: 700;
+			}
+		</style>
+    </head>
+    <body>
+    <div style="padding-top: 100px;">&nbsp;</div>
+    
+    <table cellspacing="0" cellpadding="10" border="1" width="65%" align="center" class="tabla_recepcion">
+    	<tr>
+    		<td colspan="2"><span style="font-size: 40px;">Bid Submittal</span> <br /><?php echo $this->fe_recepcion->getFe_rec_codigo_procesado()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title" width="100">Company</td>
+    		<td><?php echo $this->fe_recepcion->getFe_rec_compania()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title">Bidder</td>
+    		<td><?php echo $this->fe_recepcion->getFe_rec_oferente()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title">Bid Description</td>
+    		<td><?php echo $this->fe_recepcion->getFe_rec_oferta_nombre()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title">Bid Number</td>
+    		<td><?php echo $this->fe_recepcion->getFe_rec_oferta_codigo()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title">Due Date <br/> mm/dd/yyy</td>
+    		<td><?php echo $this->fe_recepcion->getFe_rec_fecha_mes() . '/' . $this->fe_recepcion->getFe_rec_fecha_dia() . '/' . $this->fe_recepcion->getFe_rec_fecha_anio()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title">Due Time</td>
+    		<td><?php echo $this->fe_recepcion->getFe_rec_fecha_hora() . '-' . $this->fe_recepcion->getFe_rec_fecha_minuto()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title">Bid Package Includes</td>
+    		<td><?php echo $this->fe_recepcion->getFe_rec_sobre()?></td>
+    	</tr>
+    	<tr>
+    		<td class="title">Bid</td>
+    		<td>S&iacute;</td>
+    	</tr>
+    	<tr>
+    		<td class="title">Date Received by Company</td>
+    		<td>&nbsp;</td>
+    	</tr>
+    	<tr>
+    		<td class="title">Time Received by Company</td>
+    		<td>&nbsp;</td>
+    	</tr>
+    	<tr>
+    		<td class="title">Received | Name</td>
+    		<td>&nbsp;</td>
+    	</tr>
+    </table>
+</body>
+</html>

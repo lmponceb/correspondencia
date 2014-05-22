@@ -17,7 +17,7 @@ class FeRecepcionDao {
     public function traerTodos(){
     	
     	$select = $this->tableGateway->getSql ()->select ();
-    	//$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
+    	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = FE_RECEPCION.EMP_INT_ID' );
     	//$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
     	
     	$resultSet = $this->tableGateway->selectWith ( $select );
@@ -67,7 +67,8 @@ class FeRecepcionDao {
     			'FE_REC_FECHA_DIA' => $fe_recepcion->getFe_rec_fecha_dia(),
     			'FE_REC_SOBRE' => $fe_recepcion->getFe_rec_sobre(),
     			'FE_REC_ESTADO' => $fe_recepcion->getFe_rec_estado(),
-    			'EMP_INT_ID' => $fe_recepcion->getEmp_int_id()
+    			'EMP_INT_ID' => $fe_recepcion->getEmp_int_id(),
+    			'FE_REC_CODIGO_PROCESADO' => $fe_recepcion->getFe_rec_codigo_procesado()
     	);
     	 
     	if(empty($id) || is_null($id)){
@@ -106,7 +107,8 @@ class FeRecepcionDao {
     			'FE_REC_FECHA_DIA' => $fe_recepcion->getFe_rec_fecha_dia(),
     			'FE_REC_SOBRE' => $fe_recepcion->getFe_rec_sobre(),
     			'FE_REC_ESTADO' => 'B',
-    			'EMP_INT_ID' => $fe_recepcion->getEmp_int_id()
+    			'EMP_INT_ID' => $fe_recepcion->getEmp_int_id(),
+    			'FE_REC_CODIGO_PROCESADO' => null
     	);
     	
     	
@@ -123,10 +125,10 @@ class FeRecepcionDao {
     	return $results; */
     }
    
-	public function procesar($id, $role, $anio, $empresa_interna){
+	public function procesar($id, $anio, $empresa_interna){
 		
 		$data['FE_REC_ESTADO'] = 'P';
-		//$data['FE_REC_OFERTA_CODIGO'] = $empresa_interna . '-' . $role . '-' . $anio . '-' . $id;
+		$data['FE_REC_CODIGO_PROCESADO'] = $empresa_interna . '-TEC-' . $anio . '-' . $id;
 
 		if($this->traer($id)){
 			$this->tableGateway->update($data, array('FE_REC_ID' => $id ));

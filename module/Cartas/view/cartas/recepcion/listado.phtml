@@ -22,13 +22,14 @@
  	 <th>&nbsp;</th>
      <th>TIPO</th>
      <th>IDIOMA</th>
-     <th>FECHA</th>
+     <th>FECHA DE <br />CREACI&Oacute;N</th>
      <th>USUARIO</th>
      <th>COMPA&Ntilde;&Iacute;A</th>
      <th>OFERENTE</th>
-     <th>CODIGO FINAL</th>
-     <th>FECHA Y HORA</th>
+     <th>CODIGO DE LA <br />OFERTA</th>
+     <th>FECHA Y HORA <br />OFERTA</th>
      <th>ESTADO</th>
+     <th>CODIGO PROCESADO</th>
  </tr>
  </thead>
  <tbody>
@@ -60,6 +61,7 @@
      	if(strtoupper($estado) == 'B'){ echo 'Borrador'; }else{ echo 'Procesado'; } 
      	?>
      </td>
+     <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_codigo_procesado());?></td>
  </tr>
  <?php endforeach; ?>
  </tbody>
