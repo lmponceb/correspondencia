@@ -24,11 +24,16 @@ class CartaFirmaDao {
     }
     
     public function traerTodosPorCarta($id){
-    	 
+    	
     	$id = ( int ) $id;
-    	 
-    	$resultSet = $this->tableGateway->select(array('CTR_ID' => $id));
+    	
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->where(array('CTR_ID' => $id));
+    	$select->order(array('CAR_FIR_TIPO' => 'asc' ));
+    	
+    	$resultSet = $this->tableGateway->selectWith ( $select );
     	return $resultSet;
+    	
     }
     
     public function traerTodosPorCartaEmpleado($id){
@@ -53,7 +58,8 @@ class CartaFirmaDao {
     	
     	$data = array(
     			'CTR_ID' => $carta->getCtr_id(),
-    			'EPL_ID' => $carta->getEpl_id()
+    			'EPL_ID' => $carta->getEpl_id(),
+    			'CAR_FIR_TIPO' => $carta->getCar_fir_tipo()
     	);
     	
     	$data['CAR_FIR_ID'] = new Sql\Expression('s_carta_firma.nextVal');
@@ -64,7 +70,8 @@ class CartaFirmaDao {
     	 
     	$data = array(
     			'CTR_ID' => $ctr_id,
-    			'EPL_ID' => $carta->getEpl_id()
+    			'EPL_ID' => $carta->getEpl_id(),
+    			'CAR_FIR_TIPO' => $carta->getCar_fir_tipo()
     	);
     	 
     	$data['CAR_FIR_ID'] = new Sql\Expression('s_carta_firma.nextVal');

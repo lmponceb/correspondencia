@@ -1,4 +1,4 @@
-<?php echo $this->doctype(); ?>
+<?php echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
 <html>
     <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -34,7 +34,19 @@
     </tr>
     <tr>
     	<td colspan="2">
-    		<div><br />Atenci&oacute;n: <?php echo $this->contacto->getCon_tip_per_es()?> <?php echo $this->contacto->getCon_nombre() . ' ' . $this->contacto->getCon_apellido()?> <div style="padding-left: 59px;"> <?php echo $this->contacto->getCon_descripcion_es()?></div></div>
+    		<div>
+    			<br />Atenci&oacute;n: 
+    			<?php if(strtoupper($idioma) == 'E'){
+    				echo $this->contacto->getCon_tip_per_es();
+    			}else{
+    				echo $this->contacto->getCon_tip_per_en();
+    			}?> 
+    			<?php echo $this->contacto->getCon_nombre() . ' ' . $this->contacto->getCon_apellido()?> <div style="padding-left: 59px;"> 
+    			<?php if(strtoupper($idioma) == 'E'){
+    				echo $this->contacto->getCon_descripcion_es();
+    			}else{
+    				echo $this->contacto->getCon_descripcion_en();
+    			}?></div></div>
     	</td>
     </tr>
     <tr>

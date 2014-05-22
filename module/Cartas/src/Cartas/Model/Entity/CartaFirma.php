@@ -6,6 +6,7 @@ class CartaFirma {
 	private $car_fir_id;
 	private $epl_id;
 	private $ctr_id;
+	private $car_fir_tipo;
 	
 	private $epl_nombre;
 	private $epl_apellido;
@@ -32,6 +33,13 @@ class CartaFirma {
 	 */
 	public function getCtr_id() {
 		return $this->ctr_id;
+	}
+
+	/**
+	 * @return the $car_fir_tipo
+	 */
+	public function getCar_fir_tipo() {
+		return $this->car_fir_tipo;
 	}
 
 	/**
@@ -77,6 +85,13 @@ class CartaFirma {
 	}
 
 	/**
+	 * @param Ambigous <NULL, unknown> $car_fir_tipo
+	 */
+	public function setCar_fir_tipo($car_fir_tipo) {
+		$this->car_fir_tipo = $car_fir_tipo;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $epl_nombre
 	 */
 	public function setEpl_nombre($epl_nombre) {
@@ -102,6 +117,7 @@ class CartaFirma {
 		$this->car_fir_id = (isset($data['CAR_FIR_ID'])) ? $data['CAR_FIR_ID'] : null;
 		$this->epl_id = (isset($data['EPL_ID'])) ? $data['EPL_ID'] : null;
 		$this->ctr_id = (isset($data['CTR_ID'])) ? $data['CTR_ID'] : null;
+		$this->car_fir_tipo = (isset($data['CAR_FIR_TIPO'])) ? $data['CAR_FIR_TIPO'] : null;
 		
 		$this->epl_nombre = (isset($data['EPL_NOMBRE'])) ? $data['EPL_NOMBRE'] : null;
 		$this->epl_apellido = (isset($data['EPL_APELLIDO'])) ? $data['EPL_APELLIDO'] : null;

@@ -10,8 +10,6 @@ $form->setAttribute ( 'action', $this->url ( 'cartas', array (
 $formLabel = $this->plugin ( 'formLabel' );
 
 $ctr_id = $form->get ( 'CTR_ID' );
-//$obr_id = $form->get ( 'OBR_ID' );
-//$obra_oculto = $form->get ( 'obra_oculto' );
 $emp_int_id = $form->get ( 'EMP_INT_ID' );
 $pro_id = $form->get ( 'PRO_ID' );
 $us_codigo = $form->get ( 'US_CODIGO' );
@@ -39,6 +37,8 @@ $empresa_oculto = $form->get ( 'empresa_oculto' );
 $proyecto_oculto = $form->get ( 'proyecto_oculto' );
 
 $proyecto_oculto = $form->get ( 'proyecto_oculto' );
+
+$car_fir_tipo = $form->get ( 'CAR_FIR_TIPO' );
 
 echo $this->form ()->openTag ( $form );
 
@@ -184,7 +184,12 @@ echo $this->formelementerrors ( $proyecto_oculto );
 						  echo html_entity_decode( $this->formelementerrors ( $cargo_uno ) );
 					?>
 					</td>
-					<td>&nbsp;</td>				
+					<td>
+					<?php echo $formLabel->openTag() . $car_fir_tipo->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formcheckbox ( $car_fir_tipo ) );
+						  echo html_entity_decode( $this->formelementerrors ( $car_fir_tipo ) ); 
+					?>
+					</td>				
 				</tr>
 				<tr>
 					<td>
@@ -230,7 +235,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	<hr />
 		<div align="center">
 		
-			<?php $codigo_final = $ctr_codigo_final->getValue();  if( !isset($codigo_final) || is_null($codigo_final) ):?>
+			<?php $codigo_final = $ctr_codigo_final->getValue(); if( empty($codigo_final) || is_null($codigo_final) ):?>
 		
 			<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
 			<?php if(strtolower($this->action) == 'editar'): ?>

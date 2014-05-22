@@ -11,12 +11,10 @@ namespace Cartas\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Cartas\Form\Carta;
-use Cartas\Model\Entity\Carta as CartaEntity;
-use Cartas\Model\Entity\CartaDestinatario;
-use Cartas\Model\Entity\CartaFirma;
+use Recepcion\Form\Recepcion;
+use Recepcion\Model\Entity\Recepcion as RecepcionEntity;
 use DOMPDFModule\View\Model\PdfModel;
-use Cartas\Form\CartaValidator;
+use Recepcion\Form\RecepcionValidator;
 
 date_default_timezone_set('America/Guayaquil');
 
@@ -292,125 +290,7 @@ class CartasController extends AbstractActionController
     	$this->redirect()->toRoute('cartas', array('controller' => 'cartas', 'action' => 'listado'));
     	
     }
-    
-    public function cartaformalAction(){
-    	
-    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
-    	
-    	$carta = $this->getCartaDao()->traer($id);
-    	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
-    	
-    	$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
-    	
-    	$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
-    	
-    	$emp_emp_id = $empresa->getEmp_emp_id();
-    	
-    	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
-    		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
-    	}else{
-    		$empresa_padre = $empresa;
-    	}
-    	
-    	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
-    	
-    	$pdf = new PdfModel();
-    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
-    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
-    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
-    	
-    	$pdf->setVariables(array(
-    			'carta' => $carta,
-    			'contacto' => $contacto,
-    			'carta_firma' => $carta_firma,
-    			'empresa' => $empresa_padre
-    	));
-    	 
-    	return $pdf;
-    	
-    }
-    
-    public function cartainformalAction(){
-    	 
-    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
-    	 
-    	$carta = $this->getCartaDao()->traer($id);
-    	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
-    	
-    	$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
-    	
-    	$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
-    	 
-    	$emp_emp_id = $empresa->getEmp_emp_id();
-    	 
-    	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
-    		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
-    	}else{
-    		$empresa_padre = $empresa;
-    	}
-    	
-    	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
-    	 
-    	$pdf = new PdfModel();
-    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
-    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
-    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
-    	 
-    	$pdf->setVariables(array(
-    			'carta' => $carta,
-    			'contacto' => $contacto,
-    			'carta_firma' => $carta_firma,
-    			'empresa' => $empresa_padre
-    	));
-    
-    	return $pdf;
-    	 
-    }
-    
-    public function cartafaxAction(){
-    
-    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
-    
-    	$carta = $this->getCartaDao()->traer($id);
-    	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
-    	 
-    	//DESTINATARIO
-    	$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
-    	$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
-    	
-    	//VARIABLE PARA VERIFICAR SI TIENE SUCURSAL O ES EMPRESA
-    	$emp_emp_id = $empresa->getEmp_emp_id();
-    
-    	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
-    		//EMPRESA A MOSTRAR DEL DESTINATARIO
-    		//SI TIENE SUCURSAL, TRAE EMPRESA
-    		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
-    	}else{
-    		//EMPRESA A MOSTRAR DEL DESTINATARIO
-    		$empresa_padre = $empresa;
-    	}
-    	
-    	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
-    	
-    	$carta_from = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
-    	
-    	$pdf = new PdfModel();
-    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
-    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
-    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
-    
-    	$pdf->setVariables(array(
-    			'carta' => $carta,
-    			'contacto' => $contacto,
-    			'carta_firma' => $carta_firma,
-    			'firma_from' => $carta_from,
-    			'empresa' => $empresa_padre
-    	));
-    
-    	return $pdf;
-    
-    }
-    
+   
     public function getForm() {
     	
     	$form = new Carta();
@@ -422,7 +302,7 @@ class CartasController extends AbstractActionController
     	$form->get ( 'PRO_ID' )->setValueOptions ( $this->getProyectoDao ()->traerTodosArreglo () );
     	return $form;
     }
-    
+    /* 
     public function getCartaDao() {
     	if (! $this->cartaDao) {
     		$sm = $this->getServiceLocator ();
@@ -493,7 +373,7 @@ class CartasController extends AbstractActionController
     		$this->contactoDao = $sm->get ( 'Cartas\Model\Dao\ContactoDao' );
     	}
     	return $this->contactoDao;
-    }
+    } */
     
     /* public function getObraDao() {
     	if (! $this->obraDao) {
@@ -502,7 +382,7 @@ class CartasController extends AbstractActionController
     	}
     	return $this->obraDao;
     } */
-    
+    /* 
     public function contactosAction(){
     	if($this->getRequest()->isXmlHttpRequest()){
     		$sucursal = $this->request->getPost('sucursal');
@@ -552,7 +432,7 @@ class CartasController extends AbstractActionController
     	}else{
     		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
     	}
-    }
+    } */
     
     /* public function obraAction(){
   	  if($this->getRequest()->isXmlHttpRequest()){

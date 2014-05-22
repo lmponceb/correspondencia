@@ -34,6 +34,8 @@ use Cartas\Model\Dao\CartaDestinatarioDao;
 use Cartas\Model\Entity\CartaDestinatario;
 use Cartas\Model\Dao\CartaFirmaDao;
 use Cartas\Model\Entity\CartaFirma;
+use Cartas\Model\Entity\FeRecepcion;
+use Cartas\Model\Dao\FeRecepcionDao;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -158,6 +160,16 @@ class Module implements AutoloaderProviderInterface
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new CartaFirma());
     						return new TableGateway('CARTA_FIRMA', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Cartas\Model\Dao\FeRecepcionDao' => function($sm){
+    						$tableGateway = $sm->get('FeRecepcionDaoTableGateway');
+    						return new FeRecepcionDao($tableGateway);
+    					},
+    					'FeRecepcionDaoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new FeRecepcion());
+    						return new TableGateway('FE_RECEPCION', $dbAdapter, null, $resultSetPrototype);
     					},
     					
     			),

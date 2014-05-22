@@ -41,9 +41,12 @@
  	 	<?php endif; ?>
  	 	
  	 	<?php if($carta->getTip_car_id() == 1):?> 
- 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartaformal', 'id' => $carta->getCtr_id()))?>" title="PDF" alt="PDF" target="_blank">PDF</a>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartaformal', 'id' => $carta->getCtr_id()))?>" title="PDF FORMAL" alt="PDF FORMAL" target="_blank">PDF</a>
  	 	<?php elseif($carta->getTip_car_id() == 2):?>
- 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartainformal', 'id' => $carta->getCtr_id()))?>" title="PDF" alt="PDF" target="_blank">PDF</a>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartainformal', 'id' => $carta->getCtr_id()))?>" title="PDF INFORMAL" alt="PDF INFORMAL" target="_blank">PDF</a>
+ 	 	<?php elseif($carta->getTip_car_id() == 3):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartafax', 'id' => $carta->getCtr_id()))?>" title="PDF FAX" alt="PDF FAX" target="_blank">PDF</a>
+ 	 	
  	 	<?php endif;?>
  	 	
  	 </td>
