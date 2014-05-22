@@ -23,17 +23,17 @@ class FeRecepcionDao {
     	$resultSet = $this->tableGateway->selectWith ( $select );
         return $resultSet;
     }
-    /* 
+    
     public function traerEmpresaInterna($id){
     	$select = $this->tableGateway->getSql ()->select ();
-    	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
-    	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
-    	$select->where(array('CTR_ID' => $id));
+    	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = FE_RECEPCION.EMP_INT_ID' );
+    	//$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
+    	$select->where(array('FE_REC_ID' => $id));
     	 
     	$resultSet = $this->tableGateway->selectWith ( $select );
     	return $resultSet;
     }
-    */
+   
     
     public function traer($id){
     	
@@ -43,94 +43,96 @@ class FeRecepcionDao {
     	$row = $resultSet->current();
     	return $row;
     }
-    /*
-    public function guardar(Carta $carta){
+   
+    public function guardar(FeRecepcion $fe_recepcion){
     	date_default_timezone_set('America/Guayaquil');
     	 
-    	$id = (int) $carta->getCtr_id();
+    	$id = (int) $fe_recepcion->getFe_rec_id();
     	 
     	$data = array(
-    			'PRO_ID' => $carta->getPro_id(),
-    			'EMP_INT_ID' => $carta->getEmp_int_id(),
-    			'US_CODIGO' => $carta->getUs_codigo(),
-    			'TIP_CAR_ID' => $carta->getTip_car_id(),
-    			'CTR_IDIOMA' => $carta->getCtr_idioma(),
-    			'CTR_FECHA_CREACION' => $carta->getCtr_fecha_creacion(),
-    			'CTR_CUERPO' => $carta->getCtr_cuerpo(),
-    			'CTR_CODIGO_FINAL' => $carta->getCtr_codigo_final(),
-    			'CTR_FECHA_ACTUALIZACION' => date('d-M-Y'),
-    			'CTR_REFERENCIA' => $carta->getCtr_referencia(),
-    			'CTR_SALUDO' => $carta->getCtr_saludo(),
-    			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
-    			'CTR_TIPO' => $carta->getCtr_tipo(),
-    			'CTR_ESTADO' => $carta->getCtr_estado()
+    			'US_CODIGO' => $fe_recepcion->getUs_codigo(),
+    			'FE_REC_TIPO' => $fe_recepcion->getFe_rec_tipo(),
+    			'FE_REC_IDIOMA' => $fe_recepcion->getFe_rec_idioma(),
+    			'FE_REC_FECHA' => date('d-M-Y'),
+    			'FE_REC_RESPONSABLE' => $fe_recepcion->getFe_rec_responsable(),
+    			'FE_REC_DESCRIPCION' => $fe_recepcion->getFe_rec_descripcion(),
+    			'FE_REC_COMPANIA' => $fe_recepcion->getFe_rec_compania(),
+    			'FE_REC_OFERENTE' => $fe_recepcion->getFe_rec_oferente(),
+    			'FE_REC_OFERTA_NOMBRE' => $fe_recepcion->getFe_rec_oferta_nombre(),
+    			'FE_REC_OFERTA_CODIGO' => $fe_recepcion->getFe_rec_oferta_codigo(),
+    			'FE_REC_FECHA_HORA' => $fe_recepcion->getFe_rec_fecha_hora(),
+    			'FE_REC_FECHA_MINUTO' => $fe_recepcion->getFe_rec_fecha_minuto(),
+    			'FE_REC_FECHA_ANIO' => $fe_recepcion->getFe_rec_fecha_anio(),
+    			'FE_REC_FECHA_MES' => $fe_recepcion->getFe_rec_fecha_mes(),
+    			'FE_REC_FECHA_DIA' => $fe_recepcion->getFe_rec_fecha_dia(),
+    			'FE_REC_SOBRE' => $fe_recepcion->getFe_rec_sobre(),
+    			'FE_REC_ESTADO' => $fe_recepcion->getFe_rec_estado(),
+    			'EMP_INT_ID' => $fe_recepcion->getEmp_int_id()
     	);
     	 
     	if(empty($id) || is_null($id)){
-    		$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');
+    		$data['FE_REC_ID'] = new Sql\Expression('s_fe_recepcion.nextVal');
     		$this->tableGateway->insert($data);
     			
-    		$adapter=$this->tableGateway->getAdapter();
-    		$query ="SELECT s_carta.currVal FROM CARTA";
-    		$statement = $adapter->query ( $query );
-    		$results =  $statement->execute ();
-    			
-    		return $results;
-    
     	}else{
     		if($this->traer($id)){
-    			$this->tableGateway->update($data, array('CTR_ID' => $id ));
+    			$this->tableGateway->update($data, array('FE_REC_ID' => $id ));
     		}else{
     			throw new \Exception( 'No se encontro el id para actualizar' );
     		}
     	}
     }
     
-    public function duplicar(Carta $carta){
+    public function duplicar(FeRecepcion $fe_recepcion){
     	date_default_timezone_set('America/Guayaquil');
     
-    	$id = (int) $carta->getCtr_id();
+    	$id = (int) $fe_recepcion->getFe_rec_id();
     
     	$data = array(
-    			//'CTR_ID' => (int) $carta->getCtr_id(),
-    			'PRO_ID' => $carta->getPro_id(),
-    			'EMP_INT_ID' => $carta->getEmp_int_id(),
     			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->us_codigo,
-    			'TIP_CAR_ID' => $carta->getTip_car_id(),
-    			'CTR_IDIOMA' => $carta->getCtr_idioma(),
-    			'CTR_FECHA_CREACION' => date('d-M-Y'),
-    			'CTR_CUERPO' => $carta->getCtr_cuerpo(),
-    			'CTR_CODIGO_FINAL' => null,
-    			'CTR_FECHA_ACTUALIZACION' => date('d-M-Y'),
-    			'CTR_REFERENCIA' => $carta->getCtr_referencia(),
-    			'CTR_SALUDO' => $carta->getCtr_saludo(),
-    			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
-    			'CTR_TIPO' => 'B',
-    			'CTR_ESTADO' => 'A'
+    			'FE_REC_TIPO' => $fe_recepcion->getFe_rec_tipo(),
+    			'FE_REC_IDIOMA' => $fe_recepcion->getFe_rec_idioma(),
+    			'FE_REC_FECHA' => date('d-M-Y'),
+    			'FE_REC_RESPONSABLE' => $fe_recepcion->getFe_rec_responsable(),
+    			'FE_REC_DESCRIPCION' => $fe_recepcion->getFe_rec_descripcion(),
+    			'FE_REC_COMPANIA' => $fe_recepcion->getFe_rec_compania(),
+    			'FE_REC_OFERENTE' => $fe_recepcion->getFe_rec_oferente(),
+    			'FE_REC_OFERTA_NOMBRE' => $fe_recepcion->getFe_rec_oferta_nombre(),
+    			'FE_REC_OFERTA_CODIGO' => $fe_recepcion->getFe_rec_oferta_codigo(),
+    			'FE_REC_FECHA_HORA' => $fe_recepcion->getFe_rec_fecha_hora(),
+    			'FE_REC_FECHA_MINUTO' => $fe_recepcion->getFe_rec_fecha_minuto(),
+    			'FE_REC_FECHA_ANIO' => $fe_recepcion->getFe_rec_fecha_anio(),
+    			'FE_REC_FECHA_MES' => $fe_recepcion->getFe_rec_fecha_mes(),
+    			'FE_REC_FECHA_DIA' => $fe_recepcion->getFe_rec_fecha_dia(),
+    			'FE_REC_SOBRE' => $fe_recepcion->getFe_rec_sobre(),
+    			'FE_REC_ESTADO' => 'B',
+    			'EMP_INT_ID' => $fe_recepcion->getEmp_int_id()
     	);
     	
-    	$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');
+    	
+    	
+    	$data['FE_REC_ID'] = new Sql\Expression('s_fe_recepcion.nextVal');
     	$this->tableGateway->insert($data);
 
-    	
+    	/* 
     	$adapter=$this->tableGateway->getAdapter();
     	$query ="SELECT s_carta.currVal FROM CARTA";
     	$statement = $adapter->query ( $query );
     	$results =  $statement->execute ();
     	 
-    	return $results;
+    	return $results; */
     }
-    
+   
 	public function procesar($id, $role, $anio, $empresa_interna){
 		
-		$data['CTR_TIPO'] = 'P';
-		$data['CTR_CODIGO_FINAL'] = $empresa_interna . '-' . $role . '-' . $anio . '-' . $id;
+		$data['FE_REC_ESTADO'] = 'P';
+		//$data['FE_REC_OFERTA_CODIGO'] = $empresa_interna . '-' . $role . '-' . $anio . '-' . $id;
 
 		if($this->traer($id)){
-			$this->tableGateway->update($data, array('CTR_ID' => $id ));
+			$this->tableGateway->update($data, array('FE_REC_ID' => $id ));
 				
 		}else{
 			throw new \Exception( 'No se encontro el id para actualizar' );
 		}
-	} */
+	} 
 }

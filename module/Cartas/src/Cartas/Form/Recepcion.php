@@ -71,6 +71,7 @@ class Recepcion extends Form {
 						'type' => 'text',
 						'maxlenght' => '50',
 						'id' => 'FE_REC_TIPO',
+						'value' => 'Bid Submittal Form',
 						'class' => 'form-control'
 				)
 		) );
@@ -176,6 +177,8 @@ class Recepcion extends Form {
 				'attributes' => array (
 						'type' => 'text',
 						'maxlenght' => '75',
+						'readonly' => 'readonly',
+						'value' => 'AZULEC',
 						'id' => 'FE_REC_OFERENTE',
 						'class' => 'form-control'
 				)
@@ -207,11 +210,12 @@ class Recepcion extends Form {
 		$this->add ( array (
 				'name' => 'FE_REC_OFERTA_CODIGO',
 				'options' => array (
-						'label' => 'C&oacute;digo de la Oferta*:'
+						'label' => 'C&oacute;digo de la Oferta:'
 				),
 				'attributes' => array (
 						'type' => 'text',
 						'maxlenght' => '100',
+						//'readonly' => 'readonly',
 						'id' => 'FE_REC_OFERTA_CODIGO',
 						'class' => 'form-control'
 				)
@@ -222,7 +226,7 @@ class Recepcion extends Form {
 		 * CAMPO HORA
 		 * ********************************************/
 		$hora = new Select('FE_REC_FECHA_HORA');
-		$hora->setLabel('hh: ');
+		$hora->setLabel('HH*: ');
 		$hora->setAttributes(array('class' => 'form-control'));
 		$hora->setAttributes(array('id' => 'FE_REC_FECHA_HORA'));
 		$hora->setEmptyOption('-- Seleccione --');
@@ -260,7 +264,7 @@ class Recepcion extends Form {
 		 * CAMPO MINUTOS
 		* ********************************************/
 		$minuto = new Select('FE_REC_FECHA_MINUTO');
-		$minuto->setLabel('mm: ');
+		$minuto->setLabel('MM*: ');
 		$minuto->setAttributes(array('class' => 'form-control'));
 		$minuto->setAttributes(array('id' => 'FE_REC_FECHA_MINUTO'));
 		$minuto->setEmptyOption('-- Seleccione --');
@@ -335,7 +339,7 @@ class Recepcion extends Form {
 		 * CAMPO ANIO
 		* ********************************************/
 		$anio = new Select('FE_REC_FECHA_ANIO');
-		$anio->setLabel('A&ntilde;o: ');
+		$anio->setLabel('A&ntilde;o*: ');
 		$anio->setAttributes(array('class' => 'form-control'));
 		$anio->setAttributes(array('id' => 'FE_REC_FECHA_ANIO'));
 		$anio->setEmptyOption('-- Seleccione --');
@@ -368,7 +372,7 @@ class Recepcion extends Form {
 		 * CAMPO MES
 		* ********************************************/
 		$mes = new Select('FE_REC_FECHA_MES');
-		$mes->setLabel('Mes: ');
+		$mes->setLabel('Mes*: ');
 		$mes->setAttributes(array('class' => 'form-control'));
 		$mes->setAttributes(array('id' => 'FE_REC_FECHA_MES'));
 		$mes->setEmptyOption('-- Seleccione --');
@@ -396,7 +400,7 @@ class Recepcion extends Form {
 		 * CAMPO DIA
 		* ********************************************/
 		$dia = new Select('FE_REC_FECHA_DIA');
-		$dia->setLabel('D&iacute;a: ');
+		$dia->setLabel('D&iacute;a*: ');
 		$dia->setAttributes(array('class' => 'form-control'));
 		$dia->setAttributes(array('id' => 'FE_REC_FECHA_DIA'));
 		$dia->setEmptyOption('-- Seleccione --');

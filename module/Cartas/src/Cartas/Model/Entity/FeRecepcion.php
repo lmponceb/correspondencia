@@ -21,6 +21,7 @@ class FeRecepcion {
 	private $fe_rec_fecha_dia;
 	private $fe_rec_sobre;
 	private $fe_rec_estado;
+	private $emp_int_id;
 	
 	function __construct() {}
 
@@ -151,6 +152,13 @@ class FeRecepcion {
 	}
 
 	/**
+	 * @return the $emp_int_id
+	 */
+	public function getEmp_int_id() {
+		return $this->emp_int_id;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $fe_rec_id
 	 */
 	public function setFe_rec_id($fe_rec_id) {
@@ -276,6 +284,13 @@ class FeRecepcion {
 		$this->fe_rec_estado = $fe_rec_estado;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $emp_int_id
+	 */
+	public function setEmp_int_id($emp_int_id) {
+		$this->emp_int_id = $emp_int_id;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->fe_rec_id = (isset($data['FE_REC_ID'])) ? $data['FE_REC_ID'] : null;
@@ -296,6 +311,7 @@ class FeRecepcion {
 		$this->fe_rec_fecha_dia = (isset($data['FE_REC_FECHA_DIA'])) ? $data['FE_REC_FECHA_DIA'] : null;
 		$this->fe_rec_sobre = (isset($data['FE_REC_SOBRE'])) ? $data['FE_REC_SOBRE'] : null;
 		$this->fe_rec_estado = (isset($data['FE_REC_ESTADO'])) ? $data['FE_REC_ESTADO'] : null;
+		$this->emp_int_id = (isset($data['EMP_INT_ID'])) ? $data['EMP_INT_ID'] : null;
 	}
 	
 	public function getArrayCopy(){

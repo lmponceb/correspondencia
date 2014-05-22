@@ -115,51 +115,67 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_oferente ) );
 					?>
 					</td>	
-					<td>&nbsp;</td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>	
-				</tr>
-				<tr>
-					<td colspan="3">
-					<?php echo $formLabel->openTag() . $fe_rec_oferta_nombre->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $fe_rec_oferta_nombre ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_oferta_nombre ) );
-					?>
-					</td>
-				</tr>
-				<tr>
 					<td>
 					<?php echo $formLabel->openTag() . $fe_rec_oferta_codigo->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $fe_rec_oferta_codigo ) );
 						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_oferta_codigo ) );
 					?>
 					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $fe_rec_fecha_hora->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_hora ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_hora ) );
+				</tr>
+				<tr>
+					<td colspan="3">
+					<?php echo $formLabel->openTag() . $fe_rec_oferta_nombre->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $fe_rec_oferta_nombre ) );
+						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_oferta_nombre ) );
 					?>
-					<?php echo $formLabel->openTag() . $fe_rec_fecha_minuto->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_minuto ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_minuto ) );
-					?>
-					
 					</td>
-					<td>
-					<?php echo $formLabel->openTag() . $fe_rec_fecha_anio->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_anio ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_anio ) ); 
-					?>
-					<?php echo $formLabel->openTag() . $fe_rec_fecha_mes->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_mes ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_mes ) );
-					?>
-					<?php echo $formLabel->openTag() . $fe_rec_fecha_dia->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_dia ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_dia ) );
-					?>
-					</td>				
+				</tr>
+				<tr>
+					<td colspan="3">
+					<table width="100%" style="border-bottom: 2px solid #D8D8D8;">
+						<tr>
+							<td colspan="3" align="center" style="background-color: #EEEEEE; border-right: 2px solid #D8D8D8;">Fecha de Entrega</td>
+							<td colspan="2" align="center" style="background-color: #EEEEEE;">Hora de Entrega</td>
+						</tr>
+						<tr>
+							<td style="border-right: 2px solid #D8D8D8;">
+							<?php 
+								  echo $formLabel->openTag() . $fe_rec_fecha_anio->getLabel() . $formLabel->closeTag();
+							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_anio ) );
+								  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_anio ) ); 
+							?>
+							</td>
+							<td style="border-right: 2px solid #D8D8D8;">
+							<?php 
+							echo $formLabel->openTag() . $fe_rec_fecha_mes->getLabel() . $formLabel->closeTag();
+							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_mes ) );
+								  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_mes ) );
+							?>
+							</td>
+							<td style="border-right: 2px solid #D8D8D8;">
+							<?php 
+							echo $formLabel->openTag() . $fe_rec_fecha_dia->getLabel() . $formLabel->closeTag();
+							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_dia ) );
+								  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_dia ) );
+							?>
+							</td>
+							<td style="border-right: 2px solid #D8D8D8;">
+							<?php 
+							echo $formLabel->openTag() . $fe_rec_fecha_hora->getLabel() . $formLabel->closeTag();
+							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_hora ) );
+						 		  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_hora ) );
+							?>
+							</td>
+							<td>
+							<?php 
+							echo $formLabel->openTag() . $fe_rec_fecha_minuto->getLabel() . $formLabel->closeTag();
+							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_minuto ) );
+						  		  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_minuto ) );
+							?>
+							</td>
+						</tr>
+					</table>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -177,7 +193,7 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 	<hr />
 		<div align="center">
 		
-			<?php $codigo_final = $fe_rec_oferta_codigo->getValue(); if( empty($codigo_final) || is_null($codigo_final) ):?>
+			<?php $estado = $fe_rec_estado->getValue(); if( strtoupper($estado) != 'P' ):?>
 		
 			<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
 			<?php if(strtolower($this->action) == 'editar'): ?>
