@@ -35,10 +35,23 @@ $con_id = $form->get ( 'CON_ID' );
 $contacto_oculto = $form->get ( 'contacto_oculto' );
 $empresa_oculto = $form->get ( 'empresa_oculto' );
 $proyecto_oculto = $form->get ( 'proyecto_oculto' );
-
-$proyecto_oculto = $form->get ( 'proyecto_oculto' );
-
+//$proyecto_oculto = $form->get ( 'proyecto_oculto' );
 $car_fir_tipo = $form->get ( 'CAR_FIR_TIPO' );
+
+//CAMPOS PARA TIPO DE CARTA TRANSFERENCIA DE SUELDOS
+$tra_sue_valor_debito = $form->get ( 'TRA_SUE_VALOR_DEBITO' );
+$tra_sue_numero_creditos = $form->get ( 'TRA_SUE_NUMERO_CREDITOS' );
+$tra_sue_valor_maximo = $form->get ( 'TRA_SUE_VALOR_MAXIMO' );
+
+//CAMPOS PARA INGRESAR TRANSACCION BANCARIA
+$tra_ban_beneficiario = $form->get ( 'TRA_BAN_BENEFICIARIO' );
+$tra_ban_direccion = $form->get ( 'TRA_BAN_DIRECCION' );
+$tra_ban_cuenta = $form->get ( 'TRA_BAN_CUENTA' );
+$tra_ban_valor = $form->get ( 'TRA_BAN_VALOR' );
+$tra_ban_aba = $form->get ( 'TRA_BAN_ABA' );
+$tra_ban_banco = $form->get ( 'TRA_BAN_BANCO' );
+$tra_ban_banco_linea_dos = $form->get ( 'TRA_BAN_BANCO_LINEA_DOS' );
+$tra_ban_banco_direccion = $form->get ( 'TRA_BAN_BANCO_DIRECCION' );
 
 echo $this->form ()->openTag ( $form );
 
@@ -227,12 +240,108 @@ echo $this->formelementerrors ( $proyecto_oculto );
 					</td>
 					
 				</tr>
+				<tr>
+					<td colspan="3" ><br /><hr /></td>
+				</tr>
+				<tr id="tr_trans_sueldo" style="display: none;">
+					<td colspan="3">
+						<table align="left" width="74%" cellpadding="5">
+							<tr>
+								<td colspan="3"><h3 align="left">Datos para transacci&oacute;n bancaria</h3><hr /></td>
+							</tr>
+							<tr>
+								<td width="200"><?php echo $formLabel->openTag() . $tra_sue_valor_debito->getLabel() . $formLabel->closeTag();  ?></td>
+								<td>
+								<?php echo html_entity_decode( $this->formtext ( $tra_sue_valor_debito ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_sue_valor_debito ) );?>
+								</td>
+							</tr>
+							<tr>
+								<td><?php echo $formLabel->openTag() . $tra_sue_numero_creditos->getLabel() . $formLabel->closeTag();  ?></td>
+								<td>
+								<?php echo html_entity_decode( $this->formtext ( $tra_sue_numero_creditos ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_sue_numero_creditos ) );?>
+								</td>
+							</tr>
+							<tr>
+								<td><?php echo $formLabel->openTag() . $tra_sue_valor_maximo->getLabel() . $formLabel->closeTag();  ?></td>
+								<td>
+								<?php echo html_entity_decode( $this->formtext ( $tra_sue_valor_maximo ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_sue_valor_maximo ) );?>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr id="tr_trans_bancaria" style="display: none;">
+					<td colspan="3">
+						<table width="100%" cellpadding="5" border="0">
+							<tr>
+								<td colspan="3"><h3 align="left">Datos para transacci&oacute;n bancaria</h3><hr /></td>
+							</tr>
+							<tr>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_beneficiario->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext( $tra_ban_beneficiario ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_beneficiario ) ); 
+								?>
+								</td>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_direccion->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext ( $tra_ban_direccion ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_direccion ) ); 
+								?>
+								</td>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_cuenta->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext ( $tra_ban_cuenta ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_cuenta ) );
+								?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_valor->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext( $tra_ban_valor ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_valor ) ); 
+								?>
+								</td>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_aba->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext ( $tra_ban_aba ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_aba ) ); 
+								?>
+								</td>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_banco->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext ( $tra_ban_banco ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_banco ) );
+								?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_banco_linea_dos->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext( $tra_ban_banco_linea_dos ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_banco_linea_dos ) ); 
+								?>
+								</td>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_banco_direccion->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext ( $tra_ban_banco_direccion ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_banco_direccion ) ); 
+								?>
+								</td>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
 			</table>
 			</div>
 		</td>
 	</tr>
 </table>
-	<hr />
 		<div align="center">
 		
 			<?php $codigo_final = $ctr_codigo_final->getValue(); if( empty($codigo_final) || is_null($codigo_final) ):?>
@@ -247,13 +356,9 @@ echo $this->formelementerrors ( $proyecto_oculto );
 			
 			
 			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'listado'))?>" class ="btn btn-primary">Cancelar</a>
-			
-			
 		</div>	
 					
 <?php echo $this->form()->closeTag(); ?>
-
-
 <script>
 
 	$(document).ready(function(){
@@ -385,65 +490,37 @@ echo $this->formelementerrors ( $proyecto_oculto );
         		};
     		
         }
-/*
-        $("#PRO_ID").change(function() {
-			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
-	            $.ajax({
-	                url: "<?php //echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "proyecto=" + $('#PRO_ID').val(),
-	                beforeSend: function() {
-	                	 $("#OBR_ID").html("");
-	                	 $("#OBR_ID").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(obras) {
-	                $("#OBR_ID").html("");
-	                $("#OBR_ID").append('<option value = "">-- Seleccione una obra --</option>');
-	                var selected = '';
-	                for (obra in obras) {
-	                    $("#OBR_ID").append('<option value="' + obra + '">' + obras[obra] + '</option>');
-	                }
-	                $("#OBR_ID").prop("disabled", false);
-	            });
+
+		$('#TIP_CAR_ID').change(function(){
+			if($('#TIP_CAR_ID').val() == 5){
+				$('#tr_trans_sueldo').attr('style','display:true');
 			}else{
-				$("#OBR_ID").prop("disabled", true);
+				$('#tr_trans_sueldo').attr('style','display:none');
 			}
-        });
 
-        $("#PRO_ID").ready(function() {
-			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
-	            $.ajax({
-	                url: "<?php //echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'obra')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "proyecto=" + $('#PRO_ID').val(),
-	                beforeSend: function() {
-	                	 $("#OBR_ID").html("");
-	                	 $("#OBR_ID").append('<option>Procesando, espere por favor...</option>');
-	                }
-	            }).done(function(obras) {
-	                $("#OBR_ID").html("");
-	                $("#OBR_ID").append('<option value = "">-- Seleccione una obra --</option>');
-	                var selected = '';
-	                for (obra in obras) {
-
-	                	if($("#obra_oculto").val() == obra){
-							selected = 'selected="selected"';
-						}else{
-							selected = '';
-						}
-
-		                
-	                    $("#OBR_ID").append('<option value="' + obra + '" '+selected+'>' + obras[obra] + '</option>');
-	                }
-	                $("#OBR_ID").prop("disabled", false);
-	            });
+			if($('#TIP_CAR_ID').val() == 4){
+				$('#tr_trans_bancaria').attr('style','display:true');
 			}else{
-				$("#OBR_ID").prop("disabled", true);
+				$('#tr_trans_bancaria').attr('style','display:none');
 			}
-        });
-        */
+
+			
+	
+		})
+
+		$('#TIP_CAR_ID').ready(function(){
+			if($('#TIP_CAR_ID').val() == 5){
+				$('#tr_trans_sueldo').attr('style','display:true');
+			}else{
+				$('#tr_trans_sueldo').attr('style','display:none');
+			}
+
+			if($('#TIP_CAR_ID').val() == 4){
+				$('#tr_trans_bancaria').attr('style','display:true');
+			}else{
+				$('#tr_trans_bancaria').attr('style','display:none');
+			}
+		})
 
 	});
 </script>

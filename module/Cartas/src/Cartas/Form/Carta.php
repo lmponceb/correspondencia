@@ -414,6 +414,7 @@ class Carta extends Form {
 		
 		$this->add ( array (
 				'name' => 'sucursal_oculto',
+				
 				'attributes' => array (
 						'type' => 'hidden',
 						'maxlenght' => '11',
@@ -462,6 +463,157 @@ class Carta extends Form {
 						'type' => 'hidden',
 						'maxlenght' => '11',
 						'id' => 'contacto_oculto',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
+		/************** CAMPOS PARA TRANSFERENCIA DE SUELDOS ******************/
+		
+		$this->add ( array (
+				'name' => 'TRA_SUE_VALOR_DEBITO',
+				'options' => array (
+						'label' => 'Valor del D&eacute;bito*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '14',
+						'id' => 'TRA_SUE_VALOR_DEBITO',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
+		$this->add ( array (
+				'name' => 'TRA_SUE_NUMERO_CREDITOS',
+				'options' => array (
+						'label' => 'N&uacute;mero de Cr&eacute;ditos*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '11',
+						'id' => 'TRA_SUE_NUMERO_CREDITOS',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_SUE_VALOR_MAXIMO',
+				'options' => array (
+						'label' => 'Valor M&aacute;ximo de Cr&eacute;dito*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '14',
+						'id' => 'TRA_SUE_VALOR_MAXIMO',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
+		/************** CAMPOS PARA TRANSACCION BANCARIA ******************/
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_BENEFICIARIO',
+				'options' => array (
+						'label' => 'Beneficiario*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '70',
+						'id' => 'TRA_BAN_BENEFICIARIO',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_DIRECCION',
+				'options' => array (
+						'label' => 'Direcci&oacute;n Beneficiario*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '150',
+						'id' => 'TRA_BAN_DIRECCION',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_CUENTA',
+				'options' => array (
+						'label' => 'Cuenta No.*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '25',
+						'id' => 'TRA_BAN_CUENTA',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_VALOR',
+				'options' => array (
+						'label' => 'Valor*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '15',
+						'id' => 'TRA_BAN_VALOR',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_ABA',
+				'options' => array (
+						'label' => 'ABA No.*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '100',
+						'id' => 'TRA_BAN_ABA',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_BANCO',
+				'options' => array (
+						'label' => 'Nombre del banco*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '100',
+						'id' => 'TRA_BAN_BANCO',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_BANCO_LINEA_DOS',
+				'options' => array (
+						'label' => 'Informaci&oacute;n Adicional'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '100',
+						'id' => 'TRA_BAN_BANCO_LINEA_DOS',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_BANCO_DIRECCION',
+				'options' => array (
+						'label' => 'Direcci&oacute;n del banco*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '150',
+						'id' => 'TRA_BAN_BANCO_DIRECCION',
 						'class' => 'form-control'
 				)
 		) );
