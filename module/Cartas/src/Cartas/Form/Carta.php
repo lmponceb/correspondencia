@@ -29,18 +29,23 @@ class Carta extends Form {
 		
 		
 		/* ********************************************
-		 * CAMPO OBRA OCULTO
+		 * CAMPO ACTIVAR DIRECCION
 		 * ********************************************/
 		
-		/* $this->add ( array (
-				'name' => 'obra_oculto',
-				'attributes' => array (
-						'type' => 'hidden',
-						'maxlenght' => '11',
-						'id' => 'obra_oculto',
-						'class' => 'form-control'
-				)
-		) ); */
+		$ctr_activar_direccion = new Select('CTR_ACTIVAR_DIRECCION');
+		$ctr_activar_direccion->setLabel('&iquest;Mostrar direcci&oacute;n?*: ');
+		$ctr_activar_direccion->setAttributes(array('class' => 'form-control'));
+		$ctr_activar_direccion->setAttributes(array('id' => 'CTR_ACTIVAR_DIRECCION'));
+		$ctr_activar_direccion->setEmptyOption('-- Seleccione --');
+		$ctr_activar_direccion->setValueOptions(array(
+				'E' => 'S&iacute; - Mostrar direcci&oacute;n de la empresa',
+				'C' => 'S&iacute; - Mostrar direcci&oacute;n del contacto',
+				'N' => 'No mostrar direcci&oacute;n',
+		));
+		$ctr_activar_direccion->setOptions(array(
+				'disable_inarray_validator' => false, // <-- disable
+		));
+		$this->add($ctr_activar_direccion);
 		
 		
 		/* ********************************************
@@ -140,11 +145,14 @@ class Carta extends Form {
 		
 		$this->add ( array (
 				'name' => 'CTR_FECHA_CREACION',
+				'options' => array (
+						'label' => 'Fecha*:'
+				),
 				'attributes' => array (
-						'type' => 'hidden',
+						'type' => 'text',
 						'maxlenght' => '10',
 						'id' => 'CTR_FECHA_CREACION',
-						'class' => 'form-control',
+						'class' => 'form-control fecha_nacimiento',
 						'value' => date('d-M-Y')
 				)
 		) );
@@ -617,6 +625,34 @@ class Carta extends Form {
 						'class' => 'form-control'
 				)
 		) );
+		
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_CC',
+				'options' => array (
+						'label' => 'CC:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '75',
+						'id' => 'TRA_BAN_CC',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
+		$tra_ban_detalle = new Select('TRA_BAN_DETALLE');
+		$tra_ban_detalle->setLabel('&iquest;Mostrar detalle?*: ');
+		$tra_ban_detalle->setAttributes(array('class' => 'form-control'));
+		$tra_ban_detalle->setAttributes(array('id' => 'TRA_BAN_DETALLE'));
+		$tra_ban_detalle->setValueOptions(array(
+				'S' => 'S&iacute;',
+				'N' => 'No',
+		));
+		$tra_ban_detalle->setOptions(array(
+				'disable_inarray_validator' => false, // <-- disable
+		));
+		$this->add($tra_ban_detalle);
 		
 		
 		//BOTON DE SUBMIT

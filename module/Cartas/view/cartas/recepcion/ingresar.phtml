@@ -23,9 +23,10 @@ $fe_rec_oferta_nombre = $form->get ( 'FE_REC_OFERTA_NOMBRE' );
 $fe_rec_oferta_codigo = $form->get ( 'FE_REC_OFERTA_CODIGO' );
 $fe_rec_fecha_hora = $form->get ( 'FE_REC_FECHA_HORA' );
 $fe_rec_fecha_minuto = $form->get ( 'FE_REC_FECHA_MINUTO' );
-$fe_rec_fecha_anio = $form->get ( 'FE_REC_FECHA_ANIO' );
-$fe_rec_fecha_mes = $form->get ( 'FE_REC_FECHA_MES' );
-$fe_rec_fecha_dia = $form->get ( 'FE_REC_FECHA_DIA' );
+$fe_rec_fecha = $form->get ( 'FE_REC_FECHA' );
+//$fe_rec_fecha_anio = $form->get ( 'FE_REC_FECHA_ANIO' );
+//$fe_rec_fecha_mes = $form->get ( 'FE_REC_FECHA_MES' );
+//$fe_rec_fecha_dia = $form->get ( 'FE_REC_FECHA_DIA' );
 $fe_rec_sobre = $form->get ( 'FE_REC_SOBRE' );
 $fe_rec_estado = $form->get ( 'FE_REC_ESTADO' );
 
@@ -138,25 +139,11 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 							<td colspan="2" align="center" style="background-color: #EEEEEE;">Hora de Entrega</td>
 						</tr>
 						<tr>
-							<td style="border-right: 2px solid #D8D8D8;">
+							<td colspan="3" style="border-right: 2px solid #D8D8D8;">
 							<?php 
-								  echo $formLabel->openTag() . $fe_rec_fecha_anio->getLabel() . $formLabel->closeTag();
-							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_anio ) );
-								  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_anio ) ); 
-							?>
-							</td>
-							<td style="border-right: 2px solid #D8D8D8;">
-							<?php 
-							echo $formLabel->openTag() . $fe_rec_fecha_mes->getLabel() . $formLabel->closeTag();
-							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_mes ) );
-								  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_mes ) );
-							?>
-							</td>
-							<td style="border-right: 2px solid #D8D8D8;">
-							<?php 
-							echo $formLabel->openTag() . $fe_rec_fecha_dia->getLabel() . $formLabel->closeTag();
-							      echo html_entity_decode( $this->formselect ( $fe_rec_fecha_dia ) );
-								  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha_dia ) );
+								  echo $formLabel->openTag() . $fe_rec_fecha->getLabel() . $formLabel->closeTag();
+							      echo html_entity_decode( $this->formtext ( $fe_rec_fecha ) );
+								  echo html_entity_decode( $this->formelementerrors ( $fe_rec_fecha ) ); 
 							?>
 							</td>
 							<td style="border-right: 2px solid #D8D8D8;">
@@ -213,30 +200,17 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 
 
 <script>
-/*
 	$(document).ready(function(){
 
-        function traerCargo(id, val, cargo){
-        	//FUNCION PARA TRAER EL CARGO DE UN EMPLEADO
-    		
-    			if(val != '' && val != null){
-    				
-    	            $.ajax({
-    	                url: "<?php //echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cargo')) ?>",
-    	                type: "POST",
-    	                dataType: "json",
-    	                data: "empleado=" + val,
-    	                beforeSend: function() {
-    	                	$("#"+cargo).val("Procesando, espere por favor...");
-    	                }
-    	            }).done(function(cargobdd) {
-    	            		$("#"+cargo).val(" " + cargobdd["epl_cargo"]);
-    	            });
-    			}else{
-    				$("#"+cargo).prop("disabled", true);
-        		};
-    		
-        }
+		//FUNCION PARA CARGAR LA FECHA DE NACIMIENTO CON UN DATEPICKER
+		$( "#FE_REC_FECHA" ).datepicker({
+			dateFormat:'dd-M-y',
+			changeMonth: true,
+			 changeYear: true,
+			 yearRange: '-100:+0',
+			 showOn: "button",
+		            buttonImage: "<?php echo $this->basePath('img/calendar.gif')?>",
+		            buttonImageOnly: true
+		});
 	});
-	*/
 </script>

@@ -15,6 +15,10 @@ class Empresa {
 	private $emp_pagina_web;
 	private $emp_fecha_actualizacion;
 	private $emp_usuario;
+	
+	private $ciu_nombre;
+	private $est_nombre;
+	private $pai_nombre;
 
 	function __construct() {}
 	
@@ -103,6 +107,27 @@ class Empresa {
 	}
 
 	/**
+	 * @return the $ciu_nombre
+	 */
+	public function getCiu_nombre() {
+		return $this->ciu_nombre;
+	}
+
+	/**
+	 * @return the $est_nombre
+	 */
+	public function getEst_nombre() {
+		return $this->est_nombre;
+	}
+
+	/**
+	 * @return the $pai_nombre
+	 */
+	public function getPai_nombre() {
+		return $this->pai_nombre;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $emp_id
 	 */
 	public function setEmp_id($emp_id) {
@@ -186,6 +211,27 @@ class Empresa {
 		$this->emp_usuario = $emp_usuario;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $ciu_nombre
+	 */
+	public function setCiu_nombre($ciu_nombre) {
+		$this->ciu_nombre = $ciu_nombre;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $est_nombre
+	 */
+	public function setEst_nombre($est_nombre) {
+		$this->est_nombre = $est_nombre;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $pai_nombre
+	 */
+	public function setPai_nombre($pai_nombre) {
+		$this->pai_nombre = $pai_nombre;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->emp_id = (isset($data['EMP_ID'])) ? $data['EMP_ID'] : null;
@@ -200,6 +246,10 @@ class Empresa {
 		$this->emp_pagina_web = (isset($data['EMP_PAGINA_WEB'])) ? $data['EMP_PAGINA_WEB'] : null;
 		$this->emp_fecha_actualizacion = (isset($data['EMP_FECHA_ACTUALIZACION'])) ? $data['EMP_FECHA_ACTUALIZACION'] : null;
 		$this->emp_usuario = (isset($data['EMP_USUARIO'])) ? $data['EMP_USUARIO'] : null;
+		
+		$this->ciu_nombre = (isset($data['CIU_NOMBRE'])) ? $data['CIU_NOMBRE'] : null;
+		$this->est_nombre = (isset($data['EST_NOMBRE'])) ? $data['EST_NOMBRE'] : null;
+		$this->pai_nombre = (isset($data['PAI_NOMBRE'])) ? $data['PAI_NOMBRE'] : null;
 	}
 	
 	public function getArrayCopy(){

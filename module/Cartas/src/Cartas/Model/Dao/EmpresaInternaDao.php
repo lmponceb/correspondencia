@@ -18,6 +18,15 @@ class EmpresaInternaDao {
     	return $this->tableGateway->select ();
     }
     
+    public function traer($id){
+    	
+    	$id = (int)$id;
+    	
+    	$resultset =  $this->tableGateway->select (array('EMP_INT_ID' => $id));
+    	$row = $resultset->current();
+    	return $row;
+    }
+    
     public function traerTodosArreglo(){
     	 
     	$sql = new Sql($this->tableGateway->getAdapter());
