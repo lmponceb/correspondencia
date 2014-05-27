@@ -17,6 +17,8 @@ use Cartas\Model\Entity\CartaDestinatario;
 use Cartas\Model\Entity\CartaFirma;
 use DOMPDFModule\View\Model\PdfModel;
 use Cartas\Form\CartaValidator;
+use Cartas\Model\Entity\TransferenciaSueldo;
+use Cartas\Model\Entity\TransaccionBancaria;
 
 date_default_timezone_set('America/Guayaquil');
 
@@ -34,6 +36,8 @@ class CartasController extends AbstractActionController
 	protected $cartaFirmaDao;
 	protected $tipo_usuario;
 	protected $privado;
+	protected $transferenciaSueldoDao;
+	protected $transaccionBancariaDao;
 	
     public function listadoAction()
     {
@@ -108,6 +112,27 @@ class CartasController extends AbstractActionController
     	$form->get('CAR_FIR_TIPO')->setAttribute('checked', 'checked');
     	$form->get('EPL_ID_DOS')->setAttribute('value', (int)$array[1]['EPL_ID']);
     	
+    	$tipo_carta = $carta->getTip_car_id();
+    	
+    	if($tipo_carta == 5){
+    		$transferencia = $this->getTransferenciaSueldoDao()->traerTodosPorCarta($id);
+    		$form->get('TRA_SUE_VALOR_DEBITO')->setAttribute('value', $transferencia->getTra_sue_valor_debito());
+    		$form->get('TRA_SUE_NUMERO_CREDITOS')->setAttribute('value', $transferencia->getTra_sue_numero_creditos());
+    		$form->get('TRA_SUE_VALOR_MAXIMO')->setAttribute('value', $transferencia->getTra_sue_valor_maximo());
+    	}
+    	
+    	if($tipo_carta == 4){
+     		$transaccion = $this->getTransaccionBancariaDao()->traerTodosPorCarta($id);
+     		$form->get('TRA_BAN_BENEFICIARIO')->setAttribute('value', $transaccion->getTra_ban_beneficiario());
+     		$form->get('TRA_BAN_DIRECCION')->setAttribute('value', $transaccion->getTra_ban_direccion());
+     		$form->get('TRA_BAN_CUENTA')->setAttribute('value', $transaccion->getTra_ban_cuenta());
+     		$form->get('TRA_BAN_VALOR')->setAttribute('value', $transaccion->getTra_ban_valor());
+     		$form->get('TRA_BAN_ABA')->setAttribute('value', $transaccion->getTra_ban_aba());
+     		$form->get('TRA_BAN_BANCO')->setAttribute('value', $transaccion->getTra_ban_banco());
+     		$form->get('TRA_BAN_BANCO_LINEA_DOS')->setAttribute('value', $transaccion->getTra_ban_banco_linea_dos());
+     		$form->get('TRA_BAN_BANCO_DIRECCION')->setAttribute('value', $transaccion->getTra_ban_banco_direccion());
+    	}
+    	
     	$view = new ViewModel ( array (
     			'formulario' => $form ,
     			//'tipo_usuario' => $this->tipo_usuario,
@@ -138,6 +163,24 @@ class CartasController extends AbstractActionController
 		
 		//SE VALIDA EL FORMULARIO
 		$form->setInputFilter ( new CartaValidator() );
+		
+		//SE VALIDAN LOS CAMPOS CUANDO LA CARTA ES TRANSFERENCIA DE SUELDOS
+		if($data['TIP_CAR_ID'] == 5){
+			$form->getInputFilter()->get('TRA_SUE_VALOR_DEBITO')->setRequired(true);
+			$form->getInputFilter()->get('TRA_SUE_NUMERO_CREDITOS')->setRequired(true);
+			$form->getInputFilter()->get('TRA_SUE_VALOR_MAXIMO')->setRequired(true);
+		}
+		
+		//SE VALIDAN LOS CAMPOS CUANDO LA CARTA ES TRANSACCION BANCARIA
+		if($data['TIP_CAR_ID'] == 4){
+			$form->getInputFilter()->get('TRA_BAN_BENEFICIARIO')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_DIRECCION')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_CUENTA')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_VALOR')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_ABA')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_BANCO')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_BANCO_DIRECCION')->setRequired(true);
+		}
 		
 		//SE LLENAN LOS DATOS DEL FORMULARIO
 		$form->setData ( $data );
@@ -171,11 +214,11 @@ class CartasController extends AbstractActionController
 		if(!empty($data['CTR_ID']) && !is_null($data['CTR_ID'])){
 			
 			//SI EL USURIO ES DIFERENTE DE OPERADOR, PUEDE ELIMINAR LA INFORMACION
-
 			$this->getCartaFirmaDao()->eliminarPorCarta($data['CTR_ID']);
 			$this->getCartaDestinatarioDao()->eliminarPorCarta($data['CTR_ID']);
 			
 			$codigo_carta = $data['CTR_ID'];
+			
 		}else{
 			$arreglo = array();
 			foreach($codigo_carta as $codigo){
@@ -183,6 +226,45 @@ class CartasController extends AbstractActionController
 			}
 			
 			$codigo_carta = $arreglo[0]['CURRVAL'];
+		}
+		
+		if($data['TIP_CAR_ID'] == 5){
+			//GUARDAR EN TRANSFERENCIA DE SUELDO
+				
+			if(!empty($data['CTR_ID']) && !is_null($data['CTR_ID'])){
+				$this->getTransferenciaSueldoDao()->eliminarPorCarta($data['CTR_ID']);
+			}
+				
+			$transferenciaSueldo = new TransferenciaSueldo();
+			$transferenciaSueldoParams['CTR_ID'] = $codigo_carta;
+			$transferenciaSueldoParams['TRA_SUE_VALOR_DEBITO'] = $data['TRA_SUE_VALOR_DEBITO'];
+			$transferenciaSueldoParams['TRA_SUE_NUMERO_CREDITOS'] = $data['TRA_SUE_NUMERO_CREDITOS'];
+			$transferenciaSueldoParams['TRA_SUE_VALOR_MAXIMO'] = $data['TRA_SUE_VALOR_MAXIMO'];
+			$transferenciaSueldo->exchangeArray($transferenciaSueldoParams);
+			$this->getTransferenciaSueldoDao()->guardar($transferenciaSueldo);
+				
+		}
+		
+		if($data['TIP_CAR_ID'] == 4){
+			//GUARDAR EN TRANSACCIO BANCARIA
+		
+			if(!empty($data['CTR_ID']) && !is_null($data['CTR_ID'])){
+				$this->getTransaccionBancariaDao()->eliminarPorCarta($data['CTR_ID']);
+			}
+		
+			$transaccionBancaria = new TransaccionBancaria();
+			$transaccionBancariaParams['CTR_ID'] = $codigo_carta;
+			$transaccionBancariaParams['TRA_BAN_BENEFICIARIO'] = $data['TRA_BAN_BENEFICIARIO'];
+			$transaccionBancariaParams['TRA_BAN_DIRECCION'] = $data['TRA_BAN_DIRECCION'];
+			$transaccionBancariaParams['TRA_BAN_CUENTA'] = $data['TRA_BAN_CUENTA'];
+			$transaccionBancariaParams['TRA_BAN_VALOR'] = $data['TRA_BAN_VALOR'];
+			$transaccionBancariaParams['TRA_BAN_ABA'] = $data['TRA_BAN_ABA'];
+			$transaccionBancariaParams['TRA_BAN_BANCO'] = $data['TRA_BAN_BANCO'];
+			$transaccionBancariaParams['TRA_BAN_BANCO_LINEA_DOS'] = $data['TRA_BAN_BANCO_LINEA_DOS'];
+			$transaccionBancariaParams['TRA_BAN_BANCO_DIRECCION'] = $data['TRA_BAN_BANCO_DIRECCION'];
+			$transaccionBancaria->exchangeArray($transaccionBancariaParams);
+			$this->getTransaccionBancariaDao()->guardar($transaccionBancaria);
+		
 		}
 		
 		//GRABA LA INFORMACION DEL DESTINATARIO DE LA CARTA
@@ -288,6 +370,20 @@ class CartasController extends AbstractActionController
     	
     	foreach ($carta_firma as $fir){
     		$this->getCartaFirmaDao() ->duplicar ( $fir, $codigo_carta );
+    	}
+    	
+    	$tipo_carta = $carta->getTip_car_id();
+    	
+    	//TRANSACCION BANCARIA
+    	if($tipo_carta == 4){
+    		$transaccion = $this->getTransaccionBancariaDao()->traerTodosPorCarta($carta->getCtr_id());
+    		$this->getTransaccionBancariaDao()->duplicar($transaccion, $codigo_carta);
+    	}
+    	
+    	//TRANSFERENCIA DE SUELDO
+    	if($tipo_carta == 5){
+    		$transferencia = $this->getTransferenciaSueldoDao()->traerTodosPorCarta($carta->getCtr_id());
+    		$this->getTransferenciaSueldoDao()->duplicar($transferencia, $codigo_carta);
     	}
     	
     	
@@ -497,13 +593,21 @@ class CartasController extends AbstractActionController
     	return $this->contactoDao;
     }
     
-    /* public function getObraDao() {
-    	if (! $this->obraDao) {
+    public function getTransferenciaSueldoDao() {
+    	if (! $this->transferenciaSueldoDao) {
     		$sm = $this->getServiceLocator ();
-    		$this->obraDao = $sm->get ( 'Cartas\Model\Dao\ObraDao' );
+    		$this->transferenciaSueldoDao = $sm->get ( 'Cartas\Model\Dao\TransferenciaSueldoDao' );
     	}
-    	return $this->obraDao;
-    } */
+    	return $this->transferenciaSueldoDao;
+    }
+    
+    public function getTransaccionBancariaDao() {
+    	if (! $this->transaccionBancariaDao) {
+    		$sm = $this->getServiceLocator ();
+    		$this->transaccionBancariaDao = $sm->get ( 'Cartas\Model\Dao\TransaccionBancariaDao' );
+    	}
+    	return $this->transaccionBancariaDao;
+    }
     
     public function contactosAction(){
     	if($this->getRequest()->isXmlHttpRequest()){
@@ -555,21 +659,5 @@ class CartasController extends AbstractActionController
     		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
     	}
     }
-    
-    /* public function obraAction(){
-  	  if($this->getRequest()->isXmlHttpRequest()){
-    		$pro_id = $this->request->getPost('proyecto');
-    		$data = $this->getObraDao()->getObrasPorProyecto($pro_id);
-    
-    		$jsonData = json_encode($data);
-    		$response = $this->getResponse();
-    		$response->setStatusCode(200);
-    		$response->setContent($jsonData);
-    
-    		return $response;
-    	}else{
-    		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
-    	}
-    } */
     
 }

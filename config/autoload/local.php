@@ -22,6 +22,6 @@
 return array(
 		'db' => array(
 				'username' => 'correspondencia',
-				'password' => '12345',
+				'password' => '123',
 		),
 );

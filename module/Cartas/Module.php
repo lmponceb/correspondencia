@@ -36,6 +36,10 @@ use Cartas\Model\Dao\CartaFirmaDao;
 use Cartas\Model\Entity\CartaFirma;
 use Cartas\Model\Entity\FeRecepcion;
 use Cartas\Model\Dao\FeRecepcionDao;
+use Cartas\Model\Dao\TransferenciaSueldoDao;
+use Cartas\Model\Entity\TransferenciaSueldo;
+use Cartas\Model\Entity\TransaccionBancaria;
+use Cartas\Model\Dao\TransaccionBancariaDao;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -170,6 +174,26 @@ class Module implements AutoloaderProviderInterface
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new FeRecepcion());
     						return new TableGateway('FE_RECEPCION', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Cartas\Model\Dao\TransferenciaSueldoDao' => function($sm){
+    						$tableGateway = $sm->get('TransferenciaSueldoDaoTableGateway');
+    						return new TransferenciaSueldoDao($tableGateway);
+    					},
+    					'TransferenciaSueldoDaoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new TransferenciaSueldo());
+    						return new TableGateway('TRANSFERENCIA_SUELDO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					'Cartas\Model\Dao\TransaccionBancariaDao' => function($sm){
+    						$tableGateway = $sm->get('TransaccionBancariaDaoTableGateway');
+    						return new TransaccionBancariaDao($tableGateway);
+    					},
+    					'TransaccionBancariaDaoTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new TransaccionBancaria());
+    						return new TableGateway('TRANSACCION_BANCARIA', $dbAdapter, null, $resultSetPrototype);
     					},
     					
     			),

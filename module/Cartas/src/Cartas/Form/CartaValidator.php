@@ -13,6 +13,7 @@ use Zend\Validator\EmailAddress;
 use Zend\Validator\NotEmpty;
 use Zend\Validator\InArray;
 use Zend\I18n\Filter\Alpha;
+use Zend\I18n\Validator\Float;
 
 
 class CartaValidator extends InputFilter {
@@ -214,5 +215,37 @@ class CartaValidator extends InputFilter {
 		->attach ( new Digits () );
 		
 		$this->add ( $con_id );
+		
+		/************** CAMPOS PARA TRANSFERENCIA DE SUELDOS ******************/
+		
+		
+		$tra_sue_valor_debito = new Input ( 'TRA_SUE_VALOR_DEBITO' );
+		$tra_sue_valor_debito->setRequired ( false );
+		$tra_sue_valor_debito->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 15,
+				'min' => 1,
+		) ) )->attach( new Float());
+		
+		$this->add ( $tra_sue_valor_debito );
+		
+		
+		$tra_sue_numero_creditos = new Input ( 'TRA_SUE_NUMERO_CREDITOS' );
+		$tra_sue_numero_creditos->setRequired ( false );
+		$tra_sue_numero_creditos->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+				'min' => 1,
+		) ) )->attach( new Float());
+		
+		$this->add ( $tra_sue_numero_creditos );
+		
+		
+		$tra_sue_valor_maximo = new Input ( 'TRA_SUE_VALOR_MAXIMO' );
+		$tra_sue_valor_maximo->setRequired ( false );
+		$tra_sue_valor_maximo->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 15,
+				'min' => 1,
+		) ) )->attach( new Float());
+		
+		$this->add ( $tra_sue_valor_maximo );
 	}
 }
