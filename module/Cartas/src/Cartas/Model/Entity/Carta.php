@@ -18,6 +18,7 @@ class Carta {
 	private $ctr_despedida;
 	private $ctr_tipo;
 	private $ctr_estado;
+	private $ctr_activar_direccion;
 	
 	private $tip_car_descripcion; 
 	private $emp_int_nombre;
@@ -128,6 +129,13 @@ class Carta {
 	 */
 	public function getCtr_estado() {
 		return $this->ctr_estado;
+	}
+
+	/**
+	 * @return the $ctr_activar_direccion
+	 */
+	public function getCtr_activar_direccion() {
+		return $this->ctr_activar_direccion;
 	}
 
 	/**
@@ -257,6 +265,13 @@ class Carta {
 	}
 
 	/**
+	 * @param Ambigous <NULL, unknown> $ctr_activar_direccion
+	 */
+	public function setCtr_activar_direccion($ctr_activar_direccion) {
+		$this->ctr_activar_direccion = $ctr_activar_direccion;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $tip_car_descripcion
 	 */
 	public function setTip_car_descripcion($tip_car_descripcion) {
@@ -294,6 +309,7 @@ class Carta {
 		$this->ctr_despedida = (isset($data['CTR_DESPEDIDA'])) ? $data['CTR_DESPEDIDA'] : null;
 		$this->ctr_tipo = (isset($data['CTR_TIPO'])) ? $data['CTR_TIPO'] : null;
 		$this->ctr_estado = (isset($data['CTR_ESTADO'])) ? $data['CTR_ESTADO'] : null;
+		$this->ctr_activar_direccion = (isset($data['CTR_ACTIVAR_DIRECCION'])) ? $data['CTR_ACTIVAR_DIRECCION'] : null;
 		
 		$this->tip_car_descripcion = (isset($data['TIP_CAR_DESCRIPCION'])) ? $data['TIP_CAR_DESCRIPCION'] : null;
 		$this->emp_int_nombre = (isset($data['EMP_INT_NOMBRE'])) ? $data['EMP_INT_NOMBRE'] : null;

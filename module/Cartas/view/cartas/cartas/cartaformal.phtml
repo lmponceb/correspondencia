@@ -30,6 +30,20 @@
     	<td colspan="2">
     		<div><br />SE&Ntilde;OR / SE&Ntilde;ORES</div>
     		<div><?php echo $this->empresa->getEmp_nombre()?></div>
+    		
+    		<?php $mostrar = $this->carta->getCtr_activar_direccion(); 
+    		if(strtoupper($mostrar) == 'E'): ?>
+    		<div><?php echo $this->empresa->getEmp_direccion()?></div>
+    		<div><?php echo $this->empresa->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
+    		<div><?php echo $this->empresa->getPai_nombre()?></div>
+    		<?php elseif(strtoupper($mostrar) == 'C'): ?>
+    		<div><?php echo $this->contacto->getCon_direccion()?></div>
+    		<div><?php echo $this->contacto->getCiudad_nombre() . ' - ' . $this->contacto->getEstado_nombre()?></div>
+    		<div><?php echo $this->contacto->getPais_nombre()?></div>
+    		<?php elseif(strtoupper($mostrar) == 'N'): ?>
+    		<div>&nbsp;</div>
+    		<?php endif; ?>
+    		
     	</td>
     </tr>
     <tr>

@@ -37,6 +37,7 @@ $empresa_oculto = $form->get ( 'empresa_oculto' );
 $proyecto_oculto = $form->get ( 'proyecto_oculto' );
 //$proyecto_oculto = $form->get ( 'proyecto_oculto' );
 $car_fir_tipo = $form->get ( 'CAR_FIR_TIPO' );
+$ctr_activar_direccion = $form->get ( 'CTR_ACTIVAR_DIRECCION' );
 
 //CAMPOS PARA TIPO DE CARTA TRANSFERENCIA DE SUELDOS
 $tra_sue_valor_debito = $form->get ( 'TRA_SUE_VALOR_DEBITO' );
@@ -52,6 +53,8 @@ $tra_ban_aba = $form->get ( 'TRA_BAN_ABA' );
 $tra_ban_banco = $form->get ( 'TRA_BAN_BANCO' );
 $tra_ban_banco_linea_dos = $form->get ( 'TRA_BAN_BANCO_LINEA_DOS' );
 $tra_ban_banco_direccion = $form->get ( 'TRA_BAN_BANCO_DIRECCION' );
+//$tra_ban_cc = $form->get ( 'TRA_BAN_CC' );
+$tra_ban_detalle = $form->get ( 'TRA_BAN_DETALLE' );
 
 echo $this->form ()->openTag ( $form );
 
@@ -65,8 +68,8 @@ echo $this->formelementerrors ( $obra_oculto ); */
 echo $this->formhidden ( $us_codigo );
 echo $this->formelementerrors ( $us_codigo );
 
-echo $this->formhidden ( $ctr_fecha_creacion );
-echo $this->formelementerrors ( $ctr_fecha_creacion );
+//echo $this->formhidden ( $ctr_fecha_creacion );
+//echo $this->formelementerrors ( $ctr_fecha_creacion );
 
 echo $this->formhidden ( $ctr_fecha_actualizacion );
 echo $this->formelementerrors ( $ctr_fecha_actualizacion );
@@ -153,7 +156,13 @@ echo $this->formelementerrors ( $proyecto_oculto );
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">
+					<td>
+					<?php echo $formLabel->openTag() . $pro_id->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $pro_id ) );
+						  echo html_entity_decode( $this->formelementerrors ( $pro_id ) );
+					?>
+					</td>	
+					<td colspan="2">
 					<?php echo $formLabel->openTag() . $ctr_referencia->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $ctr_referencia ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_referencia ) );
@@ -217,13 +226,19 @@ echo $this->formelementerrors ( $proyecto_oculto );
 						  echo html_entity_decode( $this->formelementerrors ( $cargo_dos ) );
 					?>
 					</td>
-					<td>&nbsp;</td>				
+					<td>&nbsp;</td>		
 				</tr>
 				<tr>
 					<td>
-					<?php echo $formLabel->openTag() . $pro_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $pro_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $pro_id ) );
+					<?php echo $formLabel->openTag() . $ctr_activar_direccion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $ctr_activar_direccion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_activar_direccion ) );
+					?>
+					</td>
+					<td>
+					<?php echo $formLabel->openTag() . $ctr_fecha_creacion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $ctr_fecha_creacion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_fecha_creacion ) );
 					?>
 					</td>	
 					<td>
@@ -232,12 +247,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_codigo_final ) );
 					?>
 					</td>
-					<td>
-					<?php /* echo $formLabel->openTag() . $obr_id->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $obr_id ) );
-						  echo html_entity_decode( $this->formelementerrors ( $obr_id ) ); */
-					?>
-					</td>
+					
 					
 				</tr>
 				<tr>
@@ -332,7 +342,12 @@ echo $this->formelementerrors ( $proyecto_oculto );
 									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_banco_direccion ) ); 
 								?>
 								</td>
-								<td>&nbsp;</td>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_detalle->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formselect ( $tra_ban_detalle ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_detalle ) ); 
+								?>
+								</td>
 							</tr>
 						</table>
 					</td>
@@ -363,6 +378,19 @@ echo $this->formelementerrors ( $proyecto_oculto );
 
 	$(document).ready(function(){
 
+		$(document).ready(function(){
+
+			//FUNCION PARA CARGAR LA FECHA DE NACIMIENTO CON UN DATEPICKER
+			$( "#CTR_FECHA_CREACION" ).datepicker({
+				dateFormat:'dd-M-y',
+				changeMonth: true,
+				 changeYear: true,
+				 yearRange: '-100:+0',
+				 showOn: "button",
+			            buttonImage: "<?php echo $this->basePath('img/calendar.gif')?>",
+			            buttonImageOnly: true
+			});
+		});
 
 		//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
 		$("#SUC_ID").change(function() {

@@ -54,7 +54,7 @@
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_compania());?></td>
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_oferente());?></td>
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_oferta_codigo());?></td>
-     <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_fecha_anio()) . '-' . $this->escapeHtml($fe_recepcion->getFe_rec_fecha_mes()) . '-' . $this->escapeHtml($fe_recepcion->getFe_rec_fecha_dia()) . ' / ' . $this->escapeHtml($fe_recepcion->getFe_rec_fecha_hora()) . ':' . $this->escapeHtml($fe_recepcion->getFe_rec_fecha_minuto())?></td>
+     <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_fecha()) . ' / ' . $this->escapeHtml($fe_recepcion->getFe_rec_fecha_hora()) . ':' . $this->escapeHtml($fe_recepcion->getFe_rec_fecha_minuto())?></td>
      <td>
      	<?php 
      	$estado = $fe_recepcion->getFe_rec_estado();

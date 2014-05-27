@@ -180,6 +180,8 @@ class CartasController extends AbstractActionController
 			$form->getInputFilter()->get('TRA_BAN_ABA')->setRequired(true);
 			$form->getInputFilter()->get('TRA_BAN_BANCO')->setRequired(true);
 			$form->getInputFilter()->get('TRA_BAN_BANCO_DIRECCION')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_CC')->setRequired(false);
+			$form->getInputFilter()->get('TRA_BAN_DETALLE')->setRequired(true);
 		}
 		
 		//SE LLENAN LOS DATOS DEL FORMULARIO
@@ -262,6 +264,8 @@ class CartasController extends AbstractActionController
 			$transaccionBancariaParams['TRA_BAN_BANCO'] = $data['TRA_BAN_BANCO'];
 			$transaccionBancariaParams['TRA_BAN_BANCO_LINEA_DOS'] = $data['TRA_BAN_BANCO_LINEA_DOS'];
 			$transaccionBancariaParams['TRA_BAN_BANCO_DIRECCION'] = $data['TRA_BAN_BANCO_DIRECCION'];
+			$transaccionBancariaParams['TRA_BAN_CC'] = $data['TRA_BAN_CC'];
+			$transaccionBancariaParams['TRA_BAN_DETALLE'] = $data['TRA_BAN_DETALLE'];
 			$transaccionBancaria->exchangeArray($transaccionBancariaParams);
 			$this->getTransaccionBancariaDao()->guardar($transaccionBancaria);
 		
@@ -470,6 +474,7 @@ class CartasController extends AbstractActionController
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
     
     	$carta = $this->getCartaDao()->traer($id);
+    	$empresa_interna = $this->getEmpresaInternaDao()->traer($carta->getEmp_int_id());
     	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
     	 
     	//DESTINATARIO
@@ -502,7 +507,56 @@ class CartasController extends AbstractActionController
     			'contacto' => $contacto,
     			'carta_firma' => $carta_firma,
     			'firma_from' => $carta_from,
-    			'empresa' => $empresa_padre
+    			'empresa' => $empresa_padre,
+    			'empresa_interna' => $empresa_interna
+    	));
+    
+    	return $pdf;
+    
+    }
+    
+    public function cartabancariaAction(){
+    
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    
+    	$carta = $this->getCartaDao()->traer($id);
+    	$empresa_interna = $this->getEmpresaInternaDao()->traer($carta->getEmp_int_id());
+    	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
+    	$transaccion_bancaria = $this->getTransaccionBancariaDao()->traerTodosPorCarta($id);
+
+    	//DESTINATARIO
+    	$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
+    	$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    	 
+    	//VARIABLE PARA VERIFICAR SI TIENE SUCURSAL O ES EMPRESA
+    	$emp_emp_id = $empresa->getEmp_emp_id();
+    
+    	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    		//EMPRESA A MOSTRAR DEL DESTINATARIO
+    		//SI TIENE SUCURSAL, TRAE EMPRESA
+    		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    	}else{
+    		//EMPRESA A MOSTRAR DEL DESTINATARIO
+    		$empresa_padre = $empresa;
+    	}
+    	 
+    	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
+    	 
+    	$carta_from = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
+    	 
+    	$pdf = new PdfModel();
+    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    
+    	$pdf->setVariables(array(
+    			'carta' => $carta,
+    			'contacto' => $contacto,
+    			'carta_firma' => $carta_firma,
+    			'firma_from' => $carta_from,
+    			'empresa' => $empresa_padre,
+    			'empresa_interna' => $empresa_interna,
+    			'transaccion_bancaria' => $transaccion_bancaria,
     	));
     
     	return $pdf;

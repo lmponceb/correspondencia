@@ -70,22 +70,17 @@ class TransferenciaSueldoDao {
     	}
     }
     
-    /* public function duplicar(TransaccionBancaria $transferencia, $ctr_id){
+    public function duplicar(TransferenciaSueldo $transferencia, $ctr_id){
     	date_default_timezone_set('America/Guayaquil');
     
     	$data = array(
-    			'TRA_BAN_BENEFICIARIO' => $transferencia->getTra_ban_beneficiario(),
-    			'TRA_BAN_DIRECCION' => $transferencia->getTra_ban_direccion(),
-    			'TRA_BAN_CUENTA' => $transferencia->getTra_ban_cuenta(),
-    			'TRA_BAN_VALOR' => $transferencia->getTra_ban_valor(),
-    			'TRA_BAN_ABA' => $transferencia->getTra_ban_aba(),
-    			'TRA_BAN_BANCO' => $transferencia->getTra_ban_banco(),
-    			'TRA_BAN_BANCO_LINEA_DOS' => $transferencia->getTra_ban_banco_linea_dos(),
-    			'TRA_BAN_BANCO_DIRECCION' => $transferencia->getTra_ban_banco_direccion(),
     			'CTR_ID' => $ctr_id,
+    			'TRA_SUE_VALOR_DEBITO' => $transferencia->getTra_sue_valor_debito(),
+    			'TRA_SUE_NUMERO_CREDITOS' => $transferencia->getTra_sue_numero_creditos(),
+    			'TRA_SUE_VALOR_MAXIMO' => $transferencia->getTra_sue_valor_maximo(),
     	);
     	 
-    	$data['TRA_BAN_ID'] = new Sql\Expression('s_transaccion_bancaria.nextVal');
+    	$data['TRA_SUE_ID'] = new Sql\Expression('s_transferencia_sueldo.nextVal');
     	$this->tableGateway->insert($data);
-    } */
+    }
 }

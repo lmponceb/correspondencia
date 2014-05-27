@@ -21,6 +21,7 @@
  <tr>
  	 <th>&nbsp;</th>
      <th>EMPRESA INTERNA</th>
+     <th>REFERENCIA</th>
      <th>TIPO DE CARTA</th>
      <th>USUARIO</th>
      <th>IDIOMA</th>
@@ -46,11 +47,13 @@
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartainformal', 'id' => $carta->getCtr_id()))?>" title="PDF INFORMAL" alt="PDF INFORMAL" target="_blank">PDF</a>
  	 	<?php elseif($carta->getTip_car_id() == 3):?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartafax', 'id' => $carta->getCtr_id()))?>" title="PDF FAX" alt="PDF FAX" target="_blank">PDF</a>
- 	 	
+ 	 	<?php elseif($carta->getTip_car_id() == 4):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartabancaria', 'id' => $carta->getCtr_id()))?>" title="PDF TRANSACCION BANCARIA" alt="PDF TRANSACCION BANCARIA" target="_blank">PDF</a>
  	 	<?php endif;?>
  	 	
  	 </td>
 	 <td><?php echo $this->escapeHtml($carta->getEmp_int_nombre());?></td>
+	 <td><?php echo $this->escapeHtml($carta->getCtr_referencia());?></td>
  	 <td><?php echo $this->escapeHtml($carta->getTip_car_descripcion());?></td>
      <td><?php echo $this->escapeHtml($carta->getUs_codigo());?></td>
      <td>

@@ -4,6 +4,6 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{955785A2-6D9E-4754-B502-D499D3FC0F8B}" Name="Azul" Selected="Yes" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Azul.prj"/>
+		<Model Expanded="Yes" ID="{955785A2-6D9E-4754-B502-D499D3FC0F8B}" Name="Azul" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Azul.prj"/>
 	</Local>
 </Workspace>

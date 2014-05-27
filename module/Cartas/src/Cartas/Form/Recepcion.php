@@ -221,6 +221,24 @@ class Recepcion extends Form {
 				)
 		) );
 		
+		/* ********************************************
+		 * CAMPO FECHA
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'FE_REC_FECHA',
+				'options' => array (
+						'label' => ''
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '15',
+						//'readonly' => 'readonly',
+						'id' => 'FE_REC_FECHA',
+						'class' => 'form-control fecha_nacimiento'
+				)
+		) );
+		
 		
 		/* ********************************************
 		 * CAMPO HORA
@@ -338,7 +356,7 @@ class Recepcion extends Form {
 		/* ********************************************
 		 * CAMPO ANIO
 		* ********************************************/
-		$anio = new Select('FE_REC_FECHA_ANIO');
+		/* $anio = new Select('FE_REC_FECHA_ANIO');
 		$anio->setLabel('A&ntilde;o*: ');
 		$anio->setAttributes(array('class' => 'form-control'));
 		$anio->setAttributes(array('id' => 'FE_REC_FECHA_ANIO'));
@@ -365,13 +383,13 @@ class Recepcion extends Form {
 		$anio->setOptions(array(
 				'disable_inarray_validator' => false, // <-- disable
 		));
-		$this->add($anio);
+		$this->add($anio); */
 		
 		
 		/* ********************************************
 		 * CAMPO MES
 		* ********************************************/
-		$mes = new Select('FE_REC_FECHA_MES');
+	/* 	$mes = new Select('FE_REC_FECHA_MES');
 		$mes->setLabel('Mes*: ');
 		$mes->setAttributes(array('class' => 'form-control'));
 		$mes->setAttributes(array('id' => 'FE_REC_FECHA_MES'));
@@ -393,13 +411,13 @@ class Recepcion extends Form {
 		$mes->setOptions(array(
 				'disable_inarray_validator' => false, // <-- disable
 		));
-		$this->add($mes);
+		$this->add($mes); */
 		
 		
 		/* ********************************************
 		 * CAMPO DIA
 		* ********************************************/
-		$dia = new Select('FE_REC_FECHA_DIA');
+		/* $dia = new Select('FE_REC_FECHA_DIA');
 		$dia->setLabel('D&iacute;a*: ');
 		$dia->setAttributes(array('class' => 'form-control'));
 		$dia->setAttributes(array('id' => 'FE_REC_FECHA_DIA'));
@@ -439,7 +457,7 @@ class Recepcion extends Form {
 		$dia->setOptions(array(
 				'disable_inarray_validator' => false, // <-- disable
 		));
-		$this->add($dia);
+		$this->add($dia); */
 		
 		
 		/* ********************************************

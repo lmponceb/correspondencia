@@ -21,9 +21,15 @@ class EmpresaDao {
     }
     
     public function traer($id){
-    	$resultSet = $this->tableGateway->select(array('EMP_ID' => $id));
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->join ( 'CIUDAD', 'CIUDAD.CIU_ID  = EMPRESA.CIU_ID' );
+    	$select->join ( 'ESTADO', 'ESTADO.EST_ID  = CIUDAD.EST_ID' );
+    	$select->join ( 'PAIS', 'PAIS.PAI_ID  = ESTADO.PAI_ID' );
+    	$select->where(array('EMP_ID' => $id));
+    	
+    	$resultSet = $this->tableGateway->selectWith ( $select );
     	$row = $resultSet->current();
-    	return $row;
+     	return $row;
     }
     
     /* public function traerPadre($id){

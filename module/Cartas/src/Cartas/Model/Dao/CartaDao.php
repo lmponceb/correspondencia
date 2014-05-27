@@ -62,7 +62,8 @@ class CartaDao {
     			'CTR_SALUDO' => $carta->getCtr_saludo(),
     			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
     			'CTR_TIPO' => $carta->getCtr_tipo(),
-    			'CTR_ESTADO' => $carta->getCtr_estado()
+    			'CTR_ESTADO' => $carta->getCtr_estado(),
+    			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion()
     	);
     	 
     	if(empty($id) || is_null($id)){
@@ -105,7 +106,8 @@ class CartaDao {
     			'CTR_SALUDO' => $carta->getCtr_saludo(),
     			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
     			'CTR_TIPO' => 'B',
-    			'CTR_ESTADO' => 'A'
+    			'CTR_ESTADO' => 'A',
+    			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion()
     	);
     	
     	$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');
