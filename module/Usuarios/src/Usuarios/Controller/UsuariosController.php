@@ -55,8 +55,9 @@ use Zend\View\Model\ViewModel;
 
         $rolUsuario = $this->getRolUsuarioDao()->traerPorUsCodigo ( $us_codigo );
 
-        $form->bind ( $rolUsuario );
-     
+        if(is_object($rolUsuario)){
+            $form->bind ( $rolUsuario );   
+        }
 
         $viewModel = new ViewModel (array(
                 'title' => 'Editar Empresa',
@@ -205,11 +206,26 @@ use Zend\View\Model\ViewModel;
          return $this->vistaUsuarioDao;
      }
 
-     
-
-
      public function getForm() {
         $form = new EmpresasForm ( 'usuariosForm' );
         return $form;
      }
+
+    public function consultaNombreRolXmlHttpAction()
+     {  
+        if($this->getRequest()->isXmlHttpRequest()){
+            $rol_descripcion =  $this->getRequest()->getPost('ROL_DESCRIPCION');
+            $rol_id =  $this->getRequest()->getPost('ROL_ID');
+          
+            $listado = $this->getRolDao()->existeDescripcion($rol_descripcion,$rol_id);   
+
+            $response=$this->getResponse();
+            $response->setStatusCode(200);
+            $response->setContent($listado);
+            return $response;
+        }else{
+            return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
+        }
+     }     
+     
  }

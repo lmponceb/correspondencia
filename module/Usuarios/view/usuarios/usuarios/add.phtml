@@ -56,3 +56,21 @@ echo $this->form ()->openTag ( $form );
 <a href="<?php echo $this->url('usuarios', array('controller' => 'usuarios', 'action' => 'index'))?>" class ="btn btn-primary">Cancelar</a>
 </div>
 <?php echo $this->form()->closeTag(); ?>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		//Inicio Bloque Validador JS
+		$("#usuarios").validate({
+			errorLabelContainer: $("ul.error_container"),
+			wrapper: 'li',
+			rules: {
+				US_CODIGO: {required:true},
+				ROL_ID: {required:true}
+	 		},
+	 		messages:{
+				US_CODIGO: 	{required:'Usuario es un campo requerido'},
+				ROL_ID: 	{required:'Rol es un campo requerido'}
+	 	 	}
+		});
+	});
+</script>

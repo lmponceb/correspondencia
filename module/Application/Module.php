@@ -103,13 +103,13 @@ class Module {
 				'factories' => array (
 						'Application\Model\Login' => function ($sm){
 							$config = $sm->get ( 'config' );
-							$db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db'] );
+							$db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db_view'] );
 							return new Login($db_auth);
 						},
 
 						'Application\Permissions\AclListener' => function ($sm){
 							$config = $sm->get ( 'config' );
-							$db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db'] );
+							$db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db_view'] );
 							return new AclListener($db_auth);
 						},
 		                'Application\Model\Dao\RolUsuarioDao' => function($sm){
@@ -120,7 +120,7 @@ class Module {
 		                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 		                    $resultSetPrototype = new ResultSet();
 		                    $resultSetPrototype->setArrayObjectPrototype(new RolUsuario());
-		                    return new TableGateway('ROL_USUARIO', $dbAdapter, null, $resultSetPrototype);
+		                    return new TableGateway('ROL_USUARIO', $db_auth, null, $resultSetPrototype);
 		                },
 						
 				),

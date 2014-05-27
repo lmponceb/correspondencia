@@ -54,7 +54,7 @@ echo $this->form ()->openTag ( $form );
 	<div class="row azul-form-row">
 
 		<div class="col-md-6"><?php echo $aplicacion->getApl_descripcion(); ?> </div>
-			<div class="col-md-6"><input type='checkbox' name='APLICACION[<?php echo $aplicacion->getApl_id(); ?>][APL_ID]' value='<?php echo $aplicacion->getApl_id(); ?>'
+			<div class="col-md-6"><input class='roles' type='checkbox' name='APLICACION[<?php echo $aplicacion->getApl_id(); ?>][APL_ID]' value='<?php echo $aplicacion->getApl_id(); ?>'
 		<?php if(isset($rolApl)):?>
 			<?php if(isset($rolApl[$aplicacion->getApl_id()])):?>	
 				checked='checked' 
@@ -70,3 +70,45 @@ echo $this->form ()->openTag ( $form );
 <a href="<?php echo $this->url('usuarios', array('controller' => 'usuarios', 'action' => 'roles'))?>" class ="btn btn-primary">Cancelar</a>
 </div>
 <?php echo $this->form()->closeTag(); ?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//Inicio Bloque Validador JS
+		$.validator.addMethod("roles", function(value, elem, param) {
+		    if($(".roles:checkbox:checked").length > 0){
+		    	return true;
+		   	}else {
+		    	return false;
+		   	}
+		},"Debes seleccionar al menos una opción");
+
+
+		$("#roles").validate({
+			errorLabelContainer: $("ul.error_container"),
+			wrapper: 'li',
+			rules: {
+				ROL_DESCRIPCION: {
+					required:true,
+					remote: {
+        				url: "<?php echo $this->url('usuarios',array('controller'=>'usuarios','action'=>'consultaNombreRolXmlHttp'))?>",
+        				type: "post",
+        				data: {
+          					ROL_ID: function() {
+            					return $( "#rol_id" ).val();
+          					}
+        				}
+      				}
+				},
+				"APLICACION[1][APL_ID]" :{
+					roles:true
+				}
+	 		},
+	 		messages:{
+				ROL_DESCRIPCION: {
+					required:'Nombre es un campo requerido',
+					remote: 'El nombre seleccionado ya se encuentra en el sistema'},
+				}
+		});
+
+
+	});
+</script>

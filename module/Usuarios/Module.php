@@ -83,10 +83,12 @@ class Module
                     return new VistaUsuarioDao($tableGateway);
                 },
                 'VistaUsuarioTableGateway' => function ($sm){
-                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $config = $sm->get ( 'config' );
+                    $db_auth = new \Zend\Db\Adapter\Adapter ( $config ['db_view'] );
+                    //$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new VistaUsuario());
-                    return new TableGateway('vista_usuario', $dbAdapter, null, $resultSetPrototype);
+                    return new TableGateway('vista_usuario', $db_auth, null, $resultSetPrototype);
                 },
 
                 'Usuarios\Model\Dao\AplicacionDao' => function($sm){

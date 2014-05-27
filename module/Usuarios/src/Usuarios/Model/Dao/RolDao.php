@@ -57,4 +57,26 @@
         return $row;
      }
 
+
+     public function existeDescripcion($rol_descripcion,$rol_id=null){
+
+        $sql = new Sql($this->tableGateway->getAdapter());
+        $select = $sql->select();
+        $select->from($this->tableGateway->table);
+        $select->where(array('ROL_DESCRIPCION' => $rol_descripcion));
+        if($rol_id != '' && !is_null($rol_id)){
+            $select->where->notEqualTo('ROL_ID',$rol_id);
+        }
+        
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+        $count=0;
+        foreach($results as $row){$count++; break;   }
+        if($count){
+            return 'false';   
+        }
+ 
+        return 'true'; 
+
+     }
  }
