@@ -16,6 +16,9 @@ use Contactos\Model\Entity\Contacto as ContactoEntity;
 use Contactos\Form\ContactoValidator;
 use Contactos\Model\Entity\DetalleContacto;
 use Contactos\Model\Entity\ContactoRelacionado;
+use DOMPDFModule\View\Model\PdfModel;
+
+date_default_timezone_set('America/Guayaquil');
 
 class IndexController extends AbstractActionController {
 	
@@ -329,6 +332,72 @@ class IndexController extends AbstractActionController {
 				'controller' => 'index',
 				'action' => 'listado' 
 		) );
+	}
+	
+	public function courierAction(){
+		 
+		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+		
+		$contacto = $this->getContactoDao()->traer($id);
+		 
+		$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+		 
+		$emp_emp_id = $empresa->getEmp_emp_id();
+		 
+		if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+			$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+		}else{
+			$empresa_padre = $empresa;
+		}
+		
+		$detalle_empresa = $this->getDetalleContactoDao()->getDetallePorEmpresaUnico($empresa_padre->getEmp_id());
+		
+		$pdf = new PdfModel();
+		$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+		$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+		$pdf->setOption('paperOrientation', 'landscape'); // Defaults to "portrait"
+		 
+		$pdf->setVariables(array(
+				'contacto' => $contacto,
+				'empresa' => $empresa_padre,
+				'detalle' => $detalle_empresa
+		));
+	
+		return $pdf;
+		 
+	}
+	
+	public function sobreAction(){
+			
+		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+	
+		$contacto = $this->getContactoDao()->traer($id);
+			
+		$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+			
+		$emp_emp_id = $empresa->getEmp_emp_id();
+			
+		if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+			$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+		}else{
+			$empresa_padre = $empresa;
+		}
+	
+		$detalle_empresa = $this->getDetalleContactoDao()->getDetallePorContactoUnico($contacto->getCon_id());
+	
+		$pdf = new PdfModel();
+		$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+		$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+		$pdf->setOption('paperOrientation', 'landscape'); // Defaults to "portrait"
+			
+		$pdf->setVariables(array(
+				'contacto' => $contacto,
+				'empresa' => $empresa_padre,
+				'detalle' => $detalle_empresa
+		));
+	
+		return $pdf;
+			
 	}
 	
 	public function getForm() {

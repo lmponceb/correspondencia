@@ -32,6 +32,24 @@ class DetalleContactoDao {
 
     }
     
+    public function getDetallePorEmpresaUnico($emp_id){
+    	
+    	$emp_id = (int) $emp_id;
+    	
+    	$resultSet = $this->tableGateway->select(array('EMP_ID' => $emp_id));
+    	$row = $resultSet->current();
+    	return $row;
+    }
+    
+    public function getDetallePorContactoUnico($con_id){
+    	 
+    	$con_id = (int) $con_id;
+    	 
+    	$resultSet = $this->tableGateway->select(array('CON_ID' => $con_id));
+    	$row = $resultSet->current();
+    	return $row;
+    }
+    
     public function getDetallePorEmpresa($emp_id){
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();

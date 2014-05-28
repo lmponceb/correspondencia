@@ -30,6 +30,15 @@ class TransferenciaSueldoDao {
     	return $row;
     }
     
+    public function traerUnicoPorCarta($id){
+    
+    	$id = ( int ) $id;
+    
+    	$resultSet = $this->tableGateway->select(array('CTR_ID' => $id));
+    	$row = $resultSet->current();
+    	return $row;
+    }
+    
     public function traer($id){
     	
     	$id = ( int ) $id;

@@ -20,6 +20,7 @@
  <thead style="">
  <tr>
  	 <th>&nbsp;</th>
+ 	 <th>&nbsp;</th>
      <th>EMPRESA</th>
      <th>SUCURSAL</th>
      <th>CARGO</th>
@@ -46,6 +47,10 @@
 				&nbsp;
  	 		<?php endif;?>
  	 	<?php endif;?>
+ 	 </td>
+ 	 <td width="150">
+ 	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'courier', 'id' => $carta->getCon_id()))?>" title="Sobre Courier" alt="Sobre Courier" target="_blank">Courier</a> |
+ 	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sobre', 'id' => $carta->getCon_id()))?>" title="Sobre Nacional" alt="Sobre Nacional" target="_blank">Sobre Nacional</a>
  	 </td>
      <td>
      <?php 

@@ -1,0 +1,130 @@
+<?php echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <?php echo $this->headTitle('FORMULARIO DE REGISTRO') ?>
+        <style>
+			body, html{
+				margin: 0 0;
+				padding: 0 0;
+				font-family: sans-serif;
+				font-size:13px;
+				<?php $fe_recepcion = $this->carta->getCtr_tipo(); if(strtoupper($fe_recepcion) == 'B'): ?>
+				background-image: url("<?php echo $this->basepath() . '/img/jpg/borrador.jpg'?>");
+				background-repeat: no-repeat;
+				background-position: 50px 100px;
+				<?php endif; ?>
+			}
+		</style>
+    </head>
+    <body>
+    <div style="padding-top: 130px;">&nbsp;</div>
+<table cellspacing="0" cellpadding="10" border="0" width="70%" align="center">
+    <tr>
+        <td colspan="2">
+        	<div>Quito D.M, <?php echo date('d') . ' de ' . date('M') . ' de ' . date('Y')?></div>
+        	<div><?php echo $this->carta->getCtr_codigo_final()?></div>
+        </td>
+    </tr>
+    <tr>
+    	<td colspan="2">
+    		<div><br />Se&ntilde;or</div>
+    		<div><?php echo $this->empresa->getEmp_nombre()?></div>
+    		
+    		<?php $mostrar = $this->carta->getCtr_activar_direccion(); 
+    		if(strtoupper($mostrar) == 'E'): ?>
+    		<div><?php echo $this->empresa->getEmp_direccion()?></div>
+    		<div><?php echo $this->empresa->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
+    		<div><?php echo $this->empresa->getPai_nombre()?></div>
+    		<?php elseif(strtoupper($mostrar) == 'C'): ?>
+    		<div><?php echo $this->contacto->getCon_direccion()?></div>
+    		<div><?php echo $this->contacto->getCiudad_nombre() . ' - ' . $this->contacto->getEstado_nombre()?></div>
+    		<div><?php echo $this->contacto->getPais_nombre()?></div>
+    		<?php elseif(strtoupper($mostrar) == 'N'): ?>
+    		<div>&nbsp;</div>
+    		<?php endif; ?>
+    		
+    	</td>
+    </tr>
+    <tr>
+    	<td colspan="2">
+    		<div>
+    			<br />Attn: 
+    			<?php if(strtoupper($idioma) == 'E'){
+    				echo $this->contacto->getCon_tip_per_es();
+    			}else{
+    				echo $this->contacto->getCon_tip_per_en();
+    			}?> 
+    			<?php echo $this->contacto->getCon_nombre() . ' ' . $this->contacto->getCon_apellido()?> <div style="padding-left: 59px;"> 
+    			<?php 
+//     			if(strtoupper($idioma) == 'E'){
+//     				echo $this->contacto->getCon_descripcion_es();
+//     			}else{
+//     				echo $this->contacto->getCon_descripcion_en();
+//     			}
+    			?></div></div>
+    	</td>
+    </tr>
+    <!-- 
+    <tr>
+    	<td colspan="2">
+    		<div><br /><b>Ref.: <?php //echo $this->carta->getCtr_referencia()?></b></div>
+    	</td>
+    </tr>
+     -->
+    <tr>
+    	<td colspan="2">
+    		<div><br /><?php echo $this->carta->getCtr_saludo()?></div>
+    	</td>
+    </tr>
+    <tr>
+    	<td colspan="2">
+    		<div style="text-align: justify;"><?php echo $this->carta->getCtr_cuerpo()?></div>
+    	</td>
+    </tr>
+    
+    <tr>
+    	<td colspan="2">
+    		<table width="100%" cellpadding="5" border="0" style="border: 1px solid;">
+    			<tr>
+    				<td width="150"><b>Valor del D&eacute;bito: </b></td>
+    				<td style="border: 1px solid;"><?php echo $this->sueldo->getTra_sue_valor_debito();?></td>
+    				<td>&nbsp;</td>
+    			</tr>
+    			<tr>
+    				<td><b>N&uacute;mero de Cr&eacute;ditos: </b></td>
+    				<td style="border: 1px solid;"><?php echo $this->sueldo->getTra_sue_numero_creditos();?></td>
+    				<td>&nbsp;</td>
+    			</tr>
+    			<tr>
+    				<td><b>Valor M&aacute;ximo de Cr&eacute;dito: </b></td>
+    				<td style="border: 1px solid;"><?php echo $this->sueldo->getTra_sue_valor_maximo();?></td>
+    				<td>&nbsp;</td>
+    			</tr>
+    		</table>
+    	</td>
+    </tr>
+    
+    <tr>
+    	<td colspan="2">
+    		<div><br /><br /><?php echo $this->carta->getCtr_despedida()?><br /><br /></div>
+    	</td>
+    </tr>
+    <tr><td colspan="2">&nbsp;</td></tr>
+    <tr>
+    	<?php foreach ($this->carta_firma as $firma): ?>
+    	<td>
+    		<table>
+    			<tr>
+    				<td style="text-transform: capitalize;"><?php echo $firma->getEpl_nombre() . ' ' . $firma->getEpl_apellido() ?></td>
+    			</tr>
+    			<tr>
+    				<td><?php echo $firma->getEpl_cargo()?></td>
+    			</tr>
+    		</table>
+    	</td>
+    	<?php endforeach; ?>
+    </tr>
+</table>
+</body>
+</html>

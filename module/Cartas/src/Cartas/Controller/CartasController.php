@@ -131,6 +131,7 @@ class CartasController extends AbstractActionController
      		$form->get('TRA_BAN_BANCO')->setAttribute('value', $transaccion->getTra_ban_banco());
      		$form->get('TRA_BAN_BANCO_LINEA_DOS')->setAttribute('value', $transaccion->getTra_ban_banco_linea_dos());
      		$form->get('TRA_BAN_BANCO_DIRECCION')->setAttribute('value', $transaccion->getTra_ban_banco_direccion());
+     		$form->get('TRA_BAN_DETALLE')->setAttribute('value', $transaccion->getTra_ban_detalle());
     	}
     	
     	$view = new ViewModel ( array (
@@ -283,12 +284,12 @@ class CartasController extends AbstractActionController
 		$cartaFirma = new CartaFirma();
 		$cartaFirmaParams['CTR_ID'] = $codigo_carta;
 		$cartaFirmaParams['EPL_ID'] = $data['EPL_ID_UNO'];
-		
-		if(strtoupper($data['CAR_FIR_TIPO']) == 'P'){
-			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
-		}else{
-			$cartaFirmaParams['CAR_FIR_TIPO'] = 'S';
-		}
+		$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
+// 		if(strtoupper($data['CAR_FIR_TIPO']) == 'P'){
+// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
+// 		}else{
+// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
+// 		}
 		
 		
 		$cartaFirma->exchangeArray($cartaFirmaParams);
@@ -299,12 +300,12 @@ class CartasController extends AbstractActionController
 		$cartaFirma = new CartaFirma();
 		$cartaFirmaParams['CTR_ID'] = $codigo_carta;
 		$cartaFirmaParams['EPL_ID'] = $data['EPL_ID_DOS'];
-		
-		if(strtoupper($data['CAR_FIR_TIPO']) == 'P'){
-			$cartaFirmaParams['CAR_FIR_TIPO'] = 'S';
-		}else{
-			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
-		}
+		$cartaFirmaParams['CAR_FIR_TIPO'] = 'S';
+// 		if(strtoupper($data['CAR_FIR_TIPO']) == 'P'){
+// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'S';
+// 		}else{
+// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
+// 		}
 		
 		$cartaFirma->exchangeArray($cartaFirmaParams);
 		$this->getCartaFirmaDao()->guardar($cartaFirma);
@@ -561,6 +562,45 @@ class CartasController extends AbstractActionController
     
     	return $pdf;
     
+    }
+
+    public function cartasueldoAction(){
+    	
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	
+    	$carta = $this->getCartaDao()->traer($id);
+    	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
+    	 
+    	$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
+    	 
+    	$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    	 
+    	$emp_emp_id = $empresa->getEmp_emp_id();
+    	 
+    	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    	}else{
+    		$empresa_padre = $empresa;
+    	}
+    	 
+    	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
+    	$sueldo = $this->getTransferenciaSueldoDao()->traerUnicoPorCarta($id);
+    	 
+    	$pdf = new PdfModel();
+    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    	 
+    	$pdf->setVariables(array(
+    			'carta' => $carta,
+    			'contacto' => $contacto,
+    			'carta_firma' => $carta_firma,
+    			'empresa' => $empresa_padre,
+    			'sueldo' => $sueldo,
+    	));
+    
+    	return $pdf;
+    	 
     }
     
     public function getForm() {
