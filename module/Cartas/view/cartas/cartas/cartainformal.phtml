@@ -1,4 +1,6 @@
 <?php 
+use Parametros\Funciones\Funciones;
+$funciones = new Funciones();
 echo $this->doctype(); 
 $idioma = $this->carta->getCtr_idioma();
 ?>
@@ -25,7 +27,7 @@ $idioma = $this->carta->getCtr_idioma();
 <table cellspacing="0" cellpadding="10" border="0" width="70%" align="center">
     <tr>
         <td colspan="2">
-        	<div>Quito D.M, <?php echo date('d') . ' de ' . date('M') . ' de ' . date('Y')?></div>
+        	<div>Quito D.M, <?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd-M-Y')?></div>
         	<div><?php echo $this->carta->getCtr_codigo_final()?></div>
         </td>
     </tr>
