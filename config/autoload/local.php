@@ -18,11 +18,10 @@
      ),
  ); */
  
-
 return array(
 		'db' => array(
-				'username' => 'correspondencia',
-				'password' => '12345',
+				'username' => 'azul',
+				'password' => 'azul',
 		),
 		'db_view' => array(
 				'username' => 'system',

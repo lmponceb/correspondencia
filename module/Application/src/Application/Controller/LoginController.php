@@ -62,17 +62,15 @@ class LoginController extends AbstractActionController {
 			$this->login->setMessage ( 'Los campos de usuario y contrase&ntilde;a no pueden dejarse en blanco.', LoginService::INVALID_LOGIN );
 			$this->login->setMessage ( 'Usuario inactivo. Comun&iacute;quese con el administrador', LoginService::USER_INACTIVE );
 			
-
-			
 			$this->login->login ( $usuario, $this->secret($clave) );
+			$rolUsuarioObjeto = $this->getRolUsuarioDao()->rolPorCodigo( $usuario );
+			if(is_object($rolUsuarioObjeto)){ 
+				$role=$rolUsuarioObjeto->getRol_id();
+				$this->login->getIdentity()->us_role=$role;
+			}else{	
+				return $this->redirect()->toRoute('application', array('controller' => 'login','action' => 'denied'));
+			}
 
-			$role=$this->getRolUsuarioDao()->rolPorCodigo( $usuario )->getRol_id();
-			$this->login->getIdentity()->us_role=$role;
-			//$role = $this->login->getIdentity()->us_role;
-			//$role = $this->login->getIdentity()->us_codigo;
-
-
-			
 			return $this->redirect ()->toRoute ( 'empresas', array (
 				'controller' => 'index',
 				'action' => 'index'
@@ -101,9 +99,20 @@ class LoginController extends AbstractActionController {
 		return $this->redirect ()->toRoute ( 'application', array (
 				'controller' => 'login',
 				'action' => 'logout'
-		) );
+			) );
 		
 	}
+
+	public function deniedAction(){
+		$this->login->logout();
+		session_destroy();
+		
+		return $this->redirect ()->toRoute ( 'application', array (
+				'controller' => 'error',
+				'action' => 'denied'
+			) );
+		
+	}	
 
 	public function secret($password){
 		/*Aqui va la llamada a la librería de validación de contraseñas de Azul*/

@@ -22,8 +22,6 @@ use Zend\View\Model\ViewModel;
 
      public function indexAction()
      {
-        //$this->getEmpresasDao()->traerTodosPorJerarquia();
-
         return new ViewModel(array(
             'usuarios' => $this->getVistaUsuarioDao()->traerTodos()
         ));
@@ -57,6 +55,10 @@ use Zend\View\Model\ViewModel;
 
         if(is_object($rolUsuario)){
             $form->bind ( $rolUsuario );   
+        }
+        else{
+            $rolUsuario=$this->getRolUsuarioDao();
+            $rolUsuario->setUs_codigo();
         }
 
         $viewModel = new ViewModel (array(
