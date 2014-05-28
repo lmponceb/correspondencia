@@ -49,6 +49,8 @@
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartafax', 'id' => $carta->getCtr_id()))?>" title="PDF FAX" alt="PDF FAX" target="_blank">PDF</a>
  	 	<?php elseif($carta->getTip_car_id() == 4):?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartabancaria', 'id' => $carta->getCtr_id()))?>" title="PDF TRANSACCION BANCARIA" alt="PDF TRANSACCION BANCARIA" target="_blank">PDF</a>
+ 	 	<?php elseif($carta->getTip_car_id() == 5):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartasueldo', 'id' => $carta->getCtr_id()))?>" title="PDF TRANSFERENCIA SUELDO" alt="PDF TRANSFERENCIA SUELDO" target="_blank">PDF</a>
  	 	<?php endif;?>
  	 	
  	 </td>

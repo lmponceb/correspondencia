@@ -380,6 +380,7 @@ class Carta extends Form {
 		
 		$checkbox = new Checkbox('CAR_FIR_TIPO');
 		$checkbox->setLabel('&iquest;Es principal?: &nbsp;');
+		$checkbox->setAttribute('checked', 'checked');
 		$checkbox->setUseHiddenElement(true);
 		$checkbox->setCheckedValue("P");
 		$checkbox->setUncheckedValue("S");

@@ -37,7 +37,13 @@ class ContactoDao {
     	
     	$id = ( int ) $id;
     	
-    	$resultSet = $this->tableGateway->select(array('CON_ID' => $id));
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->join ( 'CIUDAD', 'CIUDAD.CIU_ID  = CONTACTO.CIU_ID' );
+    	$select->join ( 'ESTADO', 'ESTADO.EST_ID  = CIUDAD.EST_ID' );
+    	$select->join ( 'PAIS', 'PAIS.PAI_ID  = ESTADO.PAI_ID' );
+    	$select->where(array('CON_ID' => $id));
+    	
+    	$resultSet = $this->tableGateway->selectWith ( $select );
     	$row = $resultSet->current();
     	return $row;
     }
