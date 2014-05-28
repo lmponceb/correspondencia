@@ -1,4 +1,7 @@
-<?php echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
+<?php 
+use Parametros\Funciones\Funciones;
+$funciones = new Funciones();
+echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
 <html>
     <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -46,7 +49,7 @@
     				<tr><td colspan="2">&nbsp;</td></tr>
     				<tr>
     					<td>Fecha/Date:</td>
-    					<td><?php echo $this->carta->getCtr_fecha_actualizacion()?></td>
+    					<td><?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd-M-Y')?></td>
     				</tr>
     			</table>
     		</td>
