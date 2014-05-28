@@ -531,9 +531,6 @@ echo $this->formelementerrors ( $proyecto_oculto );
 			}else{
 				$('#tr_trans_bancaria').attr('style','display:none');
 			}
-
-			
-	
 		})
 
 		$('#TIP_CAR_ID').ready(function(){
@@ -549,6 +546,22 @@ echo $this->formelementerrors ( $proyecto_oculto );
 				$('#tr_trans_bancaria').attr('style','display:none');
 			}
 		})
+
+		$("#PRO_ID").change(function() {
+			if($('#PRO_ID').val() != '' && $('#PRO_ID').val() != null){
+				$.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'proyecto')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "proyecto=" + $('#PRO_ID').val(),
+	                beforeSend: function() {
+	                	$("#CTR_REFERENCIA").val("Procesando, espere por favor...");
+	                }
+	            }).done(function(cargobdd) {
+	            		$("#CTR_REFERENCIA").val(" " + cargobdd["pro_id"] + ', ' + cargobdd["pro_descripcion"]);
+	            });
+			}
+        });
 
 	});
 </script>

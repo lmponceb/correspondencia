@@ -754,4 +754,24 @@ class CartasController extends AbstractActionController
     	}
     }
     
+    public function proyectoAction(){
+    	if($this->getRequest()->isXmlHttpRequest()){
+    		$pro_id = $this->request->getPost('proyecto');
+    		$data = $this->getProyectoDao()->traer($pro_id);
+    
+    		$valores = array();
+    		$valores['pro_descripcion'] = $data->getPro_descripcion();
+    		$valores['pro_id'] = $data->getPro_id();
+    
+    		$jsonData = json_encode($valores);
+    		$response = $this->getResponse();
+    		$response->setStatusCode(200);
+    		$response->setContent($jsonData);
+    
+    		return $response;
+    	}else{
+    		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
+    	}
+    }
+    
 }
