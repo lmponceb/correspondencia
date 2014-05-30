@@ -14,6 +14,7 @@ class LoginController extends AbstractActionController {
 	protected $rolUsuarioDao;
 	
 	public function indexAction	() {
+		
 		$form = new Login ( 'login' );
 		$loggedIn = $this->login->isLoggedIn ();
 

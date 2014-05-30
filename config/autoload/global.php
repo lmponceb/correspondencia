@@ -38,4 +38,8 @@
         'Usuarios'    => 'layout/layoutCorrespondencia.phtml',
         'Parametros'    => 'layout/layoutCorrespondencia.phtml',
  	),
+ 	
+ 	'translator' => array(
+ 			'locale' => 'es_ES'
+ 	),
  );

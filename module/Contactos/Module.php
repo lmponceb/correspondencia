@@ -36,6 +36,7 @@ use Contactos\Model\Entity\DetalleContacto;
 use Contactos\Model\Dao\DetalleContactoDao;
 use Contactos\Model\Dao\ContactoRelacionadoDao;
 use Contactos\Model\Entity\ContactoRelacionado;
+use Application\Controller\Listener\LanguageListener;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -176,5 +177,5 @@ class Module implements AutoloaderProviderInterface
     			),
     	);
     }
-
+    
 }

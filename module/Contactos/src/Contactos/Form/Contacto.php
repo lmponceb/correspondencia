@@ -729,6 +729,64 @@ class Contacto extends Form {
 				)
 		) );
 		
+		/******************** CAMPOS ADICIONALES SUCURSAL ************************/
+		
+		/* ********************************************
+		 * CAMPO DIRECCION EMPRESA
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'SUC_DIRECCION',
+				'options' => array (
+						'label' => 'Direcci&oacute;n de la sucursal:'
+				),
+				'attributes' => array (
+						'type' => 'textarea',
+						'maxlength' => '150',
+						'id' => 'SUC_DIRECCION',
+						'readonly' => 'readonly',
+						'class' => 'form-control',
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO EMAIL EMPRESA
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'SUC_EMAIL',
+				'options' => array (
+						'label' => 'Email de la sucursal:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlength' => '150',
+						'id' => 'SUC_EMAIL',
+						'readonly' => 'readonly',
+						'class' => 'form-control',
+				)
+		) );
+		
+		/* ********************************************
+		 * CAMPO PAGINA WEB EMPRESA
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'SUC_PAGINA_WEB',
+				'options' => array (
+						'label' => 'P&aacute;gina web de la sucursal:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlength' => '150',
+						'id' => 'SUC_PAGINA_WEB',
+						'readonly' => 'readonly',
+						'class' => 'form-control',
+				)
+		) );
+		
+		
+		
 		//BOTON DE SUBMIT
 		$this->add ( array (
 				'name' => 'ingresar',
