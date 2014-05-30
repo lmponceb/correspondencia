@@ -100,3 +100,7 @@ h3{
 input:hover, select:hover, textarea:hover{
 	background-color: #FFFFE8;
 }
+
+td ul li{
+	color: red;
+}

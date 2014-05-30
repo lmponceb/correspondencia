@@ -16,9 +16,14 @@ use Application\Controller\LoginController;
 use Application\Permissions\AclListener;
 use Application\Model\Dao\RolUsuarioDao;
 use Application\Model\Entity\RolUsuario;
+use Zend\Validator\AbstractValidator;
 
 class Module {
 	public function onBootstrap(MvcEvent $e) {
+		
+		//AYUDA A QUE SE VALIDEN LOS ERRORES DEL FORMULARIO
+		$translator = $e->getApplication()->getServiceManager()->get('translator');
+		AbstractValidator::setDefaultTranslator($translator);
 		
 		$eventManager = $e->getApplication ()->getEventManager ();
 		$moduleRouteListener = new ModuleRouteListener ();

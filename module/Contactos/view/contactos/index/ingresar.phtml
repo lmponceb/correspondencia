@@ -49,6 +49,12 @@ $emp_direccion = $form->get ( 'EMP_DIRECCION' );
 $emp_email = $form->get ( 'EMP_EMAIL' );
 $emp_pagina_web = $form->get ( 'EMP_PAGINA_WEB' );
 
+//CAMPOS DE SUCURSAL - NO SON PARTE DEL POST DEL FORMULARIO
+$suc_direccion = $form->get ( 'SUC_DIRECCION' );
+$suc_email = $form->get ( 'SUC_EMAIL' );
+$suc_pagina_web = $form->get ( 'SUC_PAGINA_WEB' );
+
+
 echo $this->form ()->openTag ( $form );
 
 //CAMPOS OCULTOS
@@ -93,13 +99,13 @@ echo $this->formelementerrors ( $con_estado );
 					<td colspan="3"><h3 align="left">Informaci&oacute;n Personal</h3><hr /></td>
 				</tr>
 				<tr>
-					<td>
+					<td width="33%">
 					<?php echo $formLabel->openTag() . $con_tip_per_es->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $con_tip_per_es ) );
-						  echo html_entity_decode( $this->formelementerrors ( $con_tip_per_es ) ); 
+						  echo html_entity_decode($this->formelementerrors ( $con_tip_per_es )); 
 					?>
 					</td>
-					<td>
+					<td width="33%">
 					<?php echo $formLabel->openTag() . $con_tip_per_en->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $con_tip_per_en ) );
 						  echo html_entity_decode( $this->formelementerrors ( $con_tip_per_en ) ); 
@@ -122,9 +128,12 @@ echo $this->formelementerrors ( $con_estado );
 					</td>	
 					<td>
 					<?php echo $formLabel->openTag() . $emp_id->getLabel() . $formLabel->closeTag();
+					echo '<br />';
 					      echo html_entity_decode( $this->formselect ( $emp_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $emp_id ) );
 					?>
+					<div style="float: left; padding-top: 5px;">&nbsp;&nbsp;<a href="<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'add'))?>"><img src="<?php echo $this->basepath() . '/img/gif/plus.gif'?>" /></a></div>
+					
 					</td>	
 					<td>
 					<?php echo $formLabel->openTag() . $suc_id->getLabel() . $formLabel->closeTag();
@@ -156,6 +165,29 @@ echo $this->formelementerrors ( $con_estado );
 					</td>	
 				</tr>
 				<!-- FIN CAMPOS EMPRESA -->
+				
+				<!-- CAMPOS OCULTOS DE SUCURSAL -->
+				<tr id="datos_sucursal" style="display: none;">
+					<td>
+					<?php echo $formLabel->openTag() . $suc_direccion->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $suc_direccion ) );
+						  echo html_entity_decode( $this->formelementerrors ( $suc_direccion ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $suc_email->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $suc_email ) );
+						  echo html_entity_decode( $this->formelementerrors ( $suc_email ) );
+					?>
+					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $suc_pagina_web->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtext ( $suc_pagina_web ) );
+						  echo html_entity_decode( $this->formelementerrors ( $suc_pagina_web ) );
+					?>
+					</td>	
+				</tr>
+				<!-- FIN CAMPOS SUCURSAL -->
 				
 				<tr>
 					<td>
@@ -450,7 +482,50 @@ echo $this->formelementerrors ( $con_estado );
 				$('#datos_empresa').attr('style', 'display:none');
 			}
 		});
-        
+
+		$('#SUC_ID').change(function(){
+			if($('#SUC_ID').val() != null && $('#SUC_ID').val() != ''){
+
+				$.ajax({
+	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'datosEmpresa')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#SUC_ID').val(),
+	                beforeSend: function() {
+						$('#SUC_DIRECCION, #SUC_EMAIL, #SUC_PAGINA_WEB').val('Procesando, espere por favor...');
+	                }
+	            }).done(function(empresa) {
+		            $('#datos_sucursal').attr('style', 'display:true');
+	            	$("#SUC_DIRECCION").val(''+empresa['emp_direccion']);
+	            	$("#SUC_EMAIL").val(''+empresa['emp_email']);
+	            	$("#SUC_PAGINA_WEB").val(''+empresa['emp_pagina_web']);
+	            });
+			}else{
+				$('#datos_sucursal').attr('style', 'display:none');
+			}
+		});
+
+		$('#SUC_ID').ready(function(){
+			if($('#SUC_ID').val() != null && $('#SUC_ID').val() != ''){
+
+				$.ajax({
+	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'datosEmpresa')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#SUC_ID').val(),
+	                beforeSend: function() {
+						$('#SUC_DIRECCION, #SUC_EMAIL, #SUC_PAGINA_WEB').val('Procesando, espere por favor...');
+	                }
+	            }).done(function(empresa) {
+		            $('#datos_sucursal').attr('style', 'display:true');
+	            	$("#SUC_DIRECCION").val(''+empresa['emp_direccion']);
+	            	$("#SUC_EMAIL").val(''+empresa['emp_email']);
+	            	$("#SUC_PAGINA_WEB").val(''+empresa['emp_pagina_web']);
+	            });
+			}else{
+				$('#datos_sucursal').attr('style', 'display:none');
+			}
+		});
 		
 		//Carga del combo box de Códigos de teléfono de Ciudades
 		$(".det_con_codigo_ciudad").prop("disabled", true);

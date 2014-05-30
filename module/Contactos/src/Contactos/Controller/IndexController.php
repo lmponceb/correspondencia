@@ -42,6 +42,7 @@ class IndexController extends AbstractActionController {
 	}
 	
 	public function indexAction() {
+		
 		return $this->redirect ()->toRoute ( 'contactos', array (
 					'controller' => 'index',
 					'action' => 'ingresar' 
@@ -50,7 +51,8 @@ class IndexController extends AbstractActionController {
 	}
 	
 	public function listadoAction() {
-		$contactos  =$this->getContactoDao ()->traerTodos ();
+		
+		$contactos = $this->getContactoDao ()->traerTodos ();
 		
 		return new ViewModel ( array (
 				'contactos' => $contactos,
@@ -634,6 +636,10 @@ class IndexController extends AbstractActionController {
 			$this->contactoRelacionado = $sm->get('Contactos\Model\Dao\ContactoRelacionadoDao');
 		}
 		return $this->contactoRelacionado;
+	}
+	
+	public function getTranslator(){
+		return $this->getServiceLocator()->get('translator');
 	}
 
 }
