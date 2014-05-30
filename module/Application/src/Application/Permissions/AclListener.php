@@ -131,7 +131,7 @@ class AclListener implements ListenerAggregateInterface{
         $action = $matches->getParam('action');
         
         $resourceName = $module . ':' . $controller;
-        //print_r($this->getRole($services));
+        
         if(!$acl->isAllowed($this->getRole($services), $resourceName, $action)){
             $matches->setParam('controller', 'Application\Controller\Error');
 			$matches->setParam('action','denied');

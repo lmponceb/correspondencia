@@ -25,6 +25,6 @@ return array(
 		),
 		'db_view' => array(
 				'username' => 'system',
-				'password' => 'oracle',
+				'password' => 'admin',
 		),		
 );

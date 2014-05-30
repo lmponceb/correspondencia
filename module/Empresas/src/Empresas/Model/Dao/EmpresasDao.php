@@ -111,6 +111,9 @@
         $select = $sql->select();
         $select->from($this->tableGateway->table);
 
+        $select->where->expression('UPPER(EMP_NOMBRE) LIKE UPPER(?)','%'.$term.'%');
+        $select->where->literal("(EMP_EMP_ID IS NULL OR EMP_EMP_ID = 0)");
+
         if($emp_id != '' && !is_null($emp_id)){
             $select->where->notEqualTo('EMP_ID',$emp_id);
         }

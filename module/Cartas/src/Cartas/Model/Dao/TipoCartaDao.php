@@ -23,7 +23,13 @@ class TipoCartaDao {
     	$sql = new Sql($this->tableGateway->getAdapter());
     	$select = $sql->select();
     	$select->from($this->tableGateway->table);
-    	 
+    	/*Permisos según tipo de cartas*/ 
+        $menu=$_SESSION['Zend_Auth']['storage']->menu[$_SESSION['Zend_Auth']['storage']->us_role];
+        if(!in_array('parametros:option:transaccion_bancaria',$menu))
+            $select->where->notEqualTo('TIP_CAR_ID',4);
+        if(!in_array('parametros:option:transferencia_sueldo',$menu))
+            $select->where->notEqualTo('TIP_CAR_ID',5);
+        /*Fin de permisos según tipo de cartas*/
     	$statement = $sql->prepareStatementForSqlObject($select);
     	$results = $statement->execute();
     	 

@@ -292,10 +292,6 @@
     		<tr>
     			<td class="menu">
 					<ul id="menu">
-						<?php // if(in_array('application:index',$menu)): ?>
-						<!--	<li><img src=" <?php echo $this->basepath() . '/img/png/home.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('application', array('controller' => 'index', 'action' => 'index'))?>">Inicio</a></li>
-						-->
-						<?php //endif; ?>
 						<?php if(in_array('contactos:index',$menu)): ?>
 							<li><img src=" <?php echo $this->basepath() . '/img/png/contacto.png'?>" /> &nbsp;&nbsp;<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'listado'))?>">Contactos</a></li>
 						<?php endif; ?>

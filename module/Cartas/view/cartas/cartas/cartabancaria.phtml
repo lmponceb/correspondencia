@@ -22,7 +22,7 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     </head>
     <body>
     <div style="padding-left: 88px; padding-top: 60px;">
-        <img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />
+        <img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />
         <!--<img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />-->
     </div>
     <div style="padding-top: 65px;">&nbsp;</div>
@@ -49,7 +49,7 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     				<tr><td colspan="2">&nbsp;</td></tr>
     				<tr>
     					<td>Fecha/Date:</td>
-    					<td><?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd-M-Y')?></td>
+    					<td><?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd/m/Y')?></td>
     				</tr>
     			</table>
     		</td>
