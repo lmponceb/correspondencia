@@ -111,7 +111,7 @@ class EmpresaDao {
     	}
     	
     	foreach ($empresas as $emp){
-    		$result[$emp->getEmp_id()] = $emp->getEmp_nombre();
+    		$result[$emp->getEmp_id()] = $emp->getEmp_nombre() . ' - ' . $emp->getEmp_direccion();
     	}
     	 
     	return $result;

@@ -20,20 +20,21 @@
  <thead style="">
  <tr>
  	 <th>&nbsp;</th>
- 	 <th>&nbsp;</th>
+ 	 <th>SOBRES</th>
      <th>EMPRESA</th>
      <th>SUCURSAL</th>
-     <th>CARGO</th>
-     <th>TIPO DE PERSONA</th>
+     <th>T&Iacute;TULO</th>
      <th>NOMBRE</th>
      <th>APELLIDO</th>
+     <th>CARGO</th>
+     <th>RESPONSABLE</th> 
  </tr>
  </thead>
  <tbody>
  <?php 
  foreach ($this->contactos as $carta) : ?>
  <tr>
- 	 <td width="150">
+ 	 <td width="110">
  	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'editar', 'id' => $carta->getCon_id()))?>" title="Actualizar" alt="Actualizar">Editar</a>
  	 	
  	 	<?php
@@ -65,9 +66,10 @@
      </td>
      <td><?php echo $this->escapeHtml($carta->getEmpresa_nombre());?></td>
      <td><?php echo $this->escapeHtml($carta->getCon_tip_per_es());?></td>
-     <td><?php echo $this->escapeHtml($carta->getCon_descripcion_es());?></td>
      <td><?php echo $this->escapeHtml($carta->getCon_nombre());?></td>
      <td><?php echo $this->escapeHtml($carta->getCon_apellido());?></td>
+     <td><?php echo $this->escapeHtml($carta->getCon_descripcion_es());?></td>
+     <td><?php echo $this->escapeHtml($carta->getCon_usuario());?></td>
  </tr>
  <?php endforeach; ?>
  </tbody>

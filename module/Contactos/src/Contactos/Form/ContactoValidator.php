@@ -177,11 +177,10 @@ class ContactoValidator extends InputFilter {
 		
 		
 		$con_tip_per_en = new Input ( 'CON_TIP_PER_EN' );
-		$con_tip_per_en->setRequired ( true );
+		$con_tip_per_en->setRequired ( false );
 		$con_tip_per_en->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 30,
-				'min' => 2
-		) ) )->attach(new NotEmpty());
+		) ) );
 		
 		
 		$this->add ( $con_tip_per_en );
@@ -200,10 +199,10 @@ class ContactoValidator extends InputFilter {
 		
 		
 		$con_descripcion_en = new Input ( 'CON_DESCRIPCION_EN' );
-		$con_descripcion_en->setRequired ( true );
+		$con_descripcion_en->setRequired ( false );
 		$con_descripcion_en->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 30
-		) ) )->attach(new NotEmpty())->attach ( new Alnum ( array (
+		) ) )->attach ( new Alnum ( array (
 				'allowWhiteSpace' => true
 		) ) );
 		
@@ -212,10 +211,10 @@ class ContactoValidator extends InputFilter {
 		
 		
 		$con_direccion = new Input ( 'CON_DIRECCION' );
-		$con_direccion->setRequired ( true );
+		$con_direccion->setRequired ( false );
 		$con_direccion->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 150
-		) ) )->attach(new NotEmpty());
+		) ) );
 		
 		
 		$this->add ( $con_direccion );

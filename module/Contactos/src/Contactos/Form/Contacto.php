@@ -76,6 +76,7 @@ class Contacto extends Form {
 		$empresa->setLabel('Empresa*: ');
 		$empresa->setAttributes(array('id' => 'EMP_ID'));
 		$empresa->setAttributes(array('class' => 'form-control'));
+		$empresa->setAttributes(array('style' => 'float:left; width:90%;'));
 		$empresa->setEmptyOption('-- Seleccione --');
 		//$pais->setValue('1');
 		$empresa->setOptions(array(
@@ -412,7 +413,7 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_DESCRIPCION_EN',
 				'options' => array (
-						'label' => 'Cargo Ingl&eacute;s*:'
+						'label' => 'Cargo Ingl&eacute;s:'
 				),
 				'attributes' => array (
 						'type' => 'text',
@@ -430,7 +431,7 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_TIP_PER_ES',
 				'options' => array (
-						'label' => 'Tipo Persona Espa&ntilde;ol*:'
+						'label' => 'T&iacute;tulo*:'
 				),
 				'attributes' => array (
 						'type' => 'text',
@@ -448,7 +449,7 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_TIP_PER_EN',
 				'options' => array (
-						'label' => 'Tipo Persona Ingl&eacute;s*:'
+						'label' => 'T&iacute;tulo Ingl&eacute;s:'
 				),
 				'attributes' => array (
 						'type' => 'text',
@@ -466,7 +467,7 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_DIRECCION',
 				'options' => array (
-						'label' => 'Direcci&oacute;n*:'
+						'label' => 'Direcci&oacute;n:'
 				),
 				'attributes' => array (
 						'type' => 'textarea',
