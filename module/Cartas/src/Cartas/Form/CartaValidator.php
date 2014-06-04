@@ -168,19 +168,27 @@ class CartaValidator extends InputFilter {
 		$epl_id_uno = new Input ( 'EPL_ID_UNO' );
 		$epl_id_uno->setRequired ( true );
 		$epl_id_uno->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 11,
-				'min' => 1,
+				'max' => 100,
 		) ) )
 		->attach(new NotEmpty());
 		
 		$this->add ( $epl_id_uno );
 		
 		
+		$cargo_uno = new Input ( 'CARGO_UNO' );
+		$cargo_uno->setRequired ( true );
+		$cargo_uno->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 100,
+		) ) )
+		->attach(new NotEmpty());
+		
+		$this->add ( $cargo_uno );
+		
+		
 		$epl_id_dos = new Input ( 'EPL_ID_DOS' );
 		$epl_id_dos->setRequired ( false );
 		$epl_id_dos->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 11,
-				'min' => 1,
+				'max' => 100,
 		) ) );
 		
 		$this->add ( $epl_id_dos );

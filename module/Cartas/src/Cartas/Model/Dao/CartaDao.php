@@ -63,7 +63,8 @@ class CartaDao {
     			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
     			'CTR_TIPO' => $carta->getCtr_tipo(),
     			'CTR_ESTADO' => $carta->getCtr_estado(),
-    			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion()
+    			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion(),
+    			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa()
     	);
     	 
     	if(empty($id) || is_null($id)){
@@ -107,7 +108,8 @@ class CartaDao {
     			'CTR_DESPEDIDA' => $carta->getCtr_despedida(),
     			'CTR_TIPO' => 'B',
     			'CTR_ESTADO' => 'A',
-    			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion()
+    			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion(),
+    			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa()
     	);
     	
     	$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');

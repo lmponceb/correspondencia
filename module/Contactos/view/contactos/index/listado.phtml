@@ -21,6 +21,7 @@
  <tr>
  	 <th>&nbsp;</th>
  	 <th>SOBRES</th>
+ 	 <th>DETALLE</th>
      <th>EMPRESA</th>
      <th>SUCURSAL</th>
      <th>T&Iacute;TULO</th>
@@ -51,8 +52,9 @@
  	 </td>
  	 <td width="150">
  	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'courier', 'id' => $carta->getCon_id()))?>" title="Sobre Courier" alt="Sobre Courier" target="_blank">Courier</a> |
- 	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sobre', 'id' => $carta->getCon_id()))?>" title="Sobre Nacional" alt="Sobre Nacional" target="_blank">Sobre Nacional</a>
+ 	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sobre', 'id' => $carta->getCon_id()))?>" title="Sobre Nacional" alt="Sobre Nacional" target="_blank">Nacional</a>
  	 </td>
+ 	 <td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'pdfcontacto', 'id' => $carta->getCon_id()))?>" title="Sobre Nacional" alt="Sobre Nacional" target="_blank">PDF</a></td>
      <td>
      <?php 
      	$empresa = $carta->getSucursal_nombre();

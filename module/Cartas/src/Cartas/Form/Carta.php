@@ -302,15 +302,28 @@ class Carta extends Form {
 		/* ********************************************
 		 * CAMPO FIRMA 1
 		 * ********************************************/
-		$epl_id_uno = new Select('EPL_ID_UNO');
-		$epl_id_uno->setLabel('Firma 1*: ');
-		$epl_id_uno->setAttributes(array('class' => 'form-control'));
-		$epl_id_uno->setAttributes(array('id' => 'EPL_ID_UNO'));
-		$epl_id_uno->setEmptyOption('-- Seleccione --');
-		$epl_id_uno->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
-		));
-		$this->add($epl_id_uno);
+// 		$epl_id_uno = new Select('EPL_ID_UNO');
+// 		$epl_id_uno->setLabel('Firma 1*: ');
+// 		$epl_id_uno->setAttributes(array('class' => 'form-control'));
+// 		$epl_id_uno->setAttributes(array('id' => 'EPL_ID_UNO'));
+// 		$epl_id_uno->setEmptyOption('-- Seleccione --');
+// 		$epl_id_uno->setOptions(array(
+// 				'disable_inarray_validator' => false, // <-- disable
+// 		));
+// 		$this->add($epl_id_uno);
+		
+		
+		$this->add ( array (
+				'name' => 'EPL_ID_UNO',
+				'options' => array (
+						'label' => 'Firma 1*:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'id' => 'EPL_ID_UNO',
+						'class' => 'form-control'
+				)
+		) );
 		
 		
 		/* ********************************************
@@ -324,7 +337,6 @@ class Carta extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'readonly' => 'readonly',
 						'id' => 'CARGO_UNO',
 						'class' => 'form-control'
 				)
@@ -334,15 +346,28 @@ class Carta extends Form {
 		/* ********************************************
 		 * CAMPO FIRMA 2
 		 * ********************************************/
-		$epl_id_dos = new Select('EPL_ID_DOS');
-		$epl_id_dos->setLabel('Firma 2: ');
-		$epl_id_dos->setAttributes(array('class' => 'form-control'));
-		$epl_id_dos->setAttributes(array('id' => 'EPL_ID_DOS'));
-		$epl_id_dos->setEmptyOption('-- Seleccione --');
-		$epl_id_dos->setOptions(array(
-				'disable_inarray_validator' => false, // <-- disable
-		));
-		$this->add($epl_id_dos);
+// 		$epl_id_dos = new Select('EPL_ID_DOS');
+// 		$epl_id_dos->setLabel('Firma 2: ');
+// 		$epl_id_dos->setAttributes(array('class' => 'form-control'));
+// 		$epl_id_dos->setAttributes(array('id' => 'EPL_ID_DOS'));
+// 		$epl_id_dos->setEmptyOption('-- Seleccione --');
+// 		$epl_id_dos->setOptions(array(
+// 				'disable_inarray_validator' => false, // <-- disable
+// 		));
+// 		$this->add($epl_id_dos);
+		
+		
+		$this->add ( array (
+				'name' => 'EPL_ID_DOS',
+				'options' => array (
+						'label' => 'Firma 2:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'id' => 'EPL_ID_DOS',
+						'class' => 'form-control'
+				)
+		) );
 		
 		
 		/* ********************************************
@@ -355,7 +380,6 @@ class Carta extends Form {
 				),
 				'attributes' => array (
 						'type' => 'text',
-						'readonly' => 'readonly',
 						'id' => 'CARGO_DOS',
 						'class' => 'form-control'
 				)
@@ -655,6 +679,32 @@ class Carta extends Form {
 		));
 		$this->add($tra_ban_detalle);
 		
+		/************** DIRECCION ADICIONAL SUCURSAL **************/
+		
+		/* ********************************************
+		 * CAMPO ADICIONAL DIRECCION EMPRESA 
+		* ********************************************/
+		$ctr_direccion_empresa = new Select('CTR_DIRECCION_EMPRESA');
+		$ctr_direccion_empresa->setLabel('Direcci&oacute;n a mostrar: ');
+		$ctr_direccion_empresa->setAttributes(array('id' => 'CTR_DIRECCION_EMPRESA'));
+		$ctr_direccion_empresa->setAttributes(array('class' => 'form-control'));
+		$ctr_direccion_empresa->setEmptyOption('-- Seleccione --');
+		//$pais->setValue('1');
+		$ctr_direccion_empresa->setOptions(array(
+				'disable_inarray_validator' => true, // <-- disable
+		));
+		$this->add($ctr_direccion_empresa);
+		
+		
+		$this->add ( array (
+				'name' => 'direccion_empresa_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'direccion_empresa_oculto',
+						'class' => 'form-control'
+				)
+		) );
 		
 		//BOTON DE SUBMIT
 		$this->add ( array (

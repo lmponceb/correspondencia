@@ -64,10 +64,10 @@ class Module implements AutoloaderProviderInterface
     	return array(
     			'factories' => array(
     					'Contactos\Model\Dao\ContactoDao' => function($sm){
-    						$tableGateway = $sm->get('ContactoTableGateway');
+    						$tableGateway = $sm->get('ContactoContactosTableGateway');
     						return new ContactoDao($tableGateway);
     					},
-    					'ContactoTableGateway' => function ($sm){
+    					'ContactoContactosTableGateway' => function ($sm){
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new Contacto());

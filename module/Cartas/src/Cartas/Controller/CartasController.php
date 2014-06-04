@@ -98,19 +98,23 @@ class CartasController extends AbstractActionController
     		$form->get('EMP_ID')->setAttribute('value', $empresa->getEmp_id());
     	}
     	
-
+    	
     	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCarta($carta->getCtr_id());
+    	
     	$array = array();
     	$i=0;
     	foreach ($carta_firma as $car){
-    		$array[$i]['EPL_ID'] = $car->getEpl_id() . '<br />';
-    		$array[$i]['CAR_FIR_TIPO'] = $car->getCar_fir_tipo() . '<br />';
+    		$array[$i]['CAR_FIR_NOMBRE'] = $car->getCar_fir_nombre();
+    		$array[$i]['CAR_FIR_TIPO'] = $car->getCar_fir_tipo();
+    		$array[$i]['CAR_FIR_CARGO'] = $car->getCar_fir_cargo();
     		$i++;
     	}
     	
-    	$form->get('EPL_ID_UNO')->setAttribute('value', (int)$array[0]['EPL_ID']);
+    	$form->get('EPL_ID_UNO')->setAttribute('value', $array[0]['CAR_FIR_NOMBRE']);
+    	$form->get('CARGO_UNO')->setAttribute('value', $array[0]['CAR_FIR_CARGO']);
     	$form->get('CAR_FIR_TIPO')->setAttribute('checked', 'checked');
-    	$form->get('EPL_ID_DOS')->setAttribute('value', (int)$array[1]['EPL_ID']);
+    	$form->get('EPL_ID_DOS')->setAttribute('value', $array[1]['CAR_FIR_NOMBRE']);
+    	$form->get('CARGO_DOS')->setAttribute('value', $array[0]['CAR_FIR_CARGO']);
     	
     	$tipo_carta = $carta->getTip_car_id();
     	
@@ -133,6 +137,8 @@ class CartasController extends AbstractActionController
      		$form->get('TRA_BAN_BANCO_DIRECCION')->setAttribute('value', $transaccion->getTra_ban_banco_direccion());
      		$form->get('TRA_BAN_DETALLE')->setAttribute('value', $transaccion->getTra_ban_detalle());
     	}
+    	
+    	$form->get ( 'direccion_empresa_oculto' )->setAttribute ( 'value', $carta->getCtr_direccion_empresa() );
     	
     	$view = new ViewModel ( array (
     			'formulario' => $form ,
@@ -183,6 +189,11 @@ class CartasController extends AbstractActionController
 			$form->getInputFilter()->get('TRA_BAN_BANCO_DIRECCION')->setRequired(true);
 			$form->getInputFilter()->get('TRA_BAN_CC')->setRequired(false);
 			$form->getInputFilter()->get('TRA_BAN_DETALLE')->setRequired(true);
+		}
+		
+		//SE VALIDA SI SE QUIERE MOSTRAR LA DIRECCION DE UNA EMPRESA
+		if(strtoupper($data['CTR_ACTIVAR_DIRECCION']) == 'E'){
+			$form->getInputFilter()->get('CTR_DIRECCION_EMPRESA')->setRequired(true);
 		}
 		
 		//SE LLENAN LOS DATOS DEL FORMULARIO
@@ -283,32 +294,26 @@ class CartasController extends AbstractActionController
 		//GRABA LA INFORMACION DE QUIENES FIRMAN LA CARTA
 		$cartaFirma = new CartaFirma();
 		$cartaFirmaParams['CTR_ID'] = $codigo_carta;
-		$cartaFirmaParams['EPL_ID'] = $data['EPL_ID_UNO'];
 		$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
-// 		if(strtoupper($data['CAR_FIR_TIPO']) == 'P'){
-// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
-// 		}else{
-// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
-// 		}
+		$cartaFirmaParams['CAR_FIR_NOMBRE'] = $data['EPL_ID_UNO'];
+		$cartaFirmaParams['CAR_FIR_CARGO'] = $data['CARGO_UNO'];
 		
 		
 		$cartaFirma->exchangeArray($cartaFirmaParams);
 		$this->getCartaFirmaDao()->guardar($cartaFirma);
 		
-		if(!empty($data['EPL_ID_DOS']) && !is_null($data['EPL_ID_DOS'])){
-		
-		$cartaFirma = new CartaFirma();
-		$cartaFirmaParams['CTR_ID'] = $codigo_carta;
-		$cartaFirmaParams['EPL_ID'] = $data['EPL_ID_DOS'];
-		$cartaFirmaParams['CAR_FIR_TIPO'] = 'S';
-// 		if(strtoupper($data['CAR_FIR_TIPO']) == 'P'){
-// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'S';
-// 		}else{
-// 			$cartaFirmaParams['CAR_FIR_TIPO'] = 'P';
-// 		}
-		
-		$cartaFirma->exchangeArray($cartaFirmaParams);
-		$this->getCartaFirmaDao()->guardar($cartaFirma);
+		if(
+			!empty($data['EPL_ID_DOS']) && !is_null($data['EPL_ID_DOS']) &&
+			!empty($data['CAR_FIR_CARGO']) && !is_null($data['CAR_FIR_CARGO'])
+		){
+			$cartaFirma = new CartaFirma();
+			$cartaFirmaParams['CTR_ID'] = $codigo_carta;
+			$cartaFirmaParams['CAR_FIR_TIPO'] = 'S';
+			$cartaFirmaParams['CAR_FIR_NOMBRE'] = $data['EPL_ID_DOS'];
+			$cartaFirmaParams['CAR_FIR_CARGO'] = $data['CARGO_DOS'];
+			
+			$cartaFirma->exchangeArray($cartaFirmaParams);
+			$this->getCartaFirmaDao()->guardar($cartaFirma);
 		}
 		
         //SI SE EJECUTO EXITOSAMENTE SE REGRESA AL LISTADO DE CONTACTOS
@@ -408,6 +413,7 @@ class CartasController extends AbstractActionController
     	$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
     	
     	$emp_emp_id = $empresa->getEmp_emp_id();
+    	$direccion = $carta->getCtr_direccion_empresa();
     	
     	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
     		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
@@ -416,6 +422,12 @@ class CartasController extends AbstractActionController
     	}
     	
     	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
+    	
+    	if(!empty($direccion) && !is_null($direccion)){
+    		$empresa_direccion = $this->getEmpresaDao()->traer($direccion);
+    	}else{
+    		$empresa_direccion = '';
+    	}
     	
     	$pdf = new PdfModel();
     	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
@@ -426,7 +438,8 @@ class CartasController extends AbstractActionController
     			'carta' => $carta,
     			'contacto' => $contacto,
     			'carta_firma' => $carta_firma,
-    			'empresa' => $empresa_padre
+    			'empresa' => $empresa_padre,
+    			'direccion_e' => $empresa_direccion
     	));
     	 
     	return $pdf;
@@ -445,6 +458,7 @@ class CartasController extends AbstractActionController
     	$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
     	 
     	$emp_emp_id = $empresa->getEmp_emp_id();
+    	$direccion = $carta->getCtr_direccion_empresa();
     	 
     	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
     		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
@@ -453,6 +467,13 @@ class CartasController extends AbstractActionController
     	}
     	
     	$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
+    	
+    	
+    	if(!empty($direccion) && !is_null($direccion)){
+    		$empresa_direccion = $this->getEmpresaDao()->traer($direccion);
+    	}else{
+    		$empresa_direccion = '';
+    	}
     	 
     	$pdf = new PdfModel();
     	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
@@ -463,7 +484,8 @@ class CartasController extends AbstractActionController
     			'carta' => $carta,
     			'contacto' => $contacto,
     			'carta_firma' => $carta_firma,
-    			'empresa' => $empresa_padre
+    			'empresa' => $empresa_padre,
+    			'direccion_e' => $empresa_direccion
     	));
     
     	return $pdf;
@@ -609,8 +631,6 @@ class CartasController extends AbstractActionController
     	$form->get ( 'TIP_CAR_ID' )->setValueOptions ( $this->getTipoCartaDao ()->traerTodosArreglo () );
     	$form->get ( 'EMP_INT_ID' )->setValueOptions ( $this->getEmpresaInternaDao ()->traerTodosArreglo () );
     	$form->get ( 'EMP_ID' )->setValueOptions ( $this->getEmpresaDao ()->traerEmpresas () );
-    	$form->get ( 'EPL_ID_UNO' )->setValueOptions ( $this->getEmpleadoDao ()->traerTodosArreglo () );
-    	$form->get ( 'EPL_ID_DOS' )->setValueOptions ( $this->getEmpleadoDao ()->traerTodosArreglo () );
     	$form->get ( 'PRO_ID' )->setValueOptions ( $this->getProyectoDao ()->traerTodosArreglo () );
     	return $form;
     }
@@ -723,6 +743,38 @@ class CartasController extends AbstractActionController
     	if($this->getRequest()->isXmlHttpRequest()){
     		$empresa = $this->request->getPost('empresa');
     		$data = $this->getContactoDao()->getContactosPorEmpresa($empresa);
+    
+    		$jsonData = json_encode($data);
+    		$response = $this->getResponse();
+    		$response->setStatusCode(200);
+    		$response->setContent($jsonData);
+    
+    		return $response;
+    	}else{
+    		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
+    	}
+    }
+    
+    public function empresadireccionAction(){
+    	if($this->getRequest()->isXmlHttpRequest()){
+    		$empresa = $this->request->getPost('empresa');
+    		$data = $this->getEmpresaDao()->traerDireccionEmpresa($empresa);
+    		
+    		$jsonData = json_encode($data);
+    		$response = $this->getResponse();
+    		$response->setStatusCode(200);
+    		$response->setContent($jsonData);
+    
+    		return $response;
+    	}else{
+    		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
+    	}
+    }
+    
+    public function sucursaldireccionAction(){
+    	if($this->getRequest()->isXmlHttpRequest()){
+    		$empresa = $this->request->getPost('empresa');
+    		$data = $this->getEmpresaDao()->traerDireccionSucursalesEmpresa($empresa);
     
     		$jsonData = json_encode($data);
     		$response = $this->getResponse();

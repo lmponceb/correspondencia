@@ -41,6 +41,8 @@ class ContactoDao {
     	$select->join ( 'CIUDAD', 'CIUDAD.CIU_ID  = CONTACTO.CIU_ID' );
     	$select->join ( 'ESTADO', 'ESTADO.EST_ID  = CIUDAD.EST_ID' );
     	$select->join ( 'PAIS', 'PAIS.PAI_ID  = ESTADO.PAI_ID' );
+    	$select->join ( 'EMPRESA', 'EMPRESA.EMP_ID  = CONTACTO.EMP_ID' );
+    	$select->join (array('SUC' => 'EMPRESA'), 'SUC.EMP_ID  = EMPRESA.EMP_EMP_ID', array('SUC_NOMBRE' => 'EMP_NOMBRE'), 'left' );
     	$select->where(array('CON_ID' => $id));
     	
     	$resultSet = $this->tableGateway->selectWith ( $select );

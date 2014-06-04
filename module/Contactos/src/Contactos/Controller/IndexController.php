@@ -402,6 +402,37 @@ class IndexController extends AbstractActionController {
 			
 	}
 	
+	public function pdfcontactoAction(){
+		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+		
+		$contacto = $this->getContactoDao()->traer($id);
+		
+// 		$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+			
+// 		$emp_emp_id = $empresa->getEmp_emp_id();
+			
+// 		if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+// 			$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+// 		}else{
+// 			$empresa_padre = $empresa;
+// 		}
+		
+		$detalle_empresa = $this->getDetalleContactoDao()->getDetallePorContacto($contacto->getCon_id());
+		
+		$pdf = new PdfModel();
+		$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+		$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+		$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+			
+		$pdf->setVariables(array(
+				'contacto' => $contacto,
+				//'empresa' => $empresa_padre,
+				'detalle' => $detalle_empresa
+		));
+		
+		return $pdf;
+	}
+	
 	public function getForm() {
 		$form = new Contacto ();
 		
@@ -527,6 +558,27 @@ class IndexController extends AbstractActionController {
 			$valores['emp_direccion'] = $data->getEmp_direccion();
 			$valores['emp_email'] = $data->getEmp_email();
 			$valores['emp_pagina_web'] = $data->getEmp_pagina_web();
+			$valores['emp_id'] = $data->getEmp_id();
+	
+			$jsonData = json_encode($valores);
+			$response = $this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($jsonData);
+	
+			return $response;
+		}else{
+			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
+		}
+	}
+	
+	public function telefonoEmpresaAction(){
+		if($this->getRequest()->isXmlHttpRequest()){
+			$empresa = $this->request->getPost('empresa');
+			
+			$data = $this->getDetalleContactoDao()->getDetallePorEmpresaUnico($empresa);
+			
+			$valores = array();
+			$valores['det_con_valor'] = $data->getDet_con_valor();
 	
 			$jsonData = json_encode($valores);
 			$response = $this->getResponse();

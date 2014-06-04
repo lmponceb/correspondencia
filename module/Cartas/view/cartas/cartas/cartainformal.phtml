@@ -55,10 +55,17 @@ $idioma = $this->carta->getCtr_idioma();
     		<div><?php echo $this->empresa->getEmp_nombre()?></div>
     		
     		<?php $mostrar = $this->carta->getCtr_activar_direccion(); 
-    		if(strtoupper($mostrar) == 'E'): ?>
+    		$direccion = $this->carta->getCtr_direccion_empresa();
+    		if(strtoupper($mostrar) == 'E'): 
+    		if(empty($direccion) || is_null($direccion)):?>
     		<div><?php echo $this->empresa->getEmp_direccion()?></div>
     		<div><?php echo $this->empresa->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
     		<div><?php echo $this->empresa->getPai_nombre()?></div>
+    		<?php else: ?>
+    		<div><?php echo $this->direccion_e->getEmp_direccion()?></div>
+    		<div><?php echo $this->direccion_e->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
+    		<div><?php echo $this->direccion_e->getPai_nombre()?></div>
+    		<?php endif; ?>
     		<?php elseif(strtoupper($mostrar) == 'C'): ?>
     		<div><?php echo $this->contacto->getCon_direccion()?></div>
     		<div><?php echo $this->contacto->getCiudad_nombre() . ' - ' . $this->contacto->getEstado_nombre()?></div>
@@ -97,10 +104,10 @@ $idioma = $this->carta->getCtr_idioma();
     	<td>
     		<table>
     			<tr>
-    				<td style="text-transform: capitalize;"><?php echo $firma->getEpl_nombre() . ' ' . $firma->getEpl_apellido() ?></td>
+    				<td style="text-transform: capitalize;"><?php echo $firma->getCar_fir_nombre()  ?></td>
     			</tr>
     			<tr>
-    				<td><?php echo $firma->getEpl_cargo()?></td>
+    				<td><?php echo $firma->getCar_fir_cargo()?></td>
     			</tr>
     		</table>
     	</td>
