@@ -25,7 +25,7 @@ return array(
 		),
 		'db_view' => array(
 
-				'username' => 'correspondencia',
-				'password' => '123',
+				'username' => 'system',
+				'password' => 'admin',
 		),		
 );

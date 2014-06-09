@@ -60,13 +60,20 @@ class PaisController extends AbstractActionController
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
     	
     	//SE ELIMINA LA INFORMACION EN LA BDD
-    	$this->getPaisDao() ->eliminar ( $id );
+    	if($this->getPaisDao() ->eliminar ( $id )){
+            //SI SE EJECUTO EXITOSAMENTE SE REGRESA AL LISTADO DE CONTACTOS
+            return $this->redirect ()->toRoute ( 'parametros', array (
+                    'controller' => 'pais',
+                    'action' => 'listado'
+            ) );            
+        }else{
+            $view = new ViewModel ();
+        
+            $view->setTemplate('parametros/pais/errorBorrado');
+            return $view;  
+        }
     	
-    	//SI SE EJECUTO EXITOSAMENTE SE REGRESA AL LISTADO DE CONTACTOS
-    	return $this->redirect ()->toRoute ( 'parametros', array (
-    			'controller' => 'pais',
-    			'action' => 'listado'
-    	) );
+
     }
     
     public function validarAction(){
