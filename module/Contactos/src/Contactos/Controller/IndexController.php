@@ -32,6 +32,7 @@ class IndexController extends AbstractActionController {
 	protected $estadoDao;
 	protected $detalleContactoDao;
 	protected $contactoRelacionado;
+	protected $cartasDao;
 	private $privado = 'S';
 	private $tipo_usuario;
 	private $tipoContactoDao;
@@ -52,7 +53,7 @@ class IndexController extends AbstractActionController {
 	
 	public function listadoAction() {
 		
-		$contactos = $this->getContactoDao ()->traerTodos ();
+		$contactos = $this->getContactoDao ()->traerTodosActivo ();
 		
 		return new ViewModel ( array (
 				'contactos' => $contactos,
@@ -164,6 +165,8 @@ class IndexController extends AbstractActionController {
 				}
 			}
 			
+			$form->get ( 'direccion_empresa_oculto' )->setAttribute ( 'value', $contacto->getCon_direccion_empresa() );
+			
 		$view = new ViewModel ( array (
 				'formulario' => $form ,
 				'tipo_usuario' => $this->tipo_usuario,
@@ -240,6 +243,13 @@ class IndexController extends AbstractActionController {
 			$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_CIUDAD]')->setValue($data['DETALLE_CONTACTO'][$j]['DET_CON_CODIGO_CIUDAD']);
 			$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_VALOR]')->setValue($data['DETALLE_CONTACTO'][$j]['DET_CON_VALOR']);
 			$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_EXTENSION]')->setValue($data['DETALLE_CONTACTO'][$j]['DET_CON_EXTENSION']);
+		}
+		
+		//SE VALIDA SI SE QUIERE MOSTRAR LA DIRECCION DE UNA EMPRESA
+		if(strtoupper($data['CON_ACTIVAR_DIRECCION']) == 'E'){
+			$form->getInputFilter()->get('CON_DIRECCION_EMPRESA')->setRequired(true);
+		}else{
+			$form->getInputFilter()->get('CON_DIRECCION_EMPRESA')->setRequired(false);
 		}
 		
 		//SE VALIDA EL FORMULARIO ES CORRECTO
@@ -345,6 +355,7 @@ class IndexController extends AbstractActionController {
 		$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
 		 
 		$emp_emp_id = $empresa->getEmp_emp_id();
+		$direccion = $contacto->getCon_direccion_empresa();
 		 
 		if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
 			$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
@@ -354,6 +365,12 @@ class IndexController extends AbstractActionController {
 		
 		$detalle_empresa = $this->getDetalleContactoDao()->getDetallePorEmpresaUnico($empresa_padre->getEmp_id());
 		
+		if(!empty($direccion) && !is_null($direccion)){
+			$empresa_direccion = $this->getEmpresaDao()->traer($direccion);
+		}else{
+			$empresa_direccion = '';
+		}
+		
 		$pdf = new PdfModel();
 		$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
 		$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
@@ -362,7 +379,8 @@ class IndexController extends AbstractActionController {
 		$pdf->setVariables(array(
 				'contacto' => $contacto,
 				'empresa' => $empresa_padre,
-				'detalle' => $detalle_empresa
+				'detalle' => $detalle_empresa,
+				'direccion_e' => $empresa_direccion
 		));
 	
 		return $pdf;
@@ -378,6 +396,7 @@ class IndexController extends AbstractActionController {
 		$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
 			
 		$emp_emp_id = $empresa->getEmp_emp_id();
+		$direccion = $contacto->getCon_direccion_empresa();
 			
 		if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
 			$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
@@ -386,6 +405,12 @@ class IndexController extends AbstractActionController {
 		}
 	
 		$detalle_empresa = $this->getDetalleContactoDao()->getDetallePorContactoUnico($contacto->getCon_id());
+		
+		if(!empty($direccion) && !is_null($direccion)){
+			$empresa_direccion = $this->getEmpresaDao()->traer($direccion);
+		}else{
+			$empresa_direccion = '';
+		}
 	
 		$pdf = new PdfModel();
 		$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
@@ -395,7 +420,8 @@ class IndexController extends AbstractActionController {
 		$pdf->setVariables(array(
 				'contacto' => $contacto,
 				'empresa' => $empresa_padre,
-				'detalle' => $detalle_empresa
+				'detalle' => $detalle_empresa,
+				'direccion_e' => $empresa_direccion
 		));
 	
 		return $pdf;
@@ -589,6 +615,103 @@ class IndexController extends AbstractActionController {
 		}else{
 			return $this->redirect()->toRoute('contactos', array('contactos' => 'ingresar'));
 		}
+	}
+	
+	public function tituloEsXmlHttpAction()
+	{
+		if($this->getRequest()->isXmlHttpRequest()){
+			$term =  $this->getRequest()->getPost('term');
+			$listado = $this->getContactoDao()->traerListadoJsonPorNombre($term);
+	
+			$response=$this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($listado);
+			return $response;
+		}else{
+	
+			return $this->redirect()->toRoute('contactos',array('contactos'=>'ingresar'));
+		}
+	
+	}
+	
+	public function tituloEnXmlHttpAction()
+	{
+		if($this->getRequest()->isXmlHttpRequest()){
+			$term =  $this->getRequest()->getPost('term');
+			$listado = $this->getContactoDao()->traerListadoJsonPorNombreEn($term);
+	
+			$response=$this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($listado);
+			return $response;
+		}else{
+	
+			return $this->redirect()->toRoute('contactos',array('contactos'=>'ingresar'));
+		}
+	
+	}
+	
+	public function cargoEsXmlHttpAction()
+	{
+		if($this->getRequest()->isXmlHttpRequest()){
+			$term =  $this->getRequest()->getPost('term');
+			$listado = $this->getContactoDao()->traerCargoJsonPorNombreEs($term);
+	
+			$response=$this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($listado);
+			return $response;
+		}else{
+	
+			return $this->redirect()->toRoute('contactos',array('contactos'=>'ingresar'));
+		}
+	
+	}
+	
+	public function cargoEnXmlHttpAction()
+	{
+		if($this->getRequest()->isXmlHttpRequest()){
+			$term =  $this->getRequest()->getPost('term');
+			$listado = $this->getContactoDao()->traerCargoJsonPorNombreEn($term);
+	
+			$response=$this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($listado);
+			return $response;
+		}else{
+	
+			return $this->redirect()->toRoute('contactos',array('contactos'=>'ingresar'));
+		}
+	
+	}
+	
+	public function cartasAsociadasAction()
+	{
+		if($this->getRequest()->isXmlHttpRequest()){
+			$con_id = $this->request->getPost('con_id');
+			
+			$data = $this->getCartaDao()->traerCartasPorContacto($con_id);
+			
+			$valores = array();
+			$valores['TOTAL'] = $data['TOTAL'];
+			
+			$jsonData = json_encode($valores);
+			$response = $this->getResponse();
+			$response->setStatusCode(200);
+			$response->setContent($jsonData);
+		
+			return $response;
+		}else{
+			return $this->redirect()->toRoute('contactos', array('contactos' => 'listado'));
+		}
+	}
+	
+	public function getCartaDao() {
+		if (! $this->cartasDao) {
+			$sm = $this->getServiceLocator ();
+			$this->cartasDao = $sm->get ( 'Contactos\Model\Dao\CartasDao' );
+		}
+		return $this->cartasDao;
 	}
 	
 	public function getContactoDao() {

@@ -9,7 +9,7 @@
 				padding: 0 0;
 				font-family: sans-serif;
 				font-size:13px;
-				<?php $fe_recepcion = $this->fe_recepcion->getFe_rec_estado(); if(strtoupper($fe_recepcion) == 'B'): ?>
+				<?php $fe_recepcion = $this->fe_recepcion['FE_REC_ESTADO']; if(strtoupper($fe_recepcion) == 'B'): ?>
 				background-image: url("<?php echo $this->basepath() . '/img/jpg/borrador.jpg'?>");
 				background-repeat: no-repeat;
 				background-position: 0px 100px;
@@ -24,40 +24,40 @@
     <body>
     <div style="padding-top: 100px;">&nbsp;</div>
     
-    <?php $idioma = $this->fe_recepcion->getFe_rec_idioma(); if(strtoupper($idioma) == 'I'): ?>
+    <?php $idioma = $this->fe_recepcion['FE_REC_IDIOMA']; if(strtoupper($idioma) == 'I'): ?>
     
     <table cellspacing="0" cellpadding="10" border="1" width="65%" align="center" class="tabla_recepcion">
     	<tr>
-    		<td colspan="2"><span style="font-size: 40px; font-weight: 700;">Bid Submittal</span> <br /><?php echo $this->fe_recepcion->getFe_rec_codigo_procesado()?></td>
+    		<td colspan="2"><span style="font-size: 40px; font-weight: 700;">Bid Submittal</span> <br /><?php //echo $this->fe_recepcion->getFe_rec_codigo_procesado()?></td>
     	</tr>
     	<tr>
     		<td class="title" width="100">Company</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_compania()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_COMPANIA'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Bidder</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_oferente()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_OFERENTE'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Bid Description</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_oferta_nombre()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_OFERTA_NOMBRE'] ?></td>
     	</tr>
     	
     	<tr>
     		<td class="title">Bid Number</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_oferta_codigo()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_OFERTA_CODIGO'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Due Date <br/> mm/dd/yyy</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_fecha();//echo $this->fe_recepcion->getFe_rec_fecha_mes() . '/' . $this->fe_recepcion->getFe_rec_fecha_dia() . '/' . $this->fe_recepcion->getFe_rec_fecha_anio()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_FECHA'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Due Time</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_fecha_hora() . ':' . $this->fe_recepcion->getFe_rec_fecha_minuto()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_FECHA_HORA'] . ':' . $this->fe_recepcion['FE_REC_FECHA_MINUTO'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Bid Package Includes</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_sobre()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_SOBRE'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Bid</td>
@@ -94,36 +94,36 @@
     <?php else: ?>
     <table cellspacing="0" cellpadding="10" border="1" width="65%" align="center" class="tabla_recepcion">
     	<tr>
-    		<td colspan="2"><span style="font-size: 40px; font-weight: 700;">Fe de Recepci&oacute;n</span> <br /><?php echo $this->fe_recepcion->getFe_rec_codigo_procesado()?></td>
+    		<td colspan="2"><span style="font-size: 40px; font-weight: 700;">Fe de Recepci&oacute;n</span> <br /><?php //echo $this->fe_recepcion->getFe_rec_codigo_procesado()?></td>
     	</tr>
     	<tr>
     		<td class="title" width="100">Empresa</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_compania()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_COMPANIA'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Oferente</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_oferente()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_OFERENTE'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Descripci&oacute;n de la oferta</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_oferta_nombre()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_OFERTA_NOMBRE'] ?></td>
     	</tr>
     	
     	<tr>
     		<td class="title">C&oacute;digo de la oferta</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_oferta_codigo()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_OFERTA_CODIGO'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Fecha de Entrega <br/> dd/mm/yy</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_fecha();//echo $this->fe_recepcion->getFe_rec_fecha_mes() . '/' . $this->fe_recepcion->getFe_rec_fecha_dia() . '/' . $this->fe_recepcion->getFe_rec_fecha_anio()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_FECHA'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Hora de Entrega</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_fecha_hora() . ':' . $this->fe_recepcion->getFe_rec_fecha_minuto()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_FECHA_HORA'] . ':' . $this->fe_recepcion['FE_REC_FECHA_MINUTO']?></td>
     	</tr>
     	<tr>
     		<td class="title">Sobre de la Oferta Incluye</td>
-    		<td><?php echo $this->fe_recepcion->getFe_rec_sobre()?></td>
+    		<td><?php echo $this->fe_recepcion['FE_REC_SOBRE'] ?></td>
     	</tr>
     	<tr>
     		<td class="title">Oferta</td>

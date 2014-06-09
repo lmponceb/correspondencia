@@ -30,6 +30,7 @@ class ProyectoDao {
     	 
     	$sql = new Sql($this->tableGateway->getAdapter());
     	$select = $sql->select();
+    	$select->order(array('PRO_ID' => 'asc'));
     	$select->from($this->tableGateway->table);
     	 
     	$statement = $sql->prepareStatementForSqlObject($select);
@@ -45,7 +46,7 @@ class ProyectoDao {
     	}
     	 
     	foreach ($proyectos as $pro){
-    		$result[$pro->getPro_id()] = $pro->getPro_descripcion();
+    		$result[$pro->getPro_id()] = $pro->getPro_id() . ' - ' . $pro->getPro_descripcion();
     	}
     
     	return $result;

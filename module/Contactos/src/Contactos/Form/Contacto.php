@@ -26,6 +26,17 @@ class Contacto extends Form {
 				)
 		) );
 		
+		$this->add ( array (
+				'name' => 'direccion_empresa_oculto',
+				'attributes' => array (
+						'type' => 'hidden',
+						'maxlenght' => '11',
+						'id' => 'direccion_empresa_oculto',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
 		/* ********************************************
 		 * CAMPO EMPRESA OCULTO
 		 * ********************************************/
@@ -544,6 +555,40 @@ class Contacto extends Form {
 						'class' => 'form-control',
 				)
 		) );
+		
+		/* ********************************************
+		 * CAMPO ACTIVAR DIRECCION
+		* ********************************************/
+		
+		$con_activar_direccion = new Select('CON_ACTIVAR_DIRECCION');
+		$con_activar_direccion->setLabel('&iquest;Mostrar direcci&oacute;n en el sobre?*: ');
+		$con_activar_direccion->setAttributes(array('class' => 'form-control'));
+		$con_activar_direccion->setAttributes(array('id' => 'CON_ACTIVAR_DIRECCION'));
+		$con_activar_direccion->setEmptyOption('-- Seleccione --');
+		$con_activar_direccion->setValueOptions(array(
+				'E' => 'S&iacute; - Mostrar direcci&oacute;n de la empresa',
+				'C' => 'S&iacute; - Mostrar direcci&oacute;n del contacto',
+				'N' => 'No mostrar direcci&oacute;n',
+		));
+		$con_activar_direccion->setOptions(array(
+				'disable_inarray_validator' => false, // <-- disable
+		));
+		$this->add($con_activar_direccion);
+		
+		
+		/* ********************************************
+		 * CAMPO ADICIONAL DIRECCION EMPRESA
+		* ********************************************/
+		$con_direccion_empresa = new Select('CON_DIRECCION_EMPRESA');
+		$con_direccion_empresa->setLabel('Direcci&oacute;n a mostrar en el sobre*: ');
+		$con_direccion_empresa->setAttributes(array('id' => 'CON_DIRECCION_EMPRESA'));
+		$con_direccion_empresa->setAttributes(array('class' => 'form-control'));
+		$con_direccion_empresa->setEmptyOption('-- Seleccione --');
+		
+		$con_direccion_empresa->setOptions(array(
+				'disable_inarray_validator' => true, // <-- disable
+		));
+		$this->add($con_direccion_empresa);
 		
 		/************ INFORMACION DE CONTACTO RELACIONADO ****************/
 		 

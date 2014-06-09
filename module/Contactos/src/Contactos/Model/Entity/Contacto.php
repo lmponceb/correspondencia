@@ -28,6 +28,8 @@ class Contacto {
 	private $con_secretaria;
 	private $con_secretaria_telfono;
 	private $con_estado;
+	private $con_activar_direccion;
+	private $con_direccion_empresa;
 	
 	private $estado;
 	private $ciudad_nombre;
@@ -39,6 +41,7 @@ class Contacto {
 	private $con_observaciones_privado;
 	
 	function __construct() {}
+
 
 	/**
 	 * @return the $con_id
@@ -213,6 +216,20 @@ class Contacto {
 	 */
 	public function getCon_estado() {
 		return $this->con_estado;
+	}
+
+	/**
+	 * @return the $con_activar_direccion
+	 */
+	public function getCon_activar_direccion() {
+		return $this->con_activar_direccion;
+	}
+
+	/**
+	 * @return the $con_direccion_empresa
+	 */
+	public function getCon_direccion_empresa() {
+		return $this->con_direccion_empresa;
 	}
 
 	/**
@@ -447,6 +464,20 @@ class Contacto {
 	}
 
 	/**
+	 * @param Ambigous <NULL, unknown> $con_activar_direccion
+	 */
+	public function setCon_activar_direccion($con_activar_direccion) {
+		$this->con_activar_direccion = $con_activar_direccion;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $con_direccion_empresa
+	 */
+	public function setCon_direccion_empresa($con_direccion_empresa) {
+		$this->con_direccion_empresa = $con_direccion_empresa;
+	}
+
+	/**
 	 * @param field_type $estado
 	 */
 	public function setEstado($estado) {
@@ -529,6 +560,8 @@ class Contacto {
 		$this->con_secretaria = (isset($data['CON_SECRETARIA'])) ? $data['CON_SECRETARIA'] : null;
 		$this->con_secretaria_telfono = (isset($data['CON_SECRETARIA_TELEFONO'])) ? $data['CON_SECRETARIA_TELEFONO'] : null;
 		$this->con_estado = (isset($data['CON_ESTADO'])) ? $data['CON_ESTADO'] : null;
+		$this->con_activar_direccion = (isset($data['CON_ACTIVAR_DIRECCION'])) ? $data['CON_ACTIVAR_DIRECCION'] : null;
+		$this->con_direccion_empresa = (isset($data['CON_DIRECCION_EMPRESA'])) ? $data['CON_DIRECCION_EMPRESA'] : null;
 		
 		$this->ciudad_nombre = (isset($data['CIU_NOMBRE'])) ? $data['CIU_NOMBRE'] : null;
 		$this->estado_nombre = (isset($data['EST_NOMBRE'])) ? $data['EST_NOMBRE'] : null;

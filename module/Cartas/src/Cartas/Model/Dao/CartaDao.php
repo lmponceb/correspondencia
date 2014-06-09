@@ -5,6 +5,8 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
 use Cartas\Model\Entity\Carta;
 use Zend\Db\Sql;
+use Zend\Db\Sql\Sql as Sqla;
+use Zend\Db\Sql\Expression;
 
 class CartaDao {
 	
@@ -19,8 +21,12 @@ class CartaDao {
     	$select = $this->tableGateway->getSql ()->select ();
     	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
     	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
+    	$select->join ( 'CARTA_DESTINATARIO', 'CARTA_DESTINATARIO.CTR_ID  = CARTA.CTR_ID' );
+    	$select->join ( 'CONTACTO', 'CONTACTO.CON_ID  = CARTA_DESTINATARIO.CON_ID' );
     	
     	$resultSet = $this->tableGateway->selectWith ( $select );
+    	
+    	
         return $resultSet;
     }
     
@@ -64,7 +70,9 @@ class CartaDao {
     			'CTR_TIPO' => $carta->getCtr_tipo(),
     			'CTR_ESTADO' => $carta->getCtr_estado(),
     			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion(),
-    			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa()
+    			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa(),
+    			'CTR_COPIA' => $carta->getCtr_copia(),
+    			'CTR_ANEXOS' => $carta->getCtr_anexos()
     	);
     	 
     	if(empty($id) || is_null($id)){
@@ -100,7 +108,7 @@ class CartaDao {
     			'TIP_CAR_ID' => $carta->getTip_car_id(),
     			'CTR_IDIOMA' => $carta->getCtr_idioma(),
     			'CTR_FECHA_CREACION' => date('d-M-Y'),
-    			'CTR_CUERPO' => $carta->getCtr_cuerpo(),
+    			'CTR_CUERPO' =>  $carta->getCtr_cuerpo()->read($carta->getCtr_cuerpo()->size()),
     			'CTR_CODIGO_FINAL' => null,
     			'CTR_FECHA_ACTUALIZACION' => date('d-M-Y'),
     			'CTR_REFERENCIA' => $carta->getCtr_referencia(),
@@ -109,7 +117,9 @@ class CartaDao {
     			'CTR_TIPO' => 'B',
     			'CTR_ESTADO' => 'A',
     			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion(),
-    			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa()
+    			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa(),
+    			'CTR_COPIA' => $carta->getCtr_copia(),
+    			'CTR_ANEXOS' => $carta->getCtr_anexos()
     	);
     	
     	$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');
@@ -135,5 +145,70 @@ class CartaDao {
 		}else{
 			throw new \Exception( 'No se encontro el id para actualizar' );
 		}
+	}
+	
+	public function eliminar($id){
+		$id = (int) $id;
+		$this->tableGateway->delete(array('CTR_ID' => $id));
+	}
+	
+	public function traerSaludosJsonPorNombre($term){
+		$sql = new Sqla($this->tableGateway->getAdapter());
+		$select = $sql->select();
+		$select->from($this->tableGateway->table);
+	
+		$select->where->expression('UPPER(CTR_SALUDO) LIKE UPPER(?)','%'.$term.'%');
+	
+		$statement = $sql->prepareStatementForSqlObject($select);
+		$results = $statement->execute();
+	
+		$result = array();
+			
+		foreach ($results as $row){
+			$result[$row['CTR_ID']]['label']=$row['CTR_SALUDO'];
+			$result[$row['CTR_ID']]['value']=$row['CTR_SALUDO'];
+		}
+	
+		return json_encode($result);
+	
+	}
+	
+	public function traerDespedidaJsonPorNombre($term){
+		$sql = new Sqla($this->tableGateway->getAdapter());
+		$select = $sql->select();
+		$select->from($this->tableGateway->table);
+	
+		$select->where->expression('UPPER(CTR_DESPEDIDA) LIKE UPPER(?)','%'.$term.'%');
+	
+		$statement = $sql->prepareStatementForSqlObject($select);
+		$results = $statement->execute();
+	
+		$result = array();
+			
+		foreach ($results as $row){
+			$result[$row['CTR_ID']]['label']=$row['CTR_DESPEDIDA'];
+			$result[$row['CTR_ID']]['value']=$row['CTR_DESPEDIDA'];
+		}
+	
+		return json_encode($result);
+	
+	}
+	
+	public function traerCartasPorContacto($con_id){
+		
+		$id = (int)$con_id;
+		
+		$sql = new Sqla($this->tableGateway->getAdapter());
+		$select = $sql->select();
+		$select->columns(array('TOTAL' => new Expression('COUNT(?)', array('*'), array(Expression::TYPE_IDENTIFIER))));
+		$select->from('CARTA_DESTINATARIO');
+		$select->where(array('CON_ID' => $id));
+		
+		$statement = $sql->prepareStatementForSqlObject($select);
+		$results = $statement->execute();
+		$row = $results->current();
+		
+		return $row;
+		
 	}
 }

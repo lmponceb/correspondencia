@@ -3,10 +3,10 @@
 
 $form = $this->formulario;
 $form->prepare ();
-$form->setAttribute ( 'action', $this->url ( 'cartas', array (
-		'controller' => 'cartas',
-		'action' => 'validar' 
-) ) )->setAttribute ( 'method', 'post' );
+$form->setAttribute ( 'action', '/' )
+->setAttribute ( 'method', 'post' )
+->setAttribute ( 'id', 'form-cartas' )
+->setAttribute ( 'name', 'form-cartas' );
 $formLabel = $this->plugin ( 'formLabel' );
 
 $direccion_empresa_oculto = $form->get ( 'direccion_empresa_oculto' );
@@ -40,6 +40,9 @@ $proyecto_oculto = $form->get ( 'proyecto_oculto' );
 $car_fir_tipo = $form->get ( 'CAR_FIR_TIPO' );
 $ctr_activar_direccion = $form->get ( 'CTR_ACTIVAR_DIRECCION' );
 $ctr_direccion_empresa = $form->get ( 'CTR_DIRECCION_EMPRESA' );
+$ctr_copia = $form->get ( 'CTR_COPIA' );
+$ctr_anexos = $form->get ( 'CTR_ANEXOS' );
+
 
 
 //CAMPOS PARA TIPO DE CARTA TRANSFERENCIA DE SUELDOS
@@ -124,13 +127,13 @@ echo $this->formelementerrors ( $proyecto_oculto );
 					<td colspan="3"><h3 align="left">Creaci&oacute;n de carta</h3><hr /></td>
 				</tr>
 				<tr>
-					<td>
+					<td width="33%">
 					<?php echo $formLabel->openTag() . $ctr_idioma->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect( $ctr_idioma ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_idioma ) ); 
 					?>
 					</td>
-					<td>
+					<td width="33%">
 					<?php echo $formLabel->openTag() . $tip_car_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $tip_car_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $tip_car_id ) ); 
@@ -188,7 +191,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 				<tr>
 					<td colspan="3">
 					<?php echo $formLabel->openTag() . $ctr_cuerpo->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtextarea ( $ctr_cuerpo ) );
+					      echo html_entity_decode( $this->formtextarea ( $ctr_cuerpo ));
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_cuerpo ) );
 					?>
 					</td>	
@@ -232,6 +235,24 @@ echo $this->formelementerrors ( $proyecto_oculto );
 					<?php echo $formLabel->openTag() . $cargo_dos->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $cargo_dos ) );
 						  echo html_entity_decode( $this->formelementerrors ( $cargo_dos ) );
+					?>
+					</td>
+					<td>&nbsp;</td>	
+				</tr>
+				<tr>
+					<td colspan="2">
+					<?php echo $formLabel->openTag() . $ctr_copia->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $ctr_copia ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_copia ) );
+					?>
+					</td>
+					<td>&nbsp;</td>	
+				</tr>
+				<tr>
+					<td colspan="2">
+					<?php echo $formLabel->openTag() . $ctr_anexos->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $ctr_anexos ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_anexos ) );
 					?>
 					</td>
 					<td>&nbsp;</td>	
@@ -377,6 +398,8 @@ echo $this->formelementerrors ( $proyecto_oculto );
 			<?php $codigo_final = $ctr_codigo_final->getValue(); if( empty($codigo_final) || is_null($codigo_final) ):?>
 		
 			<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+			<?php echo $this->formsubmit( $form->get ( 'vista' ) ) ?>
+			
 			<?php if(strtolower($this->action) == 'editar'): ?>
 			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'procesar', 'id' => $ctr_id->getValue() ))?>" class ="btn btn-primary">Procesar</a>
 			<?php endif;?>
@@ -393,7 +416,45 @@ echo $this->formelementerrors ( $proyecto_oculto );
 
 	$(document).ready(function(){
 
-		$(document).ready(function(){
+		/* AUTOCOMPLETAR SALUDO */
+		$( "#CTR_SALUDO" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/cartas/cartas/saludoXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
+
+		/* AUTOCOMPLETAR SALUDO */
+		$( "#CTR_DESPEDIDA" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/cartas/cartas/despedidaXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
 
 			//FUNCION PARA CARGAR LA FECHA DE NACIMIENTO CON UN DATEPICKER
 			$( "#CTR_FECHA_CREACION" ).datepicker({
@@ -405,7 +466,6 @@ echo $this->formelementerrors ( $proyecto_oculto );
 			            buttonImage: "<?php echo $this->basePath('img/calendar.gif')?>",
 			            buttonImageOnly: true
 			});
-		});
 
 		//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
 		$("#SUC_ID").change(function() {
@@ -540,24 +600,8 @@ echo $this->formelementerrors ( $proyecto_oculto );
 				$("#CON_ID").prop("disabled", true);
 			}
         });
-/*
-		$("#EPL_ID_UNO").change(function() {
-			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
-		});
 
-		$("#EPL_ID_UNO").ready(function() {
-			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
-		});
-
-		$("#EPL_ID_DOS").change(function() {
-			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
-		});
-
-		$("#EPL_ID_DOS").ready(function() {
-			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
-		});
-		*/
-        function traerCargo(id, val, cargo){
+		function traerCargo(id, val, cargo){
         	//FUNCION PARA TRAER EL CARGO DE UN EMPLEADO
     		
     			if(val != '' && val != null){
@@ -618,7 +662,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	                	$("#CTR_REFERENCIA").val("Procesando, espere por favor...");
 	                }
 	            }).done(function(cargobdd) {
-	            		$("#CTR_REFERENCIA").val(" " + cargobdd["pro_id"] + ', ' + cargobdd["pro_descripcion"]);
+	            		$("#CTR_REFERENCIA").val(" " + cargobdd["pro_id"] + ' - ' + cargobdd["pro_descripcion"]);
 	            });
 			}
         });
@@ -723,4 +767,33 @@ CKEDITOR.replace( 'CTR_CUERPO', {
 			//{ name: 'links', items : [ 'Link','Unlink'] },
 		]
 } );
+
+CKEDITOR.replace( 'CTR_ANEXOS', {
+	enterMode : CKEDITOR.ENTER_BR,
+	toolbar :
+		[
+			{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+			//{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+			{ name: 'insert', items : [ 'Table','Smiley' ] },
+			//{ name: 'styles', items : [ 'Styles','Format' ] },
+			{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','-','RemoveFormat' ] },
+			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+			//{ name: 'links', items : [ 'Link','Unlink'] },
+		]
+} );
+
+function habilitar(boton){
+	var frm = document.getElementById('form-cartas');
+	//Ingresar - Actualizar
+	if(boton == 1){
+		frm.action = "<?php echo $this->url ( 'cartas', array ( 'controller' => 'cartas', 'action' => 'validar')) ?>";
+		frm.target = '_self';
+	}
+
+	//Vista Preliminar
+	if(boton == 2){
+		frm.action = "<?php echo $this->url ( 'cartas', array ( 'controller' => 'cartas', 'action' => 'validarpreview')) ?>";
+		frm.target = '_blank';
+	}
+}
 </script>

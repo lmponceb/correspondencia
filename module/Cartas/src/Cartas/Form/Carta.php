@@ -184,7 +184,7 @@ class Carta extends Form {
 		$this->add ( array (
 				'name' => 'CTR_CODIGO_FINAL',
 				'options' => array (
-						'label' => 'C&oacute;digo Final*:'
+						'label' => 'N&uacute;mero de carta*:'
 				),
 				'attributes' => array (
 						'type' => 'text',
@@ -501,6 +501,44 @@ class Carta extends Form {
 		) );
 		
 		
+		/* ********************************************
+		 * CAMPO COPIA
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CTR_COPIA',
+				'options' => array (
+						'label' => 'CC:'
+				),
+				'attributes' => array (
+						'type' => 'textarea',
+						'rows' => '2',
+						'maxlenght' => '300',
+						'id' => 'CTR_COPIA',
+						'class' => 'form-control'
+				)
+		) );
+		
+		
+		/* ********************************************
+		 * CAMPO ANEXOS
+		* ********************************************/
+		
+		$this->add ( array (
+				'name' => 'CTR_ANEXOS',
+				'options' => array (
+						'label' => 'Anexos:'
+				),
+				'attributes' => array (
+						'type' => 'textarea',
+						'rows' => '2',
+						'maxlenght' => '4000',
+						'id' => 'CTR_ANEXOS',
+						'class' => 'ckeditor'
+				)
+		) );
+		
+		
 		/************** CAMPOS PARA TRANSFERENCIA DE SUELDOS ******************/
 		
 		$this->add ( array (
@@ -712,6 +750,20 @@ class Carta extends Form {
 				'attributes' => array (
 						'type' => 'submit',
 						'value' => 'Ingresar',
+						'class' => 'btn btn-primary',
+						'onclick' => 'habilitar(1)',
+						'data-loading-text' => 'Loading...'
+				)
+		) );
+		
+		//BOTON DE VISTA PRELIMINAR
+		$this->add ( array (
+				'name' => 'vista',
+				'attributes' => array (
+						'type' => 'submit',
+						'value' => 'Vista Preliminar',
+						'target' => 'blank',
+						'onclick' => 'habilitar(2)',
 						'class' => 'btn btn-primary',
 						'data-loading-text' => 'Loading...'
 				)

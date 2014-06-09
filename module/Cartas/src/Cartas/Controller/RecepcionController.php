@@ -22,16 +22,6 @@ class RecepcionController extends AbstractActionController
 {
 	protected $feRecepcionDao;
 	protected $empresaInternaDao;
-	/* protected $cartaDao;
-	protected $tipoCartaDao;
-	protected $empresaInternaDao;
-	protected $empresaDao;
-	protected $empleadoDao;
-	protected $proyectoDao;
-	protected $contactoDao;
-	protected $obraDao;
-	protected $cartaDestinatarioDao;
-	protected $cartaFirmaDao; */
 	
     public function listadoAction()
     {
@@ -70,9 +60,6 @@ class RecepcionController extends AbstractActionController
 
     	$view = new ViewModel ( array (
     			'formulario' => $form ,
-    			//'tipo_usuario' => $this->tipo_usuario,
-    			//'privado' => $this->privado,
-    			//'id' => $id,
     			'action' => $this->params()->fromRoute('action')
     	) );
     	
@@ -98,7 +85,7 @@ class RecepcionController extends AbstractActionController
 		$form = $this->getForm();
 		
 		//SE VALIDA EL FORMULARIO
-		//$form->setInputFilter ( new RecepcionValidator() );
+		$form->setInputFilter ( new RecepcionValidator() );
 		
 		//SE LLENAN LOS DATOS DEL FORMULARIO
 		$form->setData ( $data );
@@ -131,6 +118,27 @@ class RecepcionController extends AbstractActionController
 				'controller' => 'recepcion',
 				'action' => 'listado' 
 		) );
+    }
+    
+    public function validarpreviewAction(){
+    	
+    	 
+    	$data = $this->request->getPost();
+    	
+    	//$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+    	
+    	//$fe_recepcion = $this->getFeRecepcionDao()->traer($id);
+    	
+    	$pdf = new PdfModel();
+    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    	
+    	$pdf->setVariables(array(
+    			'fe_recepcion' => $data,
+    	));
+    	 
+    	return $pdf;
     }
     
     public function procesarAction(){
@@ -186,21 +194,6 @@ class RecepcionController extends AbstractActionController
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
     	 
     	$fe_recepcion = $this->getFeRecepcionDao()->traer($id);
-    	//$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
-    	 
-    	//$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
-    	 
-    	/* $empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
-    	 
-    	$emp_emp_id = $empresa->getEmp_emp_id();
-    	 
-    	if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
-    		$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
-    	}else{
-    		$empresa_padre = $empresa;
-    	} */
-    	 
-    	//$carta_firma = $this->getCartaFirmaDao()->traerTodosPorCartaEmpleado($id);
     	 
     	$pdf = new PdfModel();
     	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
@@ -209,12 +202,17 @@ class RecepcionController extends AbstractActionController
     	 
     	$pdf->setVariables(array(
     			'fe_recepcion' => $fe_recepcion,
-    			//'contacto' => $contacto,
-    			//'carta_firma' => $carta_firma,
-    			//'empresa' => $empresa_padre
     	));
     	
     	return $pdf;
+    }
+    
+    public function eliminarAction(){
+    	 
+    	$id = ( int ) $this->params ()->fromRoute( 'id', 0 );
+    	$this->getFeRecepcionDao()->eliminar($id);
+    	$this->redirect()->toRoute('cartas', array('controller' => 'recepcion', 'action' => 'listado'));
+    	
     }
   
     public function getForm() {
@@ -236,6 +234,25 @@ class RecepcionController extends AbstractActionController
     	}
     	return $this->feRecepcionDao;
     } 
+    
+    public function empresaInternaAction(){
+    	if($this->getRequest()->isXmlHttpRequest()){
+    		$emp_int_id = $this->request->getPost('empresa');
+    		$data = $this->getEmpresaInternaDao()->traer($emp_int_id);
+    
+    		$valores = array();
+    		$valores['nombre'] = $data->getEmp_int_nombre();
+    
+    		$jsonData = json_encode($valores);
+    		$response = $this->getResponse();
+    		$response->setStatusCode(200);
+    		$response->setContent($jsonData);
+    
+    		return $response;
+    	}else{
+    		return $this->redirect()->toRoute('cartas', array('cartas' => 'ingresar'));
+    	}
+    }
     
     /* 
     public function getCartaDao() {

@@ -348,28 +348,30 @@ class ContactoValidator extends InputFilter {
 			$this->add ( $det_con_codigo_ciudad );
 		}
 		
-		/* 
 		
-		$telefono = new Input ( 'pac_telefono' );
-		$telefono->setRequired ( true );
-		$telefono->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 13,
-				'min' => 7 
+		
+		$con_activar_direccion = new Input ( 'CON_ACTIVAR_DIRECCION' );
+		$con_activar_direccion->setRequired ( false );
+		$con_activar_direccion->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 1,
+				'min' => 1
+		) ) )->attach(new Alnum(array(
+				'allowWhiteSpace' => false,
+		)))->attach(new InArray(array(
+				'haystack' => array('E','C','N'),
+		)));
+		
+		$this->add ( $con_activar_direccion );
+		
+		
+		$con_direccion_empresa = new Input ( 'CON_DIRECCION_EMPRESA' );
+		$con_direccion_empresa->setRequired ( false );
+		$con_direccion_empresa->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 11,
+				'min' => 1
 		) ) )->attach ( new Digits () );
 		
-		$this->add ( $telefono );
-		
-		$celular = new Input ( 'pac_celular' );
-		$celular->setRequired ( true );
-		$celular->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 13,
-				'min' => 10 
-		) ) )->attach ( new Digits () );
-		
-		$this->add ( $celular );
-		
-		*/
-		
+		$this->add ( $con_direccion_empresa );
 				
 	}
 }

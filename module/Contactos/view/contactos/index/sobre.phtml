@@ -20,13 +20,27 @@
     		<div><?php echo $this->contacto->getCon_tip_per_es() . ' ' . $this->contacto->getCon_nombre() . ' ' . $this->contacto->getCon_apellido()?></div>
     		<div><?php echo $this->contacto->getCon_descripcion_es()?></div>
     		<div><b><?php echo $this->empresa->getEmp_nombre()?></b></div>
+    		<?php 
+    		$mostrar = $this->contacto->getCon_activar_direccion();
+    		$direccion = $this->contacto->getCon_direccion_empresa(); 
+    		if(strtoupper($mostrar) == 'E'): 
+    		if(empty($direccion) || is_null($direccion)):?>
+    		<div><?php echo $this->empresa->getEmp_direccion()?></div>
+    		<div><?php echo $this->empresa->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
+    		<div><?php echo $this->empresa->getPai_nombre()?></div>
+    		<?php else: ?>
+    		<div><?php echo $this->direccion_e->getEmp_direccion()?></div>
+    		<div><?php echo $this->direccion_e->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
+    		<div><?php echo $this->direccion_e->getPai_nombre()?></div>
+    		<?php endif; ?>
+    		<?php elseif(strtoupper($mostrar) == 'C'): ?>
     		<div><?php echo $this->contacto->getCon_direccion()?></div>
     		<div><?php echo $this->contacto->getCiudad_nombre() . ' - ' . $this->contacto->getEstado_nombre()?></div>
     		<div><?php echo $this->contacto->getPais_nombre()?></div>
+    		<?php elseif(strtoupper($mostrar) == 'N'): ?>
     		<div>&nbsp;</div>
-    		<?php if( $this->detalle ) :?>
-    		<div>Tel: <?php echo '(' . $this->detalle->getDet_con_codigo_pais() . ' ' . $this->detalle->getDet_con_codigo_ciudad() . ') ' . $this->detalle->getDet_con_valor() . ' Ext.:' . $this->detalle->getDet_con_extension()?></div>
     		<?php endif; ?>
+    		<div>&nbsp;</div>
     	</td>
     </tr>
 </table>

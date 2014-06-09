@@ -3,10 +3,10 @@
 
 $form = $this->formulario;
 $form->prepare ();
-$form->setAttribute ( 'action', $this->url ( 'cartas', array (
-		'controller' => 'recepcion',
-		'action' => 'validar' 
-) ) )->setAttribute ( 'method', 'post' );
+$form->setAttribute ( 'action', '/' )
+->setAttribute ( 'method', 'post' )
+->setAttribute ( 'id', 'form-fe' )
+->setAttribute ( 'name', 'form-fe' );
 $formLabel = $this->plugin ( 'formLabel' );
 
 $fe_rec_id = $form->get ( 'FE_REC_ID' );
@@ -15,8 +15,8 @@ $emp_int_id = $form->get ( 'EMP_INT_ID' );
 $fe_rec_tipo = $form->get ( 'FE_REC_TIPO' );
 $fe_rec_idioma = $form->get ( 'FE_REC_IDIOMA' );
 $ctr_fecha_creacion = $form->get ( 'CTR_FECHA_CREACION' );
-$fe_rec_responsable = $form->get ( 'FE_REC_RESPONSABLE' );
-$fe_rec_descripcion = $form->get ( 'FE_REC_DESCRIPCION' );
+//$fe_rec_responsable = $form->get ( 'FE_REC_RESPONSABLE' );
+//$fe_rec_descripcion = $form->get ( 'FE_REC_DESCRIPCION' );
 $fe_rec_compania = $form->get ( 'FE_REC_COMPANIA' );
 $fe_rec_oferente = $form->get ( 'FE_REC_OFERENTE' );
 $fe_rec_oferta_nombre = $form->get ( 'FE_REC_OFERTA_NOMBRE' );
@@ -29,7 +29,6 @@ $fe_rec_fecha = $form->get ( 'FE_REC_FECHA' );
 //$fe_rec_fecha_dia = $form->get ( 'FE_REC_FECHA_DIA' );
 $fe_rec_sobre = $form->get ( 'FE_REC_SOBRE' );
 $fe_rec_estado = $form->get ( 'FE_REC_ESTADO' );
-
 
 echo $this->form ()->openTag ( $form );
 
@@ -91,20 +90,6 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 				</tr>
 				<tr>
 					<td>
-					<?php echo $formLabel->openTag() . $fe_rec_responsable->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtext ( $fe_rec_responsable ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_responsable ) );
-					?>
-					</td>
-					<td colspan="2">
-					<?php echo $formLabel->openTag() . $fe_rec_descripcion->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtextarea ( $fe_rec_descripcion ) );
-						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_descripcion ) );
-					?>
-					</td>
-				</tr>
-				<tr>
-					<td>
 					<?php echo $formLabel->openTag() . $fe_rec_compania->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $fe_rec_compania ) );
 						  echo html_entity_decode( $this->formelementerrors ( $fe_rec_compania ) );
@@ -135,8 +120,8 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 					<td colspan="3">
 					<table width="100%" style="border-bottom: 2px solid #D8D8D8;">
 						<tr>
-							<td colspan="3" align="center" style="background-color: #EEEEEE; border-right: 2px solid #D8D8D8;">Fecha de Entrega</td>
-							<td colspan="2" align="center" style="background-color: #EEEEEE;">Hora de Entrega</td>
+							<td colspan="3" align="center" style="background-color: #EEEEEE; border-right: 2px solid #D8D8D8;">Fecha de Entrega*</td>
+							<td colspan="2" align="center" style="background-color: #EEEEEE;">Hora de Entrega*</td>
 						</tr>
 						<tr>
 							<td colspan="3" style="border-right: 2px solid #D8D8D8;">
@@ -177,12 +162,11 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 		</td>
 	</tr>
 </table>
-	<hr />
 		<div align="center">
-		
 			<?php $estado = $fe_rec_estado->getValue(); if( strtoupper($estado) != 'P' ):?>
 		
 			<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+			<?php echo $this->formsubmit( $form->get ( 'vista' ) ) ?>
 			<?php if(strtolower($this->action) == 'editar'): ?>
 			<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'procesar', 'id' => $fe_rec_id->getValue() ))?>" class ="btn btn-primary">Procesar</a>
 			<?php endif;?>
@@ -202,6 +186,22 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 <script>
 	$(document).ready(function(){
 
+		$("#EMP_INT_ID").change(function() {
+			if($('#EMP_INT_ID').val() != '' && $('#EMP_INT_ID').val() != null){
+				$.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'empresaInterna')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#EMP_INT_ID').val(),
+	                beforeSend: function() {
+	                	$("#FE_REC_OFERENTE").val("Procesando, espere por favor...");
+	                }
+	            }).done(function(empresa) {
+	            		$("#FE_REC_OFERENTE").val(" " + empresa["nombre"] );
+	            });
+			}
+        });
+
 		//FUNCION PARA CARGAR LA FECHA DE NACIMIENTO CON UN DATEPICKER
 		$( "#FE_REC_FECHA" ).datepicker({
 			dateFormat:'dd-M-y',
@@ -212,5 +212,23 @@ echo $this->formelementerrors ( $ctr_fecha_creacion );
 		            buttonImage: "<?php echo $this->basePath('img/calendar.gif')?>",
 		            buttonImageOnly: true
 		});
+
+		
 	});
+
+	function habilitar(boton){
+		
+		var frm = document.getElementById('form-fe');
+		//Ingresar - Actualizar
+		if(boton == 1){
+			frm.action = "<?php echo $this->url ( 'cartas', array ( 'controller' => 'recepcion', 'action' => 'validar')) ?>";
+			frm.target = '_self';
+		}
+
+		//Vista Preliminar
+		if(boton == 2){
+			frm.action = "<?php echo $this->url ( 'cartas', array ( 'controller' => 'recepcion', 'action' => 'validarpreview')) ?>";
+			frm.target = '_blank';
+		}
+	}
 </script>

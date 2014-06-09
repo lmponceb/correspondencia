@@ -19,6 +19,7 @@ use DOMPDFModule\View\Model\PdfModel;
 use Cartas\Form\CartaValidator;
 use Cartas\Model\Entity\TransferenciaSueldo;
 use Cartas\Model\Entity\TransaccionBancaria;
+use Zend\Mvc\Controller\Plugin\Redirect;
 
 date_default_timezone_set('America/Guayaquil');
 
@@ -140,6 +141,11 @@ class CartasController extends AbstractActionController
     	
     	$form->get ( 'direccion_empresa_oculto' )->setAttribute ( 'value', $carta->getCtr_direccion_empresa() );
     	
+    	//CUANDO EL CAMPO EN LA BASE ES TIPO CLOB SE DEBE LEER DE DIFERENTE FORMA
+    	$cuerpo = $form->get('CTR_CUERPO')->getValue();
+    	$cuerpo = $cuerpo->read($cuerpo->size());
+    	$form->get('CTR_CUERPO')->setValue($cuerpo);
+    	
     	$view = new ViewModel ( array (
     			'formulario' => $form ,
     			//'tipo_usuario' => $this->tipo_usuario,
@@ -194,6 +200,8 @@ class CartasController extends AbstractActionController
 		//SE VALIDA SI SE QUIERE MOSTRAR LA DIRECCION DE UNA EMPRESA
 		if(strtoupper($data['CTR_ACTIVAR_DIRECCION']) == 'E'){
 			$form->getInputFilter()->get('CTR_DIRECCION_EMPRESA')->setRequired(true);
+		}else{
+			$form->getInputFilter()->get('CTR_DIRECCION_EMPRESA')->setRequired(false);
 		}
 		
 		//SE LLENAN LOS DATOS DEL FORMULARIO
@@ -205,8 +213,6 @@ class CartasController extends AbstractActionController
 			// SI EL FORMULARIO NO ES CORRECTO
 			$modelView = new ViewModel ( array (
 				'formulario' => $form ,
-    			//'tipo_usuario' => $this->tipo_usuario,
-    			//'privado' => $this->privado,
     			'action' => $this->params()->fromRoute('action')
 			) );
 			
@@ -316,12 +322,184 @@ class CartasController extends AbstractActionController
 			$this->getCartaFirmaDao()->guardar($cartaFirma);
 		}
 		
-        //SI SE EJECUTO EXITOSAMENTE SE REGRESA AL LISTADO DE CONTACTOS
+
 		return $this->redirect ()->toRoute ( 'cartas', array (
 				'controller' => 'cartas',
-				'action' => 'listado' 
+				'action' => 'listado',
 		) );
     }
+    
+    public function validarpreviewAction(){
+    	
+    	$data = $this->request->getPost();
+    	
+    	$pdf = new PdfModel();
+    	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
+    	$pdf->setOption('paperSize', 'A4'); // Defaults to "8x11"
+    	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    	$pdf->setOption('page-break-before', 'always'); // Defaults to "portrait"
+    	
+    		switch ($data['TIP_CAR_ID']){
+    			case 1:
+    				//CARTA FORMAL
+    				$contacto = $this->getContactoDao()->traer($data['CON_ID']);
+    				 
+    				$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    				 
+    				$emp_emp_id = $empresa->getEmp_emp_id();
+    				$direccion = $data['CTR_DIRECCION_EMPRESA'];
+    				 
+    				if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    					$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    				}else{
+    					$empresa_padre = $empresa;
+    				}
+    				 
+    				if(!empty($direccion) && !is_null($direccion)){
+    					$empresa_direccion = $this->getEmpresaDao()->traer($direccion);
+    				}else{
+    					$empresa_direccion = '';
+    				}
+    				
+    				$pdf->setVariables(array(
+    						'data' => $data,
+    						'contacto' => $contacto,
+    						'empresa' => $empresa_padre,
+    						'direccion_e' => $empresa_direccion,
+    						'action' => 'cartaformalpreview',
+    				));
+    				
+    				return $pdf;
+    				break;
+    		
+    			case 2:
+    				//CARTA INFORMAL
+    				
+    				$contacto = $this->getContactoDao()->traer($data['CON_ID']);
+    				 
+    				$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    				
+    				$emp_emp_id = $empresa->getEmp_emp_id();
+    				$direccion = $data['CTR_DIRECCION_EMPRESA'];
+    				
+    				if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    					$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    				}else{
+    					$empresa_padre = $empresa;
+    				}
+    				 
+    				 
+    				if(!empty($direccion) && !is_null($direccion)){
+    					$empresa_direccion = $this->getEmpresaDao()->traer($direccion);
+    				}else{
+    					$empresa_direccion = '';
+    				}
+    				
+    				$pdf->setVariables(array(
+    						'data' => $data,
+    						'contacto' => $contacto,
+    						'empresa' => $empresa_padre,
+    						'direccion_e' => $empresa_direccion,
+    						'action' => 'cartainformalpreview',
+    				));
+    				
+    				return $pdf;
+    				break;
+    	
+    			case 3:
+    				
+    				//CARTA FAX
+    				$empresa_interna = $this->getEmpresaInternaDao()->traer($data['EMP_INT_ID']);
+    				
+    				//DESTINATARIO
+    				$contacto = $this->getContactoDao()->traer($data['CON_ID']);
+    				$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    				 
+    				//VARIABLE PARA VERIFICAR SI TIENE SUCURSAL O ES EMPRESA
+    				$emp_emp_id = $empresa->getEmp_emp_id();
+    				
+    				if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    					//EMPRESA A MOSTRAR DEL DESTINATARIO
+    					//SI TIENE SUCURSAL, TRAE EMPRESA
+    					$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    				}else{
+    					//EMPRESA A MOSTRAR DEL DESTINATARIO
+    					$empresa_padre = $empresa;
+    				}
+    				 
+    				$pdf->setVariables(array(
+    						'data' => $data,
+    						'contacto' => $contacto,
+    						'empresa' => $empresa_padre,
+    						'empresa_interna' => $empresa_interna,
+    						'action' => 'cartafaxpreview',
+    				));
+    				
+    				return $pdf;
+    				break;
+    		
+    			case 4:
+    				
+    				//CARTA BANCARIA
+    				
+    				$empresa_interna = $this->getEmpresaInternaDao()->traer($data['EMP_INT_ID']);
+    				
+    				//DESTINATARIO
+    				$contacto = $this->getContactoDao()->traer($data['CON_ID']);
+    				$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    				
+    				//VARIABLE PARA VERIFICAR SI TIENE SUCURSAL O ES EMPRESA
+    				$emp_emp_id = $empresa->getEmp_emp_id();
+    				
+    				if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    					//EMPRESA A MOSTRAR DEL DESTINATARIO
+    					//SI TIENE SUCURSAL, TRAE EMPRESA
+    					$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    				}else{
+    					//EMPRESA A MOSTRAR DEL DESTINATARIO
+    					$empresa_padre = $empresa;
+    				}
+    				
+    				$pdf->setVariables(array(
+    						'data' => $data,
+    						'contacto' => $contacto,
+    						'empresa' => $empresa_padre,
+    						'empresa_interna' => $empresa_interna,
+    						'action' => 'cartabancariapreview',
+    				));
+    				
+    				return $pdf;
+    				break;
+    	
+    			case 5:
+    				//CARTA TRANSFERENCIA SUELDO
+    				
+    				$contacto = $this->getContactoDao()->traer($data['CON_ID']);
+    				
+    				$empresa = $this->getEmpresaDao()->traer($contacto->getEmp_id());
+    				
+    				$emp_emp_id = $empresa->getEmp_emp_id();
+    				
+    				if(!empty($emp_emp_id) && !is_null($emp_emp_id)){
+    					$empresa_padre = $this->getEmpresaDao()->traer($emp_emp_id);
+    				}else{
+    					$empresa_padre = $empresa;
+    				}
+    				
+    				$pdf->setVariables(array(
+    						'data' => $data,
+    						//'carta' => $carta,
+    						'contacto' => $contacto,
+    						//'carta_firma' => $carta_firma,
+    						'empresa' => $empresa_padre,
+    						//'sueldo' => $sueldo,
+    						'action' => 'cartasueldopreview',
+    				));
+    				
+    				return $pdf;
+    				break;
+    		}
+   }
     
     public function procesarAction(){
     	
@@ -337,7 +515,6 @@ class CartasController extends AbstractActionController
     	}
     	
     	$role = $_SESSION['Zend_Auth']['storage']->us_role;
-    	
     	
     	switch ($role){
     		case 1:
@@ -359,7 +536,18 @@ class CartasController extends AbstractActionController
     	
     }
     
+    public function eliminarAction(){
+    	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
+		$this->getCartaDestinatarioDao()->eliminarPorCarta($id);
+		$this->getCartaFirmaDao()->eliminarPorCarta($id);
+		$this->getTransferenciaSueldoDao()->eliminarPorCarta($id);
+		$this->getTransaccionBancariaDao()->eliminarPorCarta($id);
+    	$this->getCartaDao()->eliminar($id);
+    	$this->redirect()->toRoute('cartas', array('controller' => 'cartas', 'action' => 'listado'));
+    }
+    
     public function duplicarAction(){
+    	
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
     	
     	$carta = $this->getCartaDao()->traer($id);
@@ -431,15 +619,17 @@ class CartasController extends AbstractActionController
     	
     	$pdf = new PdfModel();
     	$pdf->setOption('fileName', 'registro'); // Triggers PDF download, automatically appends ".pdf"
-    	$pdf->setOption('paperSize', 'a4'); // Defaults to "8x11"
+    	$pdf->setOption('paperSize', 'A4'); // Defaults to "8x11"
     	$pdf->setOption('paperOrientation', 'portrait'); // Defaults to "portrait"
+    	$pdf->setOption('page-break-before', 'always'); // Defaults to "portrait"
+    	
     	
     	$pdf->setVariables(array(
     			'carta' => $carta,
     			'contacto' => $contacto,
     			'carta_firma' => $carta_firma,
     			'empresa' => $empresa_padre,
-    			'direccion_e' => $empresa_direccion
+    			'direccion_e' => $empresa_direccion,
     	));
     	 
     	return $pdf;
@@ -451,6 +641,7 @@ class CartasController extends AbstractActionController
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
     	 
     	$carta = $this->getCartaDao()->traer($id);
+    	
     	$carta_destinatario = $this->getCartaDestinatarioDao()->traer($id);
     	
     	$contacto = $this->getContactoDao()->traer($carta_destinatario->getCon_id());
@@ -623,6 +814,40 @@ class CartasController extends AbstractActionController
     
     	return $pdf;
     	 
+    }
+    
+    public function saludoXmlHttpAction()
+    {
+    	if($this->getRequest()->isXmlHttpRequest()){
+    		$term =  $this->getRequest()->getPost('term');
+    		$listado = $this->getCartaDao()->traerSaludosJsonPorNombre($term);
+    		
+    		$response=$this->getResponse();
+    		$response->setStatusCode(200);
+    		$response->setContent($listado);
+    		return $response;
+    	}else{
+    
+    		return $this->redirect()->toRoute('cartas',array('cartas'=>'ingresar'));
+    	}
+    
+    }
+    
+    public function despedidaXmlHttpAction()
+    {
+    	if($this->getRequest()->isXmlHttpRequest()){
+    		$term =  $this->getRequest()->getPost('term');
+    		$listado = $this->getCartaDao()->traerDespedidaJsonPorNombre($term);
+    
+    		$response=$this->getResponse();
+    		$response->setStatusCode(200);
+    		$response->setContent($listado);
+    		return $response;
+    	}else{
+    
+    		return $this->redirect()->toRoute('cartas',array('cartas'=>'ingresar'));
+    	}
+    
     }
     
     public function getForm() {

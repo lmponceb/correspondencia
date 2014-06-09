@@ -9,6 +9,7 @@ $form->setAttribute ( 'action', $this->url ( 'contactos', array (
 ) ) )->setAttribute ( 'method', 'post' );
 $formLabel = $this->plugin ( 'formLabel' );
 
+$direccion_empresa_oculto = $form->get ( 'direccion_empresa_oculto' );
 $con_id = $form->get ( 'CON_ID' );
 $emp_id = $form->get ( 'EMP_ID' );
 $est_id = $form->get ( 'EST_ID' );
@@ -35,6 +36,9 @@ $con_descripcion_es = $form->get ( 'CON_DESCRIPCION_ES' );
 $con_descripcion_en = $form->get ( 'CON_DESCRIPCION_EN' );
 $con_tip_per_es = $form->get ( 'CON_TIP_PER_ES' );
 $con_tip_per_en = $form->get ( 'CON_TIP_PER_EN' );
+
+$con_direccion_empresa = $form->get ( 'CON_DIRECCION_EMPRESA' );
+$con_activar_direccion = $form->get ( 'CON_ACTIVAR_DIRECCION' );
 
 $con_direccion = $form->get ( 'CON_DIRECCION' );
 $con_secretaria = $form->get ( 'CON_SECRETARIA' );
@@ -75,6 +79,9 @@ echo $this->formelementerrors ( $con_usuario );
 
 echo $this->formhidden ( $con_estado );
 echo $this->formelementerrors ( $con_estado );
+
+echo $this->formhidden ( $direccion_empresa_oculto );
+echo $this->formelementerrors ( $direccion_empresa_oculto );
 ?>
 <ul class="error_container bs-callout bs-callout-danger">
 
@@ -265,6 +272,23 @@ echo $this->formelementerrors ( $con_estado );
 					?>
 					</td>
 				</tr>
+				<tr>
+					<td>
+					<?php 
+						echo $formLabel->openTag() . $con_activar_direccion->getLabel() . $formLabel->closeTag();
+						echo html_entity_decode( $this->formselect ( $con_activar_direccion ) );
+						echo html_entity_decode( $this->formelementerrors ( $con_activar_direccion ) );
+					?>
+					</td>
+					<td id="direccion_empresa_m" style="display: none;">
+					<?php 
+						echo $formLabel->openTag() . $con_direccion_empresa->getLabel() . $formLabel->closeTag();
+						echo html_entity_decode( $this->formselect ( $con_direccion_empresa ) );
+						echo html_entity_decode( $this->formelementerrors ( $con_direccion_empresa ) );
+					?>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
 			</table>
 			</div>
 			</div>
@@ -429,16 +453,103 @@ echo $this->formelementerrors ( $con_estado );
 
 	$(document).ready(function(){
 
-		/*
-		$("#CON_IDIOMA").change(function(){
-			if($("#CON_IDIOMA").val() == 'I'){
-				location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'I'))?>';
+		$("#CON_ACTIVAR_DIRECCION").change(function() {
+			if($('#CON_ACTIVAR_DIRECCION').val() == 'E'){
+				$('#direccion_empresa_m').attr('style','display:true');
 			}else{
-				//location.href = '<?php //echo $this->url('contactos',array('controller'=>'index', 'action' => $this->action, 'id' => $this->id, 'lang' => 'E'))?>';
+				$('#direccion_empresa_m').attr('style','display:none');
 			}
 		});
-        */
 
+		$("#CON_ACTIVAR_DIRECCION").ready(function() {
+			if($('#CON_ACTIVAR_DIRECCION').val() == 'E'){
+				$('#direccion_empresa_m').attr('style','display:true');
+			}else{
+				$('#direccion_empresa_m').attr('style','display:none');
+			}
+		});
+
+		/* AUTOCOMPLETAR DE TITULO ESPANOL */
+		$( "#CON_TIP_PER_ES" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/contactos/index/tituloEsXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
+
+		/* AUTOCOMPLETAR DE TITULO INGLES */
+		$( "#CON_TIP_PER_EN" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/contactos/index/tituloEnXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
+
+		/* AUTOCOMPLETAR DE CARGO ESPANOL */
+		$( "#CON_DESCRIPCION_ES" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/contactos/index/cargoEsXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
+
+		/* AUTOCOMPLETAR DE CARGO INGLES */
+		$( "#CON_DESCRIPCION_EN" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/contactos/index/cargoEnXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
+
+		
 		$('#SUC_ID').change(function(){
 			if($('#SUC_ID').val() != null && $('#SUC_ID').val() != ''){
 
@@ -472,7 +583,27 @@ echo $this->formelementerrors ( $con_estado );
 						}
 						
 		            }); 
-	            	
+
+	            	 //TRAE TODAS LAS DIRECCIONES DE LAS SUCURSALES DE UNA EMPRESA
+		            $.ajax({
+		                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'sucursaldireccion')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "empresa=" + $('#EMP_ID').val(),
+		                beforeSend: function() {
+		                	 $("#CON_DIRECCION_EMPRESA").html("");
+		                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(contactos) {
+		                $("#CON_DIRECCION_EMPRESA").html("");
+		                $("#CON_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+		                var selected = '';
+		                for (contacto in contactos) {
+		                    $("#CON_DIRECCION_EMPRESA").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
+		                }
+		                $("#CON_DIRECCION_EMPRESA").prop("disabled", false);
+		            });
+
 	            });
 			}else{
 				$('#datos_sucursal').attr('style', 'display:none');
@@ -512,9 +643,67 @@ echo $this->formelementerrors ( $con_estado );
 						}
 						
 		            }); 
-		            
-		            
+
 	            });
+
+				//if($('#empresa_oculto').val() != '' && $('#empresa_oculto').val() != null){
+	            	if($('#sucursal_oculto').val() != '' && $('#sucursal_oculto').val() != null){
+	            		 //TRAE TODAS LAS DIRECCIONES DE LAS SUCURSALES DE UNA EMPRESA
+	    	            $.ajax({
+	    	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'sucursaldireccion')) ?>",
+	    	                type: "POST",
+	    	                dataType: "json",
+	    	                data: "empresa=" + $('#EMP_ID').val(),
+	    	                beforeSend: function() {
+	    	                	 $("#CON_DIRECCION_EMPRESA").html("");
+	    	                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+	    	                }
+	    	            }).done(function(contactos) {
+	    	                $("#CON_DIRECCION_EMPRESA").html("");
+	    	                $("#CON_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+	    	                var selected = '';
+	    	                for (contacto in contactos) {
+
+								if($('#direccion_empresa_oculto').val() == contacto){
+									selected = 'selected="selected"';
+								}else{
+									selected = ''
+								}
+		    	                
+	    	                    $("#CON_DIRECCION_EMPRESA").append('<option value="' + contacto + '" '+selected+'>' + contactos[contacto] + '</option>');
+	    	                }
+	    	                $("#CON_DIRECCION_EMPRESA").prop("disabled", false);
+	    	            });
+		            }else{
+		            	//DIRECCION DE EMPRESA
+			            $.ajax({
+			                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'empresadireccion')) ?>",
+			                type: "POST",
+			                dataType: "json",
+			                data: "empresa=" + $('#EMP_ID').val(),
+			                beforeSend: function() {
+			                	 $("#CON_DIRECCION_EMPRESA").html("");
+			                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+			                }
+			            }).done(function(contactos) {
+			                $("#CON_DIRECCION_EMPRESA").html("");
+			                $("#CON_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+			                var selected = '';
+			                for (contacto in contactos) {
+			                	if($('#direccion_empresa_oculto').val() == contacto){
+									selected = 'selected="selected"';
+								}else{
+									selected = ''
+								}
+			                    $("#CON_DIRECCION_EMPRESA").append('<option value="' + contacto + '" '+selected+'>' + contactos[contacto] + '</option>');
+			                }
+			                $("#CON_DIRECCION_EMPRESA").prop("disabled", false);
+			            });
+			        }
+	         //   }
+
+
+	            
 			}else{
 				$('#datos_sucursal').attr('style', 'display:none');
 			}
@@ -552,6 +741,26 @@ echo $this->formelementerrors ( $con_estado );
 							$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
 						}
 						
+		            });
+
+	            	//DIRECCION DE EMPRESA
+		            $.ajax({
+		                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'empresadireccion')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "empresa=" + $('#EMP_ID').val(),
+		                beforeSend: function() {
+		                	 $("#CON_DIRECCION_EMPRESA").html("");
+		                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(contactos) {
+		                $("#CON_DIRECCION_EMPRESA").html("");
+		                $("#CON_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+		                var selected = '';
+		                for (contacto in contactos) {
+		                    $("#CON_DIRECCION_EMPRESA").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
+		                }
+		                $("#CON_DIRECCION_EMPRESA").prop("disabled", false);
 		            });
 
 	            });

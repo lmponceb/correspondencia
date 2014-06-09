@@ -115,7 +115,7 @@ class Recepcion extends Form {
 		 * CAMPO RESPONSABLE
 		* ********************************************/
 		
-		$this->add ( array (
+		/* $this->add ( array (
 				'name' => 'FE_REC_RESPONSABLE',
 				'options' => array (
 						'label' => 'Responsable*:'
@@ -126,14 +126,14 @@ class Recepcion extends Form {
 						'id' => 'FE_REC_RESPONSABLE',
 						'class' => 'form-control'
 				)
-		) );
+		) ); */
 		
 		
 		/* ********************************************
 		 * CAMPO DESCRIPCION
 		* ********************************************/
 		
-		$this->add ( array (
+		/* $this->add ( array (
 				'name' => 'FE_REC_DESCRIPCION',
 				'options' => array (
 						'label' => 'Descripci&oacute;n*:'
@@ -145,7 +145,7 @@ class Recepcion extends Form {
 						'class' => 'form-control'
 				)
 		) );
-		
+		 */
 		
 		/* ********************************************
 		 * CAMPO COMPANIA
@@ -154,7 +154,7 @@ class Recepcion extends Form {
 		$this->add ( array (
 				'name' => 'FE_REC_COMPANIA',
 				'options' => array (
-						'label' => 'Compa&ntilde;&iacute;a*:'
+						'label' => 'Empresa*:'
 				),
 				'attributes' => array (
 						'type' => 'text',
@@ -178,7 +178,7 @@ class Recepcion extends Form {
 						'type' => 'text',
 						'maxlenght' => '75',
 						'readonly' => 'readonly',
-						'value' => 'AZULEC',
+						//'value' => 'AZULEC',
 						'id' => 'FE_REC_OFERENTE',
 						'class' => 'form-control'
 				)
@@ -471,7 +471,7 @@ class Recepcion extends Form {
 				),
 				'attributes' => array (
 						'type' => 'textarea',
-						'maxlenght' => '100',
+						'maxlenght' => '200',
 						'id' => 'FE_REC_SOBRE',
 						'class' => 'form-control'
 				)
@@ -494,13 +494,25 @@ class Recepcion extends Form {
 		) );
 		
 		
-		
 		//BOTON DE SUBMIT
 		$this->add ( array (
 				'name' => 'ingresar',
 				'attributes' => array (
 						'type' => 'submit',
 						'value' => 'Ingresar',
+						'class' => 'btn btn-primary',
+						'onclick' => 'habilitar(1)',
+						'data-loading-text' => 'Loading...'
+				)
+		) );
+		
+		//BOTON DE VISTA PRELIMINAR
+		$this->add ( array (
+				'name' => 'vista',
+				'attributes' => array (
+						'type' => 'submit',
+						'value' => 'Vista Preliminar',
+						'onclick' => 'habilitar(2)',
 						'class' => 'btn btn-primary',
 						'data-loading-text' => 'Loading...'
 				)
