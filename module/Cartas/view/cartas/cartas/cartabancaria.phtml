@@ -8,21 +8,32 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
         <?php echo $this->headTitle('FORMULARIO DE REGISTRO') ?>
         <style>
 			body, html{
-				margin: 0 0;
-				padding: 0 0;
 				font-family: sans-serif;
 				font-size:13px;
 				<?php $fe_recepcion = $this->carta->getCtr_tipo(); if(strtoupper($fe_recepcion) == 'B'): ?>
 				background-image: url("<?php echo $this->basepath() . '/img/jpg/borrador.jpg'?>");
 				background-repeat: no-repeat;
-				background-position: 50px 100px;
+				background-position: 0px 100px;
 				<?php endif; ?>
+			}
+			
+			.text_cuerpo{
+				width: 	80%;
+				text-align: justify;
+				padding-left: 70px;
+				padding-top: 20px;
+			}
+				
+			.texto_copia{
+				width: 	80%;
+				text-align: justify;
+				padding-left: 70px;
 			}
 		</style>
     </head>
     <body>
     <div style="padding-left: 88px; padding-top: 60px;">
-        <img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />
+        <img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />
         <!--<img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />-->
     </div>
     <div style="padding-top: 65px;">&nbsp;</div>
@@ -49,7 +60,7 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     				<tr><td colspan="2">&nbsp;</td></tr>
     				<tr>
     					<td>Fecha/Date:</td>
-    					<td><?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd/m/Y')?></td>
+    					<td><?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd-M-Y')?></td>
     				</tr>
     			</table>
     		</td>
@@ -61,7 +72,7 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     			if( $principal == 'P'):
     			?>
     				<tr>
-    					<td align="right"><?php echo $firma_from->getEpl_nombre() . ' ' . $firma_from->getEpl_apellido() ?> <br /><?php echo $firma_from->getEpl_cargo()?></td>
+    					<td align="right"><?php echo $firma_from->getCar_fir_nombre()  ?> <br /><?php echo $firma_from->getCar_fir_cargo()?></td>
     				</tr>
     				<tr>
     					<td align="right"><?php echo $this->empresa_interna->getEmp_int_direccion()?></td>
@@ -76,21 +87,24 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     			</table>
     		</td>
     	</tr>
+    	<?php $referencia = $this->carta->getCtr_referencia(); if(!empty($referencia) && !is_null($referencia)): ?>
     	<tr>
     		<td colspan="2" style="border-top: 2px solid; border-bottom: 2px solid; font-weight: 700; padding-top: 8px; padding-bottom: 8px;">Ref.: <?php echo $this->carta->getCtr_referencia()?></td>
     	</tr>
+    	<?php endif;?>
     	<tr>
-    		<td colspan="2">
+    		<td colspan="2" style="margin: 0 0; padding: 0 0;">
     			<div><br /><?php echo $this->carta->getCtr_saludo()?></div>
     		</td>
    		</tr>
-   		<tr>
-    		<td colspan="2">
-    			<div style="text-align: justify;"><?php echo $this->carta->getCtr_cuerpo()?></div>
-    		</td>
-    	</tr>
+   		</table>
+   		
+   		<div class="text_cuerpo">
+    		<?php $cuerpo = $this->carta->getCtr_cuerpo();  $salida = $cuerpo->read($cuerpo->size());  $salida = str_replace(array('<br />'), "<br />", $salida); echo $salida;?>
+    	</div>
     	
-    	<?php $detalle = $this->transaccion_bancaria->getTra_ban_detalle(); if(strtoupper($detalle) == 'S'):?>
+    	<table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
+    	<?php  $detalle = $this->transaccion_bancaria->getTra_ban_detalle(); if(strtoupper($detalle) == 'S'):?>
     	<tr>
     		<td colspan="2">
 				<table width="100%" border="0">
@@ -133,24 +147,32 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     	
     	
    		<tr>
-    		<td colspan="2">
-    			<div><br /><br /><?php echo $this->carta->getCtr_despedida()?><br /><br /><br /></div>
-    		</td>
-    	</tr>
-    	<tr>
-	    	<?php foreach ($this->carta_firma as $firma): ?>
-	    	<td>
-	    		<table>
-	    			<tr>
-	    				<td style="text-transform: capitalize;"><?php echo $firma->getEpl_nombre() . ' ' . $firma->getEpl_apellido() ?></td>
-	    			</tr>
-	    			<tr>
-	    				<td><?php echo $firma->getEpl_cargo()?></td>
-	    			</tr>
-	    		</table>
-	    	</td>
-	    	<?php endforeach; ?>
-    	</tr>
+    	<td colspan="2" style="margin: 0 0; padding: 0 0;">
+    		<div><br /><br /><?php echo $this->carta->getCtr_despedida()?><br /><br /></div>
+    	</td>
+    </tr>
+    <tr><td colspan="2">&nbsp;</td></tr>
+    <tr>
+    	<?php foreach ($this->carta_firma as $firma): ?>
+    	<td style="margin: 0 0; padding: 0 0;">
+    		<table width="50%">
+    			<tr>
+    				<td style="text-transform: capitalize;"><?php echo $firma->getCar_fir_nombre() ?></td>
+    			</tr>
+    			<tr>
+    				<td><?php echo $firma->getCar_fir_cargo()?></td>
+    			</tr>
+    		</table>
+    	</td>
+    	<?php endforeach; ?>
+    </tr>
     </table>
+    <?php $copia = $this->carta->getCtr_copia(); if(!empty($copia) && !is_null($copia)): ?>
+    	<div class="texto_copia"><br /><br /><br /><b>CC:</b> <?php echo $this->carta->getCtr_copia()?></div>
+    <?php endif; ?>
+    
+    <?php $anexos = $this->carta->getCtr_anexos(); if(!empty($anexos) && !is_null($anexos)): ?>
+    	<div class="texto_copia"><br /><br /><br /><b>Anexos:</b> <br /><?php echo $this->carta->getCtr_anexos()?><br /><br /></div>
+    <?php endif; ?>
 </body>
 </html>

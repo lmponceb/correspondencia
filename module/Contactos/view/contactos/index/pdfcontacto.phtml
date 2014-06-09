@@ -1,0 +1,132 @@
+<?php echo $this->doctype(); 
+use Parametros\Funciones\Funciones;
+$funciones = new Funciones();
+?>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <?php echo $this->headTitle('FORMULARIO DE REGISTRO') ?>
+        <style>
+			body, html{
+				margin: 0 0;
+				padding: 0 0;
+				font-family: sans-serif;
+				font-size:13px;
+			}
+			
+			table th {
+				text-align: left;
+				color: #000033;
+				border: 1px solid #999999;
+			}
+			
+			table td{
+				padding-left: 20px;
+				border: 1px solid #999999;
+				font-style: italic;
+			}
+		</style>
+    </head>
+    <body>
+    <div style="padding-left: 40px; padding-top: 60px; padding-bottom: 10px;">
+        <img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />
+        <!--<img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />-->
+    </div>
+    <div align="center"><h1>INFORMACI&Oacute;N DE CONTACTO</h1></div>
+<table cellspacing="0" cellpadding="10" border="0" width="90%" align="center">
+	<tr>
+		<th width="34%">T&iacute;tulo:</th>
+		<th width="33%">Nombre:</th>
+		<th>Apellido:</th>
+	</tr>
+	<tr>
+		<td><?php echo $this->contacto->getCon_tip_per_es()?></td>
+		<td><?php echo $this->contacto->getCon_nombre()?></td>
+		<td><?php echo $this->contacto->getCon_apellido()?></td>
+	</tr>
+	<tr>
+		<th>Empresa:</th>
+		<th>Sucursal:</th>
+		<th>Cargo:</th>
+	</tr>
+	<tr>
+		<td>
+			<?php 
+			$sucursal = $this->contacto->getSucursal_nombre();
+			
+			if(!empty($sucursal) && !is_null($sucursal)){
+				echo $sucursal;
+			}else{
+				echo $this->contacto->getEmpresa_nombre();
+			}
+			?>
+		</td>
+		<td><?php echo $this->contacto->getEmpresa_nombre()?></td>
+		<td><?php echo $this->contacto->getCon_descripcion_es()?></td>
+	</tr>
+	<tr>
+		<th>Pa&iacute;s:</th>
+		<th>Estado/Provincia:</th>
+		<th>Ciudad:</th>
+	</tr>
+	<tr>
+		<td><?php echo $this->contacto->getPais_nombre()?></td>
+		<td><?php echo $this->contacto->getEstado_nombre()?></td>
+		<td><?php echo $this->contacto->getCiudad_nombre()?></td>
+	</tr>
+	<tr>
+		<th>Email:</th>
+		<th>Fecha de Actualizaci&oacute;n:</th>
+		<th>Usuario:</th>
+	</tr>
+	<tr>
+		<td><?php echo $this->contacto->getCon_email()?></td>
+		<td><?php echo $funciones->translateAndFormatDate($this->contacto->getCon_fecha_actualizacion(), 'E', 'd-M-Y');?></td>
+		<td><?php echo $this->contacto->getCon_usuario()?></td>
+	</tr>
+	<tr>
+		<th>Nombre de la Secretaria:</th>
+		<th>Tel&eacute;fono de la secretaria:</th>
+		<th>Contacto Privado:</th>
+	</tr>
+	<tr>
+		<td><?php echo $this->contacto->getCon_secretaria()?></td>
+		<td><?php echo $this->contacto->getCon_secretaria_telfono()?></td>
+		<td>
+			<?php
+				$privado = $this->contacto->getCon_privado();
+				
+				if(strtoupper($privado) == 'S'){
+					echo 'SI';
+				}else{
+					echo 'NO';
+				}
+			?>
+		</td>
+	</tr>
+	<tr>
+		<th colspan="3">Direcci&oacute;n:</th>
+	</tr>
+	<tr>
+		<td colspan="3"><?php echo $this->contacto->getCon_direccion()?></td>
+	</tr>
+	<tr>
+		<th colspan="3">Observaciones:</th>
+	</tr>
+	<tr>
+		<td colspan="3"><?php echo $this->contacto->getCon_observaciones()?></td>
+	</tr>
+	<tr>
+		<th colspan="3">Detalle de contacto:</th>
+	</tr>
+    <tr>
+    	<td colspan="3" style="padding-left: 20px;">
+    		<?php foreach ($this->detalle as $detalle):?>
+    		<div>Tel: <?php echo '(' . $detalle->getDet_con_codigo_pais() . ' ' . $detalle->getDet_con_codigo_ciudad() . ') ' . $detalle->getDet_con_valor() . ' Ext.:' . $detalle->getDet_con_extension()?></div>
+    		<br />
+    		<?php endforeach; ?>
+    	</td>
+    </tr>
+</table>
+</body>
+</html>

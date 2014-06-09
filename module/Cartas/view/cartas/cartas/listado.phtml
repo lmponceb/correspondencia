@@ -24,9 +24,9 @@
      <th>REFERENCIA</th>
      <th>TIPO DE CARTA</th>
      <th>USUARIO</th>
-     <th>IDIOMA</th>
+     <th>CAMPO DESTINATARIO</th>
      <th>FECHA DE CREACI&Oacute;N</th>
-     <th>CODIGO FINAL</th>
+     <th>N&Uacute;MERO DE CARTA</th>
      <th>ESTADO</th>
  </tr>
  </thead>
@@ -39,6 +39,7 @@
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $carta->getCtr_id()))?>" title="Duplicar" alt="Duplicar">Duplicar</a> |
  	 	<?php else:?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'editar', 'id' => $carta->getCtr_id()))?>" title="Actualizar" alt="Actualizar">Editar</a> |
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'eliminar', 'id' => $carta->getCtr_id()))?>" title="Eliminar" alt="Eliminar">Eliminar</a> |
  	 	<?php endif; ?>
  	 	
  	 	<?php if($carta->getTip_car_id() == 1):?> 
@@ -58,12 +59,7 @@
 	 <td><?php echo $this->escapeHtml($carta->getCtr_referencia());?></td>
  	 <td><?php echo $this->escapeHtml($carta->getTip_car_descripcion());?></td>
      <td><?php echo $this->escapeHtml($carta->getUs_codigo());?></td>
-     <td>
-     	<?php 
-     		$idioma = $carta->getCtr_idioma();
-     		if(strtoupper($idioma) == 'E'){ echo 'Espa&ntilde;ol'; }else{ echo 'Ingl&eacute;s'; }
-     	?>
-     </td>
+     <td><?php echo $this->escapeHtml($carta->getCon_nombre() . ' ' . $carta->getCon_apellido()); 	?></td>
      <td><?php echo $this->escapeHtml($carta->getCtr_fecha_actualizacion());?></td>
      <td><?php echo $this->escapeHtml($carta->getCtr_codigo_final());?></td>
      <td>

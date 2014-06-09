@@ -137,4 +137,9 @@ class FeRecepcionDao {
 			throw new \Exception( 'No se encontro el id para actualizar' );
 		}
 	} 
+	
+	public function eliminar($id){
+		$id = (int) $id;
+		$this->tableGateway->delete(array('FE_REC_ID' => $id));
+	}
 }

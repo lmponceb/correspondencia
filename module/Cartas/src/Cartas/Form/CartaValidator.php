@@ -14,6 +14,9 @@ use Zend\Validator\NotEmpty;
 use Zend\Validator\InArray;
 use Zend\I18n\Filter\Alpha;
 use Zend\I18n\Validator\Float;
+use Zend\I18n\View\Helper\CurrencyFormat;
+use Zend\I18n\Filter\NumberFormat;
+use Zend\Validator\Regex;
 
 
 class CartaValidator extends InputFilter {
@@ -162,25 +165,31 @@ class CartaValidator extends InputFilter {
 				'haystack' => array('A','I'),
 		)));
 		
-		$this->add ( $ctr_estado );
-		
 		
 		$epl_id_uno = new Input ( 'EPL_ID_UNO' );
 		$epl_id_uno->setRequired ( true );
 		$epl_id_uno->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 11,
-				'min' => 1,
+				'max' => 100,
 		) ) )
 		->attach(new NotEmpty());
 		
 		$this->add ( $epl_id_uno );
 		
 		
+		$cargo_uno = new Input ( 'CARGO_UNO' );
+		$cargo_uno->setRequired ( true );
+		$cargo_uno->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 100,
+		) ) )
+		->attach(new NotEmpty());
+		
+		$this->add ( $cargo_uno );
+		
+		
 		$epl_id_dos = new Input ( 'EPL_ID_DOS' );
 		$epl_id_dos->setRequired ( false );
 		$epl_id_dos->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 11,
-				'min' => 1,
+				'max' => 100,
 		) ) );
 		
 		$this->add ( $epl_id_dos );
@@ -216,6 +225,13 @@ class CartaValidator extends InputFilter {
 		
 		$this->add ( $con_id );
 		
+		
+		$ctr_direccion_empresa = new Input ( 'CTR_DIRECCION_EMPRESA' );
+		$ctr_direccion_empresa->setRequired ( false );
+		
+		
+		$this->add ( $ctr_direccion_empresa );
+		
 		/************** CAMPOS PARA TRANSFERENCIA DE SUELDOS ******************/
 		
 		
@@ -224,7 +240,7 @@ class CartaValidator extends InputFilter {
 		$tra_sue_valor_debito->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 15,
 				'min' => 1,
-		) ) )->attach( new Float());
+		) ) )->attach( new Regex(array('pattern' => '/^-?[0-9]+([.][0-9]*)?$/', 'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'Solo se admiten numeros y el caracter punto (.)',))));
 		
 		$this->add ( $tra_sue_valor_debito );
 		
@@ -234,7 +250,7 @@ class CartaValidator extends InputFilter {
 		$tra_sue_numero_creditos->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 11,
 				'min' => 1,
-		) ) )->attach( new Float());
+		) ) )->attach( new Regex(array('pattern' => '/^-?[0-9]+([.][0-9]*)?$/', 'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'Solo se admiten numeros y el caracter punto (.)',))));
 		
 		$this->add ( $tra_sue_numero_creditos );
 		
@@ -244,7 +260,7 @@ class CartaValidator extends InputFilter {
 		$tra_sue_valor_maximo->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 15,
 				'min' => 1,
-		) ) )->attach( new Float());
+		) ) )->attach( new Regex(array('pattern' => '/^-?[0-9]+([.][0-9]*)?$/', 'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'Solo se admiten numeros y el caracter punto (.)',))));
 		
 		$this->add ( $tra_sue_valor_maximo );
 	}

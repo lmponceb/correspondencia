@@ -21,6 +21,7 @@
  <tr>
  	 <th>&nbsp;</th>
  	 <th>SOBRES</th>
+ 	 <th>DETALLE</th>
      <th>EMPRESA</th>
      <th>SUCURSAL</th>
      <th>T&Iacute;TULO</th>
@@ -40,9 +41,9 @@
  	 	<?php
  	 	$activo = $carta->getCon_estado();
  	 	if(strtoupper($activo) == 'A'): ?>
- 	 	| <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'eliminar', 'id' => $carta->getCon_id()))?>" title="Dar de baja" alt="Dar de baja">Desactivar</a>
+ 	 	| <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'eliminar', 'id' => $carta->getCon_id()))?>" onclick="return mensaje('<?php echo $carta->getCon_id() ?>');" title="Dar de baja" alt="Dar de baja">Desactivar</a>
  	 	<?php else:?>
- 	 		<?php if(strtoupper($this->tipo_usuario) == 'A'): ?>
+ 	 		<?php if($this->tipo_usuario == 1): ?>
  	 			| <a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'activar', 'id' => $carta->getCon_id()))?>" title="Activar" alt="Activar">Activar</a>
 			<?php else:?>
 				&nbsp;
@@ -51,8 +52,9 @@
  	 </td>
  	 <td width="150">
  	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'courier', 'id' => $carta->getCon_id()))?>" title="Sobre Courier" alt="Sobre Courier" target="_blank">Courier</a> |
- 	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sobre', 'id' => $carta->getCon_id()))?>" title="Sobre Nacional" alt="Sobre Nacional" target="_blank">Sobre Nacional</a>
+ 	 	<a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'sobre', 'id' => $carta->getCon_id()))?>" title="Sobre Nacional" alt="Sobre Nacional" target="_blank">Nacional</a>
  	 </td>
+ 	 <td><a href="<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'pdfcontacto', 'id' => $carta->getCon_id()))?>" title="Sobre Nacional" alt="Sobre Nacional" target="_blank">PDF</a></td>
      <td>
      <?php 
      	$empresa = $carta->getSucursal_nombre();
@@ -93,4 +95,69 @@
 				}
 			});
 		});
+
+		function mensaje(id){
+
+			var num = id;
+			var dar_baja = false;
+			
+			if(confirm('Desea dar de baja este registro?') == true){
+				if(!traerCartasAsociadas(num)){
+					return false;
+				}else{
+					return true;
+				}
+			}else{
+				return false;
+			}
+			
+		}
+
+		function traerCartasAsociadas(num){
+
+			var dar_baja = false;
+			
+			$.ajax({
+                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'cartasAsociadas')) ?>",
+                type: "POST",
+                dataType: "json",
+                async: false,
+                data: "con_id=" + num,
+                beforeSend: function() {
+                	//$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
+                	//$(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>Procesando, espere por favor...</option>');
+                } ,
+        		success: function(cartas) {
+
+	    			var total = 0;
+		            total = cartas['TOTAL'];
+
+			            if(total > 0){
+			            	if(confirm('Existen cartas asociadas a este contacto, desea darlo de baja?') == true){
+			            		dar_baja = true;
+		 	 		        }else{
+		 	 		        	dar_baja = false;
+		 	 	 		    }
+				        } else {
+				        	dar_baja = true;
+					    }
+
+	    			
+		  		} 
+            })/* .done(function(cartas) {
+
+				 var total = 0;
+	            total = cartas['TOTAL'];
+
+		            if(total > 0){
+		            	if(confirm('Existen cartas asociadas a este contacto, desea darlo de baja?') == true){
+		            		return true;
+	 	 		        }else{
+	 	 		        	return false;
+	 	 	 		    }
+			        } 
+            });*/
+
+            return dar_baja;
+		}
 </script>

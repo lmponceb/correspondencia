@@ -4,13 +4,14 @@ namespace Cartas\Model\Entity;
 class CartaFirma {
 	
 	private $car_fir_id;
-	private $epl_id;
 	private $ctr_id;
 	private $car_fir_tipo;
+	private $car_fir_nombre;
+	private $car_fir_cargo;
 	
-	private $epl_nombre;
-	private $epl_apellido;
-	private $epl_cargo;
+// 	private $epl_nombre;
+// 	private $epl_apellido;
+// 	private $epl_cargo;
 	
 	function __construct() {}
 
@@ -19,13 +20,6 @@ class CartaFirma {
 	 */
 	public function getCar_fir_id() {
 		return $this->car_fir_id;
-	}
-
-	/**
-	 * @return the $epl_id
-	 */
-	public function getEpl_id() {
-		return $this->epl_id;
 	}
 
 	/**
@@ -43,24 +37,17 @@ class CartaFirma {
 	}
 
 	/**
-	 * @return the $epl_nombre
+	 * @return the $car_fir_nombre
 	 */
-	public function getEpl_nombre() {
-		return $this->epl_nombre;
+	public function getCar_fir_nombre() {
+		return $this->car_fir_nombre;
 	}
 
 	/**
-	 * @return the $epl_apellido
+	 * @return the $car_fir_cargo
 	 */
-	public function getEpl_apellido() {
-		return $this->epl_apellido;
-	}
-
-	/**
-	 * @return the $epl_cargo
-	 */
-	public function getEpl_cargo() {
-		return $this->epl_cargo;
+	public function getCar_fir_cargo() {
+		return $this->car_fir_cargo;
 	}
 
 	/**
@@ -68,13 +55,6 @@ class CartaFirma {
 	 */
 	public function setCar_fir_id($car_fir_id) {
 		$this->car_fir_id = $car_fir_id;
-	}
-
-	/**
-	 * @param Ambigous <NULL, unknown> $epl_id
-	 */
-	public function setEpl_id($epl_id) {
-		$this->epl_id = $epl_id;
 	}
 
 	/**
@@ -92,36 +72,30 @@ class CartaFirma {
 	}
 
 	/**
-	 * @param Ambigous <NULL, unknown> $epl_nombre
+	 * @param Ambigous <NULL, unknown> $car_fir_nombre
 	 */
-	public function setEpl_nombre($epl_nombre) {
-		$this->epl_nombre = $epl_nombre;
+	public function setCar_fir_nombre($car_fir_nombre) {
+		$this->car_fir_nombre = $car_fir_nombre;
 	}
 
 	/**
-	 * @param Ambigous <NULL, unknown> $epl_apellido
+	 * @param Ambigous <NULL, unknown> $car_fir_cargo
 	 */
-	public function setEpl_apellido($epl_apellido) {
-		$this->epl_apellido = $epl_apellido;
-	}
-
-	/**
-	 * @param Ambigous <NULL, unknown> $epl_cargo
-	 */
-	public function setEpl_cargo($epl_cargo) {
-		$this->epl_cargo = $epl_cargo;
+	public function setCar_fir_cargo($car_fir_cargo) {
+		$this->car_fir_cargo = $car_fir_cargo;
 	}
 
 	public function exchangeArray($data)
 	{
 		$this->car_fir_id = (isset($data['CAR_FIR_ID'])) ? $data['CAR_FIR_ID'] : null;
-		$this->epl_id = (isset($data['EPL_ID'])) ? $data['EPL_ID'] : null;
 		$this->ctr_id = (isset($data['CTR_ID'])) ? $data['CTR_ID'] : null;
 		$this->car_fir_tipo = (isset($data['CAR_FIR_TIPO'])) ? $data['CAR_FIR_TIPO'] : null;
+		$this->car_fir_nombre = (isset($data['CAR_FIR_NOMBRE'])) ? $data['CAR_FIR_NOMBRE'] : null;
+		$this->car_fir_cargo = (isset($data['CAR_FIR_CARGO'])) ? $data['CAR_FIR_CARGO'] : null;
 		
-		$this->epl_nombre = (isset($data['EPL_NOMBRE'])) ? $data['EPL_NOMBRE'] : null;
-		$this->epl_apellido = (isset($data['EPL_APELLIDO'])) ? $data['EPL_APELLIDO'] : null;
-		$this->epl_cargo = (isset($data['EPL_CARGO'])) ? $data['EPL_CARGO'] : null;
+// 		$this->epl_nombre = (isset($data['EPL_NOMBRE'])) ? $data['EPL_NOMBRE'] : null;
+// 		$this->epl_apellido = (isset($data['EPL_APELLIDO'])) ? $data['EPL_APELLIDO'] : null;
+// 		$this->epl_cargo = (isset($data['EPL_CARGO'])) ? $data['EPL_CARGO'] : null;
 	}
 	
 	public function getArrayCopy(){

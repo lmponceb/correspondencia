@@ -37,6 +37,8 @@ use Contactos\Model\Dao\DetalleContactoDao;
 use Contactos\Model\Dao\ContactoRelacionadoDao;
 use Contactos\Model\Entity\ContactoRelacionado;
 use Application\Controller\Listener\LanguageListener;
+use Cartas\Model\Dao\CartaDao;
+use Cartas\Model\Entity\Carta;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -64,10 +66,10 @@ class Module implements AutoloaderProviderInterface
     	return array(
     			'factories' => array(
     					'Contactos\Model\Dao\ContactoDao' => function($sm){
-    						$tableGateway = $sm->get('ContactoTableGateway');
+    						$tableGateway = $sm->get('ContactoContactosTableGateway');
     						return new ContactoDao($tableGateway);
     					},
-    					'ContactoTableGateway' => function ($sm){
+    					'ContactoContactosTableGateway' => function ($sm){
     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new Contacto());
@@ -172,6 +174,17 @@ class Module implements AutoloaderProviderInterface
     						$resultSetPrototype = new ResultSet();
     						$resultSetPrototype->setArrayObjectPrototype(new ContactoRelacionado());
     						return new TableGateway('CONTACTO_RELACIONADO', $dbAdapter, null, $resultSetPrototype);
+    					},
+    					
+    					'Contactos\Model\Dao\CartasDao' => function($sm){
+    						$tableGateway = $sm->get('CartasConTableGateway');
+    						return new CartaDao($tableGateway);
+    					},
+    					'CartasConTableGateway' => function ($sm){
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new Carta());
+    						return new TableGateway('CARTA', $dbAdapter, null, $resultSetPrototype);
     					},
     
     			),

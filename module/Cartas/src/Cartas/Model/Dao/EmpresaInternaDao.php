@@ -71,7 +71,7 @@ class EmpresaInternaDao {
     	}
     
     	foreach ($empresaInterna as $emp_int){
-    		$result[$emp_int->getEmp_int_id()] = $emp_int->getEmp_int_abreviacion();
+    		$result[$emp_int->getEmp_int_id()] = $emp_int->getEmp_int_abreviacion() . ' - ' .$emp_int->getEmp_int_nombre();
     	}
     
     	return $result;

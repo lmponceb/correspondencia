@@ -50,6 +50,14 @@ class DetalleContactoDao {
     	return $row;
     }
     
+    public function getDetallePorContacto($con_id){
+    
+    	$con_id = (int) $con_id;
+    
+    	$resultSet = $this->tableGateway->select(array('CON_ID' => $con_id));
+    	return $resultSet;
+    }
+    
     public function getDetallePorEmpresa($emp_id){
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();

@@ -21,15 +21,15 @@
  <tr>
  	 <th>&nbsp;</th>
      <th>TIPO</th>
-     <th>IDIOMA</th>
+    <!--  <th>IDIOMA</th>  -->
      <th>FECHA DE <br />CREACI&Oacute;N</th>
-     <th>USUARIO</th>
-     <th>COMPA&Ntilde;&Iacute;A</th>
+     <th>EMPRESA</th>
      <th>OFERENTE</th>
      <th>CODIGO DE LA <br />OFERTA</th>
      <th>FECHA Y HORA <br />OFERTA</th>
      <th>ESTADO</th>
      <th>CODIGO PROCESADO</th>
+     <th>USUARIO</th>
  </tr>
  </thead>
  <tbody>
@@ -41,16 +41,18 @@
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'duplicar', 'id' => $fe_recepcion->getFe_rec_id()))?>" title="Duplicar" alt="Duplicar">Duplicar</a> |
  	 	<?php else:?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'editar', 'id' => $fe_recepcion->getFe_rec_id()))?>" title="Actualizar" alt="Actualizar">Editar</a> |
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'Eliminar', 'id' => $fe_recepcion->getFe_rec_id()))?>" title="Eliminar" alt="Eliminar">Eliminar</a> |
  	 	<?php endif; ?>
  	 	<a href="<?php echo $this->url('cartas', array('controller' => 'recepcion', 'action' => 'pdf', 'id' => $fe_recepcion->getFe_rec_id()))?>" title="PDF" alt="PDF" target="_blank">PDF</a>
  	 </td>
 	 <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_tipo());?></td>
+ 	 <!-- 
  	 <td><?php 
-     		$idioma = $fe_recepcion->getFe_rec_idioma();
-     		if(strtoupper($idioma) == 'E'){ echo 'Espa&ntilde;ol'; }else{ echo 'Ingl&eacute;s'; }
+     		//$idioma = $fe_recepcion->getFe_rec_idioma();
+     		//if(strtoupper($idioma) == 'E'){ echo 'Espa&ntilde;ol'; }else{ echo 'Ingl&eacute;s'; }
      	?></td>
+     -->
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_fecha());?></td>
-     <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_responsable());?></td>
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_compania());?></td>
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_oferente());?></td>
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_oferta_codigo());?></td>
@@ -62,6 +64,7 @@
      	?>
      </td>
      <td><?php echo $this->escapeHtml($fe_recepcion->getFe_rec_codigo_procesado());?></td>
+     <td><?php echo $this->escapeHtml($fe_recepcion->getUs_codigo());?></td>
  </tr>
  <?php endforeach; ?>
  </tbody>

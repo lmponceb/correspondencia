@@ -3,12 +3,13 @@
 
 $form = $this->formulario;
 $form->prepare ();
-$form->setAttribute ( 'action', $this->url ( 'cartas', array (
-		'controller' => 'cartas',
-		'action' => 'validar' 
-) ) )->setAttribute ( 'method', 'post' );
+$form->setAttribute ( 'action', '/' )
+->setAttribute ( 'method', 'post' )
+->setAttribute ( 'id', 'form-cartas' )
+->setAttribute ( 'name', 'form-cartas' );
 $formLabel = $this->plugin ( 'formLabel' );
 
+$direccion_empresa_oculto = $form->get ( 'direccion_empresa_oculto' );
 $ctr_id = $form->get ( 'CTR_ID' );
 $emp_int_id = $form->get ( 'EMP_INT_ID' );
 $pro_id = $form->get ( 'PRO_ID' );
@@ -38,6 +39,11 @@ $proyecto_oculto = $form->get ( 'proyecto_oculto' );
 //$proyecto_oculto = $form->get ( 'proyecto_oculto' );
 $car_fir_tipo = $form->get ( 'CAR_FIR_TIPO' );
 $ctr_activar_direccion = $form->get ( 'CTR_ACTIVAR_DIRECCION' );
+$ctr_direccion_empresa = $form->get ( 'CTR_DIRECCION_EMPRESA' );
+$ctr_copia = $form->get ( 'CTR_COPIA' );
+$ctr_anexos = $form->get ( 'CTR_ANEXOS' );
+
+
 
 //CAMPOS PARA TIPO DE CARTA TRANSFERENCIA DE SUELDOS
 $tra_sue_valor_debito = $form->get ( 'TRA_SUE_VALOR_DEBITO' );
@@ -80,6 +86,9 @@ echo $this->formelementerrors ( $ctr_tipo );
 echo $this->formhidden ( $ctr_estado );
 echo $this->formelementerrors ( $ctr_estado );
 
+echo $this->formhidden ( $direccion_empresa_oculto );
+echo $this->formelementerrors ( $direccion_empresa_oculto );
+
 echo $this->formhidden ( $contacto_oculto );
 echo $this->formelementerrors ( $contacto_oculto );
 
@@ -92,6 +101,8 @@ echo $this->formelementerrors ( $empresa_oculto );
 
 echo $this->formhidden ( $proyecto_oculto );
 echo $this->formelementerrors ( $proyecto_oculto );
+
+
 ?>
 <ul class="error_container bs-callout bs-callout-danger">
 
@@ -116,13 +127,13 @@ echo $this->formelementerrors ( $proyecto_oculto );
 					<td colspan="3"><h3 align="left">Creaci&oacute;n de carta</h3><hr /></td>
 				</tr>
 				<tr>
-					<td>
+					<td width="33%">
 					<?php echo $formLabel->openTag() . $ctr_idioma->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect( $ctr_idioma ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_idioma ) ); 
 					?>
 					</td>
-					<td>
+					<td width="33%">
 					<?php echo $formLabel->openTag() . $tip_car_id->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $tip_car_id ) );
 						  echo html_entity_decode( $this->formelementerrors ( $tip_car_id ) ); 
@@ -180,7 +191,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 				<tr>
 					<td colspan="3">
 					<?php echo $formLabel->openTag() . $ctr_cuerpo->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formtextarea ( $ctr_cuerpo ) );
+					      echo html_entity_decode( $this->formtextarea ( $ctr_cuerpo ));
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_cuerpo ) );
 					?>
 					</td>	
@@ -196,7 +207,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 				<tr>
 					<td>
 					<?php echo $formLabel->openTag() . $epl_id_uno->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $epl_id_uno ) );
+					      echo html_entity_decode( $this->formtext ( $epl_id_uno ) );
 						  echo html_entity_decode( $this->formelementerrors ( $epl_id_uno ) );
 					?>
 					</td>
@@ -216,7 +227,7 @@ echo $this->formelementerrors ( $proyecto_oculto );
 				<tr>
 					<td>
 					<?php echo $formLabel->openTag() . $epl_id_dos->getLabel() . $formLabel->closeTag();
-					      echo html_entity_decode( $this->formselect ( $epl_id_dos ) );
+					      echo html_entity_decode( $this->formtext ( $epl_id_dos ) );
 						  echo html_entity_decode( $this->formelementerrors ( $epl_id_dos ) );
 					?>
 					</td>
@@ -226,7 +237,25 @@ echo $this->formelementerrors ( $proyecto_oculto );
 						  echo html_entity_decode( $this->formelementerrors ( $cargo_dos ) );
 					?>
 					</td>
-					<td>&nbsp;</td>		
+					<td>&nbsp;</td>	
+				</tr>
+				<tr>
+					<td colspan="2">
+					<?php echo $formLabel->openTag() . $ctr_copia->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $ctr_copia ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_copia ) );
+					?>
+					</td>
+					<td>&nbsp;</td>	
+				</tr>
+				<tr>
+					<td colspan="2">
+					<?php echo $formLabel->openTag() . $ctr_anexos->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formtextarea ( $ctr_anexos ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_anexos ) );
+					?>
+					</td>
+					<td>&nbsp;</td>	
 				</tr>
 				<tr>
 					<td>
@@ -235,20 +264,27 @@ echo $this->formelementerrors ( $proyecto_oculto );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_activar_direccion ) );
 					?>
 					</td>
+					<td id="direccion_empresa_m" style="display: none;">
+					<?php echo $formLabel->openTag() . $ctr_direccion_empresa->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $ctr_direccion_empresa ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_direccion_empresa ) );
+					?>
+					</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
 					<td>
 					<?php echo $formLabel->openTag() . $ctr_fecha_creacion->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $ctr_fecha_creacion ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_fecha_creacion ) );
 					?>
-					</td>	
+					</td>
 					<td>
 					<?php echo $formLabel->openTag() . $ctr_codigo_final->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $ctr_codigo_final ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_codigo_final ) );
 					?>
 					</td>
-					
-					
 				</tr>
 				<tr>
 					<td colspan="3" ><br /><hr /></td>
@@ -362,6 +398,8 @@ echo $this->formelementerrors ( $proyecto_oculto );
 			<?php $codigo_final = $ctr_codigo_final->getValue(); if( empty($codigo_final) || is_null($codigo_final) ):?>
 		
 			<?php echo $this->formsubmit( $form->get ( 'ingresar' ) ) ?>
+			<?php echo $this->formsubmit( $form->get ( 'vista' ) ) ?>
+			
 			<?php if(strtolower($this->action) == 'editar'): ?>
 			<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'procesar', 'id' => $ctr_id->getValue() ))?>" class ="btn btn-primary">Procesar</a>
 			<?php endif;?>
@@ -378,7 +416,45 @@ echo $this->formelementerrors ( $proyecto_oculto );
 
 	$(document).ready(function(){
 
-		$(document).ready(function(){
+		/* AUTOCOMPLETAR SALUDO */
+		$( "#CTR_SALUDO" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/cartas/cartas/saludoXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
+
+		/* AUTOCOMPLETAR SALUDO */
+		$( "#CTR_DESPEDIDA" ).autocomplete({
+	        source: function(request, response) {
+            	$.ajax({
+	                url: "<?php echo $this->basePath() ?>/cartas/cartas/despedidaXmlHttp",
+	                dataType: "json",
+	                type: "POST",
+	                data: {
+	                    term: request.term
+	                },
+	                success: function(data) {
+	                    response(data);
+	                }
+	            });
+        	},
+			select: function(event,ui){
+				/*$("#emp_emp_id").val(ui.item.id);*/
+			}	
+		});
 
 			//FUNCION PARA CARGAR LA FECHA DE NACIMIENTO CON UN DATEPICKER
 			$( "#CTR_FECHA_CREACION" ).datepicker({
@@ -390,7 +466,6 @@ echo $this->formelementerrors ( $proyecto_oculto );
 			            buttonImage: "<?php echo $this->basePath('img/calendar.gif')?>",
 			            buttonImageOnly: true
 			});
-		});
 
 		//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
 		$("#SUC_ID").change(function() {
@@ -419,10 +494,33 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	                }
 	                $("#CON_ID").prop("disabled", false);
 	            });
+
+
+		          //TRAE TODAS LAS DIRECCIONES DE LAS SUCURSALES DE UNA EMPRESA
+	            $.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'sucursaldireccion')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#EMP_ID').val(),
+	                beforeSend: function() {
+	                	 $("#CTR_DIRECCION_EMPRESA").html("");
+	                	 $("#CTR_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(contactos) {
+	                $("#CTR_DIRECCION_EMPRESA").html("");
+	                $("#CTR_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+	                var selected = '';
+	                for (contacto in contactos) {
+	                    $("#CTR_DIRECCION_EMPRESA").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
+	                }
+	                $("#CTR_DIRECCION_EMPRESA").prop("disabled", false);
+	            });
+	            
 			}else{
 				//$("#CON_ID").prop("disabled", true);
 			}
         });
+
 
 		$("#EMP_ID").change(function() {
 			if($('#EMP_ID').val() != '' && $('#EMP_ID').val() != null){
@@ -444,8 +542,29 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	                }
 	                $("#CON_ID").prop("disabled", false);
 	            });
+				//DIRECCION DE EMPRESA
+	            $.ajax({
+	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'empresadireccion')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#EMP_ID').val(),
+	                beforeSend: function() {
+	                	 $("#CTR_DIRECCION_EMPRESA").html("");
+	                	 $("#CTR_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+	                }
+	            }).done(function(contactos) {
+	                $("#CTR_DIRECCION_EMPRESA").html("");
+	                $("#CTR_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+	                var selected = '';
+	                for (contacto in contactos) {
+	                    $("#CTR_DIRECCION_EMPRESA").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
+	                }
+	                $("#CTR_DIRECCION_EMPRESA").prop("disabled", false);
+	            });
+
+	            
 			}else{
-				$("#CON_ID").prop("disabled", true);
+				$("#CON_ID, #CTR_DIRECCION_EMPRESA").prop("disabled", true);
 			}
         });
 
@@ -476,28 +595,13 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	                }
 	                $("#CON_ID").prop("disabled", false);
 	            });
+
 			}else{
 				$("#CON_ID").prop("disabled", true);
 			}
         });
 
-		$("#EPL_ID_UNO").change(function() {
-			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
-		});
-
-		$("#EPL_ID_UNO").ready(function() {
-			traerCargo('EPL_ID_UNO', $("#EPL_ID_UNO").val(), 'CARGO_UNO');
-		});
-
-		$("#EPL_ID_DOS").change(function() {
-			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
-		});
-
-		$("#EPL_ID_DOS").ready(function() {
-			traerCargo('EPL_ID_DOS', $("#EPL_ID_DOS").val(), 'CARGO_DOS');
-		});
-		
-        function traerCargo(id, val, cargo){
+		function traerCargo(id, val, cargo){
         	//FUNCION PARA TRAER EL CARGO DE UN EMPLEADO
     		
     			if(val != '' && val != null){
@@ -558,8 +662,90 @@ echo $this->formelementerrors ( $proyecto_oculto );
 	                	$("#CTR_REFERENCIA").val("Procesando, espere por favor...");
 	                }
 	            }).done(function(cargobdd) {
-	            		$("#CTR_REFERENCIA").val(" " + cargobdd["pro_id"] + ', ' + cargobdd["pro_descripcion"]);
+	            		$("#CTR_REFERENCIA").val(" " + cargobdd["pro_id"] + ' - ' + cargobdd["pro_descripcion"]);
 	            });
+			}
+        });
+
+		$("#CTR_ACTIVAR_DIRECCION").change(function() {
+			if($('#CTR_ACTIVAR_DIRECCION').val() == 'E'){
+				$('#direccion_empresa_m').attr('style','display:true');
+			}else{
+				$('#direccion_empresa_m').attr('style','display:none');
+			}
+		});
+
+		$("#CTR_ACTIVAR_DIRECCION").ready(function() {
+			if($('#CTR_ACTIVAR_DIRECCION').val() == 'E'){
+				$('#direccion_empresa_m').attr('style','display:true');
+			}else{
+				$('#direccion_empresa_m').attr('style','display:none');
+			}
+		});
+
+
+		//FUNCION PARA CARGAR EL COMBO BOX DE CIUDADES EN BASE A UN ESTADO
+		$("#SUC_ID").ready(function() {
+			if($('#SUC_ID').val() != '' && $('#SUC_ID').val() != null){
+
+	            if($('#empresa_oculto').val() != '' && $('#empresa_oculto').val() != null){
+	            	if($('#sucursal_oculto').val() != '' && $('#sucursal_oculto').val() != null){
+	            		 //TRAE TODAS LAS DIRECCIONES DE LAS SUCURSALES DE UNA EMPRESA
+	    	            $.ajax({
+	    	                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'sucursaldireccion')) ?>",
+	    	                type: "POST",
+	    	                dataType: "json",
+	    	                data: "empresa=" + $('#EMP_ID').val(),
+	    	                beforeSend: function() {
+	    	                	 $("#CTR_DIRECCION_EMPRESA").html("");
+	    	                	 $("#CTR_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+	    	                }
+	    	            }).done(function(contactos) {
+	    	                $("#CTR_DIRECCION_EMPRESA").html("");
+	    	                $("#CTR_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+	    	                var selected = '';
+	    	                for (contacto in contactos) {
+
+								if($('#direccion_empresa_oculto').val() == contacto){
+									selected = 'selected="selected"';
+								}else{
+									selected = ''
+								}
+		    	                
+	    	                    $("#CTR_DIRECCION_EMPRESA").append('<option value="' + contacto + '" '+selected+'>' + contactos[contacto] + '</option>');
+	    	                }
+	    	                $("#CTR_DIRECCION_EMPRESA").prop("disabled", false);
+	    	            });
+		            }else{
+		            	//DIRECCION DE EMPRESA
+			            $.ajax({
+			                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'empresadireccion')) ?>",
+			                type: "POST",
+			                dataType: "json",
+			                data: "empresa=" + $('#EMP_ID').val(),
+			                beforeSend: function() {
+			                	 $("#CTR_DIRECCION_EMPRESA").html("");
+			                	 $("#CTR_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+			                }
+			            }).done(function(contactos) {
+			                $("#CTR_DIRECCION_EMPRESA").html("");
+			                $("#CTR_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+			                var selected = '';
+			                for (contacto in contactos) {
+			                	if($('#direccion_empresa_oculto').val() == contacto){
+									selected = 'selected="selected"';
+								}else{
+									selected = ''
+								}
+			                    $("#CTR_DIRECCION_EMPRESA").append('<option value="' + contacto + '" '+selected+'>' + contactos[contacto] + '</option>');
+			                }
+			                $("#CTR_DIRECCION_EMPRESA").prop("disabled", false);
+			            });
+			        }
+	            }
+	            
+			}else{
+				//$("#CON_ID").prop("disabled", true);
 			}
         });
 
@@ -581,4 +767,33 @@ CKEDITOR.replace( 'CTR_CUERPO', {
 			//{ name: 'links', items : [ 'Link','Unlink'] },
 		]
 } );
+
+CKEDITOR.replace( 'CTR_ANEXOS', {
+	enterMode : CKEDITOR.ENTER_BR,
+	toolbar :
+		[
+			{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+			//{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+			{ name: 'insert', items : [ 'Table','Smiley' ] },
+			//{ name: 'styles', items : [ 'Styles','Format' ] },
+			{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','-','RemoveFormat' ] },
+			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+			//{ name: 'links', items : [ 'Link','Unlink'] },
+		]
+} );
+
+function habilitar(boton){
+	var frm = document.getElementById('form-cartas');
+	//Ingresar - Actualizar
+	if(boton == 1){
+		frm.action = "<?php echo $this->url ( 'cartas', array ( 'controller' => 'cartas', 'action' => 'validar')) ?>";
+		frm.target = '_self';
+	}
+
+	//Vista Preliminar
+	if(boton == 2){
+		frm.action = "<?php echo $this->url ( 'cartas', array ( 'controller' => 'cartas', 'action' => 'validarpreview')) ?>";
+		frm.target = '_blank';
+	}
+}
 </script>

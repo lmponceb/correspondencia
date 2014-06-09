@@ -19,13 +19,18 @@ class Carta {
 	private $ctr_tipo;
 	private $ctr_estado;
 	private $ctr_activar_direccion;
+	private $ctr_direccion_empresa;
+	private $ctr_copia;
+	private $ctr_anexos;
 	
 	private $tip_car_descripcion; 
 	private $emp_int_nombre;
 	private $emp_int_abreviacion;
+	private $con_nombre;
+	private $con_apellido;
 	
 	function __construct() {}
-	
+
 	/**
 	 * @return the $ctr_id
 	 */
@@ -139,6 +144,27 @@ class Carta {
 	}
 
 	/**
+	 * @return the $ctr_direccion_empresa
+	 */
+	public function getCtr_direccion_empresa() {
+		return $this->ctr_direccion_empresa;
+	}
+
+	/**
+	 * @return the $ctr_copia
+	 */
+	public function getCtr_copia() {
+		return $this->ctr_copia;
+	}
+
+	/**
+	 * @return the $ctr_anexos
+	 */
+	public function getCtr_anexos() {
+		return $this->ctr_anexos;
+	}
+
+	/**
 	 * @return the $tip_car_descripcion
 	 */
 	public function getTip_car_descripcion() {
@@ -157,6 +183,20 @@ class Carta {
 	 */
 	public function getEmp_int_abreviacion() {
 		return $this->emp_int_abreviacion;
+	}
+
+	/**
+	 * @return the $con_nombre
+	 */
+	public function getCon_nombre() {
+		return $this->con_nombre;
+	}
+
+	/**
+	 * @return the $con_apellido
+	 */
+	public function getCon_apellido() {
+		return $this->con_apellido;
 	}
 
 	/**
@@ -272,6 +312,27 @@ class Carta {
 	}
 
 	/**
+	 * @param Ambigous <NULL, unknown> $ctr_direccion_empresa
+	 */
+	public function setCtr_direccion_empresa($ctr_direccion_empresa) {
+		$this->ctr_direccion_empresa = $ctr_direccion_empresa;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $ctr_copia
+	 */
+	public function setCtr_copia($ctr_copia) {
+		$this->ctr_copia = $ctr_copia;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $ctr_anexos
+	 */
+	public function setCtr_anexos($ctr_anexos) {
+		$this->ctr_anexos = $ctr_anexos;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $tip_car_descripcion
 	 */
 	public function setTip_car_descripcion($tip_car_descripcion) {
@@ -292,6 +353,20 @@ class Carta {
 		$this->emp_int_abreviacion = $emp_int_abreviacion;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $con_nombre
+	 */
+	public function setCon_nombre($con_nombre) {
+		$this->con_nombre = $con_nombre;
+	}
+
+	/**
+	 * @param Ambigous <NULL, unknown> $con_apellido
+	 */
+	public function setCon_apellido($con_apellido) {
+		$this->con_apellido = $con_apellido;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->ctr_id = (isset($data['CTR_ID'])) ? $data['CTR_ID'] : null;
@@ -310,10 +385,15 @@ class Carta {
 		$this->ctr_tipo = (isset($data['CTR_TIPO'])) ? $data['CTR_TIPO'] : null;
 		$this->ctr_estado = (isset($data['CTR_ESTADO'])) ? $data['CTR_ESTADO'] : null;
 		$this->ctr_activar_direccion = (isset($data['CTR_ACTIVAR_DIRECCION'])) ? $data['CTR_ACTIVAR_DIRECCION'] : null;
+		$this->ctr_direccion_empresa = (isset($data['CTR_DIRECCION_EMPRESA'])) ? $data['CTR_DIRECCION_EMPRESA'] : null;
+		$this->ctr_copia = (isset($data['CTR_COPIA'])) ? $data['CTR_COPIA'] : null;
+		$this->ctr_anexos = (isset($data['CTR_ANEXOS'])) ? $data['CTR_ANEXOS'] : null;
 		
 		$this->tip_car_descripcion = (isset($data['TIP_CAR_DESCRIPCION'])) ? $data['TIP_CAR_DESCRIPCION'] : null;
 		$this->emp_int_nombre = (isset($data['EMP_INT_NOMBRE'])) ? $data['EMP_INT_NOMBRE'] : null;
 		$this->emp_int_abreviacion = (isset($data['EMP_INT_ABREVIACION'])) ? $data['EMP_INT_ABREVIACION'] : null;
+		$this->con_nombre = (isset($data['CON_NOMBRE'])) ? $data['CON_NOMBRE'] : null;
+		$this->con_apellido = (isset($data['CON_APELLIDO'])) ? $data['CON_APELLIDO'] : null;
 	}
 	
 	public function getArrayCopy(){
