@@ -6,6 +6,7 @@ namespace Parametros\Funciones;
 class Funciones
 {
     public static function translateAndFormatDate($date,$language='E',$inFormat='d/m/Y'){
+        
         $months=array(
             'I'=>array(
                 '1'=>'january',     '2'=>'february',    '3'=>'march',
@@ -20,13 +21,16 @@ class Funciones
                 '10'=>'octubre',    '11'=>'noviembre',  '12'=>'diciembre'
                 )
             );
-        $date_info=date_parse_from_format($inFormat,$date); 
+        $date_info=date_parse_from_format($inFormat,$date);
+
         switch($language){
             case 'I':
                 return $months[$language][$date_info['month']].' '.$date_info['day'].', 20'.$date_info['year'];
             break;
             case 'E':
-                return $date_info['day'].' de '.$months[$language][$date_info['month']].' de 20'.$date_info['year'];
+                return $date_info['day'].' de '.
+                $months[$language][$date_info['month']].' de '.
+                $date_info['year'];
             break;
         } 
 
