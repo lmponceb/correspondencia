@@ -20,8 +20,8 @@
  
 return array(
 		'db' => array(
-				'username' => 'correspondencia',
-				'password' => '123',
+				'username' => 'azul',
+				'password' => 'azul',
 		),
 		'db_view' => array(
 

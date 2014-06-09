@@ -99,9 +99,7 @@ use Zend\View\Model\ViewModel;
         //VERIFICA EL IDIOMA INGRESADO PARA TRAER EL FORMULARIO SEGUN EL IDIOMA 
         $form = $this->getForm(new EmpresasForm(null,$this->max_detalle_contacto));
         $form->setInputFilter ( new EmpresasValidator (null,$this->max_detalle_contacto) );
-        echo '<pre>';
-        print_r($params);
-        echo '</pre>';
+
         $form->setData ( $params );
 
         if (!$form->isValid ()) {

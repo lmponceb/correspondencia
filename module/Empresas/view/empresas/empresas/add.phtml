@@ -142,7 +142,16 @@ echo $this->form ()->openTag ( $form );
 <a href="<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'index'))?>" class ="btn btn-primary">Cancelar</a>
 </div>
 <?php echo $this->form()->closeTag(); ?>
-
+<style type="text/css">
+	label.error{
+		color:#ff0000;
+		list-style: disc;
+		display: list-item;
+		margin-left: 40px;
+		font-weight:normal;
+		font-size: 16px;	
+	}
+</style>
 <script>
 
 	$(document).ready(function(){
@@ -204,9 +213,9 @@ echo $this->form ()->openTag ( $form );
 		}
 
 		//Inicio Bloque Validador JS
-		/*$("#empresas").validate({
-			errorLabelContainer: $("ul.error_container"),
-			wrapper: 'li',
+		$("#empresas").validate({
+			/*errorLabelContainer: $("ul.error_container"),
+			wrapper: 'li',*/
 			rules: {
 				EMP_NOMBRE: {required:true},
 				PAI_ID: {required: true},
@@ -242,7 +251,7 @@ echo $this->form ()->openTag ( $form );
 				EMP_ESTADO: {required: 'Estado es un campo requerido'},
 				EMP_DOCUMENTO: {remote: 'Documento/RUC ya existe en el sistema'}
 	 	 	}
-		});*/
+		});
 
 		$('.det_con_valor').each(function(i){
 			$(this).rules('add',{
