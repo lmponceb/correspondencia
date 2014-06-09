@@ -1,4 +1,7 @@
-<?php echo $this->doctype(); ?>
+<?php 
+echo $this->doctype(); 
+use Parametros\Funciones\Funciones;
+?>
 
 <html lang="en">
     <head>
@@ -260,8 +263,8 @@
     </head>
     <body>
     <div class="top-line">&nbsp;</div>
-    	<table width="100%"  id="contenedor_principal" border="0">
-    		<tr>
+    	<table width="100%"  id="contenedor_principal" border="0" style="min-height: 730px;">
+    		<tr style="height: 110px;">
     			<td style="padding-left: 30px; padding-top: 0px;"><img id='logo' width=88 height=31 src='<?php echo $this->basePath();?>/img/logo.gif'></img></td>
     			<td align="right">
 	    			<table cellspacing="0" cellpadding="0" border="0" width="35%">
@@ -284,7 +287,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="center" style="padding-top: 8px; color: #9C9FA2; font-size: 12px;"><?php date_default_timezone_set('America/Guayaquil'); echo date('l') . ', ' . date('d') . ' de ' . date('M') . ' de ' . date('Y'); ?></td>
+							<td align="center" style="padding-top: 8px; color: #9C9FA2; font-size: 12px;"><?php date_default_timezone_set('America/Guayaquil'); $fecha_ini = new Funciones(); echo $fecha_ini->fechaFormateada(date('d-m-Y'),$language='E',$inFormat='d-m-Y'); ?></td>
 						</tr>
 					</table>
     			</td>
@@ -321,17 +324,19 @@
 						<?php endif; ?>
 					</ul>
     			</td>
-    			<td valing="top" style="padding: 30px; padding-top: 0px;">
+    			<td valign="top" style="padding: 30px; padding-top: 0px;">
     				<?php echo $this->content; ?>
     			</td>
     		</tr>
-    		<tr>
-    			<td colspan=2>
-    				<p style='float:left;'>Azul Copyright &copy; <?php echo date('Y') ?>. Todos los Derechos Reservados.</p>
-    				<p style='float:right;'><img src='<?php echo $this->basepath() . '/img/hawa.png' ?>'/></p>
-				</td>
-    		</tr>
     	</table>
         <?php echo $this->inlineScript() ?>
+        <div style="display:block; position:relative; bottom:0px; padding-top: 0px; background-color: #5C9CCC;">
+        	<table width="100%">
+        		<tr>
+        			<td style="padding-left: 20px; color: #FFFFFF;" align="left">Azul Copyright &copy; <?php echo date('Y') ?>. Todos los Derechos Reservados.</td>
+        			<td style="padding-right: 30px;" align="right"><a href="http://www.hawasolutions.com" target="_blank"><img src='<?php echo $this->basepath() . '/img/hawa.png' ?>'/></a></td>
+        		</tr>
+        	</table>
+        </div>
     </body>
 </html>
