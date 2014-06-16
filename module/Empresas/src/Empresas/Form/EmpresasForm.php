@@ -73,8 +73,9 @@ namespace Empresas\Form;
              'name' => 'CAT_EMP_ID',
              'type' => 'Zend\Form\Element\Select',
              'options' => array(
-                 'label' => 'Categoría*:',
-                 'empty_option' => '-- Seleccione --'                 
+                 'label' => 'Categoría:',
+                 'empty_option' => '-- Seleccione --',      
+                 'disable_inarray_validator' => true          
              ),
              'attributes' => array(
                  'id' => 'cat_emp_id',
@@ -103,7 +104,8 @@ namespace Empresas\Form;
              'options' => array(
                  'label' => 'Estado/Provincia*:',
                  'disable_inarray_validator' => true,
-                 'empty_option' => '-- Seleccione --'
+                 'empty_option' => '-- Seleccione --',      
+                 'disable_inarray_validator' => true    
              ),
              'attributes' => array(
                  'id' => 'EST_ID',
@@ -118,7 +120,8 @@ namespace Empresas\Form;
              'options' => array(
                  'label' => 'Ciudad*:',
                  'disable_inarray_validator' => true,
-                 'empty_option' => '-- Seleccione --'
+                 'empty_option' => '-- Seleccione --',      
+                 'disable_inarray_validator' => true    
              ),
              'attributes' => array(
                  'id' => 'CIU_ID',
@@ -155,7 +158,7 @@ namespace Empresas\Form;
              'name' => 'EMP_SECTOR',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Sector*:',
+                 'label' => 'Sector:',
              ),
              'attributes' => array(
                  'id' => 'emp_sector',
@@ -167,7 +170,7 @@ namespace Empresas\Form;
              'name' => 'EMP_EMAIL',
              'type' => 'Zend\Form\Element\Text',
              'options' => array(
-                 'label' => 'Email*:',
+                 'label' => 'Email:',
              ),
              'attributes' => array(
                  'id' => 'emp_email',

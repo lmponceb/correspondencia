@@ -39,7 +39,7 @@ class Recepcion extends Form {
 						'maxlenght' => '20',
 						'id' => 'US_CODIGO',
 						'class' => 'form-control',
-						'value' => $_SESSION['Zend_Auth']['storage']->us_codigo
+						'value' => $_SESSION['Zend_Auth']['storage']->US_CODIGO
 				)
 		) );
 		

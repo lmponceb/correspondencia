@@ -52,9 +52,9 @@ class VistaUsuario {
 
 	public function exchangeArray($data)
 	{
-		$this->us_codigo = (isset($data['us_codigo'])) ? $data['us_codigo'] : null;
-		$this->us_clave = (isset($data['us_clave'])) ? $data['us_clave'] : null;
-		$this->us_nombre = (isset($data['us_nombre'])) ? $data['us_nombre'] : null;
+		$this->us_codigo = (isset($data['US_CODIGO'])) ? $data['US_CODIGO'] : null;
+		$this->us_clave = (isset($data['US_CLAVE'])) ? $data['US_CLAVE'] : null;
+		$this->us_nombre = (isset($data['US_NOMBRE'])) ? $data['US_NOMBRE'] : null;
 	}
 
 	public function getArrayCopy(){

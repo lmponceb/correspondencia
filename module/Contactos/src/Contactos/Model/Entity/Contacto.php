@@ -30,6 +30,7 @@ class Contacto {
 	private $con_estado;
 	private $con_activar_direccion;
 	private $con_direccion_empresa;
+	private $con_privado_general;
 	
 	private $estado;
 	private $ciudad_nombre;
@@ -230,6 +231,13 @@ class Contacto {
 	 */
 	public function getCon_direccion_empresa() {
 		return $this->con_direccion_empresa;
+	}
+
+	/**
+	 * @return the $con_privado_general
+	 */
+	public function getCon_privado_general() {
+		return $this->con_privado_general;
 	}
 
 	/**
@@ -478,6 +486,13 @@ class Contacto {
 	}
 
 	/**
+	 * @param Ambigous <NULL, unknown> $con_privado_general
+	 */
+	public function setCon_privado_general($con_privado_general) {
+		$this->con_privado_general = $con_privado_general;
+	}
+
+	/**
 	 * @param field_type $estado
 	 */
 	public function setEstado($estado) {
@@ -562,6 +577,7 @@ class Contacto {
 		$this->con_estado = (isset($data['CON_ESTADO'])) ? $data['CON_ESTADO'] : null;
 		$this->con_activar_direccion = (isset($data['CON_ACTIVAR_DIRECCION'])) ? $data['CON_ACTIVAR_DIRECCION'] : null;
 		$this->con_direccion_empresa = (isset($data['CON_DIRECCION_EMPRESA'])) ? $data['CON_DIRECCION_EMPRESA'] : null;
+		$this->con_privado_general = (isset($data['CON_PRIVADO_GENERAL'])) ? $data['CON_PRIVADO_GENERAL'] : null;
 		
 		$this->ciudad_nombre = (isset($data['CIU_NOMBRE'])) ? $data['CIU_NOMBRE'] : null;
 		$this->estado_nombre = (isset($data['EST_NOMBRE'])) ? $data['EST_NOMBRE'] : null;

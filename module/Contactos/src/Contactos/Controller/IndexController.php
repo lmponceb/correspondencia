@@ -80,7 +80,7 @@ class IndexController extends AbstractActionController {
 	}
 
 	public function editarAction(){
-
+		
 		$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
 
 		$form = $this->getForm ();
@@ -105,6 +105,7 @@ class IndexController extends AbstractActionController {
 			
 			$j = 0;
 			foreach ($detalle_contacto as $det_con_info){
+				$form->get('DETALLE_CONTACTO['.$j.'][check]')->setAttribute('checked', 'checked');
 				$form->get('DETALLE_CONTACTO['.$j.'][oculto]')->setValue($det_con_info->getDet_con_codigo_ciudad());
 				$form->get('DETALLE_CONTACTO['.$j.'][TIP_TEL_ID]')->setValue($det_con_info->getTip_tel_id());
 				$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_PAIS]')->setValue($det_con_info->getDet_con_codigo_pais());
@@ -238,6 +239,7 @@ class IndexController extends AbstractActionController {
 		
 		for ($j=0; $j<count($data['DETALLE_CONTACTO']); $j++){
 			$form->get('DETALLE_CONTACTO['.$j.'][oculto]')->setValue($data['DETALLE_CONTACTO'][$j]['DET_CON_CODIGO_CIUDAD']);
+			$form->get('DETALLE_CONTACTO['.$j.'][check]')->setValue($data['DETALLE_CONTACTO'][$j]['check']);
 			$form->get('DETALLE_CONTACTO['.$j.'][TIP_TEL_ID]')->setValue($data['DETALLE_CONTACTO'][$j]['TIP_TEL_ID']);
 			$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_PAIS]')->setValue($data['DETALLE_CONTACTO'][$j]['DET_CON_CODIGO_PAIS']);
 			$form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_CIUDAD]')->setValue($data['DETALLE_CONTACTO'][$j]['DET_CON_CODIGO_CIUDAD']);
@@ -324,6 +326,7 @@ class IndexController extends AbstractActionController {
 		//SE GRABAN LOS DETALLES DE CONTACTO ADICIONALES
         foreach($detalleContactoParamsArray as $detalleContactoParams){
         	if(
+        		$detalleContactoParams['check'] == 'S' &&
         		!empty($detalleContactoParams['TIP_TEL_ID']) && !is_null($detalleContactoParams['TIP_TEL_ID']) &&
         		!empty($detalleContactoParams['DET_CON_CODIGO_PAIS']) && !is_null($detalleContactoParams['DET_CON_CODIGO_PAIS']) &&
         		!empty($detalleContactoParams['DET_CON_CODIGO_CIUDAD']) && !is_null($detalleContactoParams['DET_CON_CODIGO_CIUDAD']) &&
@@ -604,8 +607,12 @@ class IndexController extends AbstractActionController {
 			$data = $this->getDetalleContactoDao()->getDetallePorEmpresaUnico($empresa);
 			
 			$valores = array();
+			$valores['tip_tel_id'] = $data->getTip_tel_id();
 			$valores['det_con_valor'] = $data->getDet_con_valor();
-	
+			$valores['det_con_codigo_pais'] = $data->getDet_con_codigo_pais();
+			$valores['det_con_codigo_ciudad'] = $data->getDet_con_codigo_ciudad();
+			$valores['det_con_extension'] = $data->getDet_con_extension();
+			
 			$jsonData = json_encode($valores);
 			$response = $this->getResponse();
 			$response->setStatusCode(200);

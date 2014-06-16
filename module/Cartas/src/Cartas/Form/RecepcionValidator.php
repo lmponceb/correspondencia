@@ -185,6 +185,15 @@ class RecepcionValidator extends InputFilter {
 		$this->add ( $fe_rec_sobre );
 		
 		
+		$fe_rec_oferta_nombre = new Input ( 'FE_REC_OFERTA_NOMBRE' );
+		$fe_rec_oferta_nombre->setRequired ( true );
+		$fe_rec_oferta_nombre->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 4000,
+		) ) )->attach(new NotEmpty());
+		
+		$this->add ( $fe_rec_oferta_nombre );
+		
+		
 		$fe_rec_estado = new Input ( 'FE_REC_ESTADO' );
 		$fe_rec_estado->setRequired ( true );
 		$fe_rec_estado->getValidatorChain ()->attach ( new StringLength ( array (

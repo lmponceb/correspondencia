@@ -69,6 +69,44 @@
      	?>
      </td>
  </tr>
+ <?php endforeach;
+ foreach ($this->cartas_dos as $carta) : ?>
+ <tr>
+ 	 <td width="100">
+ 	 	<?php $carta_tipo = $carta->getCtr_tipo(); if(strtoupper($carta_tipo) == 'P'): ?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'duplicar', 'id' => $carta->getCtr_id()))?>" title="Duplicar" alt="Duplicar">Duplicar</a> |
+ 	 	<?php else:?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'editar', 'id' => $carta->getCtr_id()))?>" title="Actualizar" alt="Actualizar">Editar</a> |
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'eliminar', 'id' => $carta->getCtr_id()))?>" title="Eliminar" alt="Eliminar">Eliminar</a> |
+ 	 	<?php endif; ?>
+ 	 	
+ 	 	<?php if($carta->getTip_car_id() == 1):?> 
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartaformal', 'id' => $carta->getCtr_id()))?>" title="PDF FORMAL" alt="PDF FORMAL" target="_blank">PDF</a>
+ 	 	<?php elseif($carta->getTip_car_id() == 2):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartainformal', 'id' => $carta->getCtr_id()))?>" title="PDF INFORMAL" alt="PDF INFORMAL" target="_blank">PDF</a>
+ 	 	<?php elseif($carta->getTip_car_id() == 3):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartafax', 'id' => $carta->getCtr_id()))?>" title="PDF FAX" alt="PDF FAX" target="_blank">PDF</a>
+ 	 	<?php elseif($carta->getTip_car_id() == 4):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartabancaria', 'id' => $carta->getCtr_id()))?>" title="PDF TRANSACCION BANCARIA" alt="PDF TRANSACCION BANCARIA" target="_blank">PDF</a>
+ 	 	<?php elseif($carta->getTip_car_id() == 5):?>
+ 	 	<a href="<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'cartasueldo', 'id' => $carta->getCtr_id()))?>" title="PDF TRANSFERENCIA SUELDO" alt="PDF TRANSFERENCIA SUELDO" target="_blank">PDF</a>
+ 	 	<?php endif;?>
+ 	 	
+ 	 </td>
+	 <td><?php echo $this->escapeHtml($carta->getEmp_int_nombre());?></td>
+	 <td><?php echo $this->escapeHtml($carta->getCtr_referencia());?></td>
+ 	 <td><?php echo $this->escapeHtml($carta->getTip_car_descripcion());?></td>
+     <td><?php echo $this->escapeHtml($carta->getUs_codigo());?></td>
+     <td><?php echo $this->escapeHtml($carta->getCon_nombre() . ' ' . $carta->getCon_apellido()); 	?></td>
+     <td><?php echo $this->escapeHtml($carta->getCtr_fecha_actualizacion());?></td>
+     <td><?php echo $this->escapeHtml($carta->getCtr_codigo_final());?></td>
+     <td>
+     	<?php 
+     	$ciudad = $carta->getCtr_tipo();
+     	if(strtoupper($ciudad) == 'B'){ echo 'Borrador'; }else{ echo 'Procesado'; } 
+     	?>
+     </td>
+ </tr>
  <?php endforeach; ?>
  </tbody>
  </table>

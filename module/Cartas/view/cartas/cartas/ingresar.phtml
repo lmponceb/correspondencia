@@ -42,8 +42,7 @@ $ctr_activar_direccion = $form->get ( 'CTR_ACTIVAR_DIRECCION' );
 $ctr_direccion_empresa = $form->get ( 'CTR_DIRECCION_EMPRESA' );
 $ctr_copia = $form->get ( 'CTR_COPIA' );
 $ctr_anexos = $form->get ( 'CTR_ANEXOS' );
-
-
+$ctr_privada = $form->get ( 'CTR_PRIVADA' );
 
 //CAMPOS PARA TIPO DE CARTA TRANSFERENCIA DE SUELDOS
 $tra_sue_valor_debito = $form->get ( 'TRA_SUE_VALOR_DEBITO' );
@@ -59,8 +58,8 @@ $tra_ban_aba = $form->get ( 'TRA_BAN_ABA' );
 $tra_ban_banco = $form->get ( 'TRA_BAN_BANCO' );
 $tra_ban_banco_linea_dos = $form->get ( 'TRA_BAN_BANCO_LINEA_DOS' );
 $tra_ban_banco_direccion = $form->get ( 'TRA_BAN_BANCO_DIRECCION' );
-//$tra_ban_cc = $form->get ( 'TRA_BAN_CC' );
 $tra_ban_detalle = $form->get ( 'TRA_BAN_DETALLE' );
+$tra_ban_cod_serie = $form->get ( 'TRA_BAN_COD_SERIE' );
 
 echo $this->form ()->openTag ( $form );
 
@@ -181,12 +180,18 @@ echo $this->formelementerrors ( $proyecto_oculto );
 					</td>	
 				</tr>
 				<tr>
-					<td colspan="3">
+					<td colspan="2">
 					<?php echo $formLabel->openTag() . $ctr_saludo->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtext ( $ctr_saludo ) );
 						  echo html_entity_decode( $this->formelementerrors ( $ctr_saludo ) );
 					?>
 					</td>	
+					<td>
+					<?php echo $formLabel->openTag() . $ctr_privada->getLabel() . $formLabel->closeTag();
+					      echo html_entity_decode( $this->formselect ( $ctr_privada ) );
+						  echo html_entity_decode( $this->formelementerrors ( $ctr_privada ) );
+					?>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
@@ -384,6 +389,15 @@ echo $this->formelementerrors ( $proyecto_oculto );
 									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_detalle ) ); 
 								?>
 								</td>
+							</tr>
+							<tr>
+								<td>
+								<?php echo $formLabel->openTag() . $tra_ban_cod_serie->getLabel() . $formLabel->closeTag();
+								      echo html_entity_decode( $this->formtext ( $tra_ban_cod_serie ) );
+									  echo html_entity_decode( $this->formelementerrors ( $tra_ban_cod_serie ) ); 
+								?>
+								</td>
+								<td>&nbsp;</td>
 							</tr>
 						</table>
 					</td>
@@ -755,6 +769,20 @@ echo $this->formelementerrors ( $proyecto_oculto );
 <script type="text/javascript">
 
 CKEDITOR.replace( 'CTR_CUERPO', {
+	enterMode : CKEDITOR.ENTER_BR,
+	toolbar :
+		[
+			{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+			//{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] },
+			{ name: 'insert', items : [ 'Table','Smiley' ] },
+			//{ name: 'styles', items : [ 'Styles','Format' ] },
+			{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','-','RemoveFormat' ] },
+			{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
+			//{ name: 'links', items : [ 'Link','Unlink'] },
+		]
+} );
+
+CKEDITOR.replace( 'CTR_COPIA', {
 	enterMode : CKEDITOR.ENTER_BR,
 	toolbar :
 		[

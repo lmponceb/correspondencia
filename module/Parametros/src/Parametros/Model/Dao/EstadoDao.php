@@ -60,7 +60,12 @@ class EstadoDao {
     }
     
     public function eliminar($id){
-    	$this->tableGateway->delete(array('EST_ID' => $id));
+        try {
+           return $this->tableGateway->delete(array('EST_ID' => $id)); 
+        } catch (\Exception $e) {
+            return false;
+        }        
+
     }
     
     public function traerTodosArreglo(){

@@ -331,6 +331,10 @@ class ContactoValidator extends InputFilter {
 		}
 		
 		for ($indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++){
+			
+			$det_con_check = new Input ( 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][check]' );
+			$det_con_check->setRequired ( false );
+			$this->add ( $det_con_check );
 				
 			$tip_tel_id = new Input ( 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]' );
 			$tip_tel_id->setRequired ( false );
@@ -367,9 +371,8 @@ class ContactoValidator extends InputFilter {
 		$con_direccion_empresa = new Input ( 'CON_DIRECCION_EMPRESA' );
 		$con_direccion_empresa->setRequired ( false );
 		$con_direccion_empresa->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 11,
-				'min' => 1
-		) ) )->attach ( new Digits () );
+				'max' => 11
+		) ) );
 		
 		$this->add ( $con_direccion_empresa );
 				

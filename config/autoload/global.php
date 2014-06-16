@@ -12,16 +12,28 @@
  */
 
  return array(
-    'db' => array(
-        'driver'            => 'OCI8',
-        'connection_string' => 'localhost/xe',
-        'character_set'     => 'AL32UTF8', 
-    ),
-    'db_view' => array(
-        'driver'            => 'OCI8',
-        'connection_string' => 'localhost/xe',
-        'character_set'     => 'AL32UTF8', 
-    ),      
+ 		
+ 		'db' => array(
+ 				'driver'            => 'OCI8',
+ 				'connection_string' => 'localhost/xe',
+ 				'character_set'     => 'AL32UTF8',
+ 		),
+ 		'db_view' => array(
+ 				'driver'            => 'OCI8',
+ 				'connection_string' => 'localhost/xe',
+ 				'character_set'     => 'AL32UTF8',
+ 		),
+ 		
+//     'db' => array(
+//         'driver'            => 'OCI8',
+//         'connection_string' => 'xeon.azul.com.ec/prueba10',
+//         'character_set'     => 'AL32UTF8', 
+//     ),
+//     'db_view' => array(
+//         'driver'            => 'OCI8',
+//         'connection_string' => 'xeon.azul.com.ec/prueba10',
+//         'character_set'     => 'AL32UTF8', 
+//     ),   
 
      'service_manager' => array(
          'factories' => array(

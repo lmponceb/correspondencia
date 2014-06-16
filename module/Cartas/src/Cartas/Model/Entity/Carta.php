@@ -22,6 +22,7 @@ class Carta {
 	private $ctr_direccion_empresa;
 	private $ctr_copia;
 	private $ctr_anexos;
+	private $ctr_privada;
 	
 	private $tip_car_descripcion; 
 	private $emp_int_nombre;
@@ -30,6 +31,7 @@ class Carta {
 	private $con_apellido;
 	
 	function __construct() {}
+
 
 	/**
 	 * @return the $ctr_id
@@ -162,6 +164,13 @@ class Carta {
 	 */
 	public function getCtr_anexos() {
 		return $this->ctr_anexos;
+	}
+
+	/**
+	 * @return the $ctr_privada
+	 */
+	public function getCtr_privada() {
+		return $this->ctr_privada;
 	}
 
 	/**
@@ -333,6 +342,13 @@ class Carta {
 	}
 
 	/**
+	 * @param Ambigous <NULL, unknown> $ctr_privada
+	 */
+	public function setCtr_privada($ctr_privada) {
+		$this->ctr_privada = $ctr_privada;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $tip_car_descripcion
 	 */
 	public function setTip_car_descripcion($tip_car_descripcion) {
@@ -388,6 +404,7 @@ class Carta {
 		$this->ctr_direccion_empresa = (isset($data['CTR_DIRECCION_EMPRESA'])) ? $data['CTR_DIRECCION_EMPRESA'] : null;
 		$this->ctr_copia = (isset($data['CTR_COPIA'])) ? $data['CTR_COPIA'] : null;
 		$this->ctr_anexos = (isset($data['CTR_ANEXOS'])) ? $data['CTR_ANEXOS'] : null;
+		$this->ctr_privada = (isset($data['CTR_PRIVADA'])) ? $data['CTR_PRIVADA'] : null;
 		
 		$this->tip_car_descripcion = (isset($data['TIP_CAR_DESCRIPCION'])) ? $data['TIP_CAR_DESCRIPCION'] : null;
 		$this->emp_int_nombre = (isset($data['EMP_INT_NOMBRE'])) ? $data['EMP_INT_NOMBRE'] : null;

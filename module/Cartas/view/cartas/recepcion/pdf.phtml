@@ -22,7 +22,7 @@
 		</style>
     </head>
     <body>
-    <div style="padding-top: 100px;">&nbsp;</div>
+    <div style="padding-top: 200px;">&nbsp;</div>
     
     <?php $idioma = $this->fe_recepcion->getFe_rec_idioma(); if(strtoupper($idioma) == 'I'): ?>
     
@@ -31,7 +31,7 @@
     		<td colspan="2"><span style="font-size: 40px; font-weight: 700;">Bid Submittal</span> <br /><?php echo $this->fe_recepcion->getFe_rec_codigo_procesado()?></td>
     	</tr>
     	<tr>
-    		<td class="title" width="100">Company</td>
+    		<td class="title" width="106">Company</td>
     		<td><?php echo $this->fe_recepcion->getFe_rec_compania()?></td>
     	</tr>
     	<tr>
@@ -64,31 +64,25 @@
     		<td>S&iacute;</td>
     	</tr>
     	<tr>
-    		<td class="title">Date Received by Company</td>
-    		<td>&nbsp;</td>
+    		<td class="title" style="border: 3px solid;">Date Received by Company</td>
+    		<td style="border: 3px solid;">&nbsp;</td>
     	</tr>
     	<tr>
-    		<td class="title">Time Received by Company</td>
-    		<td>&nbsp;</td>
+    		<td class="title" style="border: 3px solid;">Time Received by Company</td>
+    		<td style="border: 3px solid;">&nbsp;</td>
+    	</tr>
+    </table>
+    	
+    	
+    <table cellspacing="0" cellpadding="10" border="1" width="65%" align="center" class="tabla_recepcion">	
+    	<tr>
+    		<td rowspan="2" width="20" style="border: 3px solid; border-top: 0px; " class="title">Received</td>
+    		<td width="45" style="border: 3px solid; border-top: 0px; " class="title">Name</td>
+    		<td style="border: 3px solid; border-top: 0px; ">&nbsp;</td>
     	</tr>
     	<tr>
-    		<td rowspan="2" class="title" style="margin: 0 0 ; padding: 0 0;" valign="top">
-    			<table border="0" width="100%" style="height: 80px;" cellspacing="0" cellpadding="0">
-    				<tr>
-    					<td rowspan="2" style="border-right: 1px solid; padding-left: 10px;">Received</td>
-    					<td class="title" style="height: 40px; padding-left: 5px; border-bottom:1px solid;">Name</td>
-    				</tr>
-    				<tr>
-    					<td class="title" style="height: 40px; padding-left: 5px;">Signature</td>
-    				</tr>
-    			</table>
-    			
-    			
-    		</td>
-    		<td style="height: 18px;">&nbsp;</td>
-    	</tr>
-    	<tr>
-    		<td style="height: 18px;">&nbsp;</td>
+    		<td style="border-right: 3px solid; border-bottom: 3px solid; " class="title">Signature</td>
+    		<td style="border-right: 3px solid; border-bottom: 3px solid; ">&nbsp;</td>
     	</tr>
     </table>
     <?php else: ?>

@@ -57,8 +57,8 @@ use Zend\View\Model\ViewModel;
             $form->bind ( $rolUsuario );   
         }
         else{
-            $rolUsuario=$this->getRolUsuarioDao();
-            $rolUsuario->setUs_codigo();
+            //$rolUsuario=$this->getRolUsuarioDao();
+            //$rolUsuario->setUs_codigo('admin');
         }
 
         $viewModel = new ViewModel (array(

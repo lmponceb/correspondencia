@@ -37,9 +37,9 @@ class Login {
 
     public function __construct($dbAdapter) {
         $this->authAdapter = new AuthAdapter($dbAdapter,
-                        'vista_usuario',
-                        'us_codigo',
-                        'us_clave');
+                        'VISTA_USUARIO',
+                        'US_CODIGO',
+                        'US_CLAVE');
 
         $select = $this->authAdapter->getDbSelect();
         //$select->where('usu_estado = 1');

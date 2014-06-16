@@ -23,7 +23,7 @@ $idioma = $this->carta->getCtr_idioma();
 				width: 	80%;
 				text-align: justify;
 				padding-left: 80px;
-				padding-top: 20px;
+				padding-top: 0px;
 			}
 				
 			.texto_copia{
@@ -31,20 +31,22 @@ $idioma = $this->carta->getCtr_idioma();
 				text-align: justify;
 				padding-left: 80px;
 			}
+				
+			.texto_anexos{
+				width: 	80%;
+				text-align: justify;
+				padding-left: 135px;
+			}
 		</style>
     </head>
     <body>
-    <div style="padding-top: 60px;">&nbsp;</div>
+    <div style="padding-top: 40px;">&nbsp;</div>
 <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
     <tr>
-        <td colspan="2">
-        	<div>Quito D.M, <?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd-M-Y')?></div>
-        	<div><?php echo $this->carta->getCtr_codigo_final()?></div>
-        </td>
-    </tr>
-    <tr>
     	<td colspan="2">
-    		<div><br />
+    		<div><?php if(strtoupper($idioma) == 'E'): echo 'Quito D.M, '; else: ''; endif; ?><?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd-M-Y')?></div>
+        	<div><?php echo $this->carta->getCtr_codigo_final()?></div>
+    		<div><br /><br />
     			<?php 
     			if(strtoupper($idioma) == 'E'){
     				echo $this->contacto->getCon_tip_per_es();
@@ -70,29 +72,23 @@ $idioma = $this->carta->getCtr_idioma();
     		if(strtoupper($mostrar) == 'E'): 
     		if(empty($direccion) || is_null($direccion)):?>
     		<div><?php echo $this->empresa->getEmp_direccion()?></div>
-    		<div><?php echo $this->empresa->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
-    		<div><?php echo $this->empresa->getPai_nombre()?></div>
+    		<div><?php echo $this->empresa->getCiu_nombre() ?></div>
     		<?php else: ?>
     		<div><?php echo $this->direccion_e->getEmp_direccion()?></div>
-    		<div><?php echo $this->direccion_e->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
-    		<div><?php echo $this->direccion_e->getPai_nombre()?></div>
+    		<div><?php echo $this->direccion_e->getCiu_nombre() ?></div>
     		<?php endif; ?>
     		<?php elseif(strtoupper($mostrar) == 'C'): ?>
     		<div><?php echo $this->contacto->getCon_direccion()?></div>
-    		<div><?php echo $this->contacto->getCiudad_nombre() . ' - ' . $this->contacto->getEstado_nombre()?></div>
-    		<div><?php echo $this->contacto->getPais_nombre()?></div>
+    		<div><?php echo $this->contacto->getCiudad_nombre() ?></div>
     		<?php elseif(strtoupper($mostrar) == 'N'): ?>
     		<div>&nbsp;</div>
     		<?php endif; ?>
-    		
-    		
-    		
     	</td>
     </tr>
     <?php $referencia = $this->carta->getCtr_referencia(); if(!empty($referencia) && !is_null($referencia)): ?>
     <tr>
     	<td colspan="2">
-    		<div><br /><b>Ref.: <?php echo $this->carta->getCtr_referencia()?></b></div>
+    		<div><b><?php if(strtoupper($idioma) == 'E'): echo 'Referencia: '; else: 'Ref: '; endif; ?><?php echo $this->carta->getCtr_referencia()?></b></div>
     	</td>
     </tr>
     <?php endif;?>
@@ -103,14 +99,14 @@ $idioma = $this->carta->getCtr_idioma();
     </tr>
    </table>
     
-     <div class="text_cuerpo">
+     <div class="text_cuerpo"><br />
     	<?php $cuerpo = $this->carta->getCtr_cuerpo();  $salida = $cuerpo->read($cuerpo->size());  $salida = str_replace(array('<br />'), "<br />", $salida); echo $salida;?>
     </div>
     
     <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
     <tr>
     	<td colspan="2">
-    		<div><br /><br /><?php echo $this->carta->getCtr_despedida()?><br /><br /></div>
+    		<div><br /><?php echo $this->carta->getCtr_despedida()?><br /><br /></div>
     	</td>
     </tr>
     <tr><td colspan="2">&nbsp;</td></tr>
@@ -130,11 +126,12 @@ $idioma = $this->carta->getCtr_idioma();
     </tr>
     </table>
     <?php $copia = $this->carta->getCtr_copia(); if(!empty($copia) && !is_null($copia)): ?>
-    	<div class="texto_copia"><br /><br /><br /><b>CC:</b> <?php echo $this->carta->getCtr_copia()?></div>
+    	<div class="texto_copia"><br /><br /><br /><b><?php if(strtoupper($idioma) == 'E'): echo 'Copia: '; else: 'Copy: '; endif; ?></b></div>
+    	<div class="texto_anexos"> <?php echo $this->carta->getCtr_copia()?></div>
     <?php endif; ?>
-    
     <?php $anexos = $this->carta->getCtr_anexos(); if(!empty($anexos) && !is_null($anexos)): ?>
-    	<div class="texto_copia"><br /><br /><br /><b>Anexos:</b> <br /><?php echo $this->carta->getCtr_anexos()?><br /><br /></div>
+    	<div class="texto_copia"><br /><br /><br /><b><?php if(strtoupper($idioma) == 'E'): echo 'Anexos: '; else: 'Enclousures: '; endif; ?></b></div>
+    	<div class="texto_anexos"> <?php echo $this->carta->getCtr_anexos()?><br /><br /></div>
     <?php endif; ?>
 </body>
 </html>

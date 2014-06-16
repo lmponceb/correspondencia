@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
@@ -116,8 +115,14 @@ class LoginController extends AbstractActionController {
 	}	
 
 	public function secret($password){
-		/*Aqui va la llamada a la librerÃ­a de validaciÃ³n de contraseÃ±as de Azul*/
+		/*Aqui va la llamada a la librería de validación de contraseñas de Azul*/
 		return md5($password);
+// 		$eclave='';
+// 			for ($i = 0; $i < strlen($password); $i++) {
+// 				$c=(ord(strtoupper($password[$i])));  
+// 				$eclave.=$c.'%';
+// 			}
+// 			return ($eclave);
 	}
 
     public function getRolUsuarioDao()

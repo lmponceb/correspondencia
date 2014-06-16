@@ -23,11 +23,23 @@ class CartaDao {
     	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
     	$select->join ( 'CARTA_DESTINATARIO', 'CARTA_DESTINATARIO.CTR_ID  = CARTA.CTR_ID' );
     	$select->join ( 'CONTACTO', 'CONTACTO.CON_ID  = CARTA_DESTINATARIO.CON_ID' );
+    	$select->where(array('CTR_PRIVADA' => 'N'));
     	
     	$resultSet = $this->tableGateway->selectWith ( $select );
-    	
-    	
         return $resultSet;
+    }
+    
+    public function traerTodosPrivados(){
+    	 
+    	$select = $this->tableGateway->getSql ()->select ();
+    	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
+    	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
+    	$select->join ( 'CARTA_DESTINATARIO', 'CARTA_DESTINATARIO.CTR_ID  = CARTA.CTR_ID' );
+    	$select->join ( 'CONTACTO', 'CONTACTO.CON_ID  = CARTA_DESTINATARIO.CON_ID' );
+    	$select->where(array('CTR_PRIVADA' => 'S', 'US_CODIGO' => $_SESSION['Zend_Auth']['storage']->US_CODIGO));
+    	 
+    	$resultSet = $this->tableGateway->selectWith ( $select );
+    	return $resultSet;
     }
     
     public function traerEmpresaInterna($id){
@@ -72,7 +84,8 @@ class CartaDao {
     			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion(),
     			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa(),
     			'CTR_COPIA' => $carta->getCtr_copia(),
-    			'CTR_ANEXOS' => $carta->getCtr_anexos()
+    			'CTR_ANEXOS' => $carta->getCtr_anexos(),
+    			'CTR_PRIVADA' => $carta->getCtr_privada()
     	);
     	 
     	if(empty($id) || is_null($id)){
@@ -104,7 +117,7 @@ class CartaDao {
     			//'CTR_ID' => (int) $carta->getCtr_id(),
     			'PRO_ID' => $carta->getPro_id(),
     			'EMP_INT_ID' => $carta->getEmp_int_id(),
-    			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->us_codigo,
+    			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->US_CODIGO,
     			'TIP_CAR_ID' => $carta->getTip_car_id(),
     			'CTR_IDIOMA' => $carta->getCtr_idioma(),
     			'CTR_FECHA_CREACION' => date('d-M-Y'),
@@ -119,7 +132,8 @@ class CartaDao {
     			'CTR_ACTIVAR_DIRECCION' => $carta->getCtr_activar_direccion(),
     			'CTR_DIRECCION_EMPRESA' => $carta->getCtr_direccion_empresa(),
     			'CTR_COPIA' => $carta->getCtr_copia(),
-    			'CTR_ANEXOS' => $carta->getCtr_anexos()
+    			'CTR_ANEXOS' => $carta->getCtr_anexos(),
+    			'CTR_PRIVADA' => $carta->getCtr_privada()
     	);
     	
     	$data['CTR_ID'] = new Sql\Expression('s_carta.nextVal');

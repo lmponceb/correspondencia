@@ -88,7 +88,7 @@ class Module
                     //$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new VistaUsuario());
-                    return new TableGateway('vista_usuario', $db_auth, null, $resultSetPrototype);
+                    return new TableGateway('VISTA_USUARIO', $db_auth, null, $resultSetPrototype);
                 },
 
                 'Usuarios\Model\Dao\AplicacionDao' => function($sm){

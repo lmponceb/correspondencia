@@ -96,6 +96,61 @@ use Zend\View\Model\ViewModel;
 
         $params=$this->request->getPost();
 
+        //VERIFICA EL IDIOMA INGRESADO PARA TRAER EL FORMULARIO SEGUN EL IDIOMA 
+        $form = $this->getForm(new EmpresasForm(null,$this->max_detalle_contacto));
+        $form->setInputFilter ( new EmpresasValidator (null,$this->max_detalle_contacto) );
+
+        $form->setData ( $params );
+
+        if (!$form->isValid ()) {
+
+            $form->get('CAT_EMP_ID')->setValueOptions($this->getCategoriasDao()->getCategoriasSelect());
+            $form->get('PAI_ID')->setValueOptions($this->getPaisDao()->getPaisesSelect());
+
+            $form->get('EST_ID')->setValueOptions($this->getEstadoDao()->getEstadosPorPaisSelect($params->pai_id));
+            $form->get('CIU_ID')->setValueOptions($this->getCiudadDao()->getCiudadesPorEstadoSelect($params->est_id));
+            
+            /*Carga de estados y ciudades en actualización*/
+            $form->get( 'ESTADO_OCULTO' )->setValue( $params->est_id );
+            $form->get( 'CIUDAD_OCULTO' )->setValue( $params->ciu_id );
+
+            for($i=0;$i<$this->max_detalle_contacto;$i++){
+                $form->get('DETALLE_CONTACTO['.$i.'][TIP_TEL_ID]')->setValueOptions($this->getTipoTelefonoDao()->getTipoTelefonoSelect());
+                $form->get('DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]')->setValueOptions($this->getPaisDao()->getCodigoPaisesSelect());
+            }
+
+            /* FUNCIÓN PARA RECUPERAR LOS DETALLES DE CONTACTO POR ID DE LA EMPRESA */
+            //$detallesContactos=$params->DETALLE_CONTACTO;    
+            /*
+            for ($j=0; $j<count($params['DETALLE_CONTACTO']); $j++){
+
+                $form->get('DETALLE_CONTACTO['.$j.'][TIP_TEL_ID]')->setValue($params['DETALLE_CONTACTO'][$j]['TIP_TEL_ID']);
+                $form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_PAIS]')->setValue($params['DETALLE_CONTACTO'][$j]['DET_CON_CODIGO_PAIS']);
+                $form->get('DETALLE_CONTACTO['.$j.'][DET_CON_CODIGO_CIUDAD]')->setValue($params['DETALLE_CONTACTO'][$j]['DET_CON_CODIGO_CIUDAD']);
+                $form->get('DETALLE_CONTACTO['.$j.'][DET_CON_VALOR]')->setValue($params['DETALLE_CONTACTO'][$j]['DET_CON_VALOR']);
+                $form->get('DETALLE_CONTACTO['.$j.'][DET_CON_EXTENSION]')->setValue($params['DETALLE_CONTACTO'][$j]['DET_CON_EXTENSION']);
+            }   
+            */
+
+            $viewModel = new ViewModel (array(
+                'title' => 'Editar Empresa',
+                'form' => $form,
+                'max_contactos' => $this->max_detalle_contacto
+            ));
+        
+            $viewModel->setTemplate ( 'empresas/empresas/add.phtml' );
+            return $viewModel;
+            //die('No es valido');
+        }else{
+            //die('Si es valido');
+        }
+
+        /* //SE VALIDA EL FORMULARIO
+        $form->setInputFilter ( new ContactoValidator () );
+        
+        //SE LLENAN LOS DATOS DEL FORMULARIO
+        $form->setData ( $data );*/
+
         $empresa=new Empresas();
         $empresa->exchangeArray($params);
         $this->getEmpresasDao()->guardar($empresa);

@@ -90,7 +90,7 @@ class FeRecepcionDao {
     	$id = (int) $fe_recepcion->getFe_rec_id();
     
     	$data = array(
-    			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->us_codigo,
+    			'US_CODIGO' =>  $_SESSION['Zend_Auth']['storage']->US_CODIGO,
     			'FE_REC_TIPO' => $fe_recepcion->getFe_rec_tipo(),
     			'FE_REC_IDIOMA' => $fe_recepcion->getFe_rec_idioma(),
     			'FE_REC_FECHA' => $fe_recepcion->getFe_rec_fecha(),

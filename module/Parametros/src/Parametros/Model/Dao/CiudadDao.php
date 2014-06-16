@@ -62,7 +62,12 @@ class CiudadDao {
     }
     
     public function eliminar($id){
-    	$this->tableGateway->delete(array('CIU_ID' => $id));
+    	   
+        try {
+           return $this->tableGateway->delete(array('CIU_ID' => $id)); 
+        } catch (\Exception $e) {
+            return false;
+        }
     }
     
     /* 

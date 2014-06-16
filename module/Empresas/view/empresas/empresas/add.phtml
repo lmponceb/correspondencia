@@ -142,7 +142,16 @@ echo $this->form ()->openTag ( $form );
 <a href="<?php echo $this->url('empresas', array('controller' => 'empresas', 'action' => 'index'))?>" class ="btn btn-primary">Cancelar</a>
 </div>
 <?php echo $this->form()->closeTag(); ?>
-
+<style type="text/css">
+	label.error{
+		color:#ff0000;
+		list-style: disc;
+		display: list-item;
+		margin-left: 40px;
+		font-weight:normal;
+		font-size: 16px;	
+	}
+</style>
 <script>
 
 	$(document).ready(function(){
@@ -188,7 +197,7 @@ echo $this->form ()->openTag ( $form );
 	                }
 	            }).done(function(ciudades) {
 	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").html("");
-	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option>-- Seleccione --</option>');
+	                $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append("<option value=''>-- Seleccione --</option>");
 	                for (ciudad in ciudades) {
 	                    $(".det_con_codigo_ciudad[data-group-id="+data_group_id+"]").append('<option value="' + ciudad + '">' + ciudades[ciudad] + '</option>');
 	                }
@@ -205,18 +214,16 @@ echo $this->form ()->openTag ( $form );
 
 		//Inicio Bloque Validador JS
 		$("#empresas").validate({
-			errorLabelContainer: $("ul.error_container"),
-			wrapper: 'li',
+			/*errorLabelContainer: $("ul.error_container"),
+			wrapper: 'li',*/
 			rules: {
 				EMP_NOMBRE: {required:true},
-				CAT_EMP_ID: {required:true},
 				PAI_ID: {required: true},
 				EST_ID: {required: true},
 				CIU_ID: {required: true},
 				EMP_DIRECCION: {required: true},
 				EMP_REFERENCIA: {},
-				EMP_SECTOR: {required: true},
-				EMP_EMAIL: {required: true, email:true},
+				EMP_EMAIL: {email:true},
 				EMP_PAGINA_WEB: {url:true},
 				EMP_ESTADO: {required: true},
 				EMP_DOCUMENTO: {
@@ -234,19 +241,42 @@ echo $this->form ()->openTag ( $form );
 	 		},
 	 		messages:{
 				EMP_NOMBRE: {required:'Nombre es un campo requerido'},
-				CAT_EMP_ID: {required:'Categoría es un campo requerido'},
 				PAI_ID: {required: 'País es un campo requerido'},
 				EST_ID: {required: 'Estado/provincia es un campo requerido'},
 				CIU_ID: {required: 'Ciudad es un campo requerido'},
 				EMP_DIRECCION: {required: 'Dirección es un campo requerido'},
 				EMP_REFERENCIA: {},
-				EMP_SECTOR: {required: 'Sector es un campo requerido'},
-				EMP_EMAIL: {required: 'Email es un campo requerido',email: 'Ingrese un Email válido'},
+				EMP_EMAIL: {email: 'Ingrese un Email válido'},
 				EMP_PAGINA_WEB: {url: 'Ingrese una Pagina Web válida'},
 				EMP_ESTADO: {required: 'Estado es un campo requerido'},
 				EMP_DOCUMENTO: {remote: 'Documento/RUC ya existe en el sistema'}
 	 	 	}
 		});
+
+ 		$('.det_con_valor[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Número de Teléfono es Obligatorio (0)'
+				}
+		});
+ 		$('.tip_tel_id[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Tipo de Teléfono es Obligatorio (0)'
+				}
+		});	
+ 		$('.det_con_codigo_pais[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Código País es Obligatorio (0)'
+				}
+		});		
+ 		$('.det_con_codigo_ciudad[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Código Ciudad es Obligatorio (0)'
+				}
+		});						
 
 		$('.det_con_valor').each(function(i){
 			$(this).rules('add',{
@@ -264,6 +294,7 @@ echo $this->form ()->openTag ( $form );
 				}
 			});
 		});
+
 
 		/* Autocompletar de Sucursales */
 		$( "#emp_emp_id_autocompletar" ).autocomplete({

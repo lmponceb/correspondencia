@@ -263,7 +263,7 @@ use Parametros\Funciones\Funciones;
     </head>
     <body>
     <div class="top-line">&nbsp;</div>
-    	<table width="100%"  id="contenedor_principal" border="0" style="min-height: 730px;">
+    	<table width="100%"  id="contenedor_principal" border="0" style="min-height: 730px; height: 730px;">
     		<tr style="height: 110px;">
     			<td style="padding-left: 30px; padding-top: 0px;"><img id='logo' width=88 height=31 src='<?php echo $this->basePath();?>/img/logo.gif'></img></td>
     			<td align="right">
@@ -277,7 +277,7 @@ use Parametros\Funciones\Funciones;
 								</div>
 									<?php $menu=$_SESSION['Zend_Auth']['storage']->menu[$_SESSION['Zend_Auth']['storage']->us_role]; ?>
 								<div class="btn-group">
-									<a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 18px; padding-left: 4px ;"><?php echo $_SESSION['Zend_Auth']['storage']->us_nombre?> &nbsp;<span class="caret"></span></a>
+									<a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#" style="font-size: 18px; padding-left: 4px ;"><?php echo $_SESSION['Zend_Auth']['storage']->US_NOMBRE?> &nbsp;<span class="caret"></span></a>
 									<ul class="dropdown-menu">
 										<!-- <li><a href="#"><i class="icon-pencil"></i> Actualizar contrase&ntilde;a</a></li> 
 										<li class="divider"></li>-->

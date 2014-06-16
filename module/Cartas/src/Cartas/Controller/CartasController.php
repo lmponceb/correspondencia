@@ -43,9 +43,11 @@ class CartasController extends AbstractActionController
     public function listadoAction()
     {
         $cartas = $this->getCartaDao ()->traerTodos ();
+        $cartas_dos = $this->getCartaDao ()->traerTodosPrivados ();
 		
 		return new ViewModel ( array (
 				'cartas' => $cartas,
+				'cartas_dos' => $cartas_dos,
 		) );
     }
     
@@ -63,7 +65,7 @@ class CartasController extends AbstractActionController
     }
     
     public function editarAction(){
-    	 
+    	
     	$id = ( int ) $this->params ()->fromRoute ( 'id', 0 );
 
     	$form = $this->getForm ();
@@ -115,7 +117,7 @@ class CartasController extends AbstractActionController
     	$form->get('CARGO_UNO')->setAttribute('value', $array[0]['CAR_FIR_CARGO']);
     	$form->get('CAR_FIR_TIPO')->setAttribute('checked', 'checked');
     	$form->get('EPL_ID_DOS')->setAttribute('value', $array[1]['CAR_FIR_NOMBRE']);
-    	$form->get('CARGO_DOS')->setAttribute('value', $array[0]['CAR_FIR_CARGO']);
+    	$form->get('CARGO_DOS')->setAttribute('value', $array[1]['CAR_FIR_CARGO']);
     	
     	$tipo_carta = $carta->getTip_car_id();
     	
@@ -137,6 +139,7 @@ class CartasController extends AbstractActionController
      		$form->get('TRA_BAN_BANCO_LINEA_DOS')->setAttribute('value', $transaccion->getTra_ban_banco_linea_dos());
      		$form->get('TRA_BAN_BANCO_DIRECCION')->setAttribute('value', $transaccion->getTra_ban_banco_direccion());
      		$form->get('TRA_BAN_DETALLE')->setAttribute('value', $transaccion->getTra_ban_detalle());
+     		$form->get('TRA_BAN_COD_SERIE')->setAttribute('value', $transaccion->getTra_ban_cod_serie());
     	}
     	
     	$form->get ( 'direccion_empresa_oculto' )->setAttribute ( 'value', $carta->getCtr_direccion_empresa() );
@@ -195,6 +198,7 @@ class CartasController extends AbstractActionController
 			$form->getInputFilter()->get('TRA_BAN_BANCO_DIRECCION')->setRequired(true);
 			$form->getInputFilter()->get('TRA_BAN_CC')->setRequired(false);
 			$form->getInputFilter()->get('TRA_BAN_DETALLE')->setRequired(true);
+			$form->getInputFilter()->get('TRA_BAN_COD_SERIE')->setRequired(true);
 		}
 		
 		//SE VALIDA SI SE QUIERE MOSTRAR LA DIRECCION DE UNA EMPRESA
@@ -284,6 +288,7 @@ class CartasController extends AbstractActionController
 			$transaccionBancariaParams['TRA_BAN_BANCO_DIRECCION'] = $data['TRA_BAN_BANCO_DIRECCION'];
 			$transaccionBancariaParams['TRA_BAN_CC'] = $data['TRA_BAN_CC'];
 			$transaccionBancariaParams['TRA_BAN_DETALLE'] = $data['TRA_BAN_DETALLE'];
+			$transaccionBancariaParams['TRA_BAN_COD_SERIE'] = $data['TRA_BAN_COD_SERIE'];
 			$transaccionBancaria->exchangeArray($transaccionBancariaParams);
 			$this->getTransaccionBancariaDao()->guardar($transaccionBancaria);
 		
@@ -310,7 +315,7 @@ class CartasController extends AbstractActionController
 		
 		if(
 			!empty($data['EPL_ID_DOS']) && !is_null($data['EPL_ID_DOS']) &&
-			!empty($data['CAR_FIR_CARGO']) && !is_null($data['CAR_FIR_CARGO'])
+			!empty($data['CARGO_DOS']) && !is_null($data['CARGO_DOS'])
 		){
 			$cartaFirma = new CartaFirma();
 			$cartaFirmaParams['CTR_ID'] = $codigo_carta;

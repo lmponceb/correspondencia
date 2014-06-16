@@ -57,7 +57,11 @@ class PaisDao {
     }
     
     public function eliminar($id){
-    	$this->tableGateway->delete(array('PAI_ID' => $id));
+        try {
+           return  $this->tableGateway->delete(array('PAI_ID' => $id));
+        } catch (\Exception $e) {
+            return false;
+        }      
     }
     
  	public function traerTodosArreglo(){
