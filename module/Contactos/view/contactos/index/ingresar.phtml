@@ -295,10 +295,10 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 			<div class="panel panel-default" <?php if($this->privado == 'S' && ($this->tipo_usuario != 1 && $this->tipo_usuario != 2)){ echo 'style="display:none"'; }?>>
 			<div class="panel-heading">&nbsp;</div>
 			<table width="100%" cellpadding="5">				
-				<tr>
+				<tr <?php if(($this->tipo_usuario != 1 && $this->tipo_usuario != 2 )&& $this->privado == 'S'): echo 'style="display:none"'; endif;?>>
 					<td colspan="3"><h3 align="left">Informaci&oacute;n Privada</h3><hr /></td>
 				</tr>
-				<tr <?php //if(($this->tipo_usuario != 1 && $this->tipo_usuario != 2 )&& $this->privado == 'N'): echo 'style="display:none"'; endif;?>>
+				<tr <?php if(($this->tipo_usuario != 1 && $this->tipo_usuario != 2 )&& $this->privado == 'S'): echo 'style="display:none"'; endif;?>>
 					<td>
 					<?php echo $formLabel->openTag() . $con_privado->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formselect ( $con_privado ) );
@@ -318,7 +318,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 					?>
 					</td>
 				</tr>
-				<tr>
+				<tr <?php if(($this->tipo_usuario != 1 && $this->tipo_usuario != 2 )&& $this->privado == 'S'): echo 'style="display:none"'; endif;?>>
 					<td>
 						<table cellspacing="0" cellpadding="0" >
 						<tr>
@@ -352,7 +352,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 					?>
 					</td>		
 				</tr>
-				<tr>
+				<tr <?php if(($this->tipo_usuario != 1 && $this->tipo_usuario != 2 )&& $this->privado == 'S'): echo 'style="display:none"'; endif;?>>
 					<td  colspan="3">
 					<?php echo $formLabel->openTag() . $con_direccion_domicilio_per->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtextarea( $con_direccion_domicilio_per ) );
@@ -360,7 +360,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 					?>
 					</td>
 				</tr>
-				<tr>
+				<tr <?php if(($this->tipo_usuario != 1 && $this->tipo_usuario != 2 )&& $this->privado == 'S'): echo 'style="display:none"'; endif;?>>
 					<td  colspan="3">
 					<?php echo $formLabel->openTag() . $con_observaciones_privado->getLabel() . $formLabel->closeTag();
 					      echo html_entity_decode( $this->formtextarea( $con_observaciones_privado ) );
@@ -592,7 +592,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 		                data: "empresa=" + $('#EMP_ID').val(),
 		                beforeSend: function() {
 		                	 $("#CON_DIRECCION_EMPRESA").html("");
-		                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+		                	 $("#CON_DIRECCION_EMPRESA").append('<option value="">Procesando, espere por favor...</option>');
 		                }
 		            }).done(function(contactos) {
 		                $("#CON_DIRECCION_EMPRESA").html("");
@@ -656,7 +656,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 	    	                data: "empresa=" + $('#EMP_ID').val(),
 	    	                beforeSend: function() {
 	    	                	 $("#CON_DIRECCION_EMPRESA").html("");
-	    	                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+	    	                	 $("#CON_DIRECCION_EMPRESA").append('<option value="">Procesando, espere por favor...</option>');
 	    	                }
 	    	            }).done(function(contactos) {
 	    	                $("#CON_DIRECCION_EMPRESA").html("");
@@ -683,7 +683,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 			                data: "empresa=" + $('#EMP_ID').val(),
 			                beforeSend: function() {
 			                	 $("#CON_DIRECCION_EMPRESA").html("");
-			                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+			                	 $("#CON_DIRECCION_EMPRESA").append('<option value="">Procesando, espere por favor...</option>');
 			                }
 			            }).done(function(contactos) {
 			                $("#CON_DIRECCION_EMPRESA").html("");
@@ -751,7 +751,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 		                data: "empresa=" + $('#EMP_ID').val(),
 		                beforeSend: function() {
 		                	 $("#CON_DIRECCION_EMPRESA").html("");
-		                	 $("#CON_DIRECCION_EMPRESA").append('<option>Procesando, espere por favor...</option>');
+		                	 $("#CON_DIRECCION_EMPRESA").append('<option value="">Procesando, espere por favor...</option>');
 		                }
 		            }).done(function(contactos) {
 		                $("#CON_DIRECCION_EMPRESA").html("");

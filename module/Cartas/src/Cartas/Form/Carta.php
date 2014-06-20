@@ -515,7 +515,7 @@ class Carta extends Form {
 						'rows' => '2',
 						'maxlenght' => '300',
 						'id' => 'CTR_COPIA',
-						'class' => 'form-control'
+						'class' => 'ckeditor'
 				)
 		) );
 		

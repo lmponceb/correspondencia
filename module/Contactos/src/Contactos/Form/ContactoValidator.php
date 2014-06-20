@@ -367,9 +367,8 @@ class ContactoValidator extends InputFilter {
 		$con_direccion_empresa = new Input ( 'CON_DIRECCION_EMPRESA' );
 		$con_direccion_empresa->setRequired ( false );
 		$con_direccion_empresa->getValidatorChain ()->attach ( new StringLength ( array (
-				'max' => 11,
-				'min' => 1
-		) ) )->attach ( new Digits () );
+				'max' => 11
+		) ) );
 		
 		$this->add ( $con_direccion_empresa );
 				

@@ -253,6 +253,31 @@ echo $this->form ()->openTag ( $form );
 	 	 	}
 		});
 
+ 		$('.det_con_valor[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Número de Teléfono es Obligatorio (0)'
+				}
+		});
+ 		$('.tip_tel_id[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Tipo de Teléfono es Obligatorio (0)'
+				}
+		});	
+ 		$('.det_con_codigo_pais[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Código País es Obligatorio (0)'
+				}
+		});		
+ 		$('.det_con_codigo_ciudad[data-group-id=0]').rules('add',{
+				required:true,
+				messages:{
+					required:'Código Ciudad es Obligatorio (0)'
+				}
+		});						
+
 		$('.det_con_valor').each(function(i){
 			$(this).rules('add',{
 				digits:true,
@@ -269,6 +294,7 @@ echo $this->form ()->openTag ( $form );
 				}
 			});
 		});
+
 
 		/* Autocompletar de Sucursales */
 		$( "#emp_emp_id_autocompletar" ).autocomplete({

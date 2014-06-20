@@ -251,7 +251,7 @@ class Contacto extends Form {
 		$privado->setLabel('&iquest; Es informaci&oacute;n Privada?: ');
 		$privado->setAttributes(array('class' => 'form-control'));
 		$privado->setEmptyOption('-- Seleccione --');
-		$privado->setValue('N');
+		$privado->setValue('S');
 		$privado->setValueOptions(array(
 				'S' => 'S&iacute;',
 				'N' => 'No',
