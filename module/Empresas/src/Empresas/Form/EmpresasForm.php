@@ -232,6 +232,34 @@ namespace Empresas\Form;
 
         /************ Contacto Telefónico **************/
         for ($i=0;$i<$max_detalle_contacto;$i++){
+
+            $this->add(array(
+                    'name' => 'DETALLE_CONTACTO['.$i.'][oculto]',
+                    'attributes' => array(
+                            'type' => 'text',
+                            'id' => 'DETALLE_CONTACTO_oculto_'.$i,
+                            'class' => 'form-control oculto',
+                            'data-group-id' => $i
+                    )
+            ));
+
+            $this->add(array(
+                    'name' => 'DETALLE_CONTACTO['.$i.'][check]',
+                    'type' => 'Zend\Form\Element\Checkbox',
+                    'options' => array(
+                            'checked_value' => 'S',
+                            'unchecked_value' => 'N',
+                    ),
+                    'validators' => array(
+                            'required' => false
+                    ),
+                    'attributes' => array(
+                        'id' => 'check_'.$i,
+                        'class' => 'form-control check',
+                        'data-group-id' => $i
+                    )
+            ));
+
             $this->add(array(
                  'name' => 'DETALLE_CONTACTO['.$i.'][TIP_TEL_ID]',
                  'type' => 'Zend\Form\Element\Select',
@@ -241,7 +269,7 @@ namespace Empresas\Form;
                      'empty_option' => '-- Seleccione --'
                  ),
                  'attributes' => array(
-                     'id' => 'tip_tel_id',
+                     'id' => 'tip_tel_id_'.$i,
                      'class' => 'form-control tip_tel_id',
                      'data-group-id' => $i
                  )
@@ -251,12 +279,12 @@ namespace Empresas\Form;
                  'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]',
                  'type' => 'Zend\Form\Element\Select',
                  'options' => array(
-                     'label' => 'Código de País',
+                     'label' => 'Cód. de País',
                      'disable_inarray_validator' => true,
                      'empty_option' => '-- Seleccione --'
                  ),
                  'attributes' => array(
-                     'id' => 'det_con_codigo_pais',
+                     'id' => 'det_con_codigo_pais_'.$i,
                      'class' => 'form-control det_con_codigo_pais',
                      'data-group-id' => $i
                  )
@@ -266,12 +294,12 @@ namespace Empresas\Form;
                  'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_CIUDAD]',
                  'type' => 'Zend\Form\Element\Select',
                  'options' => array(
-                     'label' => 'Código de Ciudad',
+                     'label' => 'Cód. de Ciudad',
                      'disable_inarray_validator' => true,
                      'empty_option' => '-- Seleccione --'
                  ),
                  'attributes' => array(
-                     'id' => 'det_con_codigo_ciudad',
+                     'id' => 'det_con_codigo_ciudad_'.$i,
                      'class' => 'form-control det_con_codigo_ciudad',
                      'data-group-id' => $i
                  )
@@ -284,7 +312,7 @@ namespace Empresas\Form;
                      'label' => 'Número',
                  ),
                  'attributes' => array(
-                     'id' => 'det_con_valor',
+                     'id' => 'det_con_valor_'.$i,
                      'class' => 'form-control det_con_valor',
                      'data-group-id' => $i
                  )
@@ -297,7 +325,7 @@ namespace Empresas\Form;
                      'label' => 'Extensión',
                  ),
                  'attributes' => array(
-                     'id' => 'det_con_extension',
+                     'id' => 'det_con_extension_'.$i,
                      'class' => 'form-control det_con_extension',
                      'data-group-id' => $i
                  )

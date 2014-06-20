@@ -35,18 +35,24 @@ class EmpresasValidator extends InputFilter {
 		) );		
 
 		for($i=0;$i<$max_detalle_contacto;$i++){
+
+			$this->add ( array (
+				'name' => 'DETALLE_CONTACTO['.$i.'][check]',
+				'required' => false 
+			) );
+
 			$this->add ( array (
 				'name' => 'DETALLE_CONTACTO['.$i.'][TIP_TEL_ID]',
 				'required' => false 
 			) );
 
 			$this->add ( array (
-				'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]',
+				'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_CIUDAD]',
 				'required' => false 
 			) );
 
 			$this->add ( array (
-				'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_CIUDAD]',
+				'name' => 'DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]',
 				'required' => false 
 			) );
 

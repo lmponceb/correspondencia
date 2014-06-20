@@ -93,8 +93,11 @@ echo $this->form ()->openTag ( $form );
 		<script>
 			var arr = [];
 		</script>
+		<table width=100%>
 		<?php for($i=0;$i<$this->max_contactos;$i++): ?>
 			<?php 
+			    $det_con_check=$form->get('DETALLE_CONTACTO['.$i.'][check]');
+			    $det_con_oculto=$form->get('DETALLE_CONTACTO['.$i.'][oculto]');
 				$tip_tel_id = $form->get('DETALLE_CONTACTO['.$i.'][TIP_TEL_ID]'); 
 				$det_con_codigo_pais = $form->get('DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_PAIS]'); 
 				$det_con_codigo_ciudad = $form->get('DETALLE_CONTACTO['.$i.'][DET_CON_CODIGO_CIUDAD]'); 
@@ -116,14 +119,16 @@ echo $this->form ()->openTag ( $form );
 				<?php endif; ?>
 			<?php endif; ?>
 
-			<div class="row azul-form-row">
-				<div class="col-md-2"><?php echo $this->formRow($tip_tel_id); ?></div>
-				<div class="col-md-2"><?php echo $this->formRow($det_con_codigo_pais); ?></div>
-				<div class="col-md-2"><?php echo $this->formRow($det_con_codigo_ciudad); ?></div>
-				<div class="col-md-4"><?php echo $this->formRow($det_con_valor); ?></div>
-				<div class="col-md-2"><?php echo $this->formRow($det_con_extension); ?></div>
-			</div>
+			<tr>
+				<td valign="middle"><?php echo $this->formRow($det_con_check); ?></td>
+				<td valign="top"><?php echo $this->formRow($tip_tel_id); ?></td>
+				<td valign="top"><?php echo $this->formRow($det_con_codigo_pais); ?></td>
+				<td valign="top"><?php echo $this->formRow($det_con_codigo_ciudad); ?></td>
+				<td valign="top"><?php echo $this->formRow($det_con_valor); ?></td>
+				<td valign="top"><?php echo $this->formRow($det_con_extension); ?></td>
+			</tr>
 		<?php endfor;?>
+	</table>
 		<script>
 			console.log(arr);
 		</script>
@@ -157,9 +162,7 @@ echo $this->form ()->openTag ( $form );
 	$(document).ready(function(){
 
 		jQuery.validator.addMethod("choosen",function(value,element){
-			console.log(value);
 			var emp_emp_id= $('#emp_emp_id').val();
-			console.log(emp_emp_id);
 
 		    if(value!='' && $('#emp_emp_id').val()==''){
 		    	return false;	
@@ -168,7 +171,30 @@ echo $this->form ()->openTag ( $form );
 		    }
 		},"Debe seleccionar un matriz válida");
 
+
+		jQuery.validator.addMethod("phone",function(value,element){
+			var group=$(element).attr('data-group-id');
+			if(
+				(
+					$(".tip_tel_id[data-group-id="+group+"]").val()!='' &&
+					$(".det_con_codigo_pais[data-group-id="+group+"]").val()!='' &&
+					$(".det_con_codigo_ciudad[data-group-id="+group+"]").val()!='' &&
+					$(".det_con_valor[data-group-id="+group+"]").val()!=''
+				) || (
+					$(".tip_tel_id[data-group-id="+group+"]").val()=='' &&
+					$(".det_con_codigo_pais[data-group-id="+group+"]").val()=='' &&
+					$(".det_con_codigo_ciudad[data-group-id="+group+"]").val()=='' &&
+					$(".det_con_valor[data-group-id="+group+"]").val()==''
+				)	 
+			){
+				return true;
+			}else{
+				return false;
+			}
+		},"Número invalido");		
+
 		//Carga del combo box de Códigos de teléfono de Ciudades
+
 		$(".det_con_codigo_ciudad").prop("disabled", true);
 
 		$('.det_con_codigo_pais').each(function(i){
@@ -281,8 +307,10 @@ echo $this->form ()->openTag ( $form );
 		$('.det_con_valor').each(function(i){
 			$(this).rules('add',{
 				digits:true,
+				phone: true,
 				messages:{
-					digits:'Ingrese un Número de Teléfono válido ('+i+')'
+					digits:'Ingrese un Número de Teléfono válido ('+i+')',
+					phone: 'Ingrese todos los datos ('+i+')'
 				}
 			});
 		});

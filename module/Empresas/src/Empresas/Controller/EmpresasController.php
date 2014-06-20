@@ -160,13 +160,14 @@ use Zend\View\Model\ViewModel;
 
         foreach($detalleContactoParamsArray as $detalleContactoParams){
             if($detalleContactoParams['DET_CON_VALOR']!='' && $detalleContactoParams['DET_CON_VALOR']!=NULL){
-                $detalleContacto=new DetalleContacto();
-                $detalleContactoParams['EMP_ID']=$params['EMP_ID'];
-                $detalleContacto->exchangeArray($detalleContactoParams);
-                $this->getDetalleContactoDao()->guardar($detalleContacto);
+                if($detalleContactoParams['check']=='S'){
+                    $detalleContacto=new DetalleContacto();
+                    $detalleContactoParams['EMP_ID']=$params['EMP_ID'];
+                    $detalleContacto->exchangeArray($detalleContactoParams);
+                    $this->getDetalleContactoDao()->guardar($detalleContacto);
+                }
             }
         }
-
         return $this->redirect()->toRoute('empresas',array('controller'=>'empresas'));
      }
 
