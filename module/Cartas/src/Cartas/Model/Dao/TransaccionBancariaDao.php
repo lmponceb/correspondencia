@@ -61,6 +61,7 @@ class TransaccionBancariaDao {
     			'TRA_BAN_BANCO_DIRECCION' => $transferencia->getTra_ban_banco_direccion(),
     			'TRA_BAN_CC' => $transferencia->getTra_ban_cc(),
     			'TRA_BAN_DETALLE' => $transferencia->getTra_ban_detalle(),
+    			'TRA_BAN_COD_SERIE' => $transferencia->getTra_ban_cod_serie(),
     			'CTR_ID' => $transferencia->getCtr_id(),
     	);
     	 
@@ -91,6 +92,7 @@ class TransaccionBancariaDao {
     			'TRA_BAN_BANCO_DIRECCION' => $transferencia->getTra_ban_banco_direccion(),
     			'TRA_BAN_CC' => $transferencia->getTra_ban_cc(),
     			'TRA_BAN_DETALLE' => $transferencia->getTra_ban_detalle(),
+    			'TRA_BAN_COD_SERIE' => $transferencia->getTra_ban_cod_serie(),
     			'CTR_ID' => $ctr_id,
     	);
     	

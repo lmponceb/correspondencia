@@ -36,10 +36,9 @@ $con_descripcion_es = $form->get ( 'CON_DESCRIPCION_ES' );
 $con_descripcion_en = $form->get ( 'CON_DESCRIPCION_EN' );
 $con_tip_per_es = $form->get ( 'CON_TIP_PER_ES' );
 $con_tip_per_en = $form->get ( 'CON_TIP_PER_EN' );
-
 $con_direccion_empresa = $form->get ( 'CON_DIRECCION_EMPRESA' );
+$con_privado_general = $form->get ( 'CON_PRIVADO_GENERAL' );
 $con_activar_direccion = $form->get ( 'CON_ACTIVAR_DIRECCION' );
-
 $con_direccion = $form->get ( 'CON_DIRECCION' );
 $con_secretaria = $form->get ( 'CON_SECRETARIA' );
 $con_secretaria_telefono = $form->get ( 'CON_SECRETARIA_TELEFONO' );
@@ -287,7 +286,13 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 						echo html_entity_decode( $this->formelementerrors ( $con_direccion_empresa ) );
 					?>
 					</td>
-					<td>&nbsp;</td>
+					<td style="display: none;">
+					<?php 
+						echo $formLabel->openTag() . $con_privado_general->getLabel() . $formLabel->closeTag();
+						echo html_entity_decode( $this->formselect ( $con_privado_general ) );
+						echo html_entity_decode( $this->formelementerrors ( $con_privado_general ) );
+					?>
+					</td>
 				</tr>
 			</table>
 			</div>
@@ -404,11 +409,12 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 			<div class="panel-heading">&nbsp;</div>
 <table width="100%">
 				<tr>
-					<td colspan="5"><h3 align="left">N&uacute;meros de Contacto</h3><hr /></td>
+					<td colspan="6"><h3 align="left">N&uacute;meros de Contacto</h3><hr /></td>
 				</tr>
 				<?php for ( $indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++ ): ?>	
 				<tr>
 				<?php 	
+				    $det_con_check=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][check]');
 				    $det_con_oculto=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][oculto]');
 					$tip_tel_id=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]'); 
 					$det_con_codigo_pais=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_CODIGO_PAIS]');
@@ -416,6 +422,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 					$det_con_valor=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_VALOR]');
 					$det_con_extension=$form->get('DETALLE_CONTACTO['.$indice_detalle_contacto.'][DET_CON_EXTENSION]');
 
+					$det_con_check->setAttribute('data-group-id',$indice_detalle_contacto);
 					$det_con_oculto->setAttribute('data-group-id',$indice_detalle_contacto); 
 					$tip_tel_id->setAttribute('data-group-id',$indice_detalle_contacto); 
 					$det_con_codigo_pais->setAttribute('data-group-id',$indice_detalle_contacto);
@@ -424,6 +431,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 					$det_con_extension->setAttribute('data-group-id',$indice_detalle_contacto);
 				?>
 				<?php echo html_entity_decode($this->formhidden($det_con_oculto)); ?>
+				<td style="padding-left: 15px; padding-top: 30px; padding-right: 0px;"><?php echo html_entity_decode($this->formRow($det_con_check)); ?></td>
 				<td><?php echo html_entity_decode($this->formRow($tip_tel_id)); ?></td>
 				<td><?php echo html_entity_decode($this->formRow($det_con_codigo_pais)); ?></td>
 				<td><?php echo html_entity_decode($this->formRow($det_con_codigo_ciudad)); ?></td>
@@ -576,12 +584,21 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 							//$('#EMP_DIRECCION, #EMP_EMAIL, #EMP_PAGINA_WEB').val('Procesando, espere por favor...');
 		                }
 		            }).done(function(empresa) {
+
 		            	var i = 0; 
-						for(i=0; i<5; i++){
-							$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('1');
-							$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+		            	for(i=0; i<5; i++){
+		            		if(empresa['det_con_valor'] != '' && empresa['det_con_valor'] != null){
+								if($("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == '' || $("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == null){
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('' + empresa['tip_tel_id']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]").val('' + empresa['det_con_codigo_pais']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_EXTENSION\\]").val('' + empresa['det_con_extension']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_CIUDAD\\]").prop('disabled', false);
+									$("#DETALLE_CONTACTO_oculto_"+i).val(''+empresa['det_con_codigo_ciudad']);
+									ajaxCiudadSelect("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]", i, empresa['det_con_codigo_ciudad']);
+								}
+		            		}
 						}
-						
 		            }); 
 
 	            	 //TRAE TODAS LAS DIRECCIONES DE LAS SUCURSALES DE UNA EMPRESA
@@ -636,10 +653,20 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 							//$('#EMP_DIRECCION, #EMP_EMAIL, #EMP_PAGINA_WEB').val('Procesando, espere por favor...');
 		                }
 		            }).done(function(empresa) {
+			            
 		            	var i = 0; 
-						for(i=0; i<5; i++){
-							$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('1');
-							$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+		            	for(i=0; i<5; i++){
+							if(empresa['det_con_valor'] != '' && empresa['det_con_valor'] != null){
+								if($("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == '' || $("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == null){
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('' + empresa['tip_tel_id']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]").val('' + empresa['det_con_codigo_pais']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_EXTENSION\\]").val('' + empresa['det_con_extension']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_CIUDAD\\]").prop('disabled', false);
+									$("#DETALLE_CONTACTO_oculto_"+i).val(''+empresa['det_con_codigo_ciudad']);
+									ajaxCiudadSelect("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]", i, empresa['det_con_codigo_ciudad']);
+								}
+							}
 						}
 						
 		            }); 
@@ -735,10 +762,20 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 							//$('#EMP_DIRECCION, #EMP_EMAIL, #EMP_PAGINA_WEB').val('Procesando, espere por favor...');
 		                }
 		            }).done(function(empresa) {
+
 		            	var i = 0; 
-						for(i=0; i<5; i++){
-							$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('1');
-							$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+		            	for(i=0; i<5; i++){
+		            		if(empresa['det_con_valor'] != '' && empresa['det_con_valor'] != null){
+								if($("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == '' || $("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == null){
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('' + empresa['tip_tel_id']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]").val('' + empresa['det_con_codigo_pais']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_EXTENSION\\]").val('' + empresa['det_con_extension']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_CIUDAD\\]").prop('disabled', false);
+									$("#DETALLE_CONTACTO_oculto_"+i).val(''+empresa['det_con_codigo_ciudad']);
+									ajaxCiudadSelect("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]", i, empresa['det_con_codigo_ciudad']);
+								}
+		            		}
 						}
 						
 		            });
@@ -788,7 +825,7 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 	            	$("#EMP_EMAIL").val(''+empresa['emp_email']);
 	            	$("#EMP_PAGINA_WEB").val(''+empresa['emp_pagina_web']);
 
-	            	if($('#sucursal_oculto').val() == null || $('#sucursal_oculto').val() == ''){
+	            	//if($('#sucursal_oculto').val() == null || $('#sucursal_oculto').val() == ''){
 	            	
 		            	$.ajax({
 			                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'telefonoEmpresa')) ?>",
@@ -801,13 +838,21 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 			            }).done(function(empresa) {
 			            	var i = 0; 
 							for(i=0; i<5; i++){
-								$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('1');
-								$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+								if(empresa['det_con_valor'] != '' && empresa['det_con_valor'] != null){
+									if($("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == '' || $("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == null){
+										$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('' + empresa['tip_tel_id']);
+										$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+										$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]").val('' + empresa['det_con_codigo_pais']);
+										$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_EXTENSION\\]").val('' + empresa['det_con_extension']);
+										$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_CIUDAD\\]").prop('disabled', false);
+										$("#DETALLE_CONTACTO_oculto_"+i).val(''+empresa['det_con_codigo_ciudad']);
+										ajaxCiudadSelect("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]", i, empresa['det_con_codigo_ciudad']);
+									}
+								}
 							}
-							
 			            }); 
 
-	            	}
+	            	//}
 	            	
 	            });
 			}else{

@@ -1,5 +1,4 @@
 <?php
-
 namespace Cartas\Form;
 
 use Zend\Form\Form;
@@ -131,10 +130,11 @@ class Carta extends Form {
 				'name' => 'US_CODIGO',
 				'attributes' => array (
 						'type' => 'hidden',
+						'value' => 123,
 						'maxlenght' => '20',
 						'id' => 'US_CODIGO',
 						'class' => 'form-control',
-						'value' => $_SESSION['Zend_Auth']['storage']->us_codigo
+						
 				)
 		) );
 		
@@ -582,6 +582,23 @@ class Carta extends Form {
 		) );
 		
 		
+		/* ********************************************
+		 * CAMPO CONTACT PRIVADO
+		* ********************************************/
+		
+		$ctr_privada = new Select('CTR_PRIVADA');
+		$ctr_privada->setLabel('&iquest; Es carta privada?: ');
+		$ctr_privada->setAttributes(array('class' => 'form-control'));
+		$ctr_privada->setValue('N');
+		$ctr_privada->setValueOptions(array(
+				'S' => 'S&iacute;',
+				'N' => 'No',
+		)
+		);
+		
+		$this->add($ctr_privada);
+		
+		
 		/************** CAMPOS PARA TRANSACCION BANCARIA ******************/
 		
 		$this->add ( array (
@@ -699,6 +716,19 @@ class Carta extends Form {
 						'type' => 'text',
 						'maxlenght' => '75',
 						'id' => 'TRA_BAN_CC',
+						'class' => 'form-control'
+				)
+		) );
+		
+		$this->add ( array (
+				'name' => 'TRA_BAN_COD_SERIE',
+				'options' => array (
+						'label' => 'Cod:'
+				),
+				'attributes' => array (
+						'type' => 'text',
+						'maxlenght' => '30',
+						'id' => 'TRA_BAN_COD_SERIE',
 						'class' => 'form-control'
 				)
 		) );

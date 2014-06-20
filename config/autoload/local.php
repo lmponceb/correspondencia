@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 /**
  * Local Configuration Override
@@ -28,4 +29,35 @@ return array(
 				'username' => 'system',
 				'password' => 'admin',
 		),		
+=======
+<?php
+/**
+ * Local Configuration Override
+ *
+ * This configuration override file is for overriding environment-specific and
+ * security-sensitive configuration information. Copy this file without the
+ * .dist extension at the end and populate values as needed.
+ *
+ * @NOTE: This file is ignored from Git by default with the .gitignore included
+ * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
+ * credentials from accidentally being committed into version control.
+ */
+/* 
+ return array(
+     'db' => array(
+         'username' => 'system',
+         'password' => 'oracle',
+     ),
+ ); */
+ 
+return array(
+		'db' => array(
+				'username' => 'correspondencia',
+				'password' => '123',
+		),
+		'db_view' => array(
+				'username' => 'correspondencia',
+				'password' => '123',
+		),	
+>>>>>>> 06e174d8f858a2a165c24902645e9cc6cc1a23b4
 );

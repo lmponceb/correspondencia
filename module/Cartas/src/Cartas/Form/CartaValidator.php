@@ -250,7 +250,7 @@ class CartaValidator extends InputFilter {
 		$tra_sue_numero_creditos->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 11,
 				'min' => 1,
-		) ) )->attach( new Regex(array('pattern' => '/^-?[0-9]+([.][0-9]*)?$/', 'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'Solo se admiten numeros y el caracter punto (.)',))));
+		) ) )->attach( new Digits() );
 		
 		$this->add ( $tra_sue_numero_creditos );
 		
@@ -263,5 +263,14 @@ class CartaValidator extends InputFilter {
 		) ) )->attach( new Regex(array('pattern' => '/^-?[0-9]+([.][0-9]*)?$/', 'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'Solo se admiten numeros y el caracter punto (.)',))));
 		
 		$this->add ( $tra_sue_valor_maximo );
+		
+				$tra_ban_valor = new Input ( 'TRA_BAN_VALOR' );
+		$tra_ban_valor->setRequired ( false );
+		$tra_ban_valor->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 14
+		) ) )->attach( new Regex(array('pattern' => '/^-?[0-9]+([.][0-9]*)?$/', 'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'Solo se admiten numeros y el caracter punto (.)',))));
+		
+		$this->add ( $tra_ban_valor );
+		
 	}
 }

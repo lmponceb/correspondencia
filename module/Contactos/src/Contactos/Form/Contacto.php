@@ -220,7 +220,7 @@ class Contacto extends Form {
 						'class' => 'form-control',
 						'readonly' => 'readonly',
 						//'value' => 'manucv'
-						'value' => $_SESSION['Zend_Auth']['storage']->us_codigo
+						'value' => $_SESSION['Zend_Auth']['storage']->US_CODIGO
 				)
 		) );
 		
@@ -259,6 +259,23 @@ class Contacto extends Form {
 		);
 		
 		$this->add($privado);
+		
+		
+		/* ********************************************
+		 * CAMPO CONTACT PRIVADO
+		* ********************************************/
+		
+		$con_privado_general = new Select('CON_PRIVADO_GENERAL');
+		$con_privado_general->setLabel('&iquest; Es contacto privada?: ');
+		$con_privado_general->setAttributes(array('class' => 'form-control'));
+		$con_privado_general->setValue('N');
+		$con_privado_general->setValueOptions(array(
+				'S' => 'S&iacute;',
+				'N' => 'No',
+		)
+		);
+		
+		$this->add($con_privado_general);
 		
 		/* ********************************************
 		 * CAMPO FECHA DE NACIMIENTO PERSONAL
@@ -639,6 +656,21 @@ class Contacto extends Form {
 							'id' => 'DETALLE_CONTACTO_oculto_'.$indice_detalle_contacto,
 							'class' => 'form-control oculto',
 							'data-group-id' => $indice_detalle_contacto
+					)
+			));
+			
+			
+			$this->add(array(
+					'type' => 'Zend\Form\Element\Checkbox',
+					'name' => 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][check]',
+					'options' => array(
+							//'label' => 'A checkbox',
+							//'use_hidden_element' => true,
+							'checked_value' => 'S',
+							'unchecked_value' => 'N',
+					),
+					'validators' => array(
+							'required' => false
 					)
 			));
 			

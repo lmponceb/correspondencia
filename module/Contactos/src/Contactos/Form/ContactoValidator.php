@@ -331,6 +331,10 @@ class ContactoValidator extends InputFilter {
 		}
 		
 		for ($indice_detalle_contacto=0; $indice_detalle_contacto<5; $indice_detalle_contacto++){
+			
+			$det_con_check = new Input ( 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][check]' );
+			$det_con_check->setRequired ( false );
+			$this->add ( $det_con_check );
 				
 			$tip_tel_id = new Input ( 'DETALLE_CONTACTO['.$indice_detalle_contacto.'][TIP_TEL_ID]' );
 			$tip_tel_id->setRequired ( false );

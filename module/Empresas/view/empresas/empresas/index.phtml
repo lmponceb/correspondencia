@@ -37,14 +37,15 @@
  <?php foreach ($empresas as $empresa) : ?>
  <tr>
 	 <td><a href='edit/<?php echo $this->escapeHtml($empresa->emp_id);?>'>Editar</a>
-	 <?php if($empresa->getEmp_estado()!='2'):  ?>
-	 <span class='activar-holder' data-emp_id='<?php echo $this->escapeHtml($empresa->emp_id);?>'>
-	 	 | <a 	class='desactivar' 
-	 	 		href="<?php echo $this->url('empresas', array('action'=>'desactivar','id'=> $empresa->emp_id ));?>"
-	 	 		data-emp_id="<?php echo $empresa->emp_id; ?>">
-	 	 			Desactivar
- 	 		</a>
-	 </span>	
+	 <?php if($_SESSION['Zend_Auth']['storage']->us_role=='1'): ?> 
+
+		 <span class='activar-holder' data-emp_id='<?php echo $this->escapeHtml($empresa->emp_id);?>'>
+		 	 | <a 	class='desactivar' 
+		 	 		href="<?php echo $this->url('empresas', array('action'=>'desactivar','id'=> $empresa->emp_id ));?>"
+		 	 		data-emp_id="<?php echo $empresa->emp_id; ?>">
+		 	 			Desactivar
+	 	 		</a>
+		 </span>	
 	 <?php endif; ?> 
 	 </td>
      <td><?php echo $this->escapeHtml($empresa->emp_nombre);?></td>

@@ -9,10 +9,10 @@ class Funciones
         
         $months=array(
             'I'=>array(
-                '1'=>'january',     '2'=>'february',    '3'=>'march',
-                '4'=>'april',       '5'=>'may',         '6'=>'june',
-                '7'=>'july',        '8'=>'august',      '9'=>'september',
-                '10'=>'october',    '11'=>'november',   '12'=>'december'
+                '1'=>'January',     '2'=>'February',    '3'=>'March',
+                '4'=>'April',       '5'=>'May',         '6'=>'June',
+                '7'=>'July',        '8'=>'August',      '9'=>'September',
+                '10'=>'October',    '11'=>'November',   '12'=>'December'
                 ),
             'E'=>array(
                 '1'=>'enero',       '2'=>'febrero',     '3'=>'marzo',
@@ -29,7 +29,7 @@ class Funciones
             break;
             case 'E':
                 return $date_info['day'].' de '.
-                $months[$language][$date_info['month']].' de '.
+                $months[$language][$date_info['month']].' de 20'.
                 $date_info['year'];
             break;
         } 
@@ -39,10 +39,10 @@ class Funciones
     public static function fechaFormateada($date,$language='E',$inFormat='d/m/Y'){
     	$months=array(
     			'I'=>array(
-    					'1'=>'january',     '2'=>'february',    '3'=>'march',
-    					'4'=>'april',       '5'=>'may',         '6'=>'june',
-    					'7'=>'july',        '8'=>'august',      '9'=>'september',
-    					'10'=>'october',    '11'=>'november',   '12'=>'december'
+    					'1'=>'January',     '2'=>'February',    '3'=>'March',
+                		'4'=>'April',       '5'=>'May',         '6'=>'June',
+                		'7'=>'July',        '8'=>'August',      '9'=>'September',
+                		'10'=>'October',    '11'=>'November',   '12'=>'December'
     			),
     			'E'=>array(
     					'1'=>'enero',       '2'=>'febrero',     '3'=>'marzo',

@@ -15,3 +15,4 @@ class IndexController extends AbstractActionController {
 					'action' => 'index'
 			) );
 	}
+}

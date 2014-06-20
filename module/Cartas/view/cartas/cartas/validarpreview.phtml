@@ -32,23 +32,25 @@ $idioma = $this->data['CTR_IDIOMA'];
 				padding-left: 80px;
 			}
 				
+			.texto_anexos{
+				width: 	80%;
+				text-align: justify;
+				padding-left: 135px;
+			}
+				
 		</style>
     </head>
     <body>
     <?php if(strtolower($this->action) == 'cartaformalpreview'): ?>
  <!-- ###################### CARTA FORMAL ########################### -->   
     
-    <div style="padding-top: 60px;">&nbsp;</div>
+    <div style="padding-top: 40px;">&nbsp;</div>
 	<table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
-   		<tr>
-        	<td colspan="2">
-        		<div>Quito D.M, <?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, "d/m/y")?></div>
-        		<div><?php //echo $this->carta->getCtr_codigo_final()?></div>
-        	</td>
-    	</tr>
     	<tr>
 	    	<td colspan="2">
-	    		<div><br />SE&Ntilde;OR / SE&Ntilde;ORES</div>
+	    		<div><?php if(strtoupper($idioma) == 'E'): echo 'Quito D.M, '; else: ''; endif; ?><?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd-M-Y')?></div>
+        		<div><?php //echo $this->carta->getCtr_codigo_final()?>&nbsp;</div>
+	    		<div><br /><?php if(strtoupper($idioma) == 'E'): echo 'Se&ntilde;or '; else: 'Messrs'; endif; ?></div>
 	    		<div><?php echo $this->empresa->getEmp_nombre()?></div>
 	    		
 	    		<?php 
@@ -76,7 +78,7 @@ $idioma = $this->data['CTR_IDIOMA'];
     	<tr>
 	    	<td colspan="2">
 	    		<div>
-	    			<br />Atenci&oacute;n: 
+	    			Atenci&oacute;n: 
 	    			<?php if(strtoupper($idioma) == 'E'){
 	    				echo $this->contacto->getCon_tip_per_es();
 	    			}else{
@@ -93,7 +95,7 @@ $idioma = $this->data['CTR_IDIOMA'];
     	<?php $referencia = $this->data['CTR_REFERENCIA']; if(!empty($referencia) && !is_null($referencia)): ?>
     	<tr>
 	    	<td colspan="2">
-	    		<div><br /><b>Ref.: <?php echo $this->data['CTR_REFERENCIA']?></b></div>
+	    		<div><b><?php if(strtoupper($idioma) == 'E'): echo 'Referencia: '; else: 'Ref: '; endif; ?><?php echo $this->data['CTR_REFERENCIA']?></b></div>
 	    	</td>
    		</tr>
     <?php endif;?>
@@ -111,7 +113,7 @@ $idioma = $this->data['CTR_IDIOMA'];
     <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
     <tr>
     	<td colspan="2">
-    		<div><br /><br /><?php echo $this->data['CTR_DESPEDIDA']?><br /><br /></div>
+    		<div><br /><?php echo $this->data['CTR_DESPEDIDA']?><br /><br /></div>
     	</td>
     </tr>
     <tr><td colspan="2">&nbsp;</td></tr>
@@ -138,30 +140,29 @@ $idioma = $this->data['CTR_IDIOMA'];
     	</td>
     </tr>
     </table>
+    
     <?php $copia = $this->data['CTR_COPIA']; if(!empty($copia) && !is_null($copia)): ?>
-    	<div class="texto_copia"><br /><br /><br /><b>CC:</b> <?php echo $copia?></div>
+    	<div class="texto_copia"><br /><br /><br /><b><?php if(strtoupper($idioma) == 'E'): echo 'Copia: '; else: 'Copy: '; endif; ?></b></div>
+    	<div class="texto_anexos"> <?php echo $copia?></div>
+    <?php endif; ?>
+    <?php $anexos = $this->data['CTR_ANEXOS']; if(!empty($anexos) && !is_null($anexos)): ?>
+    	<div class="texto_copia"><br /><br /><br /><b><?php if(strtoupper($idioma) == 'E'): echo 'Anexos: '; else: 'Enclousures: '; endif; ?></b></div>
+    	<div class="texto_anexos"> <?php echo $anexos?><br /><br /></div>
     <?php endif; ?>
     
-    <?php $anexos = $this->data['CTR_ANEXOS']; if(!empty($anexos) && !is_null($anexos)): ?>
-    	<div class="texto_copia"><br /><br /><br /><b>Anexos:</b> <br /><?php echo $anexos?><br /><br /></div>
-    <?php endif; ?>
     <!-- ############################### FIN CARTA FORMAL #############################3  -->
      <?php endif;?>
      
       <?php if(strtolower($this->action) == 'cartainformalpreview'): ?>
  <!-- ###################### CARTA INFORMAL ########################### -->  
  
-  <div style="padding-top: 60px;">&nbsp;</div>
+  <div style="padding-top: 40px;">&nbsp;</div>
 <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
     <tr>
-        <td colspan="2">
-        	<div>Quito D.M, <?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd/m/y')?></div>
-        	<div><?php //echo $this->carta->getCtr_codigo_final()?></div>
-        </td>
-    </tr>
-    <tr>
     	<td colspan="2">
-    		<div><br />
+    		<div><?php if(strtoupper($idioma) == 'E'): echo 'Quito D.M, '; else: ''; endif; ?><?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd-M-Y')?></div>
+        	<div><?php //echo $this->carta->getCtr_codigo_final()?></div>
+    		<div><br /><br />
     			<?php 
     			if(strtoupper($idioma) == 'E'){
     				echo $this->contacto->getCon_tip_per_es();
@@ -187,17 +188,14 @@ $idioma = $this->data['CTR_IDIOMA'];
     		if(strtoupper($mostrar) == 'E'): 
     		if(empty($direccion) || is_null($direccion)):?>
     		<div><?php echo $this->empresa->getEmp_direccion()?></div>
-    		<div><?php echo $this->empresa->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
-    		<div><?php echo $this->empresa->getPai_nombre()?></div>
+    		<div><?php echo $this->empresa->getCiu_nombre() ?></div>
     		<?php else: ?>
     		<div><?php echo $this->direccion_e->getEmp_direccion()?></div>
-    		<div><?php echo $this->direccion_e->getCiu_nombre() . ' - ' . $this->empresa->getEst_nombre()?></div>
-    		<div><?php echo $this->direccion_e->getPai_nombre()?></div>
+    		<div><?php echo $this->direccion_e->getCiu_nombre() ?></div>
     		<?php endif; ?>
     		<?php elseif(strtoupper($mostrar) == 'C'): ?>
     		<div><?php echo $this->contacto->getCon_direccion()?></div>
-    		<div><?php echo $this->contacto->getCiudad_nombre() . ' - ' . $this->contacto->getEstado_nombre()?></div>
-    		<div><?php echo $this->contacto->getPais_nombre()?></div>
+    		<div><?php echo $this->contacto->getCiudad_nombre() ?></div>
     		<?php elseif(strtoupper($mostrar) == 'N'): ?>
     		<div>&nbsp;</div>
     		<?php endif; ?>
@@ -206,25 +204,25 @@ $idioma = $this->data['CTR_IDIOMA'];
     <?php $referencia = $this->data['CTR_REFERENCIA']; if(!empty($referencia) && !is_null($referencia)): ?>
     <tr>
     	<td colspan="2">
-    		<div><br /><b>Ref.: <?php echo $referencia?></b></div>
+    		<div><b><?php if(strtoupper($idioma) == 'E'): echo 'Referencia: '; else: 'Ref: '; endif; ?><?php echo $referencia?></b></div>
     	</td>
     </tr>
     <?php endif;?>
     <tr>
-    	<td colspan="2">
-    		<div><br /><?php echo $this->data['CTR_SALUDO']?></div>
+    	<td colspan="2"><br />
+    		<div><?php echo $this->data['CTR_SALUDO']?></div>
     	</td>
     </tr>
    </table>
     
-     <div class="text_cuerpo">
+     <div class="text_cuerpo" style="padding-top:  0px"><br />
     	<?php $cuerpo = $this->data['CTR_CUERPO'];  $salida = str_replace(array('<br />'), "<br />", $cuerpo); echo $salida;?>
     </div>
     
     <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
     <tr>
     	<td colspan="2">
-    		<div><br /><br /><?php echo $this->data['CTR_DESPEDIDA']?><br /><br /></div>
+    		<div><br /><?php echo $this->data['CTR_DESPEDIDA']?><br /><br /></div>
     	</td>
     </tr>
     <tr><td colspan="2">&nbsp;</td></tr>
@@ -251,12 +249,14 @@ $idioma = $this->data['CTR_IDIOMA'];
     	</td>
     </tr>
     </table>
-    <?php $copia = $this->data['CTR_COPIA']; if(!empty($copia) && !is_null($copia)): ?>
-    	<div class="texto_copia"><br /><br /><br /><b>CC:</b> <?php echo $copia?></div>
-    <?php endif; ?>
     
+    <?php $copia = $this->data['CTR_COPIA']; if(!empty($copia) && !is_null($copia)): ?>
+    	<div class="texto_copia"><br /><br /><br /><b><?php if(strtoupper($idioma) == 'E'): echo 'Copia: '; else: 'Copy: '; endif; ?></b></div>
+    	<div class="texto_anexos"> <?php echo $copia?></div>
+    <?php endif; ?>
     <?php $anexos = $this->data['CTR_ANEXOS']; if(!empty($anexos) && !is_null($anexos)): ?>
-    	<div class="texto_copia"><br /><br /><br /><b>Anexos:</b> <br /><?php echo $anexos?><br /><br /></div>
+    	<div class="texto_copia"><br /><br /><br /><b><?php if(strtoupper($idioma) == 'E'): echo 'Anexos: '; else: 'Enclousures: '; endif; ?></b></div>
+    	<div class="texto_anexos"> <?php echo $anexos?><br /><br /></div>
     <?php endif; ?>
  <!-- ############################### FIN CARTA FORMAL #############################3  -->
      <?php endif;?>
@@ -265,8 +265,9 @@ $idioma = $this->data['CTR_IDIOMA'];
      <?php if(strtolower($this->action) == 'cartafaxpreview'): ?>
  <!-- ###################### CARTA FAX  ########################### -->
  <div style="padding-left: 88px; padding-top: 60px;">
-        <img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />
+        <!--<img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />-->
         <!--<img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />-->
+		<img src="/var/www/html/desarrollo/correspondencia/public/img/jpg/logo.jpg" />
     </div>
     <div style="padding-top: 65px;">&nbsp;</div>
     
@@ -292,7 +293,7 @@ $idioma = $this->data['CTR_IDIOMA'];
     				<tr><td colspan="2">&nbsp;</td></tr>
     				<tr>
     					<td>Fecha/Date:</td>
-    					<td><?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd/m/y')?></td>
+    					<td><?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd-M-Y')?></td>
     				</tr>
     			</table>
     		</td>
@@ -374,8 +375,9 @@ $idioma = $this->data['CTR_IDIOMA'];
  <!-- ###################### CARTA TRANSACCION BANCARIA  ########################### -->
  
  <div style="padding-left: 88px; padding-top: 60px;">
-        <img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />
+        <!--<img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />-->
         <!--<img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />-->
+		<img src="/var/www/html/desarrollo/correspondencia/public/img/jpg/logo.jpg" />
     </div>
     <div style="padding-top: 65px;">&nbsp;</div>
     
@@ -398,10 +400,13 @@ $idioma = $this->data['CTR_IDIOMA'];
     					<td>Nombre/Name:</td>
     					<td><?php if(strtoupper($idioma) == 'E'){ echo $this->contacto->getCon_tip_per_es(); }else{ echo $this->contacto->getCon_tip_per_en(); } echo $this->contacto->getCon_nombre() . ' ' . $this->contacto->getCon_apellido()?></td>
     				</tr>
-    				<tr><td colspan="2">&nbsp;</td></tr>
+    				<tr>
+    					<td>Copia/Copy:</td>
+    					<td><?php echo $this->data['CTR_COPIA']?></td>
+    				</tr>
     				<tr>
     					<td>Fecha/Date:</td>
-    					<td><?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd/m/y')?></td>
+    					<td><?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd-M-Y')?></td>
     				</tr>
     			</table>
     		</td>
@@ -510,10 +515,6 @@ $idioma = $this->data['CTR_IDIOMA'];
     	</td>
     </tr>
     </table>
-    <?php $copia = $this->data['CTR_COPIA']; if(!empty($copia) && !is_null($copia)): ?>
-    	<div class="texto_copia" style="padding-left: 70px;"><br /><br /><br /><b>CC:</b> <?php echo $copia?></div>
-    <?php endif; ?>
-    
     <?php $anexos = $this->data['CTR_ANEXOS']; if(!empty($anexos) && !is_null($anexos)): ?>
     	<div class="texto_copia" style="padding-left: 70px;"><br /><br /><br /><b>Anexos:</b> <br /><?php echo $anexos?><br /><br /></div>
     <?php endif; ?>
@@ -528,7 +529,7 @@ $idioma = $this->data['CTR_IDIOMA'];
 <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
     <tr>
         <td colspan="2">
-        	<div>Quito D.M, <?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd/m/y')?></div>
+        	<div>Quito D.M, <?php echo $funciones->translateAndFormatDate($this->data['CTR_FECHA_CREACION'], $idioma, 'd-M-Y')?></div>
         	<div><?php //echo $this->carta->getCtr_codigo_final()?></div>
         </td>
     </tr>

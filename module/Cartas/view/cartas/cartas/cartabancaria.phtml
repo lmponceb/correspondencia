@@ -33,14 +33,15 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     </head>
     <body>
     <div style="padding-left: 88px; padding-top: 60px;">
-        <img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />
+		<!-- <img src="C:\Program Files (x86)\Zend\Apache2\htdocs\Azul\Correspondencia\public\img\jpg\logo.jpg" />-->
         <!--<img src="C:\xampp\htdocs\correspondencia\public\img\jpg\logo.jpg" />-->
+		<img src="/var/www/html/desarrollo/correspondencia/public/img/jpg/logo.jpg" />		
     </div>
     <div style="padding-top: 65px;">&nbsp;</div>
     
     <table cellspacing="0" cellpadding="10" border="0" width="80%" align="center">
     	<tr>
-    		<td colspan="2" align="right" style="font-weight: 700;">Fax: <?php echo $this->carta->getCtr_codigo_final()?></td>
+    		<td colspan="2" align="right" style="font-weight: 700;">Fax: <?php echo $this->transaccion_bancaria->getTra_ban_cod_serie()?>-<?php echo $this->carta->getCtr_codigo_final()?></td>
     	</tr>
     	<tr>
     		<td align="left" style="border-top: 2px solid; border-bottom: 2px solid; font-weight: 700; padding-top: 3px; padding-bottom: 5px;">Para / To</td>
@@ -57,7 +58,10 @@ echo $this->doctype(); $idioma = $this->carta->getCtr_idioma();?>
     					<td>Nombre/Name:</td>
     					<td><?php if(strtoupper($idioma) == 'E'){ echo $this->contacto->getCon_tip_per_es(); }else{ echo $this->contacto->getCon_tip_per_en(); } echo $this->contacto->getCon_nombre() . ' ' . $this->contacto->getCon_apellido()?></td>
     				</tr>
-    				<tr><td colspan="2">&nbsp;</td></tr>
+    				<tr>
+    					<td>Copia/Copy:</td>
+    					<td><?php echo $this->carta->getCtr_copia() ?></td>
+    				</tr>
     				<tr>
     					<td>Fecha/Date:</td>
     					<td><?php echo $funciones->translateAndFormatDate($this->carta->getCtr_fecha_creacion(), $this->carta->getCtr_idioma(), 'd-M-Y')?></td>

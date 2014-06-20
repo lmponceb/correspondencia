@@ -119,7 +119,8 @@ class ContactoDao {
     			'CON_ESTADO' => $contacto->getCon_estado(),
     			'CON_OBSERVACIONES_PRIVADO' => $contacto->getCon_observaciones_privado(),
     			'CON_ACTIVAR_DIRECCION' => $contacto->getCon_activar_direccion(),
-    			'CON_DIRECCION_EMPRESA' => $contacto->getCon_direccion_empresa()
+    			'CON_DIRECCION_EMPRESA' => $contacto->getCon_direccion_empresa(),
+    			'CON_PRIVADO_GENERAL' => $contacto->getCon_privado_general()
     	);
     	
     	if(empty($id) || is_null($id)){

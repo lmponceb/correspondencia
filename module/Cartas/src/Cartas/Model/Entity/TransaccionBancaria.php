@@ -15,6 +15,7 @@ class TransaccionBancaria {
 	private $tra_ban_banco_direccion;
 	private $tra_ban_cc;
 	private $tra_ban_detalle;
+	private $tra_ban_cod_serie;
 	
 	function __construct() {}
 	
@@ -103,6 +104,13 @@ class TransaccionBancaria {
 	}
 
 	/**
+	 * @return the $tra_ban_cod_serie
+	 */
+	public function getTra_ban_cod_serie() {
+		return $this->tra_ban_cod_serie;
+	}
+
+	/**
 	 * @param Ambigous <NULL, unknown> $tra_ban_id
 	 */
 	public function setTra_ban_id($tra_ban_id) {
@@ -186,6 +194,13 @@ class TransaccionBancaria {
 		$this->tra_ban_detalle = $tra_ban_detalle;
 	}
 
+	/**
+	 * @param Ambigous <NULL, unknown> $tra_ban_cod_serie
+	 */
+	public function setTra_ban_cod_serie($tra_ban_cod_serie) {
+		$this->tra_ban_cod_serie = $tra_ban_cod_serie;
+	}
+
 	public function exchangeArray($data)
 	{
 		$this->tra_ban_id = (isset($data['TRA_BAN_ID'])) ? $data['TRA_BAN_ID'] : null;
@@ -200,6 +215,7 @@ class TransaccionBancaria {
 		$this->tra_ban_banco_direccion = (isset($data['TRA_BAN_BANCO_DIRECCION'])) ? $data['TRA_BAN_BANCO_DIRECCION'] : null;
 		$this->tra_ban_cc = (isset($data['TRA_BAN_CC'])) ? $data['TRA_BAN_CC'] : null;
 		$this->tra_ban_detalle = (isset($data['TRA_BAN_DETALLE'])) ? $data['TRA_BAN_DETALLE'] : null;
+		$this->tra_ban_cod_serie = (isset($data['TRA_BAN_COD_SERIE'])) ? $data['TRA_BAN_COD_SERIE'] : null;
 	}
 	
 	public function getArrayCopy(){
