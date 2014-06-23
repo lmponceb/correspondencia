@@ -255,7 +255,7 @@ namespace Empresas\Form;
                     ),
                     'attributes' => array(
                         'id' => 'check_'.$i,
-                        'class' => 'form-control check',
+                        'class' => 'check',
                         'data-group-id' => $i
                     )
             ));
