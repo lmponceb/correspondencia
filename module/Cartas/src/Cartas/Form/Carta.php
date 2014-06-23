@@ -130,7 +130,7 @@ class Carta extends Form {
 				'name' => 'US_CODIGO',
 				'attributes' => array (
 						'type' => 'hidden',
-						'value' => 123,
+						'value' => $_SESSION['Zend_Auth']['storage']->US_CODIGO,
 						'maxlenght' => '20',
 						'id' => 'US_CODIGO',
 						'class' => 'form-control',

@@ -264,13 +264,106 @@ class CartaValidator extends InputFilter {
 		
 		$this->add ( $tra_sue_valor_maximo );
 		
-				$tra_ban_valor = new Input ( 'TRA_BAN_VALOR' );
+		/************** CAMPOS PARA TRANSACCION BANCARIA ******************/
+		
+		$tra_ban_valor = new Input ( 'TRA_BAN_VALOR' );
 		$tra_ban_valor->setRequired ( false );
 		$tra_ban_valor->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 14
 		) ) )->attach( new Regex(array('pattern' => '/^-?[0-9]+([.][0-9]*)?$/', 'messages' => array(\Zend\Validator\Regex::NOT_MATCH => 'Solo se admiten numeros y el caracter punto (.)',))));
 		
 		$this->add ( $tra_ban_valor );
+		
+		
+		$tra_ban_cuenta = new Input ( 'TRA_BAN_CUENTA' );
+		$tra_ban_cuenta->setRequired ( false );
+		$tra_ban_cuenta->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 25
+		) ) )->attach(new Digits());
+		
+		$this->add ( $tra_ban_cuenta );
+		
+		
+		$tra_ban_aba = new Input ( 'TRA_BAN_ABA' );
+		$tra_ban_aba->setRequired ( false );
+		$tra_ban_aba->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 100
+		) ) )->attach(new Digits());
+		
+		$this->add ( $tra_ban_aba );
+		
+		
+		$tra_ban_beneficiario = new Input ( 'TRA_BAN_BENEFICIARIO' );
+		$tra_ban_beneficiario->setRequired ( false );
+		$tra_ban_beneficiario->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 70
+		) ) );
+		
+		$this->add ( $tra_ban_beneficiario );
+		
+		
+		$tra_ban_direccion = new Input ( 'TRA_BAN_DIRECCION' );
+		$tra_ban_direccion->setRequired ( false );
+		$tra_ban_direccion->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 150
+		) ) );
+		
+		$this->add ( $tra_ban_direccion );
+		
+		
+		$tra_ban_banco = new Input ( 'TRA_BAN_BANCO' );
+		$tra_ban_banco->setRequired ( false );
+		$tra_ban_banco->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 100
+		) ) );
+		
+		$this->add ( $tra_ban_banco );
+		
+		
+		$tra_ban_banco_linea_dos = new Input ( 'TRA_BAN_BANCO_LINEA_DOS' );
+		$tra_ban_banco_linea_dos->setRequired ( false );
+		$tra_ban_banco_linea_dos->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 100
+		) ) );
+		
+		$this->add ( $tra_ban_banco_linea_dos );
+		
+		
+		$tra_ban_banco_direccion = new Input ( 'TRA_BAN_BANCO_DIRECCION' );
+		$tra_ban_banco_direccion->setRequired ( false );
+		$tra_ban_banco_direccion->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 150
+		) ) );
+		
+		$this->add ( $tra_ban_banco_direccion );
+		
+		
+		$tra_ban_cc = new Input ( 'TRA_BAN_CC' );
+		$tra_ban_cc->setRequired ( false );
+		$tra_ban_cc->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 75
+		) ) );
+		
+		$this->add ( $tra_ban_cc );
+		
+		
+		$tra_ban_detalle = new Input ( 'TRA_BAN_DETALLE' );
+		$tra_ban_detalle->setRequired ( false );
+		$tra_ban_detalle->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 1,
+				'min' => 1
+		) ) );
+		
+		$this->add ( $tra_ban_detalle );
+		
+		
+		$tra_ban_cod_serie = new Input ( 'TRA_BAN_COD_SERIE' );
+		$tra_ban_cod_serie->setRequired ( false );
+		$tra_ban_cod_serie->getValidatorChain ()->attach ( new StringLength ( array (
+				'max' => 50
+		) ) );
+		
+		$this->add ( $tra_ban_cod_serie );
 		
 	}
 }

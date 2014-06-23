@@ -20,12 +20,12 @@
  
 return array(
 		'db' => array(
-				'username' => 'azul2',
-				'password' => 'azul',
+				'username' => 'correspondencia',
+				'password' => '123',
 		),
 		'db_view' => array(
 
-				'username' => 'azul2',
-				'password' => 'azul',
+				'username' => 'correspondencia',
+				'password' => '123',
 		),	
 );

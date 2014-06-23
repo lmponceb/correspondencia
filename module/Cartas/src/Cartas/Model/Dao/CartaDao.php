@@ -30,14 +30,14 @@ class CartaDao {
     }
     
     public function traerTodosPrivados(){
-    	 
+    	
     	$select = $this->tableGateway->getSql ()->select ();
     	$select->join ( 'EMPRESA_INTERNA', 'EMPRESA_INTERNA.EMP_INT_ID  = CARTA.EMP_INT_ID' );
     	$select->join ( 'TIPO_CARTA', 'TIPO_CARTA.TIP_CAR_ID  = CARTA.TIP_CAR_ID' );
     	$select->join ( 'CARTA_DESTINATARIO', 'CARTA_DESTINATARIO.CTR_ID  = CARTA.CTR_ID' );
     	$select->join ( 'CONTACTO', 'CONTACTO.CON_ID  = CARTA_DESTINATARIO.CON_ID' );
     	$select->where(array('CTR_PRIVADA' => 'S', 'US_CODIGO' => $_SESSION['Zend_Auth']['storage']->US_CODIGO));
-    	 
+    	
     	$resultSet = $this->tableGateway->selectWith ( $select );
     	return $resultSet;
     }

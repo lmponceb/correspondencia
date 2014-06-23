@@ -558,75 +558,6 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 		});
 
 		
-		$('#SUC_ID').change(function(){
-			if($('#SUC_ID').val() != null && $('#SUC_ID').val() != ''){
-
-				$.ajax({
-	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'datosEmpresa')) ?>",
-	                type: "POST",
-	                dataType: "json",
-	                data: "empresa=" + $('#SUC_ID').val(),
-	                beforeSend: function() {
-						$('#SUC_DIRECCION, #SUC_EMAIL, #SUC_PAGINA_WEB').val('Procesando, espere por favor...');
-	                }
-	            }).done(function(empresa) {
-		            $('#datos_sucursal').attr('style', 'display:true');
-	            	$("#SUC_DIRECCION").val(''+empresa['emp_direccion']);
-	            	$("#SUC_EMAIL").val(''+empresa['emp_email']);
-	            	$("#SUC_PAGINA_WEB").val(''+empresa['emp_pagina_web']);
-
-	            	$.ajax({
-		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'telefonoEmpresa')) ?>",
-		                type: "POST",
-		                dataType: "json",
-		                data: "empresa=" + empresa['emp_id'],
-		                beforeSend: function() {
-							//$('#EMP_DIRECCION, #EMP_EMAIL, #EMP_PAGINA_WEB').val('Procesando, espere por favor...');
-		                }
-		            }).done(function(empresa) {
-
-		            	var i = 0; 
-		            	for(i=0; i<5; i++){
-		            		if(empresa['det_con_valor'] != '' && empresa['det_con_valor'] != null){
-								if($("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == '' || $("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == null){
-									$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('' + empresa['tip_tel_id']);
-									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
-									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]").val('' + empresa['det_con_codigo_pais']);
-									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_EXTENSION\\]").val('' + empresa['det_con_extension']);
-									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_CIUDAD\\]").prop('disabled', false);
-									$("#DETALLE_CONTACTO_oculto_"+i).val(''+empresa['det_con_codigo_ciudad']);
-									ajaxCiudadSelect("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]", i, empresa['det_con_codigo_ciudad']);
-								}
-		            		}
-						}
-		            }); 
-
-	            	 //TRAE TODAS LAS DIRECCIONES DE LAS SUCURSALES DE UNA EMPRESA
-		            $.ajax({
-		                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'sucursaldireccion')) ?>",
-		                type: "POST",
-		                dataType: "json",
-		                data: "empresa=" + $('#EMP_ID').val(),
-		                beforeSend: function() {
-		                	 $("#CON_DIRECCION_EMPRESA").html("");
-		                	 $("#CON_DIRECCION_EMPRESA").append('<option value="">Procesando, espere por favor...</option>');
-		                }
-		            }).done(function(contactos) {
-		                $("#CON_DIRECCION_EMPRESA").html("");
-		                $("#CON_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
-		                var selected = '';
-		                for (contacto in contactos) {
-		                    $("#CON_DIRECCION_EMPRESA").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
-		                }
-		                $("#CON_DIRECCION_EMPRESA").prop("disabled", false);
-		            });
-
-	            });
-			}else{
-				$('#datos_sucursal').attr('style', 'display:none');
-			}
-		});
-
 		$('#SUC_ID').ready(function(){
 			if($('#SUC_ID').val() != null && $('#SUC_ID').val() != ''){
 
@@ -808,6 +739,76 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 			}
 		});
 
+		$('#SUC_ID').change(function(){
+			if($('#SUC_ID').val() != null && $('#SUC_ID').val() != ''){
+
+				$.ajax({
+	                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'datosEmpresa')) ?>",
+	                type: "POST",
+	                dataType: "json",
+	                data: "empresa=" + $('#SUC_ID').val(),
+	                beforeSend: function() {
+						$('#SUC_DIRECCION, #SUC_EMAIL, #SUC_PAGINA_WEB').val('Procesando, espere por favor...');
+	                }
+	            }).done(function(empresa) {
+
+		            $('#datos_sucursal').attr('style', 'display:true');
+	            	$("#SUC_DIRECCION").val(''+empresa['emp_direccion']);
+	            	$("#SUC_EMAIL").val(''+empresa['emp_email']);
+	            	$("#SUC_PAGINA_WEB").val(''+empresa['emp_pagina_web']);
+
+	            	$.ajax({
+		                url: "<?php echo $this->url('contactos', array('controller' => 'index', 'action' => 'telefonoEmpresa')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "empresa=" + empresa['emp_id'],
+		                beforeSend: function() {
+							//$('#EMP_DIRECCION, #EMP_EMAIL, #EMP_PAGINA_WEB').val('Procesando, espere por favor...');
+		                }
+		            }).done(function(empresa) {
+
+		            	var i = 0; 
+		            	for(i=0; i<5; i++){
+		            		if(empresa['det_con_valor'] != '' && empresa['det_con_valor'] != null){
+								//if($("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == '' || $("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val() == null){
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[TIP_TEL_ID\\]").val('' + empresa['tip_tel_id']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_VALOR\\]").val('' + empresa['det_con_valor']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]").val('' + empresa['det_con_codigo_pais']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_EXTENSION\\]").val('' + empresa['det_con_extension']);
+									$("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_CIUDAD\\]").prop('disabled', false);
+									$("#DETALLE_CONTACTO_oculto_"+i).val(''+empresa['det_con_codigo_ciudad']);
+									ajaxCiudadSelect("#DETALLE_CONTACTO\\["+i+"\\]\\[DET_CON_CODIGO_PAIS\\]", i, empresa['det_con_codigo_ciudad']);
+								//}
+		            		}
+						}
+		            }); 
+
+	            	 //TRAE TODAS LAS DIRECCIONES DE LAS SUCURSALES DE UNA EMPRESA
+		            $.ajax({
+		                url: "<?php echo $this->url('cartas', array('controller' => 'cartas', 'action' => 'sucursaldireccion')) ?>",
+		                type: "POST",
+		                dataType: "json",
+		                data: "empresa=" + $('#EMP_ID').val(),
+		                beforeSend: function() {
+		                	 $("#CON_DIRECCION_EMPRESA").html("");
+		                	 $("#CON_DIRECCION_EMPRESA").append('<option value="">Procesando, espere por favor...</option>');
+		                }
+		            }).done(function(contactos) {
+		                $("#CON_DIRECCION_EMPRESA").html("");
+		                $("#CON_DIRECCION_EMPRESA").append('<option value = "">-- Seleccione una direccion --</option>');
+		                var selected = '';
+		                for (contacto in contactos) {
+		                    $("#CON_DIRECCION_EMPRESA").append('<option value="' + contacto + '">' + contactos[contacto] + '</option>');
+		                }
+		                $("#CON_DIRECCION_EMPRESA").prop("disabled", false);
+		            });
+
+	            });
+			}else{
+				$('#datos_sucursal').attr('style', 'display:none');
+			}
+		});
+/*
 		$('#EMP_ID').ready(function(){
 			if($('#EMP_ID').val() != null && $('#EMP_ID').val() != ''){
 
@@ -859,6 +860,8 @@ echo $this->formelementerrors ( $direccion_empresa_oculto );
 				$('#datos_empresa').attr('style', 'display:none');
 			}
 		});
+
+		*/
 
 		//Carga del combo box de Códigos de teléfono de Ciudades
 		$(".det_con_codigo_ciudad").prop("disabled", true);
