@@ -193,7 +193,7 @@ class Contacto extends Form {
 		$this->add ( array (
 				'name' => 'CON_EMAIL',
 				'options' => array (
-						'label' => 'Email Empresarial*:'
+						'label' => 'Email Empresarial:'
 				),
 				'attributes' => array (
 						'type' => 'text',

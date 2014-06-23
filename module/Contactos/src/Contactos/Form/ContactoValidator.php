@@ -131,12 +131,11 @@ class ContactoValidator extends InputFilter {
 		
 		
 		$email = new Input ( 'CON_EMAIL' );
-		$email->setRequired ( true );
+		$email->setRequired ( false );
 		$email->getValidatorChain ()->attach ( new StringLength ( array (
 				'max' => 150,
 				'min' => 6
-		) ) )->attach ( new EmailAddress () )
-		->attach(new NotEmpty());
+		) ) )->attach ( new EmailAddress () );
 		
 		$this->add ( $email );
 		
