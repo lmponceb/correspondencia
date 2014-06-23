@@ -106,6 +106,7 @@ echo $this->form ()->openTag ( $form );
 			?>
 			<?php if(isset($detalles[$i])): ?>
 				<?php
+					$det_con_check->setValue('S');
 					$tip_tel_id->setValue($detalles[$i]->getTip_tel_id());
 					$det_con_codigo_pais->setValue($detalles[$i]->getDet_con_codigo_pais());
 					$det_con_codigo_ciudad->setValue($detalles[$i]->getDet_con_codigo_ciudad());
